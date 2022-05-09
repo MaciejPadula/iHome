@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "Hash": "R0qp67GB29tE9XR6+7QNq/cZK2+tw1t1HIRkTGTglO0=",
+  "Source": "iHome",
+  "BasePath": "_content/iHome",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "iHome\\wwwroot",
+      "Source": "iHome",
+      "ContentRoot": "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\wwwroot\\",
+      "BasePath": "_content/iHome",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\wwwroot\\Index.cshtml",
+      "SourceId": "iHome",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\wwwroot\\",
+      "BasePath": "_content/iHome",
+      "RelativePath": "Index.cshtml",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "wwwroot\\Index.cshtml"
+    },
+    {
+      "Identity": "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\wwwroot\\Index.cshtml.cs",
+      "SourceId": "iHome",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\wwwroot\\",
+      "BasePath": "_content/iHome",
+      "RelativePath": "Index.cshtml.cs",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Index.cshtml.cs"
+    },
+    {
+      "Identity": "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\wwwroot\\Shared\\_Layout.cshtml",
+      "SourceId": "iHome",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\wwwroot\\",
+      "BasePath": "_content/iHome",
+      "RelativePath": "Shared/_Layout.cshtml",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "wwwroot\\Shared\\_Layout.cshtml"
+    }
+  ]
+}
