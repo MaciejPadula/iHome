@@ -1,0 +1,10 @@
+﻿@model ProfileModel
+@{
+    ViewData["Title"] = "Profile";
+}
+<div>
+    <h2>@Model.EmailAddress</h2>
+    <h4>@Model.Name</h4>
+    <h4>@Model.Uuid</h4>
+    <img src="@Model.ProfileImage" />
+</div>
