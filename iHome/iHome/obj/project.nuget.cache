@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4F1HVl+6O0m5jUbKpgZ8E/pZJSwT4ePFnL+a6iMNPOS/Virze86jYN4EMVzrFqeH3szp4h2Ag0TlnaoyBb6+Vw==",
+  "dgSpecHash": "bn6ax5EtUi6zHhzchBHMXm6MOHwGlCp1Cm5J28QJ8PzOrVJDjmyqap0L4IMHuGIeSrVBC9zzHNfsfn7Mh+MPig==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\iHome.csproj",
+  "projectFilePath": "D:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\iHome.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Dulik\\.nuget\\packages\\auth0.aspnetcore.authentication\\1.0.2\\auth0.aspnetcore.authentication.1.0.2.nupkg.sha512",
     "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.aspnet.webapi.client\\4.0.20710\\microsoft.aspnet.webapi.client.4.0.20710.nupkg.sha512",
@@ -34,6 +34,7 @@
     "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.web.infrastructure\\1.0.0\\microsoft.web.infrastructure.1.0.0.nupkg.sha512",
     "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Dulik\\.nuget\\packages\\newtonsoft.json\\7.0.1\\newtonsoft.json.7.0.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\restsharp\\107.3.0\\restsharp.107.3.0.nupkg.sha512",
     "C:\\Users\\Dulik\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
     "C:\\Users\\Dulik\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\Dulik\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",

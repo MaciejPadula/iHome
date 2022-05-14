@@ -6,13 +6,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using iHome.Models;
+using RestSharp;
 
 namespace iHome.Controllers
 {
     public class AccountController : Controller
     {
-        public async Task Login(string returnUrl = "/")
+        public async Task Login(string returnUrl = "/Account/Profile")
         {
+            
             var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
                 .WithRedirectUri(returnUrl)
                 .Build();
@@ -22,6 +24,7 @@ namespace iHome.Controllers
         [Authorize]
         public IActionResult Profile()
         {
+            
             return View(new ProfileModel(
                 User.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
                 User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value,

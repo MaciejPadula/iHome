@@ -2,15 +2,21 @@
 @{
     ViewData["Title"] = "Rooms";
 }
+
 <style>
-    .roomCard{
+    .room-card{
         width:100%;
         margin:2vh 0;
     }
     .card-title{
         text-align:center;
     }
-    #roomsContainer{
+    .device-card{
+        width:20%;
+        display:inline-block;
+        margin:2vh;
+    }
+    #rooms-container{
         text-align:center;
     }
     #waiting{
@@ -28,17 +34,60 @@
         align-items: center;
         justify-content: center;
     }
+    .remove-button{
+        position:absolute;
+        right:0%;
+        top:0%;
+    }
+    .input-error-label{
+        color: #dc3545;
+    }
+    .input-error{
+        border-color: #dc3545;
+        padding-right: calc(1.5em + 0.75rem);
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
 </style>
-
-<input type="button" onClick="loadRooms('@Model.Uuid')" value="Reload" />
-<input type="button" onClick="addRoom('Pokoj','','','@Model.Uuid')" value="Dodaj" />
+<input type="hidden" id="uuid" value="@Model.Uuid"/>
+<!-- Button trigger modal -->
+<input type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoomModal" value="Add Room" />
 <div id="waiting">
     <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
 </div>
-<div id="roomsContainer">
+<div id="rooms-container">
     
 </div>
 <script src="~/js/roomsManagement.js"></script>
-<script>loadRooms("@Model.Uuid");</script>
+
+<!-- Modal -->
+<div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="addRoomModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New room</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="roomName" class="form-label">Room Name</label>
+                    <input type="text" class="form-control" name="roomName" id="roomName" aria-describedby="roomName" required/>
+                    <div id="inputErrorRoomName" class="input-error-label">Room name should have at least 3 characters!</div>
+                </div>
+                <div class="mb-3">
+                    <label for="roomDescription" class="form-label">Room Description</label>
+                    <textarea class="form-control" name="roomDescription" id="roomDescription" aria-describedby="roomDescription"></textarea>
+                </div>
+                    
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="addRoomButton">Add Room</button>
+            </div>
+        </div>
+    </div>
+</div>

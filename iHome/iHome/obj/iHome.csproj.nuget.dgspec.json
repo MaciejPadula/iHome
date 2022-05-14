@@ -1,21 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\iHome.csproj": {}
+    "D:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\iHome.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\iHome.csproj": {
+    "D:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\iHome.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\iHome.csproj",
+        "projectUniqueName": "D:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\iHome.csproj",
         "projectName": "iHome",
-        "projectPath": "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\iHome.csproj",
+        "projectPath": "D:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\iHome.csproj",
         "packagesPath": "C:\\Users\\Dulik\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\obj\\",
+        "outputPath": "D:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
           "C:\\Users\\Dulik\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -51,6 +57,10 @@
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.5, )"
+            },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[107.3.0, )"
             },
             "Swashbuckle": {
               "target": "Package",
@@ -95,7 +105,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

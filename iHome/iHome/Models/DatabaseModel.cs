@@ -54,9 +54,9 @@ namespace iHome.Models
             }
             return listOfRooms;
         }
-        public List<IDevice> GetDevices(int RoomId)
+        public List<Device> GetDevices(int RoomId)
         {
-            List<IDevice> listOfDevices = new List<IDevice>();
+            List<Device> listOfDevices = new List<Device>();
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
                 connection.Open();
@@ -69,10 +69,14 @@ namespace iHome.Models
                     {
                         while (reader.Read())
                         {
-                            if (reader.GetInt32(4) == 1)
+                            listOfDevices.Add(new Device()
                             {
-                                listOfDevices.Add(new TemperatureSensor());
-                            }
+                                deviceId = reader.GetString(0),
+                                name = reader.GetString(1),
+                                data = reader.GetString(2),
+                                roomId = reader.GetInt32(3),
+                                type = reader.GetInt32(5),
+                            });
                         }
                     }
                 }
@@ -82,31 +86,20 @@ namespace iHome.Models
         }
         public bool AddRoom(string name, string description, string image, string uuid)
         {
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-            {
-                connection.Open();
-
-                String sql = "INSERT INTO Rooms (RoomName, RoomDescription, RoomImage, UserId)VALUES" +
-                    "('"+name+"','"+description+"','"+image+"','"+uuid+"')";
-
-                using (SqlCommand command = new SqlCommand(sql, connection)) { }
-                if((new SqlCommand(sql, connection)).ExecuteNonQuery() == 1)
-                {
-                    connection.Close();
-                    return true;
-                }
-                connection.Close();
-            }
-            return false;
+            String sql = "INSERT INTO Rooms (RoomName, RoomDescription, RoomImage, UserId)VALUES" +
+                    "('" + name + "','" + description + "','" + image + "','" + uuid + "')";
+            return ExecuteShortSql(sql);
         }
         public bool RemoveRoom(int id)
+        {
+            return ExecuteShortSql("DELETE FROM Rooms WHERE RoomId=" + id);
+        }
+
+        public bool ExecuteShortSql(string sql)
         {
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
                 connection.Open();
-
-                String sql = "DELETE FROM Rooms WHERE RoomId="+id;
-
                 using (SqlCommand command = new SqlCommand(sql, connection)) { }
                 if ((new SqlCommand(sql, connection)).ExecuteNonQuery() == 1)
                 {

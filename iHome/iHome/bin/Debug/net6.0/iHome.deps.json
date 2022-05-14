@@ -11,6 +11,7 @@
           "Auth0.AspNetCore.Authentication": "1.0.2",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.5",
           "Microsoft.EntityFrameworkCore": "6.0.5",
+          "RestSharp": "107.3.0",
           "Swashbuckle": "5.6.0",
           "Swashbuckle.AspNetCore": "6.3.1",
           "Swashbuckle.AspNetCore.Swagger": "6.3.1",
@@ -252,6 +253,14 @@
           "lib/net45/Newtonsoft.Json.dll": {
             "assemblyVersion": "7.0.0.0",
             "fileVersion": "7.0.1.18622"
+          }
+        }
+      },
+      "RestSharp/107.3.0": {
+        "runtime": {
+          "lib/net6.0/RestSharp.dll": {
+            "assemblyVersion": "107.3.0.0",
+            "fileVersion": "107.3.0.0"
           }
         }
       },
@@ -633,6 +642,13 @@
       "sha512": "sha512-q3V4KLetMLnt1gpAVWgtXnHjKs0UG/RalBc29u2ZKxd5t5Ze4JBL5WiiYIklJyK/5CRiIiNwigVQUo0FgbsuWA==",
       "path": "newtonsoft.json/7.0.1",
       "hashPath": "newtonsoft.json.7.0.1.nupkg.sha512"
+    },
+    "RestSharp/107.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qu+A+VAnVLX3OeWVNm11UJz0aVErqSfYqIiOUbJM9x98uLymCOoL/oXRAjMb6XHra27WXxHmzy9EKEOKXWR6Pw==",
+      "path": "restsharp/107.3.0",
+      "hashPath": "restsharp.107.3.0.nupkg.sha512"
     },
     "runtime.native.System.Data.SqlClient.sni/4.7.0": {
       "type": "package",
