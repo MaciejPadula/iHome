@@ -12,7 +12,7 @@ namespace iHome.Controllers
 {
     public class AccountController : Controller
     {
-        public async Task Login(string returnUrl = "/Account/Profile")
+        public async Task Login(string returnUrl = "/Account/Rooms")
         {
             
             var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
@@ -25,22 +25,30 @@ namespace iHome.Controllers
         public IActionResult Profile()
         {
             
-            return View(new ProfileModel(
-                User.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
-                User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value,
-                User.FindFirst(c => c.Type == "picture")?.Value,
-                User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value
-            ));
+            return View(new ProfileModel()
+            {
+                Name = User.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
+                EmailAddress = User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value,
+                ProfileImage = User.FindFirst(c => c.Type == "picture")?.Value,
+                Uuid = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value
+            });
         }
         [Authorize]
         public IActionResult Rooms()
         {
-            return View(new ProfileModel(
-                User.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
-                User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value,
-                User.FindFirst(c => c.Type == "picture")?.Value,
-                User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value
-            ));
+            return View(new ProfileModel()
+            {
+                Name = User.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
+                EmailAddress = User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value,
+                ProfileImage = User.FindFirst(c => c.Type == "picture")?.Value,
+                Uuid = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value
+            });
+        }
+        [Authorize]
+        public IActionResult AddDevice()
+        {
+            
+            return View();
         }
         [Authorize]
         public async Task Logout()

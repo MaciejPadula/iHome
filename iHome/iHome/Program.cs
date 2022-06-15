@@ -1,16 +1,15 @@
 using Auth0.AspNetCore.Authentication;
 using Microsoft.OpenApi.Models;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services
-    .AddAuth0WebAppAuthentication(options => {
+builder.Services.AddAuth0WebAppAuthentication(options => {
         options.Domain = builder.Configuration["Auth0:Domain"];
         options.ClientId = builder.Configuration["Auth0:ClientId"];
         options.Scope = "openid profile email";
-    });
-
+});
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "iHome Rooms API", Version = "v1" });
@@ -46,6 +45,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 app.Run();

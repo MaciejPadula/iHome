@@ -1,31 +1,32 @@
 ﻿using iHome.Models.iHomeComponents;
+using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
 
 namespace iHome.Models
 {
     public class DatabaseModel
     {
-        SqlConnectionStringBuilder builder;
+        MySqlConnectionStringBuilder builder;
         public DatabaseModel(string server, string login, string password, string db)
         {
-            builder = new SqlConnectionStringBuilder();
-            builder.DataSource = server;
+            builder = new MySqlConnectionStringBuilder();
+            builder.Server = server;
             builder.UserID = login;
             builder.Password = password;
-            builder.InitialCatalog = db;
+            builder.Database = db;
         }
-        public List<Room> GetRooms(string uuid)
+        public List<Room> GetRooms(string? uuid)
         {
             List<Room> listOfRooms = new List<Room>();
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(builder.ConnectionString))
             {
                 connection.Open();
 
-                String sql = "SELECT RoomId, RoomName, RoomDescription, RoomImage FROM Rooms WHERE UserId = '"+uuid+"'";
+                string sql = "SELECT roomId, roomName, roomDescription, roomImage FROM Rooms WHERE uuid = '"+uuid+"'";
 
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -40,13 +41,14 @@ namespace iHome.Models
                                 image = reader.GetString(3);
                             }
                             catch { }
-                            listOfRooms.Add(new Room(
-                                reader.GetInt32(0),
-                                reader.GetString(1), 
-                                description,
-                                image,
-                                GetDevices(reader.GetInt32(0))
-                            ));
+                            listOfRooms.Add(new Room()
+                            {
+                                roomId = reader.GetInt32(0),
+                                roomName = reader.GetString(1),
+                                roomDescription = description,
+                                roomImage = image,
+                                devices = GetDevices(reader.GetInt32(0))
+                            });
                         }
                     }
                 }
@@ -57,25 +59,26 @@ namespace iHome.Models
         public List<Device> GetDevices(int RoomId)
         {
             List<Device> listOfDevices = new List<Device>();
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(builder.ConnectionString))
             {
                 connection.Open();
 
-                String sql = "SELECT * FROM [dbo].[Devices] WHERE RoomId='"+RoomId+"';";
+                String sql = "SELECT * FROM Devices WHERE roomId='"+RoomId+"';";
 
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             listOfDevices.Add(new Device()
                             {
                                 deviceId = reader.GetString(0),
-                                name = reader.GetString(1),
-                                data = reader.GetString(2),
-                                roomId = reader.GetInt32(3),
-                                type = reader.GetInt32(5),
+                                deviceName = reader.GetString(1),
+                                deviceType = reader.GetInt32(2),
+                                deviceData = reader.GetString(3),
+                                roomId = reader.GetInt32(4),
+                                
                             });
                         }
                     }
@@ -84,29 +87,41 @@ namespace iHome.Models
             }
             return listOfDevices;
         }
-        public bool AddRoom(string name, string description, string image, string uuid)
+        public bool AddRoom(string? name, string? description, string? image, string? uuid)
         {
-            String sql = "INSERT INTO Rooms (RoomName, RoomDescription, RoomImage, UserId)VALUES" +
+            string sql = "INSERT INTO Rooms (roomName, roomDescription, roomImage, uuid)VALUES" +
                     "('" + name + "','" + description + "','" + image + "','" + uuid + "')";
             return ExecuteShortSql(sql);
         }
         public bool RemoveRoom(int id)
         {
-            return ExecuteShortSql("DELETE FROM Rooms WHERE RoomId=" + id);
+            return ExecuteShortSql("DELETE FROM Rooms WHERE roomId=" + id);
         }
-
+        public bool SetDeviceData(string? deviceId, string? data)
+        {
+            String sql = "UPDATE Devices SET deviceData='"+data+"' WHERE deviceId='"+deviceId+"'";
+            return ExecuteShortSql(sql);
+        }
         public bool ExecuteShortSql(string sql)
         {
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(builder.ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(sql, connection)) { }
-                if ((new SqlCommand(sql, connection)).ExecuteNonQuery() == 1)
+                using (MySqlCommand command = new MySqlCommand(sql, connection)) { }
+                if ((new MySqlCommand(sql, connection)).ExecuteNonQuery() == 1)
                 {
                     connection.Close();
                     return true;
                 }
                 connection.Close();
+            }
+            return false;
+        }
+        public bool UpdateDeviceRoom(string? deviceId, int roomId)
+        {
+            if (ExecuteShortSql("UPDATE Devices SET roomId="+roomId+" WHERE deviceId=\""+deviceId+"\""))
+            {
+                return true;
             }
             return false;
         }
