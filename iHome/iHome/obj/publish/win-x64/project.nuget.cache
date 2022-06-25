@@ -1,0 +1,163 @@
+{
+  "version": 2,
+  "dgSpecHash": "eQp3E7Fir+rgCQS2j8edDdTya2jw+SIFTbcc5KCc0lqz/FRx7wWKOQJvhGG5xWZrJCr8hFBGl47kpcwAVzyuvg==",
+  "success": true,
+  "projectFilePath": "D:\\Users\\Dulik\\Documents\\GitHub\\iHome\\iHome\\iHome\\iHome.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Dulik\\.nuget\\packages\\auth0.aspnetcore.authentication\\1.0.3\\auth0.aspnetcore.authentication.1.0.3.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\google.protobuf\\3.19.4\\google.protobuf.3.19.4.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\k4os.compression.lz4.streams\\1.2.6\\k4os.compression.lz4.streams.1.2.6.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\k4os.hash.xxhash\\1.0.6\\k4os.hash.xxhash.1.0.6.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.aspnet.webapi.client\\4.0.20710\\microsoft.aspnet.webapi.client.4.0.20710.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.aspnet.webapi.core\\4.0.20710\\microsoft.aspnet.webapi.core.4.0.20710.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.aspnet.webapi.webhost\\4.0.20710\\microsoft.aspnet.webapi.webhost.4.0.20710.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.6\\microsoft.aspnetcore.authentication.jwtbearer.6.0.6.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\6.0.5\\microsoft.aspnetcore.authentication.openidconnect.6.0.5.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.6\\microsoft.entityframeworkcore.6.0.6.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.6\\microsoft.entityframeworkcore.abstractions.6.0.6.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.6\\microsoft.entityframeworkcore.analyzers.6.0.6.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.6\\microsoft.entityframeworkcore.relational.6.0.6.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\6.0.6\\microsoft.entityframeworkcore.sqlserver.6.0.6.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\6.0.0\\microsoft.extensions.caching.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.extensions.caching.memory\\6.0.1\\microsoft.extensions.caching.memory.6.0.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\6.0.0\\microsoft.extensions.dependencyinjection.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.extensions.logging\\6.0.0\\microsoft.extensions.logging.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\6.0.0\\microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.extensions.options\\6.0.0\\microsoft.extensions.options.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.identity.client\\4.21.1\\microsoft.identity.client.4.21.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.10.2\\microsoft.identitymodel.jsonwebtokens.6.10.2.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.identitymodel.logging\\6.10.2\\microsoft.identitymodel.logging.6.10.2.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.identitymodel.protocols\\6.10.2\\microsoft.identitymodel.protocols.6.10.2.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\6.10.2\\microsoft.identitymodel.protocols.openidconnect.6.10.2.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.10.2\\microsoft.identitymodel.tokens.6.10.2.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.net.http\\2.0.20710\\microsoft.net.http.2.0.20710.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.web.infrastructure\\1.0.0\\microsoft.web.infrastructure.1.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\mysql.data\\8.0.29\\mysql.data.8.0.29.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\newtonsoft.json\\7.0.1\\newtonsoft.json.7.0.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\restsharp\\108.0.1\\restsharp.108.0.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\runtime.win-x86.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\swashbuckle\\5.6.0\\swashbuckle.5.6.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\swashbuckle.aspnetcore\\6.3.1\\swashbuckle.aspnetcore.6.3.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.3.1\\swashbuckle.aspnetcore.swagger.6.3.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.3.1\\swashbuckle.aspnetcore.swaggergen.6.3.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.3.1\\swashbuckle.aspnetcore.swaggerui.6.3.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\swashbuckle.core\\5.6.0\\swashbuckle.core.5.6.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.data.sqlclient\\4.8.3\\system.data.sqlclient.4.8.3.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.10.2\\system.identitymodel.tokens.jwt.6.10.2.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.runtime.caching\\4.7.0\\system.runtime.caching.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.security.cryptography.protecteddata\\4.7.0\\system.security.cryptography.protecteddata.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.security.permissions\\4.7.0\\system.security.permissions.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.text.encoding.codepages\\4.7.0\\system.text.encoding.codepages.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.text.encodings.web\\4.5.1\\system.text.encodings.web.4.5.1.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512",
+    "C:\\Users\\Dulik\\.nuget\\packages\\webactivatorex\\2.0.0\\webactivatorex.2.0.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „Microsoft.AspNet.WebApi.Client 4.0.20710” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "Microsoft.AspNet.WebApi.Client",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „Microsoft.AspNet.WebApi.Core 4.0.20710” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "Microsoft.AspNet.WebApi.Core",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „Microsoft.AspNet.WebApi.WebHost 4.0.20710” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "Microsoft.AspNet.WebApi.WebHost",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „Microsoft.Net.Http 2.0.20710” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "Microsoft.Net.Http",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „Microsoft.Web.Infrastructure 1.0.0” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "Microsoft.Web.Infrastructure",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „Newtonsoft.Json 7.0.1” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "Newtonsoft.Json",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „Swashbuckle.Core 5.6.0” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "Swashbuckle.Core",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „WebActivatorEx 2.0.0” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "WebActivatorEx",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
+}

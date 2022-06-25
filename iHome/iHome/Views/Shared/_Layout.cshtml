@@ -28,9 +28,13 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Rooms">User Rooms</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Rooms">Rooms</a>
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Profile">Profile</a>
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                            if (string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),"development", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                <a class="nav-link text-dark" href="/swagger" target="_blank">Swagger UI</a>
+                            }
                         }
                         else
                         {

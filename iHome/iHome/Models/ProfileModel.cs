@@ -1,6 +1,4 @@
-﻿using iHome.Models.iHomeComponents;
-
-namespace iHome.Models
+﻿namespace iHome.Models
 {
     public class ProfileModel
     {

@@ -58,7 +58,7 @@
     //content += "<input type=\"button\" class=\"\" value=\"Remove\" onClick=\"removeRoom(" + id + ")\"/>";
 
     let deviceList = document.createElement("div");
-    deviceList.id = "room-devices";
+    deviceList.className = "room-devices";
     deviceList.dataset.roomid = id;
 
     devices.forEach(device => {
@@ -82,25 +82,46 @@ function getDeviceCard(device) {
     deviceCard.draggable = true;
     deviceCard.dataset.deviceid = device.deviceId;
     deviceCard.addEventListener("dragend", (ev) => {
-        this.style.display = "inline-block";
+        ev.target.style.display = "inline-block";
     });
     deviceCard.addEventListener("dragstart", (ev) => {
+        ev.dataTransfer.effectAllowed = "copyMove";
         ev.dataTransfer.setData("deviceId", ev.target.dataset.deviceid);
+        //ev.target.style.display = "none";
         setTimeout(() => ev.target.style.display = "none", 0);
     });
+    deviceCard.addEventListener("dragenter", (ev) => {
+        ev.dataTransfer.dropEffect = "move";
+    });
 
+    let renameDeviceButton = document.createElement("button");
+    renameDeviceButton.className = "btn btn-sm rounded-0";
+    renameDeviceButton.style.position = "absolute";
+    renameDeviceButton.style.left = "0";
+    renameDeviceButton.innerHTML = (getEditIcon());
+    renameDeviceButton.setAttribute("data-bs-toggle", "modal");
+    renameDeviceButton.setAttribute("data-bs-target", "#renameDeviceModal");
+    //data-bs-toggle="modal" data-bs-target="#addRoomModal"
 
     let deviceBody = document.createElement("div");
-    deviceBody.className = "card-body";
+    deviceBody.className = "card-body device-body";
 
     let deviceTitle = document.createElement("h5");
     deviceTitle.className = "card-title";
     deviceTitle.innerHTML = device.deviceName;
 
-    
 
+    let deviceImage = document.createElement("img");
+    deviceImage.className = "device-image";
+    deviceImage.src = getDeviceImageUrl(device);
+    deviceImage.draggable = false;
+
+    
     deviceBody.append(deviceTitle);
     deviceBody.append(deviceControls(device));
+
+    deviceCard.append(renameDeviceButton);
+    deviceCard.append(deviceImage);
     deviceCard.append(deviceBody);
     return deviceCard;
 }
@@ -145,6 +166,51 @@ function deviceControls(device) {
         dataForm.append(colorInput);
         dataForm.append(stateBody);
     }
+    else if (device.deviceType == 2) {
+        let temperatureRead = document.createElement("div");
+        temperatureRead.className = "temperature";
+        temperatureRead.style.width = "100%";
+        temperatureRead.style.textAlign = "left";
+        temperatureRead.innerHTML = "Temperature: 0&#8451;";
+
+        let pressureRead = document.createElement("div");
+        pressureRead.className = "pressure";
+        pressureRead.style.width = "100%";
+        pressureRead.style.textAlign = "left";
+        pressureRead.innerHTML = "Pressure: 0 hPa";
+
+        
+        dataForm.append(temperatureRead);
+        dataForm.append(pressureRead);
+        setInterval(() => {
+            getData(device.deviceId, (data) => {
+                //console.log(JSON.parse(data).celsius)
+                temperatureRead.innerHTML = "Temperature: " + JSON.parse(data).celsius + "&#8451;";
+                pressureRead.innerHTML = "Pressure: " + JSON.parse(data).pressure + " hPa";
+            });
+        },2500);
+    }
 
     return dataForm;
+}
+
+function getDeviceImageUrl(device) {
+    if (device.deviceType == 1) {
+        return "../resources/images/rgbLamp.png";
+    }
+    else if (device.deviceType == 2) {
+        return "../resources/images/temperature.png";
+    }
+    else if (device.deviceType == 3) {
+        return "../resources/images/pir.png";
+    }
+
+    return "";
+}
+function getEditIcon() {
+    let svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-pencil-square\" viewBox=\"0 0 16 16\">";
+    svg += "<path d=\"M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z\"/>";
+    svg += "<path fill-rule=\"evenodd\" d=\"M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z\"/>";
+    svg += "</svg>";
+    return svg;
 }

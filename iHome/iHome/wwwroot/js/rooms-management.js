@@ -9,6 +9,17 @@
         $("#roomDescription").val("");
         $("#inputErrorRoomName").css("display", "none");
     });
+
+    const renameDeviceModal = new bootstrap.Modal('#renameDeviceModal', {
+        keyboard: false
+    });
+    const renameDeviceModalEl = document.getElementById('renameDeviceModal');
+    renameDeviceModalEl.addEventListener('show.bs.modal', event => {
+        $("#deviceName").removeClass("input-error");
+        $("#deviceName").val("");
+        $("#inputErrorDeviceName").css("display", "none");
+    });
+
     loadRooms();
     $("#addRoomButton").click(() => {
         if ($("#roomName").val().length >= 3) {
@@ -23,6 +34,7 @@
     });
 });
 
+
 function addRoom(name, description, image) {
     const dane =
     {
@@ -32,7 +44,6 @@ function addRoom(name, description, image) {
     }
     
     $.ajax({
-        contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(dane),
         processData: true,
@@ -50,8 +61,15 @@ function loadRooms() {
     $.get("/api/rooms/getrooms/", (data) => {
         $("#rooms-container").html("");
         for (var i in data) {
-            $("#rooms-container").append(getRoomCard(data[i].roomId, data[i].roomName, data[i].roomDescription, data[i].roomImage, data[i].devices));
-            //getDevices(data[i].id);
+            $("#rooms-container").append(
+                getRoomCard(
+                    data[i].roomId,
+                    data[i].roomName,
+                    data[i].roomDescription,
+                    data[i].roomImage,
+                    data[i].devices
+                )
+            );
         }
         $("#waiting").css("display", "none");
     });
@@ -71,8 +89,8 @@ function removeRoom(ev) {
 }
 
 function saveRgbLamp(ev) {
-    color = "#000000";
-    state = 0;
+    let color="#000";
+    let state=0;
     var form = document.getElementById(ev.target.dataset.deviceid).elements;
     for (var i = 0; i < form.length; ++i) {
         if (form[i].name == "color") {
@@ -100,4 +118,13 @@ function saveRgbLamp(ev) {
         type: 'POST',
         url: '/api/rooms/SetDeviceData'
     });
+}
+
+function getData(deviceId, callback) {
+    $.ajax({
+        contentType: "application/json",
+        processData: true,
+        type: 'POST',
+        url: '/api/rooms/GetDeviceData/' + deviceId,
+    }).done(callback);
 }

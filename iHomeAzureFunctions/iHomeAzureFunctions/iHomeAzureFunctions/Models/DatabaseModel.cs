@@ -21,7 +21,7 @@ namespace iHomeAzureFunctions.Models
         }
         public bool SetDeviceData(string deviceId, string deviceData)
         {
-            String sql = "UPDATE Devices SET Data='"+deviceData+"' WHERE DeviceId='"+deviceId+"';";
+            String sql = "UPDATE Devices SET deviceData='"+deviceData+"' WHERE deviceId='"+deviceId+"';";
             return ExecuteShortSql(sql);
         }
         public dynamic GetDeviceData(string deviceId)
@@ -31,7 +31,7 @@ namespace iHomeAzureFunctions.Models
             {
                 connection.Open();
 
-                String sql = "SELECT Data FROM Devices WHERE DeviceId = '" + deviceId + "'";
+                String sql = "SELECT deviceData FROM Devices WHERE deviceId = '" + deviceId + "'";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {

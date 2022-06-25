@@ -23,14 +23,14 @@ namespace iHomeAzureFunctions
 
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string deviceId = req.Query["DeviceId"];
-            string deviceData = req.Query["DeviceData"];
+            string deviceId = req.Query["deviceId"];
+            string deviceData = req.Query["deviceData"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-            deviceId = deviceId ?? data?.DeviceId;
-            deviceData = deviceData ?? data?.DeviceData;
+            deviceId = deviceId ?? data?.deviceId;
+            deviceData = deviceData ?? data?.deviceData;
 
             string responseMessage = string.IsNullOrEmpty(deviceId)
                 ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
