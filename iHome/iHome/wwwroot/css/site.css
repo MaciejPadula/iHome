@@ -1,3 +1,11 @@
+:root {
+    --bs-body-border: #000;
+    --bs-body-card-bg: #FFF;
+    --bs-body-color-hover: #999999;
+    --bs-button-bg: #880000;
+    --bs-button-color-hover: #999999;
+}
+
 html {
   font-size: 14px;
 }
@@ -15,4 +23,50 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+a:link, a:active, a:visited{
+    color: #FFF;
+}
+.navbar * {
+    color: var(--bs-body-color);
+}
+.navbar *:hover {
+    color: var(--bs-body-color-hover);
+}
+.modal-content {
+    background-color: var(--bs-body-bg);
+    border-color: var(--bs-body-border);
+}
+.creation-section{
+    display:flex;
+    flex-direction:row;
+}
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bs-body-color);
+    background-color: var(--bs-button-bg);
+}
+.btn:hover {
+    color: var(--bs-button-color-hover);
+}
+.nav-item:focus, .nav-link:focus, .btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+.form-check-input:checked {
+    background-color: var(--bs-button-bg);
+    border-color: var(--bs-button-bg);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bs-body-bg: #121212;
+        --bs-body-color: #FFFFFF;
+        --bs-body-color-hover: #999999;
+        --bs-body-border: #444444;
+        --bs-body-card-bg: #212121;
+        --bs-button-bg: #880000;
+    }
 }

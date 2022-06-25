@@ -42,7 +42,6 @@ function addRoom(name, description, image) {
         "roomDescription": description,
         "roomImage": image
     }
-    
     $.ajax({
         contentType: "application/json",
         dataType: "json",
@@ -53,8 +52,6 @@ function addRoom(name, description, image) {
     }).done((data) => {
         loadRooms();
     });
-    
-
 }
 function loadRooms() {
     $("#rooms-container").html("");
@@ -74,12 +71,12 @@ function loadRooms() {
         }
         $("#waiting").css("display", "none");
     });
-    
 }
 function removeRoom(ev) {
     if (confirm("Do you want to remove room?")) {
         $.ajax({
             type: 'POST',
+            contentType: "application/json",
             dataType: "json",
             url: "/api/rooms/removeroom/" + ev.target.dataset.roomid,
             success: (data) => {
