@@ -14,7 +14,6 @@ namespace iHome.Controllers
     {
         public async Task Login(string returnUrl = "/Account/Rooms")
         {
-            
             var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
                 .WithRedirectUri(returnUrl)
                 .Build();

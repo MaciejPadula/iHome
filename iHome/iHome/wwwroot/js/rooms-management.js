@@ -36,7 +36,7 @@
 
 
 function addRoom(name, description, image) {
-    const dane =
+    const data =
     {
         "roomName": name,
         "roomDescription": description,
@@ -44,8 +44,9 @@ function addRoom(name, description, image) {
     }
     
     $.ajax({
+        contentType: "application/json",
         dataType: "json",
-        data: JSON.stringify(dane),
+        data: JSON.stringify(data),
         processData: true,
         type: 'POST',
         url: '/api/rooms/addroom'
