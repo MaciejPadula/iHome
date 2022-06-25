@@ -5,7 +5,7 @@
     roomCard.addEventListener("drop", (ev) => {
         ev.preventDefault();
         const deviceId = ev.dataTransfer.getData("deviceId");
-        const roomId = ev.target.dataset.roomid;
+        const roomId = ev.currentTarget.dataset.roomid;
         $.ajax({
             contentType: "application/json",
             data: JSON.stringify({
@@ -30,7 +30,6 @@
         let img = document.createElement("img");
         img.className = "card-img-top";
         img.src = image;
-        img.dataset.roomid = id;
         roomCard.append(img);
     }
     let roomBody = document.createElement("div");
@@ -40,12 +39,10 @@
     //ROOM BODY CONTROLS
     let roomTitle = document.createElement("h5");
     roomTitle.className = "card-title";
-    roomTitle.dataset.roomid = id;
     roomTitle.innerHTML = name;
 
     let roomDescription = document.createElement("p");
     roomDescription.className = "card-text";
-    roomDescription.dataset.roomid = id;
     roomDescription.innerHTML = description;
 
     let removeRoomButton = document.createElement("button");
@@ -58,7 +55,6 @@
 
     let deviceList = document.createElement("div");
     deviceList.className = "room-devices";
-    deviceList.dataset.roomid = id;
 
     devices.forEach(device => {
         deviceList.append(getDeviceCard(device));

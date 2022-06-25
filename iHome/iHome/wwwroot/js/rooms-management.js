@@ -78,7 +78,7 @@ function removeRoom(ev) {
             type: 'POST',
             contentType: "application/json",
             dataType: "json",
-            url: "/api/rooms/removeroom/" + ev.target.dataset.roomid,
+            url: "/api/rooms/removeroom/" + ev.currentTarget.dataset.roomid,
             success: (data) => {
                 loadRooms();
             }

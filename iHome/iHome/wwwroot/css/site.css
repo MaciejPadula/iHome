@@ -1,5 +1,6 @@
 :root {
     --bs-body-border: #000;
+    --bs-body-color:#000;
     --bs-body-card-bg: #FFF;
     --bs-body-color-hover: #999999;
     --bs-button-bg: #880000;
@@ -24,10 +25,6 @@ html {
 body {
   margin-bottom: 60px;
 }
-
-a:link, a:active, a:visited{
-    color: #FFF;
-}
 .navbar * {
     color: var(--bs-body-color);
 }
@@ -46,15 +43,25 @@ a:link, a:active, a:visited{
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--bs-body-color);
+    color: #FFFFFF;
     background-color: var(--bs-button-bg);
 }
 .btn:hover {
     color: var(--bs-button-color-hover);
 }
+
+.nav-link {
+    color: var(--bs-body-color);
+}
+
 .nav-item:focus, .nav-link:focus, .btn:focus {
     outline: none;
     box-shadow: none;
+    color: var(--bs-body-color);
+}
+.btn-secondary, .btn-close {
+    background-color: var(--bs-secondary-rgb);
+    color: var(--bs-body-color);
 }
 .form-check-input:checked {
     background-color: var(--bs-button-bg);
