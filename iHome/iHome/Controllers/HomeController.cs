@@ -15,6 +15,10 @@ namespace iHome.Controllers
 
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("/Account/Rooms");
+            }
             return View();
         }
 
