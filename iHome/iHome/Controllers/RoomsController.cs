@@ -34,11 +34,11 @@ namespace iHome.Controllers
                 .Where(room => room.uuid == uuid)
                 .Select(x => DataModelsConversionUtils.RoomFromTRoom(x))
                 .ToList();
-            if (listOfRooms.Count > 0)
+            if (listOfRooms == null)
             {
-                return Ok(listOfRooms);
+                return NotFound();
             }
-            return NotFound(new HTTPResponse { status = 404 });
+            return Ok(listOfRooms);
         }
 
         [HttpPost("AddRoom/")]
