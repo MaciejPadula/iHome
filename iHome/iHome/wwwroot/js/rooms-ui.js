@@ -133,12 +133,31 @@ function deviceControls(device) {
 
     const data = JSON.parse(device.deviceData);
     if (device.deviceType == 1) {
+        
+        const colorInputBackground = document.createElement("div");
+        colorInputBackground.classList.add("lightbulb-input-background");
+
+        const lightbulb = document.createElement("img");
+        lightbulb.src = "../resources/images/lightbulb.png";
+
+        const colorInputWrapper = document.createElement("div");
+        colorInputWrapper.classList.add("lightbulb-input-wrapper");
+
+        colorInputWrapper.append(colorInputBackground);
+        colorInputWrapper.append(lightbulb);
+
         let colorInput = document.createElement("input");
+
         colorInput.name = "color";
         colorInput.type = "color";
         colorInput.dataset.deviceid = device.deviceId;
         colorInput.value = rgbToHex(data.Red, data.Green, data.Blue);
         colorInput.addEventListener("change", saveRgbLamp);
+        colorInput.addEventListener("change", () => {
+            colorInputBackground.style.backgroundColor = colorInput.value;
+        });
+        colorInputWrapper.append(colorInput);
+        colorInputBackground.style.backgroundColor = rgbToHex(data.Red, data.Green, data.Blue);
 
         let stateBody = document.createElement("div");
         stateBody.className = "form-check form-switch";
@@ -163,7 +182,7 @@ function deviceControls(device) {
         stateBody.append(stateButton);
         stateBody.append(label);
 
-        dataForm.append(colorInput);
+        dataForm.append(colorInputWrapper);
         dataForm.append(stateBody);
     }
     else if (device.deviceType == 2) {
