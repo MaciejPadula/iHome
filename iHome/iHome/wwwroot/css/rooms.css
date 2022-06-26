@@ -37,6 +37,13 @@
     right: 0;
 }
 
+.new-device-button-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
 #waiting {
     position: relative;
     left: 0;
