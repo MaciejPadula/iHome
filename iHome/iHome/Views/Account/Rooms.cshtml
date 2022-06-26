@@ -56,14 +56,15 @@
 <div class="modal fade" id="renameDeviceModal" tabindex="-1" aria-labelledby="renameDeviceModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+            <input type="hidden" id="deviceIdToRename" value=""/>
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Rename existing device</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="deviceName" class="form-label">Device Name</label>
-                    <input type="text" class="form-control" name="deviceName" id="deviceName" aria-describedby="deviceName" required/>
+                    <label for="deviceNameToRename" class="form-label">Device Name</label>
+                    <input type="text" class="form-control" id="deviceNameToRename" aria-describedby="deviceNameToRename" required/>
                     <div id="inputErrorDeviceName" class="input-error-label">Room name should have at least 3 characters!</div>
                 </div>
                     
