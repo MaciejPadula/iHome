@@ -15,8 +15,8 @@
     });
     const renameDeviceModalEl = document.getElementById('renameDeviceModal');
     renameDeviceModalEl.addEventListener('show.bs.modal', event => {
-        $("#deviceName").removeClass("input-error");
-        $("#deviceName").val("");
+        $("#deviceNameToRename").removeClass("input-error");
+        $("#deviceNameToRename").val("");
         $("#inputErrorDeviceName").css("display", "none");
     });
 
@@ -32,8 +32,35 @@
             $("#inputErrorRoomName").css("display", "block");
         }
     });
+    $("#renameDeviceButton").click(() => {
+        if ($("#deviceNameToRename").val().length >= 3) {
+            renameDeviceModal.hide();
+            renameDevice($("#deviceIdToRename").val(), $("#deviceNameToRename").val());
+            //addRoom($("#roomName").val(), $("#roomDescription").val(), "");
+        }
+        else {
+            $("#deviceNameToRename").addClass("input-error");
+            $("#inputErrorDeviceName").css("display", "block");
+        }
+        
+    });
 });
 
+function renameDevice(deviceId, deviceName) {
+    $.ajax({
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify({
+            deviceId: deviceId,
+            deviceName: deviceName
+        }),
+        processData: true,
+        type: 'POST',
+        url: '/api/rooms/renamedevice'
+    }).done((data) => {
+        loadRooms();
+    });
+}
 
 function addRoom(name, description, image) {
     const data =

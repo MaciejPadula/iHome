@@ -94,6 +94,10 @@ function getDeviceCard(device) {
     renameDeviceButton.style.position = "absolute";
     renameDeviceButton.style.left = "0";
     renameDeviceButton.innerHTML = (getEditIcon());
+    renameDeviceButton.addEventListener("click", () => {
+        $("#deviceIdToRename").val(device.deviceId);
+        $("#deviceNameToRename").val(device.deviceName);
+    });
     renameDeviceButton.setAttribute("data-bs-toggle", "modal");
     renameDeviceButton.setAttribute("data-bs-target", "#renameDeviceModal");
     //data-bs-toggle="modal" data-bs-target="#addRoomModal"
