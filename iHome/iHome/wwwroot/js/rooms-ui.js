@@ -221,9 +221,11 @@ function getNewDeviceButton() {
 
     cardBody.append(icon);
     card.append(cardBody);
+    card.setAttribute("data-bs-toggle", "modal");
+    card.setAttribute("data-bs-target", "#setupDeviceModal");
 
     card.addEventListener("click", (ev) => {
-        alert("Do some stuff");
+        //alert("Do some stuff");
     });
     return card;
 }

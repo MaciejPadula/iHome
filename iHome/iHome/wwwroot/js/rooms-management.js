@@ -44,6 +44,25 @@
         }
         
     });
+
+    $("#scanNetworkButton").click(() => {
+        let ip = $("#octet1").val();
+        ip += ".";
+        ip += $("#octet2").val();
+        ip += ".";
+        ip += $("#octet3").val();
+        ip += ".";
+        for (let i = 1; i < 255; ++i) {
+            $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                type: 'GET',
+                url: "http://" + ip + i + '/register'
+            }).done((data) => {
+                console.log(data);
+            });
+        }
+    });
 });
 
 function renameDevice(deviceId, deviceName) {
