@@ -1,129 +1,89 @@
 ﻿function getRoomCard(id, name, description, image, devices) {
-    let roomCard = document.createElement('div');
-    roomCard.className = "card room-card";
-    roomCard.dataset.roomid = id;
-    roomCard.addEventListener("drop", (ev) => {
-        ev.preventDefault();
-        const deviceId = ev.dataTransfer.getData("deviceId");
-        const roomId = ev.currentTarget.dataset.roomid;
-        $.ajax({
-            contentType: "application/json",
-            data: JSON.stringify({
-                "deviceId": deviceId,
-                "roomId": parseInt(roomId)
-            }),
-            processData: true,
-            type: 'POST',
-            url: '/api/Rooms/SetDeviceRoom/'
-        }).done((data) => {
-            loadRooms();
-        });
-    });
-    roomCard.addEventListener("dragover", (ev) => {
-        ev.preventDefault();
-    });
-
-
-
-    content = "";
-    if (image != "null" && image!="" && image!=undefined) {
-        let img = document.createElement("img");
-        img.className = "card-img-top";
-        img.src = image;
-        roomCard.append(img);
+    let roomCard = new CardBuilder('room')
+        .withAttribute('data-roomid', id)
+        .withEventListener('drop', (ev) => {
+            ev.preventDefault();
+            const deviceId = ev.dataTransfer.getData('deviceId');
+            const roomId = ev.currentTarget.dataset.roomid;
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "deviceId": deviceId,
+                    "roomId": parseInt(roomId)
+                }),
+                processData: true,
+                type: 'POST',
+                url: '/api/Rooms/SetDeviceRoom/'
+            }).done((data) => {
+                loadRooms();
+            });
+        })
+        .withEventListener('dragover', (ev) => {
+            ev.preventDefault();
+        })
+        .withTitle(name)
+        .withDescription(description);
+    if (image != "null" && image != "" && image != undefined) {
+        roomCard.withImage(image);
     }
-    let roomBody = document.createElement("div");
-    roomBody.className = "card-body";
-    roomBody.dataset.roomid = id;
-
-    //ROOM BODY CONTROLS
-    let roomTitle = document.createElement("h5");
-    roomTitle.className = "card-title";
-    roomTitle.innerHTML = name;
-
-    let roomDescription = document.createElement("p");
-    roomDescription.className = "card-text";
-    roomDescription.innerHTML = description;
-
-    let removeRoomButton = document.createElement("button");
-    removeRoomButton.className = "btn remove-button rounded-0";
-    removeRoomButton.dataset.roomid = id;
-    removeRoomButton.innerHTML = getRemoveIcon();
-    removeRoomButton.addEventListener("click", removeRoom);
-
-    //content += "<input type=\"button\" class=\"\" value=\"Remove\" onClick=\"removeRoom(" + id + ")\"/>";
 
     let deviceList = document.createElement("div");
     deviceList.className = "room-devices";
-
     devices.forEach(device => {
         deviceList.append(getDeviceCard(device));
     });
-    deviceList.append(getNewDeviceButton());
+    deviceList.append(getNewDeviceButton(id));
 
-
-    roomBody.append(roomTitle);
-    roomBody.append(roomDescription);
-    roomBody.append(deviceList);
-    roomBody.append(removeRoomButton);
-    roomCard.append(roomBody);
-    return roomCard;
-    //"<div class=\"card room-card\" data-roomid=\"" + id + "\" id=\"" + id + "\" ondrop=\"drop(event)\" ondragover=\"allowDrop(event)\">" + content + "</div>";
+    roomCard.addToBody(deviceList);
+    roomCard.addToBody(new ElementBuilder('button')
+        .withClassName('btn remove-button rounded-0')
+        .withAttribute('data-roomid', id)
+        .withInnerHTML(getRemoveIcon())
+        .withEventListener('click', removeRoom)
+        .build()
+    );
+    return roomCard.build();
 }
 
 
 function getDeviceCard(device) {
-    let deviceCard = document.createElement("div");
-    deviceCard.className = "card device-card";
-    deviceCard.draggable = true;
-    deviceCard.dataset.deviceid = device.deviceId;
-    deviceCard.addEventListener("dragend", (ev) => {
-        ev.target.style.display = "inline-block";
-    });
-    deviceCard.addEventListener("dragstart", (ev) => {
-        ev.dataTransfer.effectAllowed = "copyMove";
-        ev.dataTransfer.setData("deviceId", ev.target.dataset.deviceid);
-        //ev.target.style.display = "none";
-        setTimeout(() => ev.target.style.display = "none", 0);
-    });
-    deviceCard.addEventListener("dragenter", (ev) => {
-        ev.dataTransfer.dropEffect = "move";
-    });
+    let deviceCard = new CardBuilder('device')
+        .withDraggable(true)
+        .withAttribute('data-deviceid', device.deviceId)
+        .withEventListener('dragend', (ev) => {
+            ev.target.style.display = "inline-block";
+        })
+        .withEventListener('dragstart', (ev) => {
+            ev.dataTransfer.setData('deviceId', ev.target.dataset.deviceid);
+            setTimeout(() => ev.target.style.display = 'none', 0);
+        })
+        .withEventListener('dragenter', (ev) => {
+            ev.dataTransfer.dropEffect = 'move';
+        })
+        .withTitle(device.deviceName)
+        .addToBody(deviceControls(device));
 
-    let renameDeviceButton = document.createElement("button");
-    renameDeviceButton.className = "btn btn-sm rounded-0";
-    renameDeviceButton.style.position = "absolute";
-    renameDeviceButton.style.left = "0";
-    renameDeviceButton.innerHTML = (getEditIcon());
-    renameDeviceButton.addEventListener("click", () => {
-        $("#deviceIdToRename").val(device.deviceId);
-        $("#deviceNameToRename").val(device.deviceName);
-    });
-    renameDeviceButton.setAttribute("data-bs-toggle", "modal");
-    renameDeviceButton.setAttribute("data-bs-target", "#renameDeviceModal");
-    //data-bs-toggle="modal" data-bs-target="#addRoomModal"
+    let renameDeviceButton = new ElementBuilder('button')
+        .withClassName('btn btn-sm rounded-0')
+        .withInnerHTML(getEditIcon())
+        .withEventListener('click', (ev) => {
+            $('#deviceIdToRename').val(device.deviceId);
+            $('#deviceNameToRename').val(device.deviceName);
+        })
+        .withAttribute('data-bs-toggle', 'modal')
+        .withAttribute('data-bs-target', '#renameDeviceModal')
+        .withStyle('position', 'absolute')
+        .withStyle('left', '0')
+        .build();
 
-    let deviceBody = document.createElement("div");
-    deviceBody.className = "card-body device-body";
-
-    let deviceTitle = document.createElement("h5");
-    deviceTitle.className = "card-title";
-    deviceTitle.innerHTML = device.deviceName;
-
-
-    let deviceImage = document.createElement("img");
-    deviceImage.className = "device-image";
-    deviceImage.src = getDeviceImageUrl(device);
-    deviceImage.draggable = false;
-
-    
-    deviceBody.append(deviceTitle);
-    deviceBody.append(deviceControls(device));
-
-    deviceCard.append(renameDeviceButton);
-    deviceCard.append(deviceImage);
-    deviceCard.append(deviceBody);
-    return deviceCard;
+    deviceCard.addToCard(renameDeviceButton);
+    deviceCard.addToCard(new ImageBuilder()
+        .withClassName('device-image')
+        .withDraggable(false)
+        .withSrc(getDeviceImageUrl(device))
+        .build()
+    );
+    return deviceCard.build();
 }
 
 function deviceControls(device) {
@@ -208,9 +168,9 @@ function getDeviceImageUrl(device) {
     return "";
 }
 
-function getNewDeviceButton() {
+function getNewDeviceButton(roomId) {
     let card = document.createElement("div");
-    card.className = "card device-card";
+    card.className = "card device-card new-device-card";
 
     let cardBody = document.createElement("div");
     cardBody.className = "card-body device-body";
@@ -225,9 +185,66 @@ function getNewDeviceButton() {
     card.setAttribute("data-bs-target", "#setupDeviceModal");
 
     card.addEventListener("click", (ev) => {
-        //alert("Do some stuff");
+        $('#room-id-input').val(roomId);
     });
     return card;
+}
+
+function createNewDevice(deviceInfo) {
+    let main = document.createElement('div');
+    main.className = 'new-device-info';
+
+    let deviceId = document.createElement('div');
+    deviceId.className = 'new-device-address';
+    deviceId.innerText = deviceInfo.deviceId;
+
+    let deviceImgContainer = document.createElement('div');
+    deviceImgContainer.className = 'new-device-image-container'
+    let deviceImage = document.createElement('img');
+    deviceImage.src = getDeviceImageUrl(deviceInfo);
+    deviceImgContainer.append(deviceImage);
+
+    let deviceNameInput = document.createElement('input');
+    deviceNameInput.type = 'text';
+    deviceNameInput.style.display = 'none';
+    deviceNameInput.style.transition = '1s';
+
+    let button = document.createElement('button');
+    button.addEventListener('click', (ev) => {
+        if (deviceNameInput.style.display == 'none') {
+            deviceNameInput.style.display = 'block';
+        }
+        else if (deviceNameInput.value == '') {
+            deviceNameInput.style.display = 'none';
+        }
+        else {
+            let data = {
+                'deviceId': deviceInfo.deviceId,
+                'deviceType': deviceInfo.deviceType,
+                'deviceName': deviceNameInput.value,
+                'roomId': $('#room-id-input').val()
+            };
+            if (deviceInfo.deviceType == 1) {
+                data['deviceData'] = '{"Red":255, "Green":255, "Blue":255, "State":1}';
+            }
+            $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(data),
+                type: 'POST',
+                url: '/api/rooms/adddevice/' + deviceInfo.id
+            }).done((data) => {
+                window.location.reload(true);
+            });
+        }
+    });
+
+    main.append(deviceNameInput);
+    main.append(deviceImgContainer);
+    main.append(deviceId);
+    main.append(button);
+    
+    return main;
 }
 
 function getEditIcon() {

@@ -21,6 +21,7 @@
 <div id="rooms-container">
     
 </div>
+<script src="~/js/element-builder.js"></script>
 <script src="~/js/rooms-ui.js"></script>
 <script src="~/js/rooms-management.js"></script>
 
@@ -88,15 +89,18 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <p>
-                        <input id="octet1" type="text" value="192"/>
-                        <input id="octet2" type="text" value="168"/>
-                        <input id="octet3" type="text" value="0"/>
-                    </p>
+                    <input id="room-id-input" type="hidden" value="" />
+                    <div class="setup-device-modal-container">
+                        <div id="setup-device-spinner" class="spinner-border text-primary" role="status" style="display:none">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div id="links"></div>
+                    </div>
+                    
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="scanNetworkButton">Scan network</button>
+                <button class="btn" id="scanNetworkButton">Scan network</button>
             </div>
         </div>
     </div>
