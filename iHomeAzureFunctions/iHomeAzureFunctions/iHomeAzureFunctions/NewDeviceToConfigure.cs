@@ -8,36 +8,39 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using iHomeAzureFunctions.Models;
+using System.Net.Http;
 
 namespace iHomeAzureFunctions
 {
-    public static class SetDeviceData
+    public static class NewDeviceToConfigure
     {
-        
-        [FunctionName("SetDeviceData")]
+        [FunctionName("NewDeviceToConfigure")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Admin, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Admin,  "post", Route = null)] HttpRequest req,
             ILogger log)
         {
+            
             DatabaseModel databaseModel = new DatabaseModel("ihomedevice.database.windows.net", "tritIouR", "88swNNgWXt2jr5F", "ihomedevice");
 
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             string deviceId = req.Query["deviceId"];
-            string deviceData = req.Query["deviceData"];
+            string deviceType = req.Query["deviceType"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-
             deviceId = deviceId ?? data?.deviceId;
-            deviceData = deviceData ?? data?.deviceData;
+            deviceType = deviceType ?? data?.deviceType;
 
-            string responseMessage = string.IsNullOrEmpty(deviceId)
-                ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {deviceId}. This HTTP triggered function executed successfully.";
-            if(databaseModel.SetDeviceData(deviceId, deviceData))
-                return new OkObjectResult(responseMessage);
-            return new NotFoundResult();
+            var httpClient = new HttpClient();
+            var ip = req.HttpContext.Connection.RemoteIpAddress.ToString();
+            //await httpClient.GetStringAsync("https://api.ipify.org");
+
+
+
+            bool deviceData = await databaseModel.AddNewDeviceToConfigureAsync(deviceId, int.Parse(deviceType), ip);
+
+            return new OkObjectResult(deviceData);
         }
     }
 }
