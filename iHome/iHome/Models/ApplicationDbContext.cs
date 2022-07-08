@@ -15,6 +15,7 @@ namespace iHome.Models
         }
         public DbSet<TDevice> Devices { get; set; }
         public DbSet<TRoom> Rooms { get; set; }
+        public DbSet<TDeviceToConfigure> DevicesToConfigure { get; set; }
     }
 }
 

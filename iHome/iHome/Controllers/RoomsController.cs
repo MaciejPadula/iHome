@@ -1,10 +1,12 @@
 ﻿using iHome.Models;
+using iHome.Models.Account.Rooms.Requests;
 using iHome.Models.Database;
 using iHome.Models.DataModels;
 using iHome.Models.Requests;
 using iHome.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -146,6 +148,70 @@ namespace iHome.Controllers
         public ActionResult GetUserId()
         {
             return Ok(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+        }
+        [HttpPost("AddDevicesToConfigure/")]
+        [Authorize]
+        public async Task<ActionResult> AddDevicesToConfigure([FromBody] NewDeviceToConfigureRequest deviceToConfigure)
+        {
+            string? ip= HttpContext.Connection.RemoteIpAddress?.ToString();
+            if(ip == "127.0.0.1" || ip== "::1")
+            {
+                var httpClient = new HttpClient();
+                ip = await httpClient.GetStringAsync("https://api.ipify.org");
+            }
+            
+            if (deviceToConfigure != null)
+            {
+                db.DevicesToConfigure.Add(new TDeviceToConfigure
+                {
+                    deviceId = deviceToConfigure.deviceId,
+                    deviceType = deviceToConfigure.deviceType,
+                    ipAddress = ip,
+                });
+                db.SaveChanges();
+                return Ok(new HTTPResponse { status = 200 });
+            }
+            return NotFound(new HTTPResponse { status = 404 });
+
+        }
+        [HttpGet("GetDevicesToConfigure/")]
+        [Authorize]
+        public async Task<ActionResult> GetDevicesToConfigureAsync()
+        {
+
+            var httpClient = new HttpClient();
+            var ip = await httpClient.GetStringAsync("https://api.ipify.org");
+
+            var devicesToConfigure = db.DevicesToConfigure.Where(device => device.ipAddress == ip).ToList();
+            if (devicesToConfigure != null)
+            {
+                return Ok(devicesToConfigure);
+            }
+            return NotFound(new HTTPResponse { status = 404 });
+        }
+        [HttpPost("AddDevice/{id}")]
+        [Authorize]
+        public ActionResult AddDevice(int id, [FromBody] Device device)
+        {
+            if (device != null)
+            {
+                db.Add(new TDevice
+                {
+                    deviceId = device.deviceId,
+                    deviceName = device.deviceName,
+                    deviceType = device.deviceType,
+                    deviceData = device.deviceData,
+                    roomId = device.roomId
+                });
+                var deviceConfigurationToRemove = db.DevicesToConfigure.Where(device => device.id==id).FirstOrDefault();
+                if (deviceConfigurationToRemove != null)
+                {
+                    db.DevicesToConfigure.Remove(deviceConfigurationToRemove);
+                }
+                db.SaveChanges();
+                return Ok(new HTTPResponse { status = 200 });
+            }
+            return NotFound(new HTTPResponse { status = 404 });
         }
     }
 }

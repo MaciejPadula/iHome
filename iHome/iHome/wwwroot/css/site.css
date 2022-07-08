@@ -1,9 +1,9 @@
 :root {
     --bs-body-border: #000;
-    --bs-body-color:#000;
+    --bs-body-color: #000;
     --bs-body-card-bg: #FFF;
     --bs-body-color-hover: #999999;
-    --bs-button-bg: #880000;
+    --bs-button-bg: #0d6efd;
     --bs-button-color-hover: #999999;
 }
 
@@ -25,12 +25,7 @@ html {
 body {
   margin-bottom: 60px;
 }
-.navbar * {
-    color: var(--bs-body-color);
-}
-.navbar *:hover {
-    color: var(--bs-body-color-hover);
-}
+
 .modal-content {
     background-color: var(--bs-body-bg);
     border-color: var(--bs-body-border);
@@ -49,16 +44,6 @@ body {
 .btn:hover {
     color: var(--bs-button-color-hover);
 }
-
-.nav-link {
-    color: var(--bs-body-color);
-}
-
-.nav-item:focus, .nav-link:focus, .btn:focus {
-    outline: none;
-    box-shadow: none;
-    color: var(--bs-body-color);
-}
 .btn-secondary, .btn-close {
     background-color: var(--bs-secondary-rgb);
     color: var(--bs-body-color);
@@ -75,5 +60,6 @@ body {
         --bs-body-border: #444444;
         --bs-body-card-bg: #212121;
         --bs-button-bg: #880000;
+        --bs-primary-rgb: #000000;
     }
 }

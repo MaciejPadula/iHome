@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using iHome.Models;
-using RestSharp;
+using iHome.Models.Account;
 
 namespace iHome.Controllers
 {
@@ -42,12 +41,6 @@ namespace iHome.Controllers
                 ProfileImage = User.FindFirst(c => c.Type == "picture")?.Value,
                 Uuid = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value
             });
-        }
-        [Authorize]
-        public IActionResult AddDevice()
-        {
-            
-            return View();
         }
         [Authorize]
         public async Task Logout()

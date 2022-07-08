@@ -24,17 +24,27 @@
     margin: 2vh;
     position: relative;
 }
-.device-body{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
+.new-device-card {
+    cursor: pointer;
+}
+.device-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 .device-image {
     width: 15%;
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.new-device-button-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
 }
 
 #waiting {
@@ -69,7 +79,44 @@
     background-position: right calc(0.375em + 0.1875rem) center;
     background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
 }
+#links{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
 
+.new-device-info{
+    width:50%;
+    display:flex;
+    flex-direction:row;
+}
+
+.new-device-address {
+    display: flex;
+    width: 75%;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-device-image-container {
+    display: flex;
+    width: 20%;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-device-image-container img{
+    width:100%;
+    height:100%;
+}
+.setup-device-modal-container{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
 @media only screen and (max-width: 576px) {
     .device-image {
         width:10%;

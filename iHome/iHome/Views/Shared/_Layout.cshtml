@@ -14,58 +14,58 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">iHome</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
+            <nav class="navbar navbar-dark navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 bg-primary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">iHome</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Rooms">Rooms</a>
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Profile">Profile</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                            </li>
-                            if (string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),"development", StringComparison.InvariantCultureIgnoreCase))
+                            @if (User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/swagger" target="_blank">Swagger UI</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Rooms">Rooms</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Profile">Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                </li>
+                                if (string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),"development", StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/swagger" target="_blank">Swagger UI</a>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                                 </li>
                             }
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                        }
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
+            </nav>
+        </header>
         <div class="container">
-            &copy; 2022 - iHome - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2022 - iHome - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
     
-</body>
-</html>
+    </body>
+    </html>

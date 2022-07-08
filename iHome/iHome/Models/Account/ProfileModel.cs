@@ -1,4 +1,4 @@
-﻿namespace iHome.Models
+﻿namespace iHome.Models.Account
 {
     public class ProfileModel
     {

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,6 +47,10 @@ namespace iHomeAzureFunctions.Models
                 connection.Close();
             }
             return data;
+        }
+        public async Task<bool> AddNewDeviceToConfigureAsync(string deviceId, int deviceType, string ip)
+        {
+            return ExecuteShortSql("INSERT INTO DevicesToConfigure (deviceId, deviceType, ipAddress) VALUES ('"+ deviceId+"','" + deviceType+"','" + ip + "')");
         }
         public bool ExecuteShortSql(string sql)
         {

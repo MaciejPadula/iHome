@@ -19,6 +19,13 @@
         $("#deviceNameToRename").val("");
         $("#inputErrorDeviceName").css("display", "none");
     });
+    const setupDeviceModal = new bootstrap.Modal('#setupDeviceModal', {
+        keyboard: false
+    });
+    const setupDeviceModalEl = document.getElementById('setupDeviceModal');
+    setupDeviceModalEl.addEventListener('show.bs.modal', event => {
+        $("#links").html("");
+    });
 
     loadRooms();
     $("#addRoomButton").click(() => {
@@ -44,6 +51,25 @@
         }
         
     });
+
+    $("#scanNetworkButton").click(() => {
+        $('#setup-device-spinner').css('display', 'flex');
+        $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            processData: true,
+            type: 'GET',
+            url: '/api/rooms/getdevicestoconfigure'
+        }).done((data) => {
+            $('#setup-device-spinner').css('display', 'none');
+            $("#links").html("");
+            for (let i = 0; i < data.length; ++i) {
+                $("#links").append(createNewDevice(data[i]));
+            }
+        }).fail(() => {
+            $('#setup-device-spinner').css('display', 'none');
+        });
+    });
 });
 
 function renameDevice(deviceId, deviceName) {
@@ -68,7 +94,7 @@ function addRoom(name, description, image) {
         "roomName": name,
         "roomDescription": description,
         "roomImage": image
-    }
+    };
     $.ajax({
         contentType: "application/json",
         dataType: "json",
