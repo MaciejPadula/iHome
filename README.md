@@ -13,4 +13,4 @@ If you want to share a room with other user just click share button in top right
 This website will be hosted soon!
 
 # Running
-You are unable to run this page without my Auth0 and Azure Database key
+You are unable to run this page without Auth0 key and Azure SQL Database login informations
