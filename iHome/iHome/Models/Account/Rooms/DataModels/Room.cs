@@ -9,5 +9,6 @@ namespace iHome.Models.DataModels
         public string? roomDescription { get; set; }
         public string? roomImage { get; set; }
         public List<Device>? devices { get; set; }
+        public string? uuid { get; set; }
     }
 }

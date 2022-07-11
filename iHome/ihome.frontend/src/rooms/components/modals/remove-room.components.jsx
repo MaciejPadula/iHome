@@ -18,7 +18,7 @@ const RemoveRoomModal = ({roomId, roomName, ...props}) => {
     };
     return (
         <>
-            <Button variant="primary" className="remove-button rounded-0" onClick={handleShow}>
+            <Button variant="primary" className="rounded-0" onClick={handleShow}>
                 <RemoveIcon />
             </Button>
             

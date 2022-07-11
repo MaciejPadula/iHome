@@ -3,6 +3,7 @@ import RemoveRoomModal from './modals/remove-room.components';
 import DeviceComponent from './device.component';
 import axios from 'axios';
 import AddDeviceModal from './modals/add-device.component';
+import ShareRoomModal from './modals/share-room.component';
 const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, devices}, ...props }) => {
     let rooms = [];
     const onDrop = (ev) => {
@@ -32,7 +33,10 @@ const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, de
                     }
                     <AddDeviceModal roomId={roomId}/>
                 </div>
-                <RemoveRoomModal roomId={roomId} roomName={roomName} />
+                <div className='edit-room-section'>
+                    <ShareRoomModal roomId={roomId} />
+                    <RemoveRoomModal roomId={roomId} roomName={roomName} />
+                </div>
             </div>
         </div>
     );

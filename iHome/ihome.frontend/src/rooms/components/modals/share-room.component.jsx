@@ -5,34 +5,34 @@ import NewIcon from '../icons/new.component'
 import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import axios from 'axios';
-const AddRoomModal = ({onAdded,...props}) => {
+import ShareIcon from '../icons/share.component'
+const ShareRoomModal = ({roomId,...props}) => {
     const [validated, setValidated] = React.useState(false);
     const [show, setShow] = React.useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [roomName, setRoomName] = React.useState("");
-    const roomNameHandle = (ev) => setRoomName(ev.currentTarget.value);
+    const [email, setEmail] = React.useState();
+    const handleEmailChange = (ev) => {
+        setEmail(ev.currentTarget.value);
+    };
 
-    const [roomDescription, setRoomDescription] = React.useState("");
-    const roomDescriptionHandle = (ev) => setRoomDescription(ev.currentTarget.value);
-
-    const AddRoom = (ev) => {
+    const ShareRoom = (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
         if(ev.currentTarget.checkValidity() === true){
             const data =
             {
-                "roomName": roomName,
-                "roomDescription": roomDescription,
-                "roomImage": ""
+                "roomId": roomId,
+                "email": email
             };
             axios({
                 method: 'post',
-                url: '/api/rooms/addroom',
+                url: '/api/rooms/ShareRoom',
                 data: data
             }).then(res => {
                 handleClose();
+                console.log(res);
             });
         }
         setValidated(true);
@@ -41,32 +41,24 @@ const AddRoomModal = ({onAdded,...props}) => {
     return (
         <>
             <Button variant="primary" className="rounded-0" onClick={handleShow}>
-                <NewIcon />
+                <ShareIcon />
             </Button>
             <Modal show={show} onHide={handleClose} centered>
-                <Form noValidate validated={validated} onSubmit={AddRoom}>
+                <Form noValidate validated={validated} onSubmit={ShareRoom}>
                     <Modal.Header closeButton>
-                    <Modal.Title>New Room</Modal.Title>
+                    <Modal.Title>Room sharing</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <FloatingLabel
                             controlId="floatingInput"
-                            label="Room Name"
+                            label="Friend email"
                             className="mb-3"
                             style={{color:"#000000"}}
                         >
-                            <Form.Control minLength="3" required type="text" placeholder="Enter room name" onChange={roomNameHandle}/>
+                            <Form.Control required type="email" placeholder="Enter friend email" onChange={handleEmailChange}/>
                             <Form.Control.Feedback type="invalid">
-                                Room name should have at least 3 characters!
+                                Invalid email!
                             </Form.Control.Feedback>
-                        </FloatingLabel>
-                        <FloatingLabel
-                            controlId="floatingInput"
-                            label="Room Description"
-                            className="mb-3"
-                            style={{color:"#000000"}}
-                        >
-                            <Form.Control as="textarea" placeholder="Leave a comment here" onChange={roomDescriptionHandle}/>
                         </FloatingLabel>
                     </Modal.Body>
                     <Modal.Footer>
@@ -74,7 +66,7 @@ const AddRoomModal = ({onAdded,...props}) => {
                         Close
                     </Button>
                     <Button variant="primary" type="submit">
-                        Add room
+                        Share room
                     </Button>
                     </Modal.Footer>
                 </Form>
@@ -84,4 +76,4 @@ const AddRoomModal = ({onAdded,...props}) => {
     );
 }
 
-export default AddRoomModal;
+export default ShareRoomModal;
