@@ -12,6 +12,7 @@
 
 .card-title {
     text-align: center;
+    font-weight:bold;
 }
 .card-body {
     display: flex;
@@ -126,6 +127,7 @@
         width:100%;
     }
     .room-devices {
+        width:100%;
         display: flex;
         align-items: center;
         flex-direction: column;

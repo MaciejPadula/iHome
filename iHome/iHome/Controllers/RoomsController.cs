@@ -213,5 +213,21 @@ namespace iHome.Controllers
             }
             return NotFound(new HTTPResponse { status = 404 });
         }
+        [HttpGet("GetRoomsCount")]
+        [Authorize]
+        public ActionResult GetRoomsCount()
+        {
+            string? uuid = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            int roomsCount = db.Rooms.Where(room => room.uuid== uuid).ToList().Count;
+            return Ok(new { roomsCount});
+        }
+        [HttpGet("GetDevicesCount")]
+        [Authorize]
+        public ActionResult GetDevicesCount()
+        {
+            string? uuid = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            int devicesCount = db.Devices.Where(device => device.Room.uuid == uuid).ToList().Count;
+            return Ok(new { devicesCount });
+        }
     }
 }
