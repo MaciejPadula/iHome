@@ -48,6 +48,15 @@ body {
     border-color: var(--bs-primary-hover);
     box-shadow:none;
 }
+.form-check-input:focus{
+    border:none;
+    box-shadow:none;
+}
+.form-check-input:checked {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         --bs-body-bg: #121212;

@@ -33,8 +33,10 @@ const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, de
                     }
                     <AddDeviceModal roomId={roomId}/>
                 </div>
-                <RemoveRoomModal roomId={roomId} roomName={roomName} />
-                <ShareRoomModal roomId={roomId} />
+                <div className='edit-room-section'>
+                    <ShareRoomModal roomId={roomId} />
+                    <RemoveRoomModal roomId={roomId} roomName={roomName} />
+                </div>
             </div>
         </div>
     );

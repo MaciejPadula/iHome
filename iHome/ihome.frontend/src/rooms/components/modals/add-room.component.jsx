@@ -74,7 +74,7 @@ const AddRoomModal = ({onAdded,...props}) => {
                         Close
                     </Button>
                     <Button variant="primary" type="submit">
-                        Save Changes
+                        Add room
                     </Button>
                     </Modal.Footer>
                 </Form>

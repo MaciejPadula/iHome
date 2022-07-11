@@ -21,13 +21,20 @@ namespace iHome.Controllers
     [ApiController]
     public class RoomsController : ControllerBase
     {
-        private ApplicationdbContext db = new ApplicationdbContext(
-            new ConnectionStringBuilder("ihomedevice.database.windows.net")
-            .withLogin("tritIouR")
-            .withPassword("88swNNgWXt2jr5F")
-            .withInitialCatalog("ihomedevice")
-            .build()
-        );
+        private readonly DatabaseSettings config;
+        private ApplicationdbContext db;
+        public RoomsController()
+        {
+            config = new ConfigurationLoader().loadDatabaseSettings("appsettings.json");
+            db = new ApplicationdbContext(
+            new ConnectionStringBuilder(config.DatabaseServer)
+                .withLogin(config.DatabaseLogin)
+                .withPassword(config.DatabasePassword)
+                .withInitialCatalog(config.DatabaseName)
+                .build()
+            );
+        }
+
         private List<Room> getUserListOfRooms(string uuid)
         {
             return db.Rooms
@@ -287,7 +294,7 @@ namespace iHome.Controllers
                 uuid = uuid,
                 roomId = userRoom.roomId,
             });
-            if (db.SaveChanges() > 1)
+            if (db.SaveChanges() >= 1)
             {
                 return Ok(new HTTPResponse { status = 200 });
             }

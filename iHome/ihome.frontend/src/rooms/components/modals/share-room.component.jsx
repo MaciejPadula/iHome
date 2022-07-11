@@ -5,6 +5,7 @@ import NewIcon from '../icons/new.component'
 import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import axios from 'axios';
+import ShareIcon from '../icons/share.component'
 const ShareRoomModal = ({roomId,...props}) => {
     const [validated, setValidated] = React.useState(false);
     const [show, setShow] = React.useState(false);
@@ -40,12 +41,12 @@ const ShareRoomModal = ({roomId,...props}) => {
     return (
         <>
             <Button variant="primary" className="rounded-0" onClick={handleShow}>
-                Test
+                <ShareIcon />
             </Button>
             <Modal show={show} onHide={handleClose} centered>
                 <Form noValidate validated={validated} onSubmit={ShareRoom}>
                     <Modal.Header closeButton>
-                    <Modal.Title>New Room</Modal.Title>
+                    <Modal.Title>Room sharing</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <FloatingLabel
@@ -65,7 +66,7 @@ const ShareRoomModal = ({roomId,...props}) => {
                         Close
                     </Button>
                     <Button variant="primary" type="submit">
-                        Save Changes
+                        Share room
                     </Button>
                     </Modal.Footer>
                 </Form>

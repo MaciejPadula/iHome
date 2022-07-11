@@ -63,7 +63,9 @@
 .card-body-content{
     width:100%;
 }
-.remove-button {
+.edit-room-section {
+    display:flex;
+    flex-direction:row;
     position: absolute;
     right: 0%;
     top: 0%;
@@ -119,6 +121,7 @@
     align-items:center;
     justify-content:center;
 }
+
 @media only screen and (max-width: 576px) {
     .device-image {
         width:10%;
