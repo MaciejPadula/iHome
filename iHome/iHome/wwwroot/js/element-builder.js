@@ -26,10 +26,15 @@
         this.el.style[attribute] = value;
         return this;
     }
+    withId(id) {
+        this.el.id = id; 
+        return this;
+    }
     build() {
         return this.el;
     }
 }
+
 class ImageBuilder extends ElementBuilder{
     constructor() {
         super();
@@ -40,6 +45,7 @@ class ImageBuilder extends ElementBuilder{
         return this;
     }
 }
+
 class InputBuilder extends ElementBuilder {
     constructor() {
         super();
@@ -57,6 +63,10 @@ class InputBuilder extends ElementBuilder {
         this.el.value = value;
         return this;
     }
+    withRole(role) {
+        this.el.role = role;
+        return this;
+    }
 }
 
 class CardBuilder extends ElementBuilder{
@@ -64,7 +74,7 @@ class CardBuilder extends ElementBuilder{
         super();
         this.el = document.createElement('div');
         this.el.className = 'card ' + type + '-card'
-        this.bodyContent = new ElementBuilder('div').build();
+        this.bodyContent = new ElementBuilder('div').withClassName('card-body-content').build();
         this.cardBody = new ElementBuilder('div')
             .withClassName('card-body')
             .build();
@@ -97,6 +107,9 @@ class CardBuilder extends ElementBuilder{
     addToCard(newElement) {
         this.el.append(newElement);
         return this;
+    }
+    getCardBody() {
+        return this.cardBody;
     }
     build() {
         if(this.img != undefined)

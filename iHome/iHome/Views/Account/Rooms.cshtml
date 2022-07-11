@@ -4,104 +4,10 @@
     ViewData["Title"] = "Rooms";
 }
 <link rel="stylesheet" type="text/css" href="~/css/rooms.css" />
-<div class="creation-section">
-    <!--<input type="button" class="btn" asp-controller="Account" asp-action="AddDevice" value="Add Device" />-->
-    <button class="btn rounded-0" data-bs-toggle="modal" data-bs-target="#addRoomModal" value="Add Room">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
-          <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
-        </svg>
-    </button>
-</div>
 
-<div id="waiting">
-    <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-</div>
-<div id="rooms-container">
+<div id="root"></div>
+
+@section Scripts {
     
-</div>
-<script src="~/js/element-builder.js"></script>
-<script src="~/js/rooms-ui.js"></script>
-<script src="~/js/rooms-management.js"></script>
-
-<!-- Modal -->
-<div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="addRoomModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New room</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="roomName" class="form-label">Room Name</label>
-                    <input type="text" class="form-control" name="roomName" id="roomName" aria-describedby="roomName" required/>
-                    <div id="inputErrorRoomName" class="input-error-label">Room name should have at least 3 characters!</div>
-                </div>
-                <div class="mb-3">
-                    <label for="roomDescription" class="form-label">Room Description</label>
-                    <textarea class="form-control" name="roomDescription" id="roomDescription" aria-describedby="roomDescription"></textarea>
-                </div>
-                    
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn" id="addRoomButton">Add Room</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!--Rename Device Modal--->
-<div class="modal fade" id="renameDeviceModal" tabindex="-1" aria-labelledby="renameDeviceModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <input type="hidden" id="deviceIdToRename" value=""/>
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Rename existing device</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="deviceNameToRename" class="form-label">Device Name</label>
-                    <input type="text" class="form-control" id="deviceNameToRename" aria-describedby="deviceNameToRename" required/>
-                    <div id="inputErrorDeviceName" class="input-error-label">Room name should have at least 3 characters!</div>
-                </div>
-                    
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn" id="renameDeviceButton">Rename Device</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Setup Device Modal--->
-<div class="modal fade" id="setupDeviceModal" tabindex="-1" aria-labelledby="setupDeviceModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="setupDeviceModalLabel">Setup device</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <input id="room-id-input" type="hidden" value="" />
-                    <div class="setup-device-modal-container">
-                        <div id="setup-device-spinner" class="spinner-border text-primary" role="status" style="display:none">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <div id="links"></div>
-                    </div>
-                    
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" id="scanNetworkButton">Scan network</button>
-            </div>
-        </div>
-    </div>
-</div>
+}
+<script src="~/js/rooms.js"></script>

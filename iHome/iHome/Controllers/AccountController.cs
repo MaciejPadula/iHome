@@ -42,6 +42,18 @@ namespace iHome.Controllers
                 Uuid = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value
             });
         }
+
+        public IActionResult RoomsOld()
+        {
+            return View(new ProfileModel()
+            {
+                Name = User.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
+                EmailAddress = User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value,
+                ProfileImage = User.FindFirst(c => c.Type == "picture")?.Value,
+                Uuid = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value
+            });
+        }
+
         [Authorize]
         public async Task Logout()
         {

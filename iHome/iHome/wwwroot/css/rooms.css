@@ -12,8 +12,14 @@
 
 .card-title {
     text-align: center;
+    font-weight:bold;
 }
-
+.card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 .device-card {
     background-color: var(--bs-body-bg);
     border-color: var(--bs-body-border);
@@ -26,12 +32,6 @@
 }
 .new-device-card {
     cursor: pointer;
-}
-.device-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
 }
 .device-image {
     width: 15%;
@@ -60,7 +60,9 @@
     align-items: center;
     justify-content: center;
 }
-
+.card-body-content{
+    width:100%;
+}
 .remove-button {
     position: absolute;
     right: 0%;
@@ -122,10 +124,10 @@
         width:10%;
     }
     .device-card{
-        
         width:100%;
     }
     .room-devices {
+        width:100%;
         display: flex;
         align-items: center;
         flex-direction: column;

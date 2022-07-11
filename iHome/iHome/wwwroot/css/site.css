@@ -3,8 +3,7 @@
     --bs-body-color: #000;
     --bs-body-card-bg: #FFF;
     --bs-body-color-hover: #999999;
-    --bs-button-bg: #0d6efd;
-    --bs-button-color-hover: #999999;
+    --bs-primary-hover: #2222FF;
 }
 
 html {
@@ -38,19 +37,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #FFFFFF;
-    background-color: var(--bs-button-bg);
 }
-.btn:hover {
-    color: var(--bs-button-color-hover);
+.btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    box-shadow: none;
 }
-.btn-secondary, .btn-close {
-    background-color: var(--bs-secondary-rgb);
-    color: var(--bs-body-color);
-}
-.form-check-input:checked {
-    background-color: var(--bs-button-bg);
-    border-color: var(--bs-button-bg);
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--bs-primary-hover);
+    border-color: var(--bs-primary-hover);
+    box-shadow:none;
 }
 @media (prefers-color-scheme: dark) {
     :root {
@@ -59,7 +55,10 @@ body {
         --bs-body-color-hover: #999999;
         --bs-body-border: #444444;
         --bs-body-card-bg: #212121;
-        --bs-button-bg: #880000;
+
+        --bs-primary: #880000;
+        --bs-primary-hover: #AA0000;
+
         --bs-primary-rgb: #000000;
     }
 }
