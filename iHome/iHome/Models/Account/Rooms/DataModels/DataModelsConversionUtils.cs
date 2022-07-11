@@ -11,7 +11,8 @@ namespace iHome.Models.DataModels
                 roomName = tRoom.roomName,
                 roomDescription = tRoom.roomDescription,
                 roomImage = tRoom.roomImage,
-                devices = ListOfDevicesFromListOfTDevices(tRoom.devices)
+                devices = ListOfDevicesFromListOfTDevices(tRoom.devices),
+                uuid = null
             };
         }
         public static Device DeviceFromTDevice(TDevice tDevice)
