@@ -46,20 +46,6 @@
     justify-content:center;
     cursor:pointer;
 }
-
-#waiting {
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 70vh;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 .card-body-content{
     width:100%;
 }
@@ -121,7 +107,16 @@
     align-items:center;
     justify-content:center;
 }
-
+.spinner-visible{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+}
+.invisible{
+    display: none;
+}
 @media only screen and (max-width: 576px) {
     .device-image {
         width:10%;

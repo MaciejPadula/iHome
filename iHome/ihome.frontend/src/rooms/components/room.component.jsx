@@ -1,22 +1,18 @@
 import React from 'react';
-import RemoveRoomModal from './modals/remove-room.components';
-import DeviceComponent from './device.component';
-import axios from 'axios';
+import {setDeviceRoom} from '../api/apiRequests';
+
+//components
 import AddDeviceModal from './modals/add-device.component';
 import ShareRoomModal from './modals/share-room.component';
+import RemoveRoomModal from './modals/remove-room.components';
+import DeviceComponent from './device.component';
+
 const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, devices}, ...props }) => {
     let rooms = [];
     const onDrop = (ev) => {
         ev.preventDefault();
             const deviceId = ev.dataTransfer.getData('deviceId');
-            axios({
-                method: 'post',
-                url: '/api/rooms/setdeviceroom',
-                data: {
-                    "deviceId": deviceId,
-                    "roomId": roomId
-                },
-            }).then(res => window.location.reload(false));
+            setDeviceRoom(deviceId, roomId).then(res => window.location.reload(false));
     };
     const onDragOver = (ev) => {
         ev.preventDefault();

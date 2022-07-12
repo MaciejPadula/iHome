@@ -43,6 +43,7 @@ app.UseAuthorization();
 
 app.Urls.Add("https://192.168.8.202:5000");
 app.Urls.Add("https://localhost:7223");
+app.Urls.Add("https://192.168.8.202:443 ");
 
 
 app.MapControllerRoute(

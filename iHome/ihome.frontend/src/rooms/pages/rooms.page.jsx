@@ -1,35 +1,37 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
+import React from 'react';
+import { useState, useEffect } from 'react';
 
-//actions
-import {RoomsActions} from '../store/rooms.store'
+//api
+import {getRooms, getRoomsCount, getDevicesCount} from '../api/apiRequests';
 
 //components
-import RoomComponent from '../components/room.component'
-import AddRoomModal from '../components/modals/add-room.component'
+import RoomComponent from '../components/room.component';
+import AddRoomModal from '../components/modals/add-room.component';
+import Spinner from 'react-bootstrap/Spinner';
 
 const RoomsPage = ({ ...props}) => {
-  const [roomsCount, setRoomsCount] = useState();
-  const [devicesCount, setDevicesCount] = useState();
+  const [roomsCount, setRoomsCount] = useState(0);
+  const [devicesCount, setDevicesCount] = useState(0);
+  const [spinnerClassName, setSpinnerClassName] = useState("spinner-visible");
+  const [rooms, setRooms] = useState(<div></div>);
 
   setInterval(() => {
-    axios({
-      method: 'get',
-      url: '/api/rooms/getroomscount',
-    }).then(res => setRoomsCount(res.data.roomsCount));
-    axios({
-      method: 'get',
-      url: '/api/rooms/getdevicescount',
-    }).then(res => setDevicesCount(res.data.devicesCount));
+    getRoomsCount().then(res => setRoomsCount(res.data.roomsCount));
+    getDevicesCount().then(res => setDevicesCount(res.data.devicesCount));
   }, 1000);
-  
-  const dispatch = useDispatch();
-  const {rooms} = useSelector(s=>s.Rooms);
 
   useEffect(() => {
-    dispatch(RoomsActions.GetRooms());
+    getRooms().then(res => {
+        let outputContainer = 
+        <div>
+            {
+                res.data.map(room => <RoomComponent key={room.roomId} room={room} />)
+            }
+        </div>;
+        setSpinnerClassName("invisible");
+        setRooms(outputContainer);
+    });
+    
   }, [roomsCount, devicesCount]);
 
   
@@ -37,9 +39,12 @@ const RoomsPage = ({ ...props}) => {
     <>
       <AddRoomModal />
       <div id="rooms-container">
-        {
-          rooms.map((room) => <RoomComponent key={room.roomId} room={room} />)
-        }
+        <div className={spinnerClassName}>
+          <Spinner animation="border" variant="primary">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+        {rooms}
       </div>
     </>
   );

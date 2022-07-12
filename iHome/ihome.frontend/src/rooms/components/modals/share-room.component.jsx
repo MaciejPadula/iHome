@@ -1,11 +1,13 @@
-import React from 'react'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
-import NewIcon from '../icons/new.component'
-import Form from 'react-bootstrap/Form'
-import FloatingLabel from 'react-bootstrap/FloatingLabel'
-import axios from 'axios';
-import ShareIcon from '../icons/share.component'
+import React from 'react';
+import {shareRoom} from '../../api/apiRequests';
+
+//components
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import ShareIcon from '../icons/share.component';
+
 const ShareRoomModal = ({roomId,...props}) => {
     const [validated, setValidated] = React.useState(false);
     const [show, setShow] = React.useState(false);
@@ -21,18 +23,8 @@ const ShareRoomModal = ({roomId,...props}) => {
         ev.preventDefault();
         ev.stopPropagation();
         if(ev.currentTarget.checkValidity() === true){
-            const data =
-            {
-                "roomId": roomId,
-                "email": email
-            };
-            axios({
-                method: 'post',
-                url: '/api/rooms/ShareRoom',
-                data: data
-            }).then(res => {
+            shareRoom(roomId, email).then(res => {
                 handleClose();
-                console.log(res);
             });
         }
         setValidated(true);

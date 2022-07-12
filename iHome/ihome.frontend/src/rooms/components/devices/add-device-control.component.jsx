@@ -1,45 +1,28 @@
-import React from 'react'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import axios from 'axios'
+import React from 'react';
+import { addDevice } from '../../api/apiRequests';
+
+//components
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
 const AddDeviceControl = ({device:{id, deviceId, deviceType}, roomId,...props}) => {
     const [deviceName, setDeviceName] = React.useState();
     const [validated, setValidated] = React.useState(false);
     const handleDeviceNameChange = (ev) => setDeviceName(ev.currentTarget.value);
 
-    const addDevice = (ev) => {
+    const addDeviceEvent = (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
         if(ev.currentTarget.checkValidity() === true){
-            const data = {
-                deviceId: deviceId,
-                deviceName: deviceName,
-                deviceType: deviceType,
-                deviceData: '',
-                roomId: roomId
-            }
-            switch(data.deviceType){
-                case 1:
-                    data.deviceData = '{"Red":255, "Green":255, "Blue":255, "State":1}';
-                    break;
-                case 2:
-                    data.deviceData = '{"temp":0, "pressure": 0}';
-                    break;
-            }
-            axios({
-                method: 'post',
-                url: '/api/rooms/adddevice/'+id,
-                data: data
-            }).then(res => {
-                window.location.reload(false);
-            });
+            addDevice(id, deviceId, deviceName, deviceType, roomId)
+            .then(res => window.location.reload(false));
         }
         setValidated(true);
         
     };
 
     return (
-        <Form noValidate validated={validated} onSubmit={addDevice}>
+        <Form noValidate validated={validated} onSubmit={addDeviceEvent}>
             <div style={{display:"flex",flexDirection:"row"}}>
                 <Form.Control minLength="3" required type="text" placeholder="Enter device name" onChange={handleDeviceNameChange}/>
                 <Form.Control.Feedback type="invalid">

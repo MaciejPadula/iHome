@@ -1,27 +1,31 @@
-import React from 'react'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import React from 'react';
+import { useState } from 'react';
+import { getDevicesToConfigure } from '../../api/apiRequests';
 
-import axios from 'axios';
-import AddDeviceControl from '../devices/add-device-control.component'
+//components
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import AddDeviceControl from '../devices/add-device-control.component';
+
 const AddDeviceModal = ({roomId, ...props}) => {
-    const [show, setShow] = React.useState(false);
+    const [show, setShow] = useState(false);
+    const [spinnerClassName, setSpinnerClassName] = useState("invisible");
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
    
     const [devices, setDevices] = React.useState(<div></div>);
     const getAllDevices = () => {
-        axios({
-            method: 'get',
-            url: '/api/Rooms/GetDevicesToConfigure',
-        }).then(res => {
+        setSpinnerClassName("spinner-visible");
+        getDevicesToConfigure().then(res => {
             let outputContainer = 
             <div>
                 {
                     res.data.map(device => <AddDeviceControl key={device.deviceId} roomId={roomId} device={device} />)
                 }
             </div>;
-            
+            setSpinnerClassName("invisible");
             setDevices(outputContainer);
         });
     };
@@ -43,6 +47,11 @@ const AddDeviceModal = ({roomId, ...props}) => {
                     <Modal.Title>Available devices</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                <div className={spinnerClassName} style={{height:"auto"}}>
+                    <Spinner animation="border" variant="primary">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </div>
                     {devices}
                 </Modal.Body>
                 <Modal.Footer>

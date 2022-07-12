@@ -1,7 +1,10 @@
-import React from 'react'
-import DeviceIcon from './devices/device-icon.component'
-import DeviceControls from './devices/device-controls.component'
-import RenameDeviceModal from './modals/rename-device.component'
+import React from 'react';
+
+//components
+import DeviceIcon from './devices/device-icon.component';
+import DeviceControls from './devices/device-controls.component';
+import RenameDeviceModal from './modals/rename-device.component';
+
 const DeviceComponent = ({device: {deviceId, deviceName, deviceType, deviceData, roomId}, ...props}) => {
     const onDragStart = (ev) => {
         ev.dataTransfer.setData('deviceId', deviceId);

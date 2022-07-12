@@ -1,9 +1,12 @@
-import React from 'react'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
-import EditIcon from '../icons/edit.component'
-import Form from 'react-bootstrap/Form'
-import axios from 'axios'
+import React from 'react';
+import {renameDevice} from '../../api/apiRequests';
+
+//components
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import EditIcon from '../icons/edit.component';
+import Form from 'react-bootstrap/Form';
+
 const RenameDeviceModal = ({deviceId, deviceName}) => {
     const [validated, setValidated] = React.useState(false);
     const [show, setShow] = React.useState(false);
@@ -16,18 +19,7 @@ const RenameDeviceModal = ({deviceId, deviceName}) => {
         ev.preventDefault();
         ev.stopPropagation();
         if(ev.currentTarget.checkValidity() === true){
-            const data =
-            {
-                "deviceId": deviceId,
-                "deviceName": newDeviceName
-            };
-            axios({
-                method: 'post',
-                url: '/api/rooms/renamedevice',
-                data: data
-            }).then(res => {
-                handleClose();
-            });
+            renameDevice(deviceId, newDeviceName).then(res => handleClose());
         }
         setValidated(true);
     };
