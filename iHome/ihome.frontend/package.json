@@ -1,7 +1,8 @@
 {
     "name": "rooms",
     "version": "1.0.0",
-    "description": "",
+    "description": "React frontend for iHome rooms management",
+    "repository": "https://github.com/MaciejPadula/iHome",
     "main": "index.js",
     "scripts": {
         "build": "webpack --mode development",
@@ -33,6 +34,6 @@
         "babel-preset-stage-0": "^6.24.1",
         "webpack": "^5.45.1",
         "webpack-cli": "^4.7.2",
-        "webpack-dev-server": "^3.11.2"
+        "webpack-dev-server": "^4.9.3"
     }
 }
