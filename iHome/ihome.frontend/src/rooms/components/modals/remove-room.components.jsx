@@ -1,11 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
+
+//api
 import { removeRoom } from '../../api/apiRequests';
 
 //components
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import RemoveIcon from '../icons/remove.component';
+import { Trash } from 'react-bootstrap-icons';
 
 const RemoveRoomModal = ({roomId, roomName, ...props}) => {
     const [show, setShow] = useState(false);
@@ -18,7 +20,7 @@ const RemoveRoomModal = ({roomId, roomName, ...props}) => {
     return (
         <>
             <Button variant="primary" className="rounded-0" onClick={handleShow}>
-                <RemoveIcon />
+                <Trash size={20}/>
             </Button>
             
             <Modal backdrop="static" show={show} onHide={handleClose} centered>

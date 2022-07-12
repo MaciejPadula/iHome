@@ -1,12 +1,14 @@
 import React from 'react';
-import {shareRoom} from '../../api/apiRequests';
+
+//api
+import { shareRoom } from '../../api/apiRequests';
 
 //components
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import ShareIcon from '../icons/share.component';
+import { Share } from 'react-bootstrap-icons';
 
 const ShareRoomModal = ({roomId,...props}) => {
     const [validated, setValidated] = React.useState(false);
@@ -33,7 +35,7 @@ const ShareRoomModal = ({roomId,...props}) => {
     return (
         <>
             <Button variant="primary" className="rounded-0" onClick={handleShow}>
-                <ShareIcon />
+                <Share size={20} />
             </Button>
             <Modal show={show} onHide={handleClose} centered>
                 <Form noValidate validated={validated} onSubmit={ShareRoom}>

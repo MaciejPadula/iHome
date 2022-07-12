@@ -1,10 +1,12 @@
 import React from 'react';
-import {renameDevice} from '../../api/apiRequests';
+
+//api
+import { renameDevice } from '../../api/apiRequests';
 
 //components
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import EditIcon from '../icons/edit.component';
+import { PencilSquare } from 'react-bootstrap-icons';
 import Form from 'react-bootstrap/Form';
 
 const RenameDeviceModal = ({deviceId, deviceName}) => {
@@ -26,7 +28,7 @@ const RenameDeviceModal = ({deviceId, deviceName}) => {
     return (
         <>
             <Button variant="primary" className="btn-sm rounded-0" onClick={handleShow} style={{position:'absolute', left: '0px'}}>
-                <EditIcon />
+                <PencilSquare size={20}/>
             </Button>
             
             <Modal show={show} onHide={handleClose} centered>

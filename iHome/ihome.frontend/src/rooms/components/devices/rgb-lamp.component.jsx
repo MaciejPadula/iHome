@@ -1,5 +1,7 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+
+//api
 import { setDeviceData } from '../../api/apiRequests';
 
 const RGBLampControls = ({deviceId, deviceData, ...props}) => {

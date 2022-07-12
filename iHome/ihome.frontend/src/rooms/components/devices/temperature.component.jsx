@@ -1,5 +1,7 @@
 import React from 'react';
-import {useState} from 'react';
+import { useState } from 'react';
+
+//api
 import { getDeviceData } from '../../api/apiRequests';
 
 const TemperatureControls = ({deviceId, deviceData, ...props}) => {

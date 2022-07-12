@@ -10,6 +10,7 @@ namespace iHome.Models.Database
         public string? roomName { get; set; }
         public string? roomImage { get; set; }
         public string? roomDescription { get; set; }
+        public string? uuid { get; set; }
 
         public virtual List<TDevice> devices { get; set; }
     }

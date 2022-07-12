@@ -6,28 +6,23 @@ function getRooms() {
         url: '/api/Rooms/GetRooms',
     });
 }
-function getRoomsCount() {
-    return axios({
-        method: 'get',
-        url: '/api/rooms/getroomscount',
-    });
-}
 
-function getDevicesCount() {
-    return axios({
-        method: 'get',
-        url: '/api/rooms/getdevicescount',
-    });
-}
-
-function setDeviceRoom(deviceId, roomId){
+function addRoom(roomName, roomDescription){
     return axios({
         method: 'post',
-        url: '/api/rooms/setdeviceroom',
+        url: '/api/rooms/addroom',
         data: {
-            "deviceId": deviceId,
-            "roomId": roomId
-        },
+            "roomName": roomName,
+            "roomDescription": roomDescription,
+            "roomImage": ""
+        }
+    });
+}
+
+function removeRoom(roomId){
+    return axios({
+        method: 'post',
+        url: '/api/rooms/removeroom/'+roomId,
     });
 }
 
@@ -42,59 +37,11 @@ function shareRoom(roomId, friendsEmail) {
     });
 }
 
-function renameDevice(deviceId, deviceName){
-    return axios({
-        method: 'post',
-        url: '/api/rooms/renamedevice',
-        data: {
-            "deviceId": deviceId,
-            "deviceName": deviceName
-        }
-    });
-}
-
-function removeRoom(roomId){
-    return axios({
-        method: 'post',
-        url: '/api/rooms/removeroom/'+roomId,
-    });
-}
-
-function addRoom(roomName, roomDescription){
-    return axios({
-        method: 'post',
-        url: '/api/rooms/addroom',
-        data: {
-            "roomName": roomName,
-            "roomDescription": roomDescription,
-            "roomImage": ""
-        }
-    });
-}
-
-function getDevicesToConfigure(){
+function getRoomsCount() {
     return axios({
         method: 'get',
-        url: '/api/Rooms/GetDevicesToConfigure',
+        url: '/api/rooms/getroomscount',
     });
-}
-
-function getDeviceData(deviceId){
-    return axios({
-        method: 'post',
-        url: '/api/rooms/GetDeviceData/'+deviceId,
-    });
-}
-
-function setDeviceData(deviceId, deviceData){
-    return axios({
-        method: 'post',
-        url: '/api/rooms/SetDeviceData',
-        data: {
-            "deviceId": deviceId,
-            "deviceData": JSON.stringify(deviceData)
-        }
-    })
 }
 
 function addDevice(id, deviceId, deviceName, deviceType, roomId){
@@ -119,17 +66,81 @@ function addDevice(id, deviceId, deviceName, deviceType, roomId){
         }
     });
 }
+
+function renameDevice(deviceId, deviceName){
+    return axios({
+        method: 'post',
+        url: '/api/rooms/renamedevice',
+        data: {
+            "deviceId": deviceId,
+            "deviceName": deviceName
+        }
+    });
+}
+
+function getDevicesCount() {
+    return axios({
+        method: 'get',
+        url: '/api/rooms/getdevicescount',
+    });
+}
+
+function getDeviceData(deviceId){
+    return axios({
+        method: 'post',
+        url: '/api/rooms/GetDeviceData/'+deviceId,
+    });
+}
+
+function setDeviceData(deviceId, deviceData){
+    return axios({
+        method: 'post',
+        url: '/api/rooms/SetDeviceData',
+        data: {
+            "deviceId": deviceId,
+            "deviceData": JSON.stringify(deviceData)
+        }
+    })
+}
+
+function setDeviceRoom(deviceId, roomId){
+    return axios({
+        method: 'post',
+        url: '/api/rooms/setdeviceroom',
+        data: {
+            "deviceId": deviceId,
+            "roomId": roomId
+        },
+    });
+}
+
+function getUserId(){
+    return axios({
+        method: 'get',
+        url: '/api/Rooms/GetUserId',
+    });
+}
+
+function getDevicesToConfigure(){
+    return axios({
+        method: 'get',
+        url: '/api/Rooms/GetDevicesToConfigure',
+    });
+}
+
 export {
     getRooms, 
-    getRoomsCount, 
-    getDevicesCount, 
-    setDeviceRoom, 
-    shareRoom, 
-    renameDevice, 
-    removeRoom,
     addRoom,
-    getDevicesToConfigure,
+    removeRoom,
+    shareRoom, 
+    getRoomsCount, 
+    //getDevices
+    addDevice,
+    renameDevice,
+    getDevicesCount, 
     getDeviceData,
     setDeviceData,
-    addDevice
+    setDeviceRoom,
+    getUserId,
+    getDevicesToConfigure,
 };

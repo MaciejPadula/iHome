@@ -1,4 +1,6 @@
 import React from 'react';
+
+//api
 import { addDevice } from '../../api/apiRequests';
 
 //components
