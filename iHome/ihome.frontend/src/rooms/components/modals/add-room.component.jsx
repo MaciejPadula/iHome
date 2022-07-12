@@ -1,10 +1,15 @@
-import React from 'react'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
-import NewIcon from '../icons/new.component'
-import Form from 'react-bootstrap/Form'
-import FloatingLabel from 'react-bootstrap/FloatingLabel'
-import axios from 'axios';
+import React from 'react';
+
+//api
+import { addRoom } from '../../api/apiRequests';
+
+//components
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { PlusSquareFill } from 'react-bootstrap-icons';
+import Form from 'react-bootstrap/Form';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+
 const AddRoomModal = ({onAdded,...props}) => {
     const [validated, setValidated] = React.useState(false);
     const [show, setShow] = React.useState(false);
@@ -17,23 +22,11 @@ const AddRoomModal = ({onAdded,...props}) => {
     const [roomDescription, setRoomDescription] = React.useState("");
     const roomDescriptionHandle = (ev) => setRoomDescription(ev.currentTarget.value);
 
-    const AddRoom = (ev) => {
+    const addRoomEvent = (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
         if(ev.currentTarget.checkValidity() === true){
-            const data =
-            {
-                "roomName": roomName,
-                "roomDescription": roomDescription,
-                "roomImage": ""
-            };
-            axios({
-                method: 'post',
-                url: '/api/rooms/addroom',
-                data: data
-            }).then(res => {
-                handleClose();
-            });
+            addRoom(roomName, roomDescription).then(res => handleClose());
         }
         setValidated(true);
         
@@ -41,10 +34,10 @@ const AddRoomModal = ({onAdded,...props}) => {
     return (
         <>
             <Button variant="primary" className="rounded-0" onClick={handleShow}>
-                <NewIcon />
+                <PlusSquareFill />
             </Button>
             <Modal show={show} onHide={handleClose} centered>
-                <Form noValidate validated={validated} onSubmit={AddRoom}>
+                <Form noValidate validated={validated} onSubmit={addRoomEvent}>
                     <Modal.Header closeButton>
                     <Modal.Title>New Room</Modal.Title>
                     </Modal.Header>

@@ -1,6 +1,8 @@
-import React from "react"
-import RGBLampControls from "./rgb-lamp.component";
-import TemperatureControls from "./temperature.component";
+import React from 'react';
+
+//components
+import RGBLampControls from './rgb-lamp.component';
+import TemperatureControls from './temperature.component';
 
 const DeviceControls = ({deviceId, deviceType, deviceData, ...props}) => {
     if(deviceType==1){

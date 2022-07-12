@@ -41,8 +41,9 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.Urls.Add("https://192.168.8.202:5000");
-app.Urls.Add("https://localhost:7223");
+app.Urls.Add(builder.Configuration["Addresses:0"]);
+app.Urls.Add(builder.Configuration["Addresses:1"]);
+app.Urls.Add(builder.Configuration["Addresses:2"]);
 
 
 app.MapControllerRoute(

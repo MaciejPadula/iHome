@@ -1,25 +1,26 @@
-import React from 'react'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
-import RemoveIcon from '../icons/remove.component'
-import axios from 'axios'
+import React from 'react';
+import { useState } from 'react';
+
+//api
+import { removeRoom } from '../../api/apiRequests';
+
+//components
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { Trash } from 'react-bootstrap-icons';
+
 const RemoveRoomModal = ({roomId, roomName, ...props}) => {
-    const [show, setShow] = React.useState(false);
+    const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const removeRoom = () => {
-        axios({
-            method: 'post',
-            url: '/api/rooms/removeroom/'+roomId,
-        }).then(res => {
-            handleClose();
-        });
+    const removeRoomEvent = (ev) => {
+        removeRoom(roomId).then(res => handleClose());
     };
     return (
         <>
             <Button variant="primary" className="rounded-0" onClick={handleShow}>
-                <RemoveIcon />
+                <Trash size={20}/>
             </Button>
             
             <Modal backdrop="static" show={show} onHide={handleClose} centered>
@@ -33,7 +34,7 @@ const RemoveRoomModal = ({roomId, roomName, ...props}) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={removeRoom}>
+                    <Button variant="primary" onClick={removeRoomEvent}>
                         Remove Room
                     </Button>
                 </Modal.Footer>

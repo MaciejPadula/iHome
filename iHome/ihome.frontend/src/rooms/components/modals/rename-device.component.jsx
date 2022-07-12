@@ -1,9 +1,14 @@
-import React from 'react'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
-import EditIcon from '../icons/edit.component'
-import Form from 'react-bootstrap/Form'
-import axios from 'axios'
+import React from 'react';
+
+//api
+import { renameDevice } from '../../api/apiRequests';
+
+//components
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { PencilSquare } from 'react-bootstrap-icons';
+import Form from 'react-bootstrap/Form';
+
 const RenameDeviceModal = ({deviceId, deviceName}) => {
     const [validated, setValidated] = React.useState(false);
     const [show, setShow] = React.useState(false);
@@ -16,25 +21,14 @@ const RenameDeviceModal = ({deviceId, deviceName}) => {
         ev.preventDefault();
         ev.stopPropagation();
         if(ev.currentTarget.checkValidity() === true){
-            const data =
-            {
-                "deviceId": deviceId,
-                "deviceName": newDeviceName
-            };
-            axios({
-                method: 'post',
-                url: '/api/rooms/renamedevice',
-                data: data
-            }).then(res => {
-                handleClose();
-            });
+            renameDevice(deviceId, newDeviceName).then(res => handleClose());
         }
         setValidated(true);
     };
     return (
         <>
             <Button variant="primary" className="btn-sm rounded-0" onClick={handleShow} style={{position:'absolute', left: '0px'}}>
-                <EditIcon />
+                <PencilSquare size={20}/>
             </Button>
             
             <Modal show={show} onHide={handleClose} centered>

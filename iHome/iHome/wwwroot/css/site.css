@@ -38,12 +38,12 @@ body {
     align-items: center;
     justify-content: center;
 }
-.btn-primary {
+.btn-primary, .btn-primary:focus {
     background-color: var(--bs-primary);
     border-color: var(--bs-primary);
     box-shadow: none;
 }
-.btn-primary:hover, .btn-primary:focus {
+.btn-primary:hover {
     background-color: var(--bs-primary-hover);
     border-color: var(--bs-primary-hover);
     box-shadow:none;

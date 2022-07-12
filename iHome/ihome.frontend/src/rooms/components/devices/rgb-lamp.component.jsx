@@ -1,6 +1,9 @@
-import React from 'react'
-import {useState, useEffect} from 'react'
-import axios from 'axios'
+import React from 'react';
+import { useState, useEffect } from 'react';
+
+//api
+import { setDeviceData } from '../../api/apiRequests';
+
 const RGBLampControls = ({deviceId, deviceData, ...props}) => {
     const data = JSON.parse(deviceData);
     const [color, setColor] = useState(rgbToHex(data.Red, data.Green, data.Blue));
@@ -18,19 +21,12 @@ const RGBLampControls = ({deviceId, deviceData, ...props}) => {
     };
     useEffect(() => {
         const rgbColor = hexToRgb(color);
-        axios({
-            method: 'post',
-            url: '/api/rooms/SetDeviceData',
-            data: {
-                "deviceId": deviceId,
-                "deviceData": JSON.stringify({
-                    "Red": rgbColor.r,
-                    "Green": rgbColor.g,
-                    "Blue": rgbColor.b,
-                    "State": state
-                })
-            }
-        }).then();
+        setDeviceData(deviceId, {
+            "Red": rgbColor.r,
+            "Green": rgbColor.g,
+            "Blue": rgbColor.b,
+            "State": state
+        });
     }, [color, state])
 
     return (

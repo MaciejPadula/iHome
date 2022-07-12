@@ -1,22 +1,51 @@
 import React from 'react';
-import RemoveRoomModal from './modals/remove-room.components';
-import DeviceComponent from './device.component';
-import axios from 'axios';
+import { useState,useEffect } from 'react';
+
+//api
+import { setDeviceRoom } from '../api/apiRequests';
+
+//components
 import AddDeviceModal from './modals/add-device.component';
 import ShareRoomModal from './modals/share-room.component';
-const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, devices}, ...props }) => {
-    let rooms = [];
+import RemoveRoomModal from './modals/remove-room.components';
+import DeviceComponent from './device.component';
+import { ShareFill } from 'react-bootstrap-icons';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
+
+const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, devices, uuid, masterUuid}, ...props }) => {
+    const [editSection, setEditSection] = useState(
+        <div className='edit-room-section'>
+            <ShareRoomModal roomId={roomId} />
+            <RemoveRoomModal roomId={roomId} roomName={roomName} />
+        </div>
+    );
+    const renderSharedRoomTooltip = (props) => (
+        <Tooltip {...props}>
+            Other user shared you this room
+        </Tooltip>
+    );
+    useEffect(() => {
+        if(masterUuid!=uuid){
+            setEditSection(
+            <div className='edit-room-section'>
+                <OverlayTrigger
+                    placement="bottom"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={renderSharedRoomTooltip}
+                >
+                    <ShareFill size={20} />
+                </OverlayTrigger>
+            </div>
+            );
+        }
+    },[])
+    
     const onDrop = (ev) => {
         ev.preventDefault();
             const deviceId = ev.dataTransfer.getData('deviceId');
-            axios({
-                method: 'post',
-                url: '/api/rooms/setdeviceroom',
-                data: {
-                    "deviceId": deviceId,
-                    "roomId": roomId
-                },
-            }).then(res => window.location.reload(false));
+            setDeviceRoom(deviceId, roomId).then(res => window.location.reload(false));
     };
     const onDragOver = (ev) => {
         ev.preventDefault();
@@ -33,10 +62,7 @@ const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, de
                     }
                     <AddDeviceModal roomId={roomId}/>
                 </div>
-                <div className='edit-room-section'>
-                    <ShareRoomModal roomId={roomId} />
-                    <RemoveRoomModal roomId={roomId} roomName={roomName} />
-                </div>
+                {editSection}
             </div>
         </div>
     );
