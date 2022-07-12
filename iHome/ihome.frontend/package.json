@@ -11,7 +11,7 @@
     "author": "MaciejPadula",
     "license": "ISC",
     "dependencies": {
-        "axios": "^0.21.1",
+        "axios": "^0.21.2",
         "bootstrap": "^5.1.3",
         "react": "17.0.2",
         "react-bootstrap": "^2.4.0",
