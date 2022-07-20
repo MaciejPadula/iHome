@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using iHome.Models.Database;
+using Newtonsoft.Json;
 
 namespace iHome.Models
 {

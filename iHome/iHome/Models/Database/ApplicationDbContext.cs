@@ -1,6 +1,5 @@
-﻿using iHome.Models.Database;
-using Microsoft.EntityFrameworkCore;
-namespace iHome.Models
+﻿using Microsoft.EntityFrameworkCore;
+namespace iHome.Models.Database
 {
     public class ApplicationdbContext : DbContext
     {
@@ -13,10 +12,10 @@ namespace iHome.Models
         {
             options.UseSqlServer(connectionString);
         }
-        public DbSet<TDevice> Devices { get; set; }
-        public DbSet<TRoom> Rooms { get; set; }
-        public DbSet<TDeviceToConfigure> DevicesToConfigure { get; set; }
-        public DbSet<UsersRooms> UsersRooms { get; set; }
+        public DbSet<TDevice>? Devices { get; set; }
+        public DbSet<TRoom>? Rooms { get; set; }
+        public DbSet<TDeviceToConfigure>? DevicesToConfigure { get; set; }
+        public DbSet<TUsersRooms>? UsersRooms { get; set; }
     }
 }
 

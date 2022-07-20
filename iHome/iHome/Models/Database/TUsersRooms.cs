@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace iHome.Models.Database
 {
-    public class UsersRooms
+    public class TUsersRooms
     {
         [Key]
         public int Id { get; set; }
