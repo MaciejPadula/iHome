@@ -44,8 +44,8 @@ const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, de
     
     const onDrop = (ev) => {
         ev.preventDefault();
-            const deviceId = ev.dataTransfer.getData('deviceId');
-            setDeviceRoom(deviceId, roomId).then(res => window.location.reload(false));
+        const deviceId = ev.dataTransfer.getData('deviceId');
+        setDeviceRoom(deviceId, roomId);
     };
     const onDragOver = (ev) => {
         ev.preventDefault();

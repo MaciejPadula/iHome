@@ -10,31 +10,20 @@ import AddRoomModal from '../components/modals/add-room.component';
 import Spinner from 'react-bootstrap/Spinner';
 
 const RoomsPage = ({ ...props}) => {
-  const [roomsCount, setRoomsCount] = useState(0);
-  const [devicesCount, setDevicesCount] = useState(0);
   const [spinnerClassName, setSpinnerClassName] = useState("spinner-visible");
   const [rooms, setRooms] = useState(<div></div>);
 
-  setInterval(() => {
-    getRoomsCount().then(res => setRoomsCount(res.data.roomsCount));
-    getDevicesCount().then(res => setDevicesCount(res.data.devicesCount));
-  }, 1000);
+  getRooms().then(res => {
+    let outputContainer = (
+    <div>
+        {
+            res.data.map(room => <RoomComponent key={room.roomId} room={room} />)
+        }
+    </div>);
+    setSpinnerClassName("invisible");
+    setRooms(outputContainer);
+  });
 
-  useEffect(() => {
-    getRooms().then(res => {
-        let outputContainer = 
-        <div>
-            {
-                res.data.map(room => <RoomComponent key={room.roomId} room={room} />)
-            }
-        </div>;
-        setSpinnerClassName("invisible");
-        setRooms(outputContainer);
-    });
-    
-  }, [roomsCount, devicesCount]);
-
-  
   return (
     <>
       <AddRoomModal />
