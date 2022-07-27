@@ -2,7 +2,7 @@
 {
     public class RenameDeviceRequest
     {
-        public string? deviceId { get; set; }
-        public string? deviceName { get; set; }
+        public string deviceId { get; set; } = "";
+        public string deviceName { get; set; } = "";
     }
 }

@@ -2,11 +2,11 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        products: './src/rooms',
+        rooms: './src/rooms',
     },
     output: {
         path: path.resolve(__dirname, '../iHome/wwwroot/js'),
-        filename: 'rooms.js',
+        filename: '[name].js',
     },
     module: {
         rules: [

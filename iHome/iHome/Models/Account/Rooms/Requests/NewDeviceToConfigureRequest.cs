@@ -2,7 +2,7 @@
 {
     public class NewDeviceToConfigureRequest
     {
-        public string? deviceId { get; set; }
+        public string deviceId { get; set; } = "";
         public int deviceType { get; set; }
     }
 }

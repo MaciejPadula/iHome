@@ -1,10 +1,7 @@
 import axios from 'axios';
 
 function getRooms() {
-    return axios({
-        method: 'get',
-        url: '/api/Rooms/GetRooms',
-    });
+    return axios.get('/api/Rooms/GetRooms');
 }
 
 function addRoom(roomName, roomDescription){
