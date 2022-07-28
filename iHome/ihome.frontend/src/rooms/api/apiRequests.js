@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 function getRooms() {
-    return axios.get('/api/Rooms/GetRooms');
+    return axios({
+        method: 'get',
+        url: '/api/Rooms/GetRooms'
+    });
 }
 
 function addRoom(roomName, roomDescription){
@@ -37,12 +40,12 @@ function shareRoom(roomId, friendsEmail) {
 function getRoomsCount() {
     return axios({
         method: 'get',
-        url: '/api/rooms/getroomscount',
+        url: '/api/rooms/getroomscount'
     });
 }
 
 function addDevice(id, deviceId, deviceName, deviceType, roomId){
-    let deviceData = '';
+    let deviceData = '{}';
     switch(deviceType){
         case 1:
             deviceData = '{"Red":255, "Green":255, "Blue":255, "State":1}';

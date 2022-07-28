@@ -1,6 +1,6 @@
 using Auth0.AspNetCore.Authentication;
+using iHome.Hubs;
 using Microsoft.OpenApi.Models;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +14,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "iHome Rooms API", Version = "v1" });
 });
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +42,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHub<RoomsHub>("/roomsHub");
 
 app.Urls.Add(builder.Configuration["Addresses:0"]);
 app.Urls.Add(builder.Configuration["Addresses:1"]);
