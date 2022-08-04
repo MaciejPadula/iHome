@@ -1,10 +1,11 @@
-﻿using iHome.Models;
-using iHome.Models.Account;
+﻿using iHome.Logic.UserInfo;
+using iHome.Models;
 using iHome.Models.Account.Rooms.Requests;
 using iHome.Models.Database;
 using iHome.Models.DataModels;
 using iHome.Models.Requests;
 using iHome.Models.Responses;
+using iHome.Services.DatabaseService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -22,29 +23,22 @@ namespace iHome.Controllers
     [ApiController]
     public class RoomsController : ControllerBase
     {
-        private readonly DatabaseSettings config;
-        private IDatabaseApi databaseApi;
-        private UserInfo userInfo;
-        public RoomsController()
+        private readonly IDatabaseService _databaseApi;
+        private readonly IUserInfo _userInfo;
+        public RoomsController(IDatabaseService databaseApi, IUserInfo userInfo)
         {
-            userInfo = new UserInfo();
-            config = new ConfigurationLoader().loadDatabaseSettings("appsettings.json");
-            databaseApi = new AzureDatabaseApi(
-                config.DatabaseServer,
-                config.DatabaseLogin,
-                config.DatabasePassword,
-                config.DatabaseName
-            );
+            _userInfo = userInfo;
+            _databaseApi = databaseApi;
         }
 
         [HttpGet("GetRooms/")]
         [Authorize]
         public ActionResult GetRooms()
         {
-            string? uuid = userInfo.GetUserUuid(User);
+            string? uuid = _userInfo.GetUserUuid(User);
             if(uuid == null) return NotFound();
 
-            var listOfRooms = databaseApi.GetListOfRooms(uuid);
+            var listOfRooms = _databaseApi.GetListOfRooms(uuid);
 
             if (listOfRooms == null)
             {
@@ -59,7 +53,7 @@ namespace iHome.Controllers
         {
             string? uuid = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             if(room==null || uuid==null) return NotFound(new { exception = "room or uuid is null" });
-            if (databaseApi.AddRoom(room.roomName, room.roomDescription, uuid))
+            if (_databaseApi.AddRoom(room.roomName, room.roomDescription, uuid))
             {
                 return Ok(new { status = 200 });
             }
@@ -70,7 +64,7 @@ namespace iHome.Controllers
         [Authorize]
         public ActionResult RemoveRoom(int id)
         {
-            if (databaseApi.RemoveRoom(id))
+            if (_databaseApi.RemoveRoom(id))
             {
                 return Ok(new { status = 200 });
             }
@@ -81,9 +75,9 @@ namespace iHome.Controllers
         [Authorize]
         public ActionResult ShareRoom([FromBody] UserRoomRequest userRoom)
         {
-            string? uuid = userInfo.GetUserUuid(userRoom.email);
+            string? uuid = _userInfo.GetUserUuid(userRoom.email);
             if (uuid == null) return NotFound(new { exception = "Uuid equals null" });
-            if (databaseApi.ShareRoom(userRoom.roomId, uuid))
+            if (_databaseApi.ShareRoom(userRoom.roomId, uuid))
             {
                 return Ok(new { status = 200 });
             }
@@ -94,9 +88,9 @@ namespace iHome.Controllers
         [Authorize]
         public ActionResult GetRoomsCount()
         {
-            string? uuid = userInfo.GetUserUuid(User);
+            string? uuid = _userInfo.GetUserUuid(User);
             if(uuid == null) return NotFound();
-            int roomsCount = databaseApi.GetRoomsCount(uuid);
+            int roomsCount = _databaseApi.GetRoomsCount(uuid);
             return Ok(new { roomsCount });
         }
 
@@ -105,7 +99,7 @@ namespace iHome.Controllers
         public ActionResult GetDevices(int roomId)
         {
             //var devices = database.GetDevices(roomId);// ("google-oauth2|115237564399157489610");
-            var devices = databaseApi.GetDevices(roomId);
+            var devices = _databaseApi.GetDevices(roomId);
             if (devices != null)
             {
                 return Ok(devices);
@@ -119,7 +113,7 @@ namespace iHome.Controllers
         {
             if(device == null) return NotFound(new { exception = "Wrong input data" });
 
-            if (databaseApi.AddDevice(id, device.deviceId, device.deviceName, device.deviceType, device.deviceData, device.roomId))
+            if (_databaseApi.AddDevice(id, device.deviceId, device.deviceName, device.deviceType, device.deviceData, device.roomId))
             {
                 return Ok(new { status = 200 });
             }
@@ -131,7 +125,7 @@ namespace iHome.Controllers
         public ActionResult RenameDevice([FromBody] RenameDeviceRequest renameDevice)
         {
             if(renameDevice == null) return NotFound(new { exception = "Wrong input data" });
-            if (databaseApi.RenameDevice(renameDevice.deviceId, renameDevice.deviceName))
+            if (_databaseApi.RenameDevice(renameDevice.deviceId, renameDevice.deviceName))
             {
                 return Ok(new { status = 200 });
             }
@@ -142,16 +136,16 @@ namespace iHome.Controllers
         [Authorize]
         public ActionResult GetDevicesCount()
         {
-            string? uuid = userInfo.GetUserUuid(User);
+            string? uuid = _userInfo.GetUserUuid(User);
             if (uuid == null) return NotFound(new { exception = "Uuid equals null" });
-            var devicesCount = databaseApi.GetDevicesCount(uuid);
+            var devicesCount = _databaseApi.GetDevicesCount(uuid);
             return Ok(new { devicesCount });
         }
 
         [HttpGet("GetDeviceData/{deviceId}")]
         public ActionResult GetDeviceData(string deviceId)
         {
-            var deviceData = databaseApi.GetDeviceData(deviceId);
+            var deviceData = _databaseApi.GetDeviceData(deviceId);
             if (deviceData != null)
             {
                 return Ok(deviceData);
@@ -162,7 +156,7 @@ namespace iHome.Controllers
         [Authorize]
         public ActionResult SetDeviceData([FromBody] DeviceDataRequest deviceData)
         {
-            if(databaseApi.SetDeviceData(deviceData.deviceId, deviceData.deviceData))
+            if(_databaseApi.SetDeviceData(deviceData.deviceId, deviceData.deviceData))
             {
                 return Ok(new { status = 200 });
             }
@@ -173,7 +167,7 @@ namespace iHome.Controllers
         [Authorize]
         public ActionResult SetDeviceRoom([FromBody] NewDeviceRoomRequest newDeviceRoom)
         {
-            if (databaseApi.SetDeviceRoom(newDeviceRoom.deviceId, newDeviceRoom.roomId))
+            if (_databaseApi.SetDeviceRoom(newDeviceRoom.deviceId, newDeviceRoom.roomId))
             {
                 return Ok(new { status = 200 });
             }
@@ -184,16 +178,14 @@ namespace iHome.Controllers
         [Authorize]
         public ActionResult GetUserId()
         {
-            return Ok(userInfo.GetUserUuid(User));
+            return Ok(_userInfo.GetUserUuid(User));
         }
 
-        [HttpGet("GetDevicesToConfigure/")]
+        [HttpPost("GetDevicesToConfigure/")]
         [Authorize]
-        public async Task<ActionResult> GetDevicesToConfigure()
+        public ActionResult GetDevicesToConfigure([FromBody] GetDevicesToConfigureRequest getDevicesToConfigure)
         {
-            var ip = await userInfo.GetPublicIp(HttpContext);
-            if(ip==null) return NotFound(new { exception = "IP equals null" });
-            var devicesToConfigure = databaseApi.GetDevicesToConfigure(ip);
+            var devicesToConfigure = _databaseApi.GetDevicesToConfigure(getDevicesToConfigure.ip);
             if (devicesToConfigure != null)
             {
                 return Ok(devicesToConfigure);
@@ -205,14 +197,19 @@ namespace iHome.Controllers
         [Authorize]
         public async Task<ActionResult> AddDevicesToConfigure([FromBody] NewDeviceToConfigureRequest deviceToConfigure)
         {
-            var ip = await userInfo.GetPublicIp(HttpContext);
+            var ip = await _userInfo.GetPublicIp(HttpContext);
             if(ip==null || deviceToConfigure == null) return NotFound(new { exception = "IP or input data equals null" });
-            if (databaseApi.AddDevicesToConfigure(deviceToConfigure.deviceId, deviceToConfigure.deviceType, ip))
+            if (_databaseApi.AddDevicesToConfigure(deviceToConfigure.deviceId, deviceToConfigure.deviceType, ip))
             {
                 return Ok(new { status = 200 });
             }
             return NotFound(new { exception = "Can't add new device to configure" });
 
+        }
+        [HttpGet("GetIP")]
+        public async Task<ActionResult> GetIP()
+        {
+            return Ok(await _userInfo.GetPublicIp(HttpContext));
         }
     }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 
 //api
@@ -9,12 +10,15 @@ const TemperatureControls = ({deviceId, deviceData, ...props}) => {
     const [temperature, setTemperature] = useState(data.temp);
     const [pressure, setPressure] = useState(data.pressure);
     
-    setInterval(()=>{
-        getDeviceData(deviceId).then(res => {
-            setTemperature(res.data.temp);
-            setPressure(res.data.pressure);
-        });
-    }, 200)
+    useEffect(() => {
+        setInterval(()=>{
+            getDeviceData(deviceId).then(res => {
+                setTemperature(res.data.temp);
+                setPressure(res.data.pressure);
+            });
+        }, 500);
+    }, []);
+    
 
     return (
         <div>

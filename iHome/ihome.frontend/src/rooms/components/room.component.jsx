@@ -2,7 +2,7 @@ import React from 'react';
 import { useState,useEffect } from 'react';
 
 //api
-import { setDeviceRoom } from '../api/apiRequests';
+
 
 //components
 import AddDeviceModal from './modals/add-device.component';
@@ -12,9 +12,9 @@ import DeviceComponent from './device.component';
 import { ShareFill } from 'react-bootstrap-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 
-
-const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, devices, uuid, masterUuid}, ...props }) => {
+const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, devices, uuid, masterUuid}, ...props}) => {
     const [editSection, setEditSection] = useState(
         <div className='edit-room-section'>
             <ShareRoomModal roomId={roomId} />
@@ -40,31 +40,27 @@ const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, de
             </div>
             );
         }
-    },[])
-    
-    const onDrop = (ev) => {
-        ev.preventDefault();
-        const deviceId = ev.dataTransfer.getData('deviceId');
-        setDeviceRoom(deviceId, roomId);
-    };
-    const onDragOver = (ev) => {
-        ev.preventDefault();
-    };
-    
+    },[]);
     return (
-        <div onDrop={onDrop} onDragOver={onDragOver} className="card room-card">
-            <div className="card-body">
-                <div className="card-title">{roomName}</div>
-                <p className="card-text">{roomDescription}</p>
-                <div className="room-devices">
-                    {
-                        devices.map(device => <DeviceComponent key={device.deviceId} device={device} />)
-                    }
-                    <AddDeviceModal roomId={roomId}/>
+        <Droppable droppableId={`${roomId}`} direction="horizontal">
+            {(provided, snapshot) => (
+                <div id={roomId} className="card room-card" {...provided.droppableProps} ref={provided.innerRef}>
+                    <div className="card-body">
+                        <div className="card-title">{roomName}</div>
+                        <p className="card-text">{roomDescription}</p>
+                        <div className="room-devices">
+                            {
+                                devices.map((device,index) => <DeviceComponent roomId={roomId} isMaster={masterUuid==uuid} key={device.deviceId} device={device} index={index}/>)
+                            }
+                            {provided.placeholder}
+                            <AddDeviceModal roomId={roomId}/>
+                        </div>
+                        {editSection}
+                    </div>
                 </div>
-                {editSection}
-            </div>
-        </div>
+            )}
+            
+        </Droppable>
     );
 };
 

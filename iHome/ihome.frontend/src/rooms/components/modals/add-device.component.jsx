@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 
 //api
-import { getDevicesToConfigure } from '../../api/apiRequests';
+import { getDevicesToConfigure, getIpAddr } from '../../api/apiRequests';
 
 //components
 import Modal from 'react-bootstrap/Modal';
@@ -21,16 +21,21 @@ const AddDeviceModal = ({roomId, ...props}) => {
     const [devices, setDevices] = React.useState(<div></div>);
     const getAllDevices = () => {
         setSpinnerClassName("spinner-visible");
-        getDevicesToConfigure().then(res => {
-            let outputContainer = 
-            <div>
-                {
-                    res.data.map(device => <AddDeviceControl key={device.deviceId} roomId={roomId} device={device} />)
-                }
-            </div>;
-            setSpinnerClassName("invisible");
-            setDevices(outputContainer);
+
+        getIpAddr().then(res => {
+            getDevicesToConfigure(res.data).then(res => {
+                let outputContainer = 
+                <div>
+                    {
+                        res.data.map(device => <AddDeviceControl key={device.deviceId} roomId={roomId} device={device} />)
+                    }
+                </div>;
+                setSpinnerClassName("invisible");
+                setDevices(outputContainer);
+            });
         });
+
+        
     };
     
     return (

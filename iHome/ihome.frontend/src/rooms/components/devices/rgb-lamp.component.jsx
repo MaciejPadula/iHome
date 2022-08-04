@@ -30,13 +30,13 @@ const RGBLampControls = ({deviceId, deviceData, ...props}) => {
     }, [color, state])
 
     return (
-        <form id={deviceId} data-deviceid={deviceId}>
-            <input onChange={updateColor} type="color" name="color" data-deviceid={deviceId} defaultValue={rgbToHex(data.Red, data.Green, data.Blue)}/>
+        <div>
+            <input onChange={updateColor} type="color" name="color" defaultValue={rgbToHex(data.Red, data.Green, data.Blue)}/>
             <div className="form-check form-switch">
                 <input defaultChecked={state} onChange={updateState} className="form-check-input" type="checkbox" name="state" id="id1" data-deviceid={deviceId} role="switch" />
                 <label className="label">Device State:</label>
             </div>
-        </form>
+        </div>
     );
 }
 function componentToHex(c) {
