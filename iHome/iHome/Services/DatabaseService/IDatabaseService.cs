@@ -1,10 +1,11 @@
 ﻿using iHome.Models.Account.Rooms.Requests;
+using iHome.Models.Database;
 using iHome.Models.DataModels;
 using iHome.Models.Requests;
 
-namespace iHome.Models.Database
+namespace iHome.Services.DatabaseService
 {
-    public interface IDatabaseApi
+    public interface IDatabaseService
     {
         List<Room>? GetListOfRooms(string uuid);
         bool AddRoom(string roomName, string roomDescription, string uuid);
