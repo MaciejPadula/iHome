@@ -4,6 +4,6 @@ namespace iHome.Logic.ConfigProvider
 {
     public interface IConfigProvider
     {
-        DatabaseSettings loadDatabaseSettings(string? filename);
+        ApplicationSettings loadDatabaseSettings(string? filename);
     }
 }

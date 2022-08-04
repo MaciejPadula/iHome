@@ -4,7 +4,6 @@ using iHome.Models.Requests;
 using Newtonsoft.Json.Linq;
 using Microsoft.EntityFrameworkCore;
 using iHome.Models.Database;
-using iHome.Logic.ConnectionStringBuilder;
 using iHome.Logic.ConfigProvider;
 using iHome.Logic;
 
@@ -16,14 +15,8 @@ namespace iHome.Services.DatabaseService
 
         public AzureDatabaseService(IConfigProvider configProvider)
         {
-            var databaseSettings = configProvider.loadDatabaseSettings("appsettings.json");
-            _db = new ApplicationdbContext(
-            new ConnectionStringBuilder(databaseSettings.DatabaseServer)
-                .withLogin(databaseSettings.DatabaseLogin)
-                .withPassword(databaseSettings.DatabasePassword)
-                .withInitialCatalog(databaseSettings.DatabaseName)
-                .build()
-            );
+            var applicationSettings = configProvider.loadDatabaseSettings("appsettings.json");
+            _db = new ApplicationdbContext(applicationSettings.AzureConnectionString);
         }
 
         public bool AddDevice(int id, string deviceId, string deviceName, int deviceType, string deviceData, int roomId)

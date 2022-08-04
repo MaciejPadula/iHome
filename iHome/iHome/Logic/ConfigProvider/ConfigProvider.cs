@@ -5,15 +5,12 @@ namespace iHome.Logic.ConfigProvider
 {
     public class ConfigProvider: IConfigProvider
     {
-        public DatabaseSettings loadDatabaseSettings(string? filename)
+        public ApplicationSettings loadDatabaseSettings(string? filename)
         {
             var settings = JsonConvert.DeserializeObject<Dictionary<dynamic, dynamic>>(File.ReadAllText(filename));
-            return new DatabaseSettings
+            return new ApplicationSettings
             {
-                DatabaseServer = settings["Azure"].Server,
-                DatabaseLogin = settings["Azure"].Login,
-                DatabasePassword = settings["Azure"].Password,
-                DatabaseName = settings["Azure"].Database
+                AzureConnectionString = settings["AzureConnectionString"],
             };
         }
     }
