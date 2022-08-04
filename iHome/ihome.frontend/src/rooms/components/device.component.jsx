@@ -6,12 +6,12 @@ import DeviceControls from './devices/device-controls.component';
 import RenameDeviceModal from './modals/rename-device.component';
 import { Draggable } from 'react-beautiful-dnd';
 
-const DeviceComponent = ({device: {deviceId, deviceName, deviceType, deviceData, roomId}, isMaster, index, ...props}) => {
+const DeviceComponent = ({device: {deviceId, deviceName, deviceType, deviceData}, roomId, isMaster, index, ...props}) => {
     if(isMaster){
         return(
             <Draggable key={deviceId} draggableId={deviceId} deviceId={deviceId} index={index}>
             {(provided, snapshot) => (
-                <div className="card device-card" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                <div data-roomid={roomId} id={deviceId} className="card device-card" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                     <RenameDeviceModal deviceId={deviceId} deviceName={deviceName}/>
                     <div className="card-body">
                     <DeviceIcon deviceType={deviceType} />

@@ -12,7 +12,7 @@ import DeviceComponent from './device.component';
 import { ShareFill } from 'react-bootstrap-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { Droppable } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 
 const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, devices, uuid, masterUuid}, ...props}) => {
     const [editSection, setEditSection] = useState(
@@ -42,15 +42,15 @@ const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, de
         }
     },[]);
     return (
-        <Droppable droppableId={`${roomId}`}>
+        <Droppable droppableId={`${roomId}`} direction="horizontal">
             {(provided, snapshot) => (
-                <div className="card room-card" {...provided.droppableProps} ref={provided.innerRef}>
+                <div id={roomId} className="card room-card" {...provided.droppableProps} ref={provided.innerRef}>
                     <div className="card-body">
                         <div className="card-title">{roomName}</div>
                         <p className="card-text">{roomDescription}</p>
                         <div className="room-devices">
                             {
-                                devices.map((device,index) => <DeviceComponent isMaster={masterUuid==uuid} key={device.deviceId} device={device} index={index}/>)
+                                devices.map((device,index) => <DeviceComponent roomId={roomId} isMaster={masterUuid==uuid} key={device.deviceId} device={device} index={index}/>)
                             }
                             {provided.placeholder}
                             <AddDeviceModal roomId={roomId}/>

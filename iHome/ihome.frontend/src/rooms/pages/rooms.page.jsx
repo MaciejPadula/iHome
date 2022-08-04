@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { HubConnectionBuilder } from '@microsoft/signalr';
+import $ from 'jquery';
 
 //api
 import { getRooms, setDeviceRoom } from '../api/apiRequests';
@@ -17,9 +18,12 @@ const RoomsPage = ({ ...props}) => {
   const [roomsRequestData, setRoomsRequestData] = useState(JSON.stringify([]));
   const [rooms, setRooms] = useState([]);
 
+  const readData = () => getRooms().then(res => setRoomsRequestData(JSON.stringify(res.data)));
+
   useEffect(() => {
+    readData();
     setInterval(() => {
-      getRooms().then(res => setRoomsRequestData(JSON.stringify(res.data)));
+      readData();
     }, 1000);
   }, []);
   
@@ -34,10 +38,21 @@ const RoomsPage = ({ ...props}) => {
   }, [rooms]);
   
   const onDragEnd = (result) => {
-    setDeviceRoom(
-      result.draggableId,
-      result.destination.droppableId
-    );
+    const drag = document.getElementById(result.draggableId);
+    //document.getElementById(result.draggableId).style.display='none';
+    if(result.destination.droppableId!=drag.dataset.roomid) {
+      // const parent = document.getElementById(drag.dataset.roomid).children[0].children[2];
+      // const dest = document.getElementById(result.destination.droppableId).children[0].children[2];
+
+      drag.style.display = 'none';
+      setDeviceRoom(
+        result.draggableId,
+        result.destination.droppableId
+      );
+      
+      readData();
+    }
+    
   };
   return (
     <>

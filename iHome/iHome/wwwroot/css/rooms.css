@@ -8,6 +8,9 @@
 .room-devices {
     display:flex;
     flex-direction:row;
+    flex-wrap:wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .card-title {
@@ -122,7 +125,7 @@
         width:10%;
     }
     .device-card{
-        width:100%;
+        width:80%;
     }
     .room-devices {
         width:100%;

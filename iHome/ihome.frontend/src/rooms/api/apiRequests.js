@@ -87,7 +87,7 @@ function getDevicesCount() {
 
 function getDeviceData(deviceId){
     return axios({
-        method: 'post',
+        method: 'get',
         url: '/api/rooms/GetDeviceData/'+deviceId,
     });
 }
@@ -121,10 +121,20 @@ function getUserId(){
     });
 }
 
-function getDevicesToConfigure(){
+function getDevicesToConfigure(ip){
+    return axios({
+        method: 'post',
+        url: '/api/Rooms/GetDevicesToConfigure/',
+        data: {
+            ip: ip
+        }
+    });
+}
+
+function getIpAddr(){
     return axios({
         method: 'get',
-        url: '/api/Rooms/GetDevicesToConfigure',
+        url: 'https://api.ipify.org',
     });
 }
 
@@ -143,4 +153,5 @@ export {
     setDeviceRoom,
     getUserId,
     getDevicesToConfigure,
+    getIpAddr
 };
