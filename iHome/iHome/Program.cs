@@ -20,11 +20,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddScoped<IConfigProvider, ConfigProvider>();
 builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<IUserInfo, UserInfo>();
 builder.Services.AddScoped<IDatabaseService, AzureDatabaseService>();
 builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,9 +55,11 @@ app.UseAuthorization();
 
 app.MapHub<RoomsHub>("/roomsHub");
 
-app.Urls.Add(builder.Configuration["Addresses:0"]);
-app.Urls.Add(builder.Configuration["Addresses:1"]);
-app.Urls.Add(builder.Configuration["Addresses:2"]);
+string[] urls = builder.Configuration["Addresses"].Split("&");
+for(int i = 0; i < urls.Length; ++i)
+{
+    app.Urls.Add(urls[i]);
+}
 
 
 app.MapControllerRoute(
