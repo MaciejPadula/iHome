@@ -61,13 +61,17 @@ namespace iHome.Services.DatabaseService
             return ShareRoom(roomId, uuid);
         }
 
-        public string GetDeviceData(string deviceId)
+        public string GetDeviceData(string deviceId, string uuid)
         {
-            var deviceData = _applicationDbContext.Devices
-                    .Where(device => device.deviceId == deviceId)
-                    .Select(device => device.deviceData)
-                    .FirstOrDefault();
-            return deviceData;
+            if (CheckDeviceOwnership(deviceId, uuid)) 
+            { 
+                var deviceData = _applicationDbContext.Devices
+                        .Where(device => device.deviceId == deviceId)
+                        .Select(device => device.deviceData)
+                        .FirstOrDefault();
+                return deviceData;
+            }
+            return "{}";
         }
 
         public List<Device> GetDevices(int roomId)
@@ -148,31 +152,43 @@ namespace iHome.Services.DatabaseService
             return false;
         }
 
-        public bool RenameDevice(string deviceId, string deviceName)
+        public bool RenameDevice(string deviceId, string deviceName, string uuid)
         {
-            var deviceToChange = _applicationDbContext.Devices.Where(device => device.deviceId == deviceId).FirstOrDefault();
-            if (deviceToChange == null) return false;
-            deviceToChange.deviceName = deviceName;
-            _applicationDbContext.Entry(deviceToChange).State = EntityState.Modified;
-            return _applicationDbContext.SaveChanges() > 0;
+            if(CheckDeviceOwnership(deviceId, uuid))
+            {
+                var deviceToChange = GetTDevice(deviceId);
+                if (deviceToChange == null) return false;
+                deviceToChange.deviceName = deviceName;
+                _applicationDbContext.Entry(deviceToChange).State = EntityState.Modified;
+                return _applicationDbContext.SaveChanges() > 0;
+            }
+            return false;
         }
 
-        public bool SetDeviceData(string deviceId, string deviceData)
+        public bool SetDeviceData(string deviceId, string deviceData, string uuid)
         {
-            var device = _applicationDbContext.Devices.FirstOrDefault(device => device.deviceId == deviceId);
-            if (device == null) return false;
-            device.deviceData = deviceData;
-            _applicationDbContext.Entry(device).State = EntityState.Modified;
-            return _applicationDbContext.SaveChanges() > 0;
+            if (CheckDeviceOwnership(deviceId, uuid))
+            {
+                var device = GetTDevice(deviceId);
+                if (device == null) return false;
+                device.deviceData = deviceData;
+                _applicationDbContext.Entry(device).State = EntityState.Modified;
+                return _applicationDbContext.SaveChanges() > 0;
+            }
+            return false;
         }
 
-        public bool SetDeviceRoom(string deviceId, int roomId)
+        public bool SetDeviceRoom(string deviceId, int roomId, string uuid)
         {
-            var deviceToChange = _applicationDbContext.Devices.Where(device => device.deviceId == deviceId).FirstOrDefault();
-            if (deviceToChange == null) return false;
-            deviceToChange.roomId = roomId;
-            _applicationDbContext.Entry(deviceToChange).State = EntityState.Modified;
-            return _applicationDbContext.SaveChanges() > 0;
+            if (CheckDeviceOwnership(deviceId, uuid))
+            {
+                var deviceToChange = GetTDevice(deviceId);
+                if (deviceToChange == null) return false;
+                deviceToChange.roomId = roomId;
+                _applicationDbContext.Entry(deviceToChange).State = EntityState.Modified;
+                return _applicationDbContext.SaveChanges() > 0;
+            }
+            return false;
         }
 
         public bool ShareRoom(int roomId, string uuid)
@@ -187,6 +203,65 @@ namespace iHome.Services.DatabaseService
                 return true;
             }
             return false;
+        }
+
+        private List<string> GetOwnersOfDevice(string deviceId)
+        {
+            var roomId = GetDeviceRoomId(deviceId);
+            var users = _applicationDbContext.UsersRooms.Where(userRoom => userRoom.roomId == roomId).ToList();
+            List<string> usersList = new List<string>();
+
+            users.ForEach(userRoom => usersList.Add(userRoom.uuid));
+
+            return usersList;
+        }
+        private bool CheckDeviceOwnership(string deviceId, string uuid)
+        {
+            var checkedOwnership = false;
+            var owners = GetOwnersOfDevice(deviceId);
+            owners.ForEach(user =>
+            {
+                if (user.Equals(uuid))
+                {
+                    checkedOwnership = true;
+                }
+            });
+            return checkedOwnership;
+        }
+
+        private int GetDeviceRoomId(string deviceId)
+        {
+            int roomId = 0;
+            var rooms = _applicationDbContext.Rooms
+                        .Include(room => room.devices)
+                        .ToList();
+            Device dev = new Device();
+            rooms.ForEach(room => room.devices.ForEach(device => roomId = room.roomId));
+            return roomId;
+        }
+
+        private Device GetDevice(string deviceId)
+        {
+            return DataModelsConversionUtils.DeviceFromTDevice(GetTDevice(deviceId));
+        }
+
+        private TDevice GetTDevice(string deviceId)
+        {
+            var rooms = _applicationDbContext.Rooms
+                        .Include(room => room.devices)
+                        .ToList();
+            TDevice dev = new TDevice();
+            rooms.ForEach(room =>
+            {
+                room.devices.ForEach(device =>
+                {
+                    if (device.deviceId == deviceId)
+                    {
+                        dev = device;
+                    }
+                });
+            });
+            return dev;
         }
     }
 }

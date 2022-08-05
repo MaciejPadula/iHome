@@ -116,7 +116,7 @@ namespace iHome.Controllers
         public ActionResult RenameDevice([FromBody] RenameDeviceRequest renameDevice)
         {
             if(renameDevice == null) return NotFound(new { exception = "Wrong input data" });
-            if (_databaseApi.RenameDevice(renameDevice.deviceId, renameDevice.deviceName))
+            if (_databaseApi.RenameDevice(renameDevice.deviceId, renameDevice.deviceName, _userInfo.GetUserUuid(User)))
             {
                 return Ok(new { status = 200 });
             }
@@ -136,7 +136,7 @@ namespace iHome.Controllers
         [HttpGet("GetDeviceData/{deviceId}")]
         public ActionResult GetDeviceData(string deviceId)
         {
-            var deviceData = _databaseApi.GetDeviceData(deviceId);
+            var deviceData = _databaseApi.GetDeviceData(deviceId, _userInfo.GetUserUuid(User));
             if (deviceData != null)
             {
                 return Ok(deviceData);
@@ -147,7 +147,7 @@ namespace iHome.Controllers
         [Authorize]
         public ActionResult SetDeviceData([FromBody] DeviceDataRequest deviceData)
         {
-            if(_databaseApi.SetDeviceData(deviceData.deviceId, deviceData.deviceData))
+            if(_databaseApi.SetDeviceData(deviceData.deviceId, deviceData.deviceData, _userInfo.GetUserUuid(User)))
             {
                 return Ok(new { status = 200 });
             }
@@ -158,7 +158,7 @@ namespace iHome.Controllers
         [Authorize]
         public ActionResult SetDeviceRoom([FromBody] NewDeviceRoomRequest newDeviceRoom)
         {
-            if (_databaseApi.SetDeviceRoom(newDeviceRoom.deviceId, newDeviceRoom.roomId))
+            if (_databaseApi.SetDeviceRoom(newDeviceRoom.deviceId, newDeviceRoom.roomId, _userInfo.GetUserUuid(User)))
             {
                 return Ok(new { status = 200 });
             }
