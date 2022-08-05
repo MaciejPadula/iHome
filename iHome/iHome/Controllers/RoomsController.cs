@@ -1,19 +1,10 @@
 ﻿using iHome.Logic.UserInfo;
-using iHome.Models;
 using iHome.Models.Account.Rooms.Requests;
-using iHome.Models.Database;
 using iHome.Models.DataModels;
 using iHome.Models.Requests;
-using iHome.Models.Responses;
 using iHome.Services.DatabaseService;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using RestSharp;
 using System.Security.Claims;
 
 namespace iHome.Controllers

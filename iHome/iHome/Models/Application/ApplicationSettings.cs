@@ -1,4 +1,4 @@
-﻿namespace iHome.Models.Database
+﻿namespace iHome.Models.Application
 {
     public class ApplicationSettings
     {

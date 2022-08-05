@@ -1,6 +1,7 @@
 using Auth0.AspNetCore.Authentication;
 using iHome.Hubs;
 using iHome.Logic.ConfigProvider;
+using iHome.Logic.Database;
 using iHome.Logic.UserInfo;
 using iHome.Services.DatabaseService;
 using Microsoft.OpenApi.Models;
@@ -20,6 +21,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IConfigProvider, ConfigProvider>();
+builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<IUserInfo, UserInfo>();
 builder.Services.AddScoped<IDatabaseService, AzureDatabaseService>();
 builder.Services.AddSignalR();

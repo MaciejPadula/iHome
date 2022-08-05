@@ -1,13 +1,15 @@
-﻿using iHome.Models.Database;
+﻿using iHome.Logic.ConfigProvider;
+using iHome.Models.Database;
 using Microsoft.EntityFrameworkCore;
-namespace iHome.Logic
+
+namespace iHome.Logic.Database
 {
-    public class ApplicationdbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         private readonly string _connectionString;
-        public ApplicationdbContext(string connectionString)
+        public ApplicationDbContext(IConfigProvider configProvider)
         {
-            _connectionString = connectionString;
+            _connectionString = configProvider.Configuration.AzureConnectionString;
         }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {

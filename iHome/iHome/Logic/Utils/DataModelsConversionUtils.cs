@@ -1,20 +1,10 @@
 ﻿using iHome.Models.Database;
+using iHome.Models.DataModels;
 
-namespace iHome.Models.DataModels
+namespace iHome.Logic.Utils
 {
     public class DataModelsConversionUtils
     {
-        public static Room RoomFromTRoom(TRoom tRoom)
-        {
-            return new Room() {
-                roomId = tRoom.roomId,
-                roomName = tRoom.roomName,
-                roomDescription = tRoom.roomDescription,
-                roomImage = tRoom.roomImage,
-                devices = ListOfDevicesFromListOfTDevices(tRoom.devices),
-                uuid = null
-            };
-        }
         public static Device DeviceFromTDevice(TDevice tDevice)
         {
             return new Device()

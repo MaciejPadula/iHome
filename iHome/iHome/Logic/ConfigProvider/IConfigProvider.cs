@@ -1,9 +1,10 @@
-﻿using iHome.Models.Database;
+﻿using iHome.Models.Application;
 
 namespace iHome.Logic.ConfigProvider
 {
     public interface IConfigProvider
     {
-        ApplicationSettings loadDatabaseSettings(string? filename);
+        ApplicationSettings Configuration { get; }
+        void LoadDatabaseSettings(string filename);
     }
 }
