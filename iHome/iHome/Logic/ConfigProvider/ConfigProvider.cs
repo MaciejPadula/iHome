@@ -29,6 +29,7 @@ namespace iHome.Logic.ConfigProvider
             if (config != null)
             {
                 Configuration.AzureConnectionString = config.AzureConnectionString;
+                Configuration.Auth0ApiSecret = config.Auth0ApiSecret;
             }
         }
     }

@@ -123,7 +123,9 @@ namespace iHome.Services.DatabaseService
                                 uuid = userRoom.uuid,
                                 masterUuid = room.uuid
                             }
-                        ).Where(room => room.uuid == uuid).ToList();
+                        ).Where(room => room.uuid == uuid)
+                        .OrderBy(room => room.roomName)
+                        .ToList();
             }
             catch { }
             return null;
@@ -193,18 +195,25 @@ namespace iHome.Services.DatabaseService
 
         public bool ShareRoom(int roomId, string uuid)
         {
-            _applicationDbContext.UsersRooms?.Add(new()
+            if (!UserRoomConstraintFound(roomId, uuid))
             {
-                uuid = uuid,
-                roomId = roomId,
-            });
-            if (_applicationDbContext.SaveChanges() > 0)
-            {
-                return true;
+                _applicationDbContext.UsersRooms?.Add(new()
+                {
+                    uuid = uuid,
+                    roomId = roomId,
+                });
+                if (_applicationDbContext.SaveChanges() > 0)
+                {
+                    return true;
+                }
             }
+            
             return false;
         }
-
+        private bool UserRoomConstraintFound(int roomId, string uuid)
+        {
+            return _applicationDbContext.UsersRooms?.Where(userRoom => userRoom.roomId == roomId && userRoom.uuid == uuid).ToList().Count > 0;
+        }
         private List<string> GetOwnersOfDevice(string deviceId)
         {
             var roomId = GetDeviceRoomId(deviceId);
