@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSignalR();
 builder.Services.AddAuth0WebAppAuthentication(options => {
         options.Domain = builder.Configuration["Auth0:Domain"];
         options.ClientId = builder.Configuration["Auth0:ClientId"];
@@ -25,7 +26,6 @@ builder.Services.AddScoped<IConfigProvider, ConfigProvider>();
 builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<IUserInfo, UserInfo>();
 builder.Services.AddScoped<IDatabaseService, AzureDatabaseService>();
-builder.Services.AddSignalR();
 
 var app = builder.Build();
 
