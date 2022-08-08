@@ -1,20 +1,36 @@
-﻿using iHome.Models.Database;
+﻿using iHome.Models.Application;
 using Newtonsoft.Json;
 
 namespace iHome.Logic.ConfigProvider
 {
     public class ConfigProvider: IConfigProvider
     {
-        public DatabaseSettings loadDatabaseSettings(string? filename)
+        private ApplicationSettings _config = new ApplicationSettings();
+        public ApplicationSettings Configuration 
         {
-            var settings = JsonConvert.DeserializeObject<Dictionary<dynamic, dynamic>>(File.ReadAllText(filename));
-            return new DatabaseSettings
+            get
             {
-                DatabaseServer = settings["Azure"].Server,
-                DatabaseLogin = settings["Azure"].Login,
-                DatabasePassword = settings["Azure"].Password,
-                DatabaseName = settings["Azure"].Database
-            };
+                return _config;
+            } 
+            private set 
+            {
+                _config = value; 
+            } 
+        }
+
+        public ConfigProvider()
+        {
+            LoadDatabaseSettings("appsettings.json");
+        }
+
+        public void LoadDatabaseSettings(string filename)
+        {
+            var config = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(filename));
+            if (config != null)
+            {
+                Configuration.AzureConnectionString = config.AzureConnectionString;
+                Configuration.Auth0ApiSecret = config.Auth0ApiSecret;
+            }
         }
     }
 }

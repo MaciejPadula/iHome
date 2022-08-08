@@ -4,15 +4,19 @@ import { useState, useEffect } from 'react';
 //api
 import { setDeviceData } from '../../api/apiRequests';
 
+//components
+import BootstrapSwitchButton from 'bootstrap-switch-button-react';
+import Form from 'react-bootstrap/Form';
+
 const RGBLampControls = ({deviceId, deviceData, ...props}) => {
     const data = JSON.parse(deviceData);
     const [color, setColor] = useState(rgbToHex(data.Red, data.Green, data.Blue));
-    const [state, setState] = useState(data.State);
+    const [state, setState] = useState(Boolean(data.State));
     const updateColor = (ev) => {
         setColor(ev.currentTarget.value);
     };
     const updateState = (ev) => {
-        if(ev.currentTarget.checked){
+        if(ev){
             setState(1);
         }
         else{
@@ -27,15 +31,21 @@ const RGBLampControls = ({deviceId, deviceData, ...props}) => {
             "Blue": rgbColor.b,
             "State": state
         });
+        console.log(state);
     }, [color, state])
 
     return (
         <div>
             <input onChange={updateColor} type="color" name="color" defaultValue={rgbToHex(data.Red, data.Green, data.Blue)}/>
-            <div className="form-check form-switch">
-                <input defaultChecked={state} onChange={updateState} className="form-check-input" type="checkbox" name="state" id="id1" data-deviceid={deviceId} role="switch" />
-                <label className="label">Device State:</label>
-            </div>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Label>Lamp state: </Form.Label>
+                <BootstrapSwitchButton 
+                    checked={state} 
+                    onstyle="primary" 
+                    onChange={updateState} 
+                    size="xs" 
+                />
+            </Form.Group>
         </div>
     );
 }

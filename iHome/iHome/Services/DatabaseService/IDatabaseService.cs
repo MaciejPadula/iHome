@@ -1,7 +1,5 @@
-﻿using iHome.Models.Account.Rooms.Requests;
-using iHome.Models.Database;
+﻿using iHome.Models.Database;
 using iHome.Models.DataModels;
-using iHome.Models.Requests;
 
 namespace iHome.Services.DatabaseService
 {
@@ -14,11 +12,11 @@ namespace iHome.Services.DatabaseService
         int GetRoomsCount(string uuid);
         List<Device> GetDevices(int roomId);
         bool AddDevice(int id, string deviceId, string deviceName, int deviceType, string deviceData, int roomId);
-        bool RenameDevice(string deviceId, string deviceName);
+        bool RenameDevice(string deviceId, string deviceName, string uuid);
         int GetDevicesCount(string uuid);
-        string GetDeviceData(string deviceId);
-        bool SetDeviceData(string deviceId, string deviceData);
-        bool SetDeviceRoom(string deviceId, int roomId);
+        string GetDeviceData(string deviceId, string uuid);
+        bool SetDeviceData(string deviceId, string deviceData, string uuid);
+        bool SetDeviceRoom(string deviceId, int roomId, string uuid);
         List<TDeviceToConfigure>? GetDevicesToConfigure(string ip);
         bool AddDevicesToConfigure(string deviceId, int deviceType, string ip);
     }

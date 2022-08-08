@@ -1,6 +1,7 @@
 using Auth0.AspNetCore.Authentication;
 using iHome.Hubs;
 using iHome.Logic.ConfigProvider;
+using iHome.Logic.Database;
 using iHome.Logic.UserInfo;
 using iHome.Services.DatabaseService;
 using Microsoft.OpenApi.Models;
@@ -8,6 +9,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSignalR();
 builder.Services.AddAuth0WebAppAuthentication(options => {
         options.Domain = builder.Configuration["Auth0:Domain"];
         options.ClientId = builder.Configuration["Auth0:ClientId"];
@@ -19,10 +21,12 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddScoped<IConfigProvider, ConfigProvider>();
+builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<IUserInfo, UserInfo>();
 builder.Services.AddScoped<IDatabaseService, AzureDatabaseService>();
-builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -51,9 +55,11 @@ app.UseAuthorization();
 
 app.MapHub<RoomsHub>("/roomsHub");
 
-app.Urls.Add(builder.Configuration["Addresses:0"]);
-app.Urls.Add(builder.Configuration["Addresses:1"]);
-app.Urls.Add(builder.Configuration["Addresses:2"]);
+string[] urls = builder.Configuration["Addresses"].Split("&");
+for(int i = 0; i < urls.Length; ++i)
+{
+    app.Urls.Add(urls[i]);
+}
 
 
 app.MapControllerRoute(
