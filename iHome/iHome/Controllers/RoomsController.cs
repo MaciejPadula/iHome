@@ -9,7 +9,9 @@ using System.Security.Claims;
 
 namespace iHome.Controllers
 {
-
+    /// <summary>
+    /// API Controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class RoomsController : ControllerBase
