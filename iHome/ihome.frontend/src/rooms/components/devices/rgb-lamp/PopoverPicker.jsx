@@ -2,6 +2,8 @@ import React, { useCallback, useRef, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import DebouncedPicker from "./DebouncedPicker";
 
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
 import useClickOutside from "./useClickOutside";
 
 const PopoverPicker = ({ color, onChange }) => {
@@ -12,19 +14,39 @@ const PopoverPicker = ({ color, onChange }) => {
   useClickOutside(popover, close);
 
   return (
-    <div className="picker">
+    <OverlayTrigger
+      trigger="click"
+      placement="bottom"
+      overlay={isOpen && (
+            <Popover>
+              <Popover.Body>
+                <DebouncedPicker color={color} onChange={onChange} />
+              </Popover.Body>
+            </Popover>
+      )}
+      rootClose
+    >
       <div
         className="switch"
         style={{ backgroundColor: color, width:"5rem", height:"2rem", margin:"0.5rem", borderRadius: "5%" }}
         onClick={() => toggle(true)}
       />
+    </OverlayTrigger>
+    // <div className="picker">
+    //   <div
+    //     className="switch"
+    //     style={{ backgroundColor: color, width:"5rem", height:"2rem", margin:"0.5rem", borderRadius: "5%" }}
+    //     onClick={() => toggle(true)}
+    //   />
 
-      {isOpen && (
-        <div className="popover" ref={popover}>
-          <DebouncedPicker color={color} onChange={onChange} />
-        </div>
-      )}
-    </div>
+    //   {isOpen && (
+    //     <Popover>
+    //       <Popover.Body>
+    //         <DebouncedPicker color={color} onChange={onChange} />
+    //       </Popover.Body>
+    //     </Popover>
+    //   )}
+    // </div>
   );
 };
 export default PopoverPicker;
