@@ -26,12 +26,27 @@
 .device-card {
     background-color: var(--bs-body-bg);
     border-color: var(--bs-body-border);
-    width: 15rem;
-    height: 10rem;
+    min-width: 15rem;
+    min-height: 18rem;
     text-align: center;
     display: flex;
     margin: 2vh;
     position: relative;
+}
+
+.tab-content{
+    width:100%;
+   display: flex;
+   justify-content: center;
+}
+.tab-content>.active{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: solid white 1px;
+    padding:0.3rem;
 }
 .new-device-card {
     cursor: pointer;

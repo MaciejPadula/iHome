@@ -48,7 +48,7 @@ function addDevice(id, deviceId, deviceName, deviceType, roomId){
     let deviceData = '{}';
     switch(deviceType){
         case 1:
-            deviceData = '{"Red":255, "Green":255, "Blue":255, "State":1}';
+            deviceData = '{"Red":255, "Green":255, "Blue":255, "State":1, "Mode": 0}';
             break;
         case 2:
             deviceData = '{"temp":0, "pressure": 0}';
