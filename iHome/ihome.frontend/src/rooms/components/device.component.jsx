@@ -11,11 +11,11 @@ const DeviceComponent = ({device: {deviceId, deviceName, deviceType, deviceData}
         return(
             <Draggable key={deviceId} draggableId={deviceId} deviceId={deviceId} index={index}>
             {(provided, snapshot) => (
-                <div data-roomid={roomId} id={deviceId} className="card device-card" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                <div data-roomid={roomId} id={deviceId} className="card device-card" ref={provided.innerRef} {...provided.draggableProps}>
                     <RenameDeviceModal deviceId={deviceId} deviceName={deviceName}/>
                     <div className="card-body">
-                    <DeviceIcon deviceType={deviceType} />
-                    <div className="card-title">{deviceName}</div>
+                        <DeviceIcon deviceType={deviceType} />
+                        <div {...provided.dragHandleProps} className="card-title">{deviceName}</div>
                         <DeviceControls deviceId={deviceId} deviceType={deviceType} deviceData={deviceData} />
                     </div>
                 </div>   

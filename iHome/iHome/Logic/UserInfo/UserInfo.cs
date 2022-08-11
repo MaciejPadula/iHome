@@ -1,4 +1,5 @@
-﻿using iHome.Logic.ConfigProvider;
+﻿using iHome.Models.Application;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
 using System.Security.Claims;
@@ -7,11 +8,11 @@ namespace iHome.Logic.UserInfo
 {
     public class UserInfo: IUserInfo
     {
-        IConfigProvider _configProvider;
+        IOptions<ApplicationSettings> _options;
 
-        public UserInfo(IConfigProvider configProvider)
+        public UserInfo(IOptions<ApplicationSettings> options)
         {
-            _configProvider = configProvider;
+            _options = options;
         }
 
         public async Task<string?> GetPublicIp(HttpContext httpContext)
@@ -35,7 +36,7 @@ namespace iHome.Logic.UserInfo
             {
                 var client = new RestClient("https://dev-e7eyj4xg.eu.auth0.com/api/v2/users?q=email:" + email + "&search_engine=v3");
                 var request = new RestRequest();
-                request.AddHeader("authorization", _configProvider.Configuration.Auth0ApiSecret);
+                request.AddHeader("authorization", _options.Value.Auth0ApiSecret);
                 var content = client.Execute(request).Content;
                 var response = JsonConvert.DeserializeObject<List<Dictionary<dynamic, dynamic>>>(content);
                 return response[0]["user_id"];
