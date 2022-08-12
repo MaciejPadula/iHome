@@ -4,9 +4,9 @@ namespace iHome.Hubs
 {
     public class RoomsHub: Hub
     {
-        public async Task SendMessage(string uuid)
+        public async Task SendMessage(string input)
         {
-            await Clients.All.SendAsync(uuid);
+            await Clients.Caller.SendAsync("ReceiveMessage", "updateView");
         }
     }
 }

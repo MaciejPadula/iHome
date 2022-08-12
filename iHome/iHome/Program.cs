@@ -4,6 +4,7 @@ using iHome.Logic.Database;
 using iHome.Logic.UserInfo;
 using iHome.Models.Application;
 using iHome.Services.DatabaseService;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,7 @@ builder.Services.Configure<ApplicationSettings>(builder.Configuration);
 builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<IUserInfo, UserInfo>();
 builder.Services.AddScoped<IDatabaseService, AzureDatabaseService>();
+builder.Services.AddScoped<RoomsHub>();
 
 var app = builder.Build();
 
@@ -55,6 +57,16 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapHub<RoomsHub>("/roomsHub");
+app.Use(async (context, next) =>
+{
+    var hubContext = context.RequestServices
+                            .GetRequiredService<IHubContext<RoomsHub>>();
+
+    if (next != null)
+    {
+        await next.Invoke();
+    }
+});
 
 string[] urls = builder.Configuration["Addresses"].Split("&");
 for(int i = 0; i < urls.Length; ++i)

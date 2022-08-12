@@ -238,15 +238,9 @@ namespace iHome.Services.DatabaseService
             return checkedOwnership;
         }
 
-        private int GetDeviceRoomId(string deviceId)
+        public int GetDeviceRoomId(string deviceId)
         {
-            int roomId = 0;
-            var rooms = _applicationDbContext.Rooms
-                        .Include(room => room.devices)
-                        .ToList();
-            Device dev = new Device();
-            rooms.ForEach(room => room.devices.ForEach(device => roomId = room.roomId));
-            return roomId;
+            return GetTDevice(deviceId).roomId;
         }
 
         private Device GetDevice(string deviceId)
@@ -271,6 +265,16 @@ namespace iHome.Services.DatabaseService
                 });
             });
             return dev;
+        }
+
+        public List<string> GetRoomUserIds(int roomId)
+        {
+            var userRooms = _applicationDbContext.UsersRooms
+                .Where(userRoom => userRoom.roomId == roomId)
+                .ToList();
+            var uuids = new List<string>();
+            userRooms.ForEach(userRoom => uuids.Add(userRoom.uuid));
+            return uuids;
         }
     }
 }
