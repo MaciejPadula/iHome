@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 //api
 import { addRoom } from '../../api/apiRequests';
@@ -11,22 +11,27 @@ import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 const AddRoomModal = ({onAdded, ...props}) => {
-    const [validated, setValidated] = React.useState(false);
-    const [show, setShow] = React.useState(false);
+    const [validated, setValidated] = useState(false);
+    const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        setValidated(false);
+        setShow(true);
+    };
 
-    const [roomName, setRoomName] = React.useState("");
+    const [roomName, setRoomName] = useState("");
     const roomNameHandle = (ev) => setRoomName(ev.currentTarget.value);
 
-    const [roomDescription, setRoomDescription] = React.useState("");
+    const [roomDescription, setRoomDescription] = useState("");
     const roomDescriptionHandle = (ev) => setRoomDescription(ev.currentTarget.value);
 
     const addRoomEvent = (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
         if(ev.currentTarget.checkValidity() === true){
-            addRoom(roomName, roomDescription).then(res => handleClose());
+            if(roomName.length>=3){
+                addRoom(roomName, roomDescription).then(res => handleClose());
+            }
         }
         setValidated(true);
         
