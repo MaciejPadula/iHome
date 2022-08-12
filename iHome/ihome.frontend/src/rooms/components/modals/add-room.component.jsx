@@ -10,7 +10,7 @@ import { PlusSquareFill } from 'react-bootstrap-icons';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
-const AddRoomModal = ({onAdded,...props}) => {
+const AddRoomModal = ({onAdded, ...props}) => {
     const [validated, setValidated] = React.useState(false);
     const [show, setShow] = React.useState(false);
     const handleClose = () => setShow(false);

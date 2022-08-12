@@ -4,7 +4,7 @@ import { HubConnectionBuilder } from '@microsoft/signalr';
 import $ from 'jquery';
 
 //api
-import { getRooms, setDeviceRoom } from '../api/apiRequests';
+import { getRooms, setDeviceRoom, getUserId } from '../api/apiRequests';
 
 //components
 import RoomComponent from '../components/room.component';
@@ -13,23 +13,27 @@ import Spinner from 'react-bootstrap/Spinner';
 import { DragDropContext } from 'react-beautiful-dnd';
 
 const RoomsPage = ({ ...props}) => {
+  const [uuid, setUuid] = useState('');
   const [spinnerClassName, setSpinnerClassName] = useState("spinner-visible");
 
   const [roomsRequestData, setRoomsRequestData] = useState(JSON.stringify([]));
   const [rooms, setRooms] = useState([]);
 
   const readData = () => getRooms().then(res => setRoomsRequestData(JSON.stringify(res.data)));
-
   useEffect(() => {
-    readData();
-    setInterval(() => {
-      readData();
-    }, 1000);
+    let connection = new HubConnectionBuilder()
+      .withUrl("/roomsHub")
+      .build();
+    connection.on("ReceiveMessage", (query) => {
+      if(query === "updateView"){
+        readData();
+      }
+    });
+    connection.start()
+        .then(() => connection.invoke("SendMessage", ""));
   }, []);
   
-  useEffect(() => {
-    setRooms(JSON.parse(roomsRequestData));
-  }, [roomsRequestData]);
+  useEffect(() => setRooms(JSON.parse(roomsRequestData)), [roomsRequestData]);
   
   useEffect(() => {
     if(roomsRequestData!='[]'){
@@ -49,7 +53,6 @@ const RoomsPage = ({ ...props}) => {
         result.draggableId,
         result.destination.droppableId
       );
-      
       readData();
     }
     
