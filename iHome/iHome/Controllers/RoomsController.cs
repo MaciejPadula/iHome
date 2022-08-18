@@ -1,12 +1,12 @@
-﻿using iHome.Hubs;
+﻿using iHome.Logic.Notificator;
 using iHome.Logic.UserInfo;
 using iHome.Models.Account.Rooms.Requests;
 using iHome.Models.DataModels;
 using iHome.Models.Requests;
+using iHome.Models.RoomsApi.Requests;
 using iHome.Services.DatabaseService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
 namespace iHome.Controllers
 {
@@ -19,12 +19,12 @@ namespace iHome.Controllers
     {
         private readonly IDatabaseService _databaseService;
         private readonly IUserInfo _userInfo;
-        private IHubContext<RoomsHub> _hubContext;
-        public RoomsController(IDatabaseService databaseApi, IUserInfo userInfo, IHubContext<RoomsHub> hubContext)
+        private readonly INotificator _notificator;
+        public RoomsController(IDatabaseService databaseApi, IUserInfo userInfo, INotificator notificator)
         {
             _userInfo = userInfo;
             _databaseService = databaseApi;
-            _hubContext = hubContext;
+            _notificator = notificator;
         }
 
         [HttpGet("GetRooms/")]
@@ -32,7 +32,7 @@ namespace iHome.Controllers
         public ActionResult GetRooms()
         {
             string? uuid = _userInfo.GetUserUuid(User);
-            if(uuid == null) return NotFound();
+            if (uuid == null) return NotFound();
 
             var listOfRooms = _databaseService.GetListOfRooms(uuid);
 
@@ -48,10 +48,10 @@ namespace iHome.Controllers
         public ActionResult AddRoom([FromBody()] RoomRequest room)
         {
             string? uuid = _userInfo.GetUserUuid(User);
-            if (room==null || uuid==null) return NotFound(new { exception = "room or uuid is null" });
+            if (room == null || uuid == null) return NotFound(new { exception = "room or uuid is null" });
             if (_databaseService.AddRoom(room.roomName, room.roomDescription, uuid))
             {
-                NotifyUser(uuid);
+                _notificator.NotifyUser(uuid);
                 return Ok(new { status = 200 });
             }
             return NotFound(new { exception = "Can't add new room" });
@@ -66,7 +66,7 @@ namespace iHome.Controllers
             var uuids = _databaseService.GetRoomUserIds(id);
             if (_databaseService.RemoveRoom(id))
             {
-                NotifyUsers(uuids);
+                _notificator.NotifyUsers(uuids);
                 return Ok(new { status = 200 });
             }
             return NotFound(new { exception = "Can't remove room" });
@@ -80,10 +80,10 @@ namespace iHome.Controllers
             if (uuid == null) return NotFound(new { exception = "Uuid equals null" });
             if (_databaseService.ShareRoom(userRoom.roomId, uuid))
             {
-                NotifyUsers(_databaseService.GetRoomUserIds(userRoom.roomId));
+                _notificator.NotifyUsers(_databaseService.GetRoomUserIds(userRoom.roomId));
                 return Ok(new { status = 200 });
             }
-            return NotFound(new { exception = "Can't share room" });
+            return Ok(new { status = 801, exception = "Can't share room" });
         }
 
         [HttpGet("GetRoomsCount")]
@@ -91,7 +91,7 @@ namespace iHome.Controllers
         public ActionResult GetRoomsCount()
         {
             string? uuid = _userInfo.GetUserUuid(User);
-            if(uuid == null) return NotFound();
+            if (uuid == null) return NotFound();
             int roomsCount = _databaseService.GetRoomsCount(uuid);
             return Ok(new { roomsCount });
         }
@@ -120,7 +120,7 @@ namespace iHome.Controllers
 
             if (_databaseService.AddDevice(id, device.deviceId, device.deviceName, device.deviceType, device.deviceData, device.roomId))
             {
-                NotifyUsers(_databaseService.GetRoomUserIds(device.roomId));
+                _notificator.NotifyUsers(_databaseService.GetRoomUserIds(device.roomId));
                 return Ok(new { status = 200 });
             }
             return NotFound(new { exception = "Can't add device" });
@@ -136,7 +136,7 @@ namespace iHome.Controllers
             if (renameDevice == null) return NotFound(new { exception = "Wrong input data" });
             if (_databaseService.RenameDevice(renameDevice.deviceId, renameDevice.deviceName, uuid))
             {
-                NotifyUsers(_databaseService.GetRoomUserIds(_databaseService.GetDeviceRoomId(renameDevice.deviceId)));
+                _notificator.NotifyUsers(_databaseService.GetRoomUserIds(_databaseService.GetDeviceRoomId(renameDevice.deviceId)));
                 return Ok(new { status = 200 });
             }
             return NotFound(new { exception = "Can't rename device" });
@@ -173,6 +173,9 @@ namespace iHome.Controllers
             if (uuid == null) return NotFound();
             if (_databaseService.SetDeviceData(deviceData.deviceId, deviceData.deviceData, uuid))
             {
+                var uuids = _databaseService
+                    .GetRoomUserIds(_databaseService.GetDeviceRoomId(deviceData.deviceId));
+                _notificator.NotifyUsers(uuids);
                 return Ok(new { status = 200 });
             }
             return NotFound(new { exception = "Can't set device data" });
@@ -186,12 +189,12 @@ namespace iHome.Controllers
             if (uuid == null) return NotFound();
             if (_databaseService.SetDeviceRoom(newDeviceRoom.deviceId, newDeviceRoom.roomId, _userInfo.GetUserUuid(User)))
             {
-                NotifyUsers(_databaseService.GetRoomUserIds(newDeviceRoom.roomId));
+                _notificator.NotifyUsers(_databaseService.GetRoomUserIds(newDeviceRoom.roomId));
                 return Ok(new { status = 200 });
             }
             return NotFound(new { exception = "Can't change device room" });
         }
-        
+
         [HttpGet("GetUserId/")]
         [Authorize]
         public ActionResult GetUserId()
@@ -216,27 +219,47 @@ namespace iHome.Controllers
         public async Task<ActionResult> AddDevicesToConfigure([FromBody] NewDeviceToConfigureRequest deviceToConfigure)
         {
             var ip = await _userInfo.GetPublicIp(HttpContext);
-            if(ip==null || deviceToConfigure == null) return NotFound(new { exception = "IP or input data equals null" });
+            if (ip == null || deviceToConfigure == null) return NotFound(new { exception = "IP or input data equals null" });
             if (_databaseService.AddDevicesToConfigure(deviceToConfigure.deviceId, deviceToConfigure.deviceType, ip))
             {
                 return Ok(new { status = 200 });
             }
             return NotFound(new { exception = "Can't add new device to configure" });
-
         }
+
         [HttpGet("GetIP")]
+        [Authorize]
         public async Task<ActionResult> GetIP()
         {
             return Ok(await _userInfo.GetPublicIp(HttpContext));
         }
 
-        private void NotifyUser(string uuid)
+        [HttpGet("GetEmail/{uuid}")]
+        [Authorize]
+        public async Task<ActionResult> GetEmail(string uuid)
         {
-            _hubContext.Clients.User(uuid).SendAsync("ReceiveMessage", "updateView");
+            return Ok(_userInfo.GetUserEmail(uuid));
         }
-        private void NotifyUsers(List<string> uuids)
+
+        [HttpGet("GetUsersRoom/{roomId}")]
+        [Authorize]
+        public async Task<ActionResult> GetUsersRoom(int roomId)
         {
-            uuids.ForEach(uuid => _hubContext.Clients.User(uuid).SendAsync("ReceiveMessage", "updateView"));
+            var uuids = _databaseService.GetRoomUserIds(roomId);
+            return Ok(uuids);
+        }
+
+        [HttpPost("RemoveRoomShare/")]
+        [Authorize]
+        public async Task<ActionResult> RemoveRoomShare([FromBody] RemoveRoomShareRequest removeShare)
+        {
+            var uuid = _userInfo.GetUserUuid(User);
+            if (_databaseService.RemoveRoomShare(removeShare.roomId, removeShare.uuid, uuid))
+            {
+                _notificator.NotifyUsers(_databaseService.GetRoomUserIds(removeShare.roomId));
+                return Ok(new { status = 200 });
+            }
+            return NotFound(new { exception = "Can't remove room share" });
         }
     }
 }

@@ -21,7 +21,6 @@ namespace iHome.Controllers
         [Authorize]
         public IActionResult Profile()
         {
-            
             return View(new ProfileModel()
             {
                 Name = User.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
@@ -33,13 +32,7 @@ namespace iHome.Controllers
         [Authorize]
         public IActionResult Rooms()
         {
-            return View(new ProfileModel()
-            {
-                Name = User.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
-                EmailAddress = User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value,
-                ProfileImage = User.FindFirst(c => c.Type == "picture")?.Value,
-                Uuid = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value
-            });
+            return View();
         }
 
         [Authorize]
