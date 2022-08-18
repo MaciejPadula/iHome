@@ -1,6 +1,7 @@
 using Auth0.AspNetCore.Authentication;
 using iHome.Hubs;
 using iHome.Logic.Database;
+using iHome.Logic.Notificator;
 using iHome.Logic.UserInfo;
 using iHome.Models.Application;
 using iHome.Services.DatabaseService;
@@ -24,11 +25,12 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddControllersWithViews();
 
 
-builder.Services.Configure<ApplicationSettings>(builder.Configuration);
-builder.Services.AddScoped<ApplicationDbContext>();
-builder.Services.AddScoped<IUserInfo, UserInfo>();
-builder.Services.AddScoped<IDatabaseService, AzureDatabaseService>();
-builder.Services.AddScoped<RoomsHub>();
+builder.Services.Configure<ApplicationSettings>(builder.Configuration)
+    .AddScoped<ApplicationDbContext>()
+    .AddScoped<IUserInfo, UserInfo>()
+    .AddScoped<IDatabaseService, AzureDatabaseService>()
+    .AddScoped<INotificator, Notificator>()
+    .AddScoped<RoomsHub>();
 
 var app = builder.Build();
 

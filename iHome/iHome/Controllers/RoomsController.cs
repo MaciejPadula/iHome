@@ -100,7 +100,6 @@ namespace iHome.Controllers
         [Authorize]
         public ActionResult GetDevices(int roomId)
         {
-            //var devices = database.GetDevices(roomId);// ("google-oauth2|115237564399157489610");
             var devices = _databaseService.GetDevices(roomId);
             if (devices != null)
             {

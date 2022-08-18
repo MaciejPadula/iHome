@@ -21,5 +21,6 @@ namespace iHome.Services.DatabaseService
         bool AddDevicesToConfigure(string deviceId, int deviceType, string ip);
         List<string> GetRoomUserIds(int roomId);
         int GetDeviceRoomId(string deviceId);
+        bool RemoveRoomShare(int roomId, string uuid, string masterUuid);
     }
 }
