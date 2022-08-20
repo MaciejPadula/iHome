@@ -15,7 +15,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Button from 'react-bootstrap/Button';
 
-import {RGBLampModes} from './rgb-lamp-modes';
+import { RGBLampModes } from './rgb-lamp-modes';
 import PopoverPicker from './PopoverPicker';
 
 
@@ -26,39 +26,34 @@ const RGBLampControls = ({deviceId, deviceData, ...props}) => {
     const [state, setState] = useState(Boolean(data.State));
     const [mode, setMode] = useState(data.Mode);
 
-    const updateColor = (color) => {
-        console.log(color);
-        setColor(color);
-    };
     const updateState = (ev) => {
         if(ev){
-            setState(1);
+            setState(true);
         }
         else{
-            setState(0);
+            setState(false);
         }
     };
+
     const [controls, setControls] = useState();
 
-    const onSelect = (ev) => setMode(ev);
-
     useEffect(() => {
-        if(state==1){
+        if(state){
             setControls(<Tabs
                 defaultActiveKey={mode}
                 id="uncontrolled-tab-example"
-                onSelect={onSelect}
+                onSelect={setMode}
             >
                 <Tab eventKey={RGBLampModes.StaticColor} title="1">
                     <div>Static Color Mode</div>
-                    <PopoverPicker color={color} onChange={updateColor}/>
+                    <PopoverPicker color={color} onChange={setColor}/>
                 </Tab>
                 <Tab eventKey={RGBLampModes.Rainbow} title="2">
                     <div>Rainbow Mode</div>
                 </Tab>
                 <Tab eventKey={RGBLampModes.Breathing} title="3">
                     <div>Breathing Color</div>
-                    <PopoverPicker color={color} onChange={updateColor}/>
+                    <PopoverPicker color={color} onChange={setColor}/>
                 </Tab>
             </Tabs>);
         }
@@ -70,7 +65,7 @@ const RGBLampControls = ({deviceId, deviceData, ...props}) => {
             "Red": rgbColor.r,
             "Green": rgbColor.g,
             "Blue": rgbColor.b,
-            "State": state,
+            "State": Number(state),
             "Mode": mode
         });
     }, [color, state, mode])

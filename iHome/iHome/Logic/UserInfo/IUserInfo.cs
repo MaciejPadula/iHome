@@ -8,5 +8,6 @@ namespace iHome.Logic.UserInfo
         string? GetUserUuid(ClaimsPrincipal user);
         string? GetUserUuid(string email);
         string? GetUserEmail(string uuid);
+        List<string> GetEmails(string emailTest);
     }
 }

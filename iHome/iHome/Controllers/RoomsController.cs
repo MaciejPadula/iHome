@@ -240,12 +240,19 @@ namespace iHome.Controllers
             return Ok(_userInfo.GetUserEmail(uuid));
         }
 
-        [HttpGet("GetUsersRoom/{roomId}")]
+        [HttpGet("GetRoomUsers/{roomId}")]
         [Authorize]
-        public async Task<ActionResult> GetUsersRoom(int roomId)
+        public async Task<ActionResult> GetRoomUsers(int roomId)
         {
-            var uuids = _databaseService.GetRoomUserIds(roomId);
-            return Ok(uuids);
+            var masterUuid = _userInfo.GetUserUuid(User);
+            var uuids = _databaseService.GetRoomUserIds(roomId).Where(uuid => uuid!=masterUuid).ToList();
+            var users = new List<object>();
+            uuids.ForEach(uuid => users.Add(new
+            {
+                email= _userInfo.GetUserEmail(uuid),
+                uuid = uuid
+            }));
+            return Ok(users);
         }
 
         [HttpPost("RemoveRoomShare/")]
@@ -253,12 +260,27 @@ namespace iHome.Controllers
         public async Task<ActionResult> RemoveRoomShare([FromBody] RemoveRoomShareRequest removeShare)
         {
             var uuid = _userInfo.GetUserUuid(User);
+            var uuids = _databaseService.GetRoomUserIds(removeShare.roomId);
             if (_databaseService.RemoveRoomShare(removeShare.roomId, removeShare.uuid, uuid))
             {
-                _notificator.NotifyUsers(_databaseService.GetRoomUserIds(removeShare.roomId));
+                _notificator.NotifyUsers(uuids);
                 return Ok(new { status = 200 });
             }
             return NotFound(new { exception = "Can't remove room share" });
+        }
+
+        [HttpGet("GetEmails/")]
+        [Authorize]
+        public async Task<ActionResult> GetEmails()
+        {
+            return Ok(new List<string>());
+        }
+
+        [HttpGet("GetEmails/{emailTest}")]
+        [Authorize]
+        public async Task<ActionResult> GetEmails(string emailTest)
+        {
+            return Ok(_userInfo.GetEmails(emailTest).OrderBy(e => e).ToList());
         }
     }
 }

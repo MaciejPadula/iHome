@@ -138,6 +138,38 @@ function getIpAddr(){
     });
 }
 
+function GetRoomUsers(roomId){
+    return axios({
+        method: 'get',
+        url: '/api/Rooms/GetRoomUsers/' + roomId
+    });
+}
+
+function getRoomUserEmail(uuid){
+    return axios({
+        method: 'get',
+        url: '/api/Rooms/GetEmail/' + uuid
+    });
+}
+
+function removeRoomShare(roomId, uuid){
+    return axios({
+        method: 'post',
+        url: '/api/Rooms/RemoveRoomShare',
+        data: {
+            roomId: roomId,
+            uuid: uuid
+        }
+    });
+}
+
+function getUsersEmails(emailTest){
+    return axios({
+        method: 'get',
+        url: '/api/Rooms/GetEmails/' + emailTest
+    });
+}
+
 export {
     getRooms, 
     addRoom,
@@ -153,5 +185,9 @@ export {
     setDeviceRoom,
     getUserId,
     getDevicesToConfigure,
-    getIpAddr
+    getIpAddr,
+    GetRoomUsers,
+    getRoomUserEmail,
+    removeRoomShare,
+    getUsersEmails
 };
