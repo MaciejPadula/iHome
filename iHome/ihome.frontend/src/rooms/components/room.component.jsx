@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 //api
 
@@ -15,31 +15,10 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
 const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, devices, uuid, masterUuid}, ...props}) => {
-    const [editSection, setEditSection] = useState(
-        <div className='edit-room-section'>
-            <ShareRoomModal roomId={roomId} />
-            <RemoveRoomModal roomId={roomId} roomName={roomName} />
-        </div>
-    );
-    const renderSharedRoomTooltip = (props) => (
-        <Tooltip {...props}>
-            Other user shared you this room
-        </Tooltip>
-    );
+    const [owner, setOwner] = useState(false);
+
     useEffect(() => {
-        if(masterUuid!=uuid){
-            setEditSection(
-            <div className='edit-room-section'>
-                <OverlayTrigger
-                    placement="bottom"
-                    delay={{ show: 250, hide: 400 }}
-                    overlay={renderSharedRoomTooltip}
-                >
-                    <ShareFill size={20} />
-                </OverlayTrigger>
-            </div>
-            );
-        }
+        setOwner(masterUuid==uuid);
     },[]);
     return (
         <Droppable droppableId={`${roomId}`} direction="horizontal">
@@ -50,16 +29,33 @@ const RoomComponent = ({ room: {roomId, roomName, roomDescription, roomImage, de
                         <p className="card-text">{roomDescription}</p>
                         <div className="room-devices">
                             {
-                                devices.map((device,index) => <DeviceComponent roomId={roomId} isMaster={masterUuid==uuid} key={device.deviceId} device={device} index={index}/>)
+                                devices.map((device,index) => <DeviceComponent key={device.deviceId} roomId={roomId} isMaster={masterUuid==uuid} device={device} index={index}/>)
                             }
                             {provided.placeholder}
                             <AddDeviceModal roomId={roomId}/>
                         </div>
-                        {editSection}
+                        { 
+                            owner && 
+                            (<div className='edit-room-section'>
+                                <ShareRoomModal roomId={roomId} masterUuid={masterUuid}/>
+                                <RemoveRoomModal roomId={roomId} roomName={roomName} />
+                            </div>)
+                        }
+                        {
+                            !owner && 
+                            (<div className='edit-room-section'>
+                                <OverlayTrigger
+                                    placement="bottom"
+                                    delay={{ show: 250, hide: 400 }}
+                                    overlay={<Tooltip>ther user shared you this room</Tooltip>}
+                                >
+                                    <ShareFill size={20} />
+                                </OverlayTrigger>
+                            </div>)
+                        }
                     </div>
                 </div>
             )}
-            
         </Droppable>
     );
 };

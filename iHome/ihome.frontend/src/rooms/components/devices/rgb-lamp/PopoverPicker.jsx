@@ -32,21 +32,6 @@ const PopoverPicker = ({ color, onChange }) => {
         onClick={() => toggle(true)}
       />
     </OverlayTrigger>
-    // <div className="picker">
-    //   <div
-    //     className="switch"
-    //     style={{ backgroundColor: color, width:"5rem", height:"2rem", margin:"0.5rem", borderRadius: "5%" }}
-    //     onClick={() => toggle(true)}
-    //   />
-
-    //   {isOpen && (
-    //     <Popover>
-    //       <Popover.Body>
-    //         <DebouncedPicker color={color} onChange={onChange} />
-    //       </Popover.Body>
-    //     </Popover>
-    //   )}
-    // </div>
   );
 };
 export default PopoverPicker;

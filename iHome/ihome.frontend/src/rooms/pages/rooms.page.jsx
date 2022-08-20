@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { HubConnectionBuilder } from '@microsoft/signalr';
-import $ from 'jquery';
 
 //api
 import { getRooms, setDeviceRoom, getUserId } from '../api/apiRequests';
@@ -13,13 +12,12 @@ import Spinner from 'react-bootstrap/Spinner';
 import { DragDropContext } from 'react-beautiful-dnd';
 
 const RoomsPage = ({ ...props}) => {
-  const [uuid, setUuid] = useState('');
   const [spinnerClassName, setSpinnerClassName] = useState("spinner-visible");
 
   const [roomsRequestData, setRoomsRequestData] = useState(JSON.stringify([]));
   const [rooms, setRooms] = useState([]);
 
-  const readData = () => getRooms().then(res => setRoomsRequestData(JSON.stringify(res.data)));
+  const readData = () => getRooms().then(res => {setRoomsRequestData(JSON.stringify(res.data)); setSpinnerClassName('invisible');});
   useEffect(() => {
     let connection = new HubConnectionBuilder()
       .withUrl("/roomsHub")
@@ -35,19 +33,12 @@ const RoomsPage = ({ ...props}) => {
   
   useEffect(() => setRooms(JSON.parse(roomsRequestData)), [roomsRequestData]);
   
-  useEffect(() => {
-    if(roomsRequestData!='[]'){
-      setSpinnerClassName('invisible');
-    }
-  }, [rooms]);
-  
   const onDragEnd = (result) => {
     const drag = document.getElementById(result.draggableId);
     //document.getElementById(result.draggableId).style.display='none';
     if(result.destination.droppableId!=drag.dataset.roomid) {
       // const parent = document.getElementById(drag.dataset.roomid).children[0].children[2];
       // const dest = document.getElementById(result.destination.droppableId).children[0].children[2];
-
       drag.style.display = 'none';
       setDeviceRoom(
         result.draggableId,

@@ -276,5 +276,21 @@ namespace iHome.Services.DatabaseService
             userRooms.ForEach(userRoom => uuids.Add(userRoom.uuid));
             return uuids;
         }
+
+        public bool RemoveRoomShare(int roomId, string uuid, string masterUuid)
+        {
+            var room = _applicationDbContext.Rooms.Where(room => room.roomId == roomId).FirstOrDefault();
+            if(room.uuid != masterUuid) { return false; }
+
+            var toRemove = _applicationDbContext.UsersRooms
+                .Where(userRoom => userRoom.roomId == roomId && userRoom.uuid == uuid)
+                .FirstOrDefault();
+            if(toRemove != null)
+            {
+                _applicationDbContext.UsersRooms.Remove(toRemove);
+            }
+            return _applicationDbContext.SaveChanges() >= 1;
+
+        }
     }
 }

@@ -6,6 +6,8 @@ namespace iHome.Logic.UserInfo
     {
         Task<string?> GetPublicIp(HttpContext httpContext);
         string? GetUserUuid(ClaimsPrincipal user);
-        string? GetUserUuid(string? email);
+        string? GetUserUuid(string email);
+        string? GetUserEmail(string uuid);
+        List<string> GetEmails(string emailTest);
     }
 }

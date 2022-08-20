@@ -1,4 +1,5 @@
-﻿using iHome.Models.Application;
+﻿using iHome.Models.Account;
+using iHome.Models.Application;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
@@ -26,23 +27,58 @@ namespace iHome.Logic.UserInfo
             Console.WriteLine(ip);
             return ip;
         }
+
+        public string? GetUserEmail(string uuid)
+        {
+            return FetchData("user_id", uuid).email;
+        }
+
+        public List<string> GetEmails(string emailTest)
+        {
+            var emails = new List<string>();
+            try
+            {
+                var content = Request("https://dev-e7eyj4xg.eu.auth0.com/api/v2/users?q=email:*" + emailTest + "*&search_engine=v3");
+                var response = JsonConvert.DeserializeObject<List<User>>(content);
+                
+                response.ForEach(user => emails.Add(user.email));
+            }
+            catch { }
+            return emails;
+        }
+
         public string? GetUserUuid(ClaimsPrincipal user)
         {
             return user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         }
-        public string? GetUserUuid(string? email)
+        public string? GetUserUuid(string email)
+        {
+            return FetchData("email", email).user_id;
+        }
+
+        private string Request(string url)
+        {
+            var client = new RestClient(url);
+            var request = new RestRequest();
+            request.AddHeader("authorization", _options.Value.Auth0ApiSecret);
+            var content = client.Execute(request).Content;
+            return content;
+        }
+
+        private User FetchData(string queryKey, string queryValue)
         {
             try
             {
-                var client = new RestClient("https://dev-e7eyj4xg.eu.auth0.com/api/v2/users?q=email:" + email + "&search_engine=v3");
-                var request = new RestRequest();
-                request.AddHeader("authorization", _options.Value.Auth0ApiSecret);
-                var content = client.Execute(request).Content;
-                var response = JsonConvert.DeserializeObject<List<Dictionary<dynamic, dynamic>>>(content);
-                return response[0]["user_id"];
+                var content = Request("https://dev-e7eyj4xg.eu.auth0.com/api/v2/users?q=" + queryKey + ":" + queryValue + "&search_engine=v3");
+                var response = JsonConvert.DeserializeObject<List<User>>(content);
+                if(response.Count != 0)
+                {
+                    return response[0];
+                }
             }
             catch { }
-            return null;
+            return new User();
         }
+
     }
 }

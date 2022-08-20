@@ -1,69 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 //api
-import { shareRoom } from '../../api/apiRequests';
+import { GetRoomUsers } from '../../api/apiRequests';
 
 //components
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { Share } from 'react-bootstrap-icons';
+import { Coin, Share } from 'react-bootstrap-icons';
+import ShareRoomForm from './share/room-share-form.component';
+import RoomSharePerson from "./share/room-share-person.component";
 
-const ShareRoomModal = ({roomId,...props}) => {
-    const [validated, setValidated] = React.useState(false);
-    const [show, setShow] = React.useState(false);
+const ShareRoomModal = ({roomId, masterUuid, ...props}) => {
+    const [users, setUsers] = useState([]);
+
+    const readUsers = () => GetRoomUsers(roomId).then(res => setUsers(res.data));
+
+    useEffect(() => {
+        readUsers();
+    }, []);
+
+    const [show, setShow] = useState(false);
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [email, setEmail] = React.useState();
-    const handleEmailChange = (ev) => {
-        setEmail(ev.currentTarget.value);
-    };
-
-    const ShareRoom = (ev) => {
-        ev.preventDefault();
-        ev.stopPropagation();
-        if(ev.currentTarget.checkValidity() === true){
-            shareRoom(roomId, email).then(res => {
-                handleClose();
-            });
-        }
-        setValidated(true);
-        
-    };
     return (
         <>
             <Button variant="primary" className="rounded-0" onClick={handleShow}>
                 <Share size={20} />
             </Button>
             <Modal show={show} onHide={handleClose} centered>
-                <Form noValidate validated={validated} onSubmit={ShareRoom}>
-                    <Modal.Header closeButton>
+                <Modal.Header closeButton>
                     <Modal.Title>Room sharing</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <FloatingLabel
-                            controlId="floatingInput"
-                            label="Friend email"
-                            className="mb-3"
-                            style={{color:"#000000"}}
-                        >
-                            <Form.Control required type="email" placeholder="Enter friend email" onChange={handleEmailChange}/>
-                            <Form.Control.Feedback type="invalid">
-                                Invalid email!
-                            </Form.Control.Feedback>
-                        </FloatingLabel>
-                    </Modal.Body>
-                    <Modal.Footer>
+                </Modal.Header>
+                <Modal.Body>
+                    <ShareRoomForm roomId={roomId} onSubmit={readUsers}/>
+                    {users.map(user => <RoomSharePerson key={user.uuid} user={user} roomId={roomId} onRemove={readUsers}/>)}
+                </Modal.Body>
+                <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" type="submit">
-                        Share room
-                    </Button>
-                    </Modal.Footer>
-                </Form>
+                </Modal.Footer>
+                
             </Modal>
         </>
 
