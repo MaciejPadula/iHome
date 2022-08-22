@@ -6,7 +6,9 @@ using iHome.Models.Requests;
 using iHome.Models.RoomsApi.Requests;
 using iHome.Services.DatabaseService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace iHome.Controllers
 {
@@ -25,6 +27,11 @@ namespace iHome.Controllers
             _userInfo = userInfo;
             _databaseService = databaseApi;
             _notificator = notificator;
+        }
+        [HttpOptions]
+        public IActionResult PreflightRoute()
+        {
+            return NoContent();
         }
 
         [HttpGet("GetRooms/")]

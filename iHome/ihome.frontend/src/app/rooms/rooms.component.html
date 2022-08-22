@@ -1,0 +1,29 @@
+
+<div class="rooms">
+    <add-room></add-room>
+    
+    <mat-card class="room-card" *ngFor="let room of rooms">
+        <mat-card-title>{{room.roomName}}</mat-card-title>
+        <mat-card-subtitle>{{room.roomDescription}}</mat-card-subtitle>
+        <mat-card-content>
+            <div class="room-options">
+                <app-share-list roomId={{room.roomId}}></app-share-list>
+                <app-remove-room roomName={{room.roomName}} roomId={{room.roomId}}></app-remove-room>
+            </div>
+            
+            <div *ngFor="let device of room.devices">
+                <mat-card class="device-card">
+                    <mat-card-title>{{device.deviceName}}</mat-card-title>
+                    <mat-card-subtitle>{{device.deviceType}}</mat-card-subtitle>
+                    <mat-card-content>
+                        
+                    </mat-card-content>
+                    <mat-card-actions>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+        </mat-card-actions>
+    </mat-card>
+</div>

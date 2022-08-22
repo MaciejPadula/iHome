@@ -19,7 +19,7 @@ namespace iHome.Logic.Notificator
 
         public void NotifyUser(string uuid)
         {
-            _hubContext.Clients.User(uuid).SendAsync("ReceiveMessage", "updateView");
+            _hubContext.Clients.Group(uuid).SendAsync("ReceiveMessage", "updateView");
         }
     }
 }

@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Create room</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Room Name</mat-label>
+    <input matInput [(ngModel)]="data.roomName">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Room Description</mat-label>
+    <input matInput [(ngModel)]="data.roomDescription">
+  </mat-form-field>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="{roomName: data.roomName, roomDescription: data.roomDescription}" cdkFocusInitial><mat-icon fontIcon="add"></mat-icon></button>
+</mat-dialog-actions>
