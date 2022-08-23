@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Share</h1>
+<div mat-dialog-content>
+    <form class="share-form">
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input type="text"
+          placeholder="Enter your friend's email"
+          matInput
+          [formControl]="email"
+          [matAutocomplete]="auto"
+          (change)="$event"
+        >
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-button (click)="shareRoom()">
+        <mat-icon fontIcon="share"></mat-icon>
+      </button>
+    </form>
+    <div *ngFor="let user of users" class="user-share">
+      <button mat-button (click)="removeShare(user.uuid)">
+        <mat-icon fontIcon="remove"></mat-icon>
+      </button>
+      <div>
+        {{user.email}}
+      </div>
+    </div>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

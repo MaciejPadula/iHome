@@ -25,7 +25,7 @@ builder.Services.AddAuthentication(options =>
 }).AddJwtBearer(options =>
 {
     options.Authority = $"https://{builder.Configuration["Auth0:Domain"]}/";
-    options.Audience = "https://localhost:7223/api/Rooms";
+    options.Audience = builder.Configuration["Auth0:Audience"];
     options.Events = new JwtBearerEvents
     {
         OnMessageReceived = context =>

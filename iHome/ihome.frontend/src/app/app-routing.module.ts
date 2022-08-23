@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RoomsComponent } from './rooms/rooms.component';
-import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from '@auth0/auth0-angular';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { RoomsComponent } from './pages/rooms/rooms.component';
 
 const routes: Routes = [
   { path: 'rooms', component: RoomsComponent, canActivate: [AuthGuard],},
