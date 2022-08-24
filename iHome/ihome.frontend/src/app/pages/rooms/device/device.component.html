@@ -1,0 +1,11 @@
+<mat-card class="device-card">
+    <mat-card-title>{{device.deviceName}}</mat-card-title>
+    <mat-card-content>
+        <app-rgbcontrol *ngIf="device?.deviceType==1" [device]=device></app-rgbcontrol>
+        <div *ngIf="device?.deviceType==2">
+            <div>Therm</div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+    </mat-card-actions>
+</mat-card>

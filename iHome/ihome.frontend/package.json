@@ -1,45 +1,44 @@
 {
-    "name": "rooms",
-    "version": "1.0.0",
-    "description": "React frontend for iHome rooms management",
-    "repository": "https://github.com/MaciejPadula/iHome",
-    "main": "index.js",
-    "scripts": {
-        "build": "webpack --mode development",
-        "build-live": "webpack",
-        "watch": "webpack --mode development --watch"
-    },
-    "author": "MaciejPadula",
-    "license": "ISC",
-    "dependencies": {
-        "@microsoft/signalr": "^6.0.8",
-        "axios": "^0.21.2",
-        "bootstrap": "^5.2.0",
-        "bootstrap-switch-button-react": "^1.2.0",
-        "jquery": "^3.6.0",
-        "react": "^18.2.0",
-        "react-beautiful-dnd": "^13.1.0",
-        "react-bootstrap": "^2.5.0",
-        "react-bootstrap-icons": "^1.8.4",
-        "react-bootstrap-typeahead": "^6.0.0-rc.3",
-        "react-color": "^2.19.3",
-        "react-colorful": "^5.6.1",
-        "react-dom": "^18.2.0",
-        "react-router-dom": "^5.3.3",
-        "use-debouncy": "^4.3.0"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.18.10",
-        "@babel/plugin-transform-runtime": "^7.18.10",
-        "@babel/preset-env": "^7.18.10",
-        "@babel/preset-react": "^7.18.6",
-        "babel-core": "^6.26.3",
-        "babel-loader": "^8.2.5",
-        "babel-polyfill": "^6.26.0",
-        "babel-preset-es2015": "^6.24.1",
-        "babel-preset-stage-0": "^6.24.1",
-        "webpack": "^5.74.0",
-        "webpack-cli": "^4.10.0",
-        "webpack-dev-server": "^4.10.0"
-    }
+  "name": "i-home.frontend",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^14.1.0",
+    "@angular/cdk": "^14.1.3",
+    "@angular/common": "^14.1.0",
+    "@angular/compiler": "^14.1.0",
+    "@angular/core": "^14.1.0",
+    "@angular/forms": "^14.1.0",
+    "@angular/material": "^14.1.3",
+    "@angular/platform-browser": "^14.1.0",
+    "@angular/platform-browser-dynamic": "^14.1.0",
+    "@angular/router": "^14.1.0",
+    "@auth0/angular-jwt": "^5.0.2",
+    "@auth0/auth0-angular": "^1.10.1",
+    "@microsoft/signalr": "^6.0.8",
+    "axios": "^0.27.2",
+    "rxjs": "~7.5.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.11.4"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^14.1.3",
+    "@angular/cli": "~14.1.3",
+    "@angular/compiler-cli": "^14.1.0",
+    "@types/jasmine": "~4.0.0",
+    "jasmine-core": "~4.2.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.0.0",
+    "typescript": "~4.7.2"
+  }
 }

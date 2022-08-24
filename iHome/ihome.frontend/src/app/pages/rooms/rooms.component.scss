@@ -1,0 +1,39 @@
+.rooms{
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.room-card{
+    position: relative;
+    margin:1rem;
+    width:80%;
+}
+
+.room-options{
+    position: absolute;
+    top:0px;
+    right:0px;
+}
+
+.device-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 2rem;
+    flex-wrap: wrap;
+}
+
+.mat-card-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}

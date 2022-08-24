@@ -6,7 +6,9 @@ using iHome.Models.Requests;
 using iHome.Models.RoomsApi.Requests;
 using iHome.Services.DatabaseService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace iHome.Controllers
 {
@@ -25,6 +27,11 @@ namespace iHome.Controllers
             _userInfo = userInfo;
             _databaseService = databaseApi;
             _notificator = notificator;
+        }
+        [HttpOptions]
+        public IActionResult PreflightRoute()
+        {
+            return NoContent();
         }
 
         [HttpGet("GetRooms/")]
@@ -184,11 +191,20 @@ namespace iHome.Controllers
         [Authorize]
         public ActionResult SetDeviceRoom([FromBody] NewDeviceRoomRequest newDeviceRoom)
         {
-            string? uuid = _userInfo.GetUserUuid(User);
+            var oldRoomId = _databaseService.GetDeviceRoomId(newDeviceRoom.deviceId);
+            string uuid = _userInfo.GetUserUuid(User);
             if (uuid == null) return NotFound();
+            
+
             if (_databaseService.SetDeviceRoom(newDeviceRoom.deviceId, newDeviceRoom.roomId, _userInfo.GetUserUuid(User)))
             {
-                _notificator.NotifyUsers(_databaseService.GetRoomUserIds(newDeviceRoom.roomId));
+                var uuids = _databaseService.GetRoomUserIds(oldRoomId);
+                uuids.AddRange(_databaseService.GetRoomUserIds(newDeviceRoom.roomId));
+
+                _notificator.NotifyUsers(uuids.Distinct().ToList(), new List<string>()
+                {
+                    uuid
+                });
                 return Ok(new { status = 200 });
             }
             return NotFound(new { exception = "Can't change device room" });
@@ -235,21 +251,21 @@ namespace iHome.Controllers
 
         [HttpGet("GetEmail/{uuid}")]
         [Authorize]
-        public async Task<ActionResult> GetEmail(string uuid)
+        public ActionResult GetEmail(string uuid)
         {
             return Ok(_userInfo.GetUserEmail(uuid));
         }
 
         [HttpGet("GetRoomUsers/{roomId}")]
         [Authorize]
-        public async Task<ActionResult> GetRoomUsers(int roomId)
+        public ActionResult GetRoomUsers(int roomId)
         {
             var masterUuid = _userInfo.GetUserUuid(User);
-            var uuids = _databaseService.GetRoomUserIds(roomId).Where(uuid => uuid!=masterUuid).ToList();
+            var uuids = _databaseService.GetRoomUserIds(roomId).Where(uuid => uuid != masterUuid).ToList();
             var users = new List<object>();
             uuids.ForEach(uuid => users.Add(new
             {
-                email= _userInfo.GetUserEmail(uuid),
+                email = _userInfo.GetUserEmail(uuid),
                 uuid = uuid
             }));
             return Ok(users);
@@ -257,7 +273,7 @@ namespace iHome.Controllers
 
         [HttpPost("RemoveRoomShare/")]
         [Authorize]
-        public async Task<ActionResult> RemoveRoomShare([FromBody] RemoveRoomShareRequest removeShare)
+        public ActionResult RemoveRoomShare([FromBody] RemoveRoomShareRequest removeShare)
         {
             var uuid = _userInfo.GetUserUuid(User);
             var uuids = _databaseService.GetRoomUserIds(removeShare.roomId);
@@ -271,14 +287,14 @@ namespace iHome.Controllers
 
         [HttpGet("GetEmails/")]
         [Authorize]
-        public async Task<ActionResult> GetEmails()
+        public ActionResult GetEmails()
         {
             return Ok(new List<string>());
         }
 
         [HttpGet("GetEmails/{emailTest}")]
         [Authorize]
-        public async Task<ActionResult> GetEmails(string emailTest)
+        public ActionResult GetEmails(string emailTest)
         {
             return Ok(_userInfo.GetEmails(emailTest).OrderBy(e => e).ToList());
         }

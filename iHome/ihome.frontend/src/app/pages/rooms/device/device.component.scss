@@ -1,0 +1,17 @@
+.mat-card-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.device-card{
+    width:12rem;
+    height: 12rem;
+    margin: 0.5rem;
+    cursor: grab;
+}
+
+.device-card:active{
+    cursor: grabbing;
+}

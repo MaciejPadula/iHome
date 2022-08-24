@@ -17,9 +17,14 @@ namespace iHome.Logic.Notificator
             uuids.ForEach(uuid => NotifyUser(uuid));
         }
 
+        public void NotifyUsers(List<string> uuids, List<string> except)
+        {
+            NotifyUsers(uuids.Except(except).ToList());
+        }
+
         public void NotifyUser(string uuid)
         {
-            _hubContext.Clients.User(uuid).SendAsync("ReceiveMessage", "updateView");
+            _hubContext.Clients.Group(uuid).SendAsync("ReceiveMessage", "updateView");
         }
     }
 }

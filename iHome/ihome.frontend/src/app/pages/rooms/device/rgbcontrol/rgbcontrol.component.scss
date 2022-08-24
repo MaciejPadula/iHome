@@ -1,0 +1,30 @@
+::ng-deep .mat-tab-label
+{
+  height: 27px !important;
+  min-height: 5px!important;
+  margin: 3px!important;
+  width: 20px!important;
+  min-width: 5px!important;
+  color:white;
+}
+
+::ng-deep .mat-tab-body-content{
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 9rem !important;
+}
+
+.color-input{
+    padding: 0px;
+    border: none;
+}
+
+@media (prefers-color-scheme: light) {
+    ::ng-deep .mat-tab-label
+    {
+      color:black;
+    }
+}
