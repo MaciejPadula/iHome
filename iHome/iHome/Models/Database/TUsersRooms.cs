@@ -8,7 +8,7 @@ namespace iHome.Models.Database
     {
         [Key]
         public int Id { get; set; }
-        public string? uuid { get; set; }
+        public string uuid { get; set; } = "";
 
         public int roomId { get; set; }
     }

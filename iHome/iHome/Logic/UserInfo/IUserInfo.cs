@@ -4,10 +4,10 @@ namespace iHome.Logic.UserInfo
 {
     public interface IUserInfo
     {
-        Task<string?> GetPublicIp(HttpContext httpContext);
-        string? GetUserUuid(ClaimsPrincipal user);
-        string? GetUserUuid(string email);
-        string? GetUserEmail(string uuid);
+        Task<string> GetPublicIp(HttpContext httpContext);
+        string GetUserUuid(ClaimsPrincipal user);
+        string GetUserUuid(string email);
+        string GetUserEmail(string uuid);
         List<string> GetEmails(string emailTest);
     }
 }

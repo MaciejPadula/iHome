@@ -16,7 +16,7 @@ namespace iHome.Logic.UserInfo
             _options = options;
         }
 
-        public async Task<string?> GetPublicIp(HttpContext httpContext)
+        public async Task<string> GetPublicIp(HttpContext httpContext)
         {
             string? ip = httpContext.Connection.RemoteIpAddress?.ToString();
             if (ip == "127.0.0.1" || ip == "::1")
@@ -24,11 +24,14 @@ namespace iHome.Logic.UserInfo
                 var httpClient = new HttpClient();
                 ip = await httpClient.GetStringAsync("https://api.ipify.org");
             }
-            Console.WriteLine(ip);
+            if(ip == null)
+            {
+                return "";
+            }
             return ip;
         }
 
-        public string? GetUserEmail(string uuid)
+        public string GetUserEmail(string uuid)
         {
             return FetchData("user_id", uuid).email;
         }
@@ -40,18 +43,25 @@ namespace iHome.Logic.UserInfo
             {
                 var content = Request("https://dev-e7eyj4xg.eu.auth0.com/api/v2/users?q=email:*" + emailTest + "*&search_engine=v3");
                 var response = JsonConvert.DeserializeObject<List<User>>(content);
-                
-                response.ForEach(user => emails.Add(user.email));
+                if(response != null)
+                {
+                    response.ForEach(user => emails.Add(user.email));
+                }
             }
             catch { }
             return emails;
         }
 
-        public string? GetUserUuid(ClaimsPrincipal user)
+        public string GetUserUuid(ClaimsPrincipal user)
         {
-            return user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var uuid = user?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if(uuid == null)
+            {
+                return "";
+            }
+            return uuid;
         }
-        public string? GetUserUuid(string email)
+        public string GetUserUuid(string email)
         {
             return FetchData("email", email).user_id;
         }
@@ -62,6 +72,10 @@ namespace iHome.Logic.UserInfo
             var request = new RestRequest();
             request.AddHeader("authorization", _options.Value.Auth0ApiSecret);
             var content = client.Execute(request).Content;
+            if(content == null)
+            {
+                return "";
+            }
             return content;
         }
 
@@ -71,7 +85,7 @@ namespace iHome.Logic.UserInfo
             {
                 var content = Request("https://dev-e7eyj4xg.eu.auth0.com/api/v2/users?q=" + queryKey + ":" + queryValue + "&search_engine=v3");
                 var response = JsonConvert.DeserializeObject<List<User>>(content);
-                if(response.Count != 0)
+                if(response != null && response.Count != 0)
                 {
                     return response[0];
                 }

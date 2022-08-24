@@ -88,7 +88,7 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 
 
 builder.Services.Configure<ApplicationSettings>(builder.Configuration)
@@ -146,7 +146,7 @@ for(int i = 0; i < urls.Length; ++i)
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"
+    pattern: "{controller=Rooms}"
 );
 
 app.Run();

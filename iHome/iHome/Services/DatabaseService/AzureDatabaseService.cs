@@ -35,29 +35,34 @@ namespace iHome.Services.DatabaseService
 
         public bool AddDevicesToConfigure(string deviceId, int deviceType, string ip)
         {
-            _applicationDbContext.DevicesToConfigure.Add(new TDeviceToConfigure
+            _applicationDbContext?.DevicesToConfigure?.Add(new TDeviceToConfigure
             {
                 deviceId = deviceId,
                 deviceType = deviceType,
                 ipAddress = ip,
             });
-            return _applicationDbContext.SaveChanges() > 0;
+            return _applicationDbContext?.SaveChanges() > 0;
         }
 
         public bool AddRoom(string roomName, string roomDescription, string uuid)
         {
-            _applicationDbContext.Rooms.Add(new TRoom()
+            _applicationDbContext?.Rooms?.Add(new TRoom()
             {
                 roomName = roomName,
                 roomDescription = roomDescription,
                 roomImage = "",
                 uuid = uuid,
             });
-            if (_applicationDbContext.SaveChanges() == 0)
+            if (_applicationDbContext?.SaveChanges() == 0)
             {
                 return false;
             }
-            int roomId = _applicationDbContext.Rooms.OrderBy(room => room.roomId).Last().roomId;
+            int roomId = 0;
+            if (_applicationDbContext?.Rooms != null)
+            {
+                roomId = _applicationDbContext.Rooms.OrderBy(room => room.roomId).Last().roomId;
+            }
+            
             return ShareRoom(roomId, uuid);
         }
 
@@ -65,23 +70,26 @@ namespace iHome.Services.DatabaseService
         {
             if (CheckDeviceOwnership(deviceId, uuid)) 
             { 
-                var deviceData = _applicationDbContext.Devices
+                var deviceData = _applicationDbContext?.Devices?
                         .Where(device => device.deviceId == deviceId)
                         .Select(device => device.deviceData)
                         .FirstOrDefault();
-                return deviceData;
+                if(deviceData != null)
+                {
+                    return deviceData;
+                }
             }
             return "{}";
         }
 
         public List<Device> GetDevices(int roomId)
         {
-            var devices = _applicationDbContext.Devices.Where(device => device.roomId == roomId).ToList();
+            var devices = _applicationDbContext?.Devices?.Where(device => device.roomId == roomId).ToList();
             if (devices != null)
             {
                 return DataModelsConversionUtils.ListOfDevicesFromListOfTDevices(devices);
             }
-            return null;
+            return new List<Device>();
         }
 
         public int GetDevicesCount(string uuid)
@@ -212,15 +220,23 @@ namespace iHome.Services.DatabaseService
         }
         private bool UserRoomConstraintFound(int roomId, string uuid)
         {
-            return _applicationDbContext.UsersRooms?.Where(userRoom => userRoom.roomId == roomId && userRoom.uuid == uuid).ToList().Count > 0;
+            if(_applicationDbContext.UsersRooms == null)
+                return false;
+            return _applicationDbContext.UsersRooms
+                .Where(userRoom => userRoom.roomId == roomId && userRoom.uuid == uuid)
+                .ToList()
+                .Any();
         }
         private List<string> GetOwnersOfDevice(string deviceId)
         {
             var roomId = GetDeviceRoomId(deviceId);
-            var users = _applicationDbContext.UsersRooms.Where(userRoom => userRoom.roomId == roomId).ToList();
+            var users = _applicationDbContext?.UsersRooms?.Where(userRoom => userRoom.roomId == roomId).ToList();
             List<string> usersList = new List<string>();
 
-            users.ForEach(userRoom => usersList.Add(userRoom.uuid));
+            if(users != null)
+            {
+                users.ForEach(userRoom => usersList.Add(userRoom.uuid));
+            }
 
             return usersList;
         }
@@ -269,27 +285,33 @@ namespace iHome.Services.DatabaseService
 
         public List<string> GetRoomUserIds(int roomId)
         {
-            var userRooms = _applicationDbContext.UsersRooms
+            var userRooms = _applicationDbContext?.UsersRooms?
                 .Where(userRoom => userRoom.roomId == roomId)
                 .ToList();
             var uuids = new List<string>();
-            userRooms.ForEach(userRoom => uuids.Add(userRoom.uuid));
+
+            if(userRooms != null)
+            {
+                userRooms.ForEach(userRoom => uuids.Add(userRoom.uuid));
+            }
+            
             return uuids;
         }
 
         public bool RemoveRoomShare(int roomId, string uuid, string masterUuid)
         {
-            var room = _applicationDbContext.Rooms.Where(room => room.roomId == roomId).FirstOrDefault();
+            var room = _applicationDbContext?.Rooms?.Where(room => room.roomId == roomId).FirstOrDefault();
+            if(room == null) { return false; }
             if(room.uuid != masterUuid) { return false; }
 
-            var toRemove = _applicationDbContext.UsersRooms
+            var toRemove = _applicationDbContext?.UsersRooms?
                 .Where(userRoom => userRoom.roomId == roomId && userRoom.uuid == uuid)
                 .FirstOrDefault();
             if(toRemove != null)
             {
-                _applicationDbContext.UsersRooms.Remove(toRemove);
+                _applicationDbContext?.UsersRooms?.Remove(toRemove);
             }
-            return _applicationDbContext.SaveChanges() >= 1;
+            return _applicationDbContext?.SaveChanges() >= 1;
 
         }
     }
