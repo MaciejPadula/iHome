@@ -17,5 +17,7 @@
 </ng-container>
 
 <ng-template #loggedOut>
-    <button mat-button (click)="auth.loginWithRedirect()">Log in</button>
+    <button mat-button (click)="auth.loginWithRedirect({
+        appState: { target: '/rooms' }
+      })">Log in</button>
 </ng-template>

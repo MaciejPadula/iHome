@@ -58,4 +58,11 @@ export class RoomsApiService {
       deviceData: deviceData
     });
   }
+
+  public setDeviceRoom(roomId: number, deviceId: string){
+    return this.http.post(this._apiUrl + 'SetDeviceRoom', {
+      deviceId: deviceId,
+      roomId: roomId
+    });
+  }
 }

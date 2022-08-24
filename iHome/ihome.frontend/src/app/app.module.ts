@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // Import the module from the SDK
 import { AuthModule } from '@auth0/auth0-angular';
@@ -72,6 +73,7 @@ export function tokenGetter() {
     MatTabsModule,
     ReactiveFormsModule,
     MatSlideToggleModule,
+    DragDropModule,
     HttpClientModule,
     AuthModule.forRoot({
       domain: 'dev-e7eyj4xg.eu.auth0.com',
