@@ -22,6 +22,19 @@
     border: none;
 }
 
+.color-input {
+	-webkit-appearance: none;
+	border: none;
+	width: 3rem;
+	height: 3rem;
+}
+.color-input::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+.color-input::-webkit-color-swatch {
+	border: none;
+}
+
 @media (prefers-color-scheme: light) {
     ::ng-deep .mat-tab-label
     {
