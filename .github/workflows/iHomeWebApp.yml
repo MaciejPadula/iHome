@@ -9,7 +9,7 @@ env:
   AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.iHomeWebApp_62da }}
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
-  WORKING_DIRECTORY: .\iHome\iHome
+  WORKING_DIRECTORY: .\iHome\iHome\
 jobs:
   build-and-deploy:
     runs-on: windows-latest

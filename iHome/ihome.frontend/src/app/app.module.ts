@@ -78,10 +78,10 @@ export function tokenGetter() {
     AuthModule.forRoot({
       domain: 'dev-e7eyj4xg.eu.auth0.com',
       clientId: 'eFHpoMFFdC7GXIfi9xe6VrZ5Z07xKl11',
-      audience: 'http://192.168.8.4:5000/api/Rooms',
+      audience: 'https://ihomewebapp.azurewebsites.net/api/Rooms',
       scope: 'openid profile email read:rooms write:rooms',
       httpInterceptor: {
-        allowedList: ['http://192.168.8.4:5000/api/Rooms/*']
+        allowedList: ['https://ihomewebapp.azurewebsites.net/api/Rooms/*']
       }
     }),
   ],

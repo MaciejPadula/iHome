@@ -137,13 +137,6 @@ app.Use(async (context, next) =>
     }
 });
 
-string[] urls = builder.Configuration["Addresses"].Split("&");
-for(int i = 0; i < urls.Length; ++i)
-{
-    app.Urls.Add(urls[i]);
-}
-
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Rooms}"

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AppSettingsService {
-  public BackendUrl: string = "http://192.168.8.4:5000/";
+  public BackendUrl: string = "https://ihomewebapp.azurewebsites.net/";
   public ApiSuffix: string = "api/Rooms/";
   constructor() { }
 }
