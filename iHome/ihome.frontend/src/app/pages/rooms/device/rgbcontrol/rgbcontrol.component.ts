@@ -16,25 +16,28 @@ export class RGBControlComponent implements OnInit {
     deviceData: '',
     deviceType: 1
   };
-  data: RGBLampData = {
-    Red: 0,
-    Green: 0,
-    Blue: 0,
-    State: 0,
-    Mode: 0
-  };
+  data: RGBLampData;
   color: string = "#FFFFFF";
-  state: boolean | undefined;
+  state: boolean;
   mode: number = 1;
 
-  constructor(private api: RoomsApiService) { }
+  constructor(private api: RoomsApiService) { 
+    this.data = {
+      Red: 0,
+      Green: 0,
+      Blue: 0,
+      State: 0,
+      Mode: 0
+    }
+    this.state = Boolean(this.data.State);
+  }
 
   ngOnInit(): void {
     if(this.device != undefined) {
       this.data = JSON.parse(this.device.deviceData);
     }
-    this.color = this.rgbToHex(this.data.Red, this.data.Green, this.data.Blue);
     this.state = Boolean(this.data.State);
+    this.color = this.rgbToHex(this.data.Red, this.data.Green, this.data.Blue);
   }
 
   updateColor(){
