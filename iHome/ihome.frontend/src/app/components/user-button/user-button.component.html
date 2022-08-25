@@ -7,7 +7,7 @@
         <a mat-menu-item routerLink="/profile" routerLinkActive="active">
             Profile
         </a>
-        <a mat-menu-item routerLink="/rooms" routerLinkActive="active">
+        <a mat-menu-item routerLink="/" routerLinkActive="active">
             Rooms
         </a>
         <button mat-menu-item (click)="auth.logout({ returnTo: document.location.origin })">
@@ -17,7 +17,5 @@
 </ng-container>
 
 <ng-template #loggedOut>
-    <button mat-button (click)="auth.loginWithRedirect({
-        appState: { target: '/rooms' }
-      })">Log in</button>
+    <button mat-button (click)="auth.loginWithRedirect()">Log in</button>
 </ng-template>

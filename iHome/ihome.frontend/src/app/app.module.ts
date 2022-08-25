@@ -33,6 +33,8 @@ import { ShareListComponent, ShareListDialogComponent } from './components/share
 import { DeviceComponent } from './pages/rooms/device/device.component';
 import { RGBControlComponent } from './pages/rooms/device/rgbcontrol/rgbcontrol.component';
 import { TermometerComponent } from './pages/rooms/device/termometer/termometer.component';
+import { IndexComponent } from './pages/index/index.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -53,7 +55,9 @@ export function tokenGetter() {
     ShareListDialogComponent,
     DeviceComponent,
     RGBControlComponent,
-    TermometerComponent
+    TermometerComponent,
+    IndexComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
