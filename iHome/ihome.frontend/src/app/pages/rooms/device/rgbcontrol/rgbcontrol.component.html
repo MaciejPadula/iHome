@@ -1,6 +1,6 @@
 <mat-tab-group mat-align-tabs="center">
     <mat-tab label="1" class="rgb-component">
-        <input class="color-input" type="color" matInput [(ngModel)]=color (change)="updateColor()" />
+        <input class="color-input" type="color" [(ngModel)]=color (change)="updateColor()" />
         <br />
         <mat-slide-toggle (change)="updateState()" [(ngModel)]=state>Lamp status</mat-slide-toggle>
     </mat-tab>
