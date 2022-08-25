@@ -22,9 +22,7 @@ jobs:
     - name: Install Angular CLI
       run: npm install -g @angular/cli
     - name: Install dependencies
-      run: cd iHome\iHome.Frontend & npm install && cd ..\..
-    - name: Deploy Angular App
-      run: cd iHome\iHome.Frontend & npm run-script build && cd ..\..
+      run: cd .. & cd iHome.Frontend & npm install & npm run-script build && cd ..\iHome
     - name: Restore
       run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
     - name: Build
