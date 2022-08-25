@@ -14,15 +14,15 @@ jobs:
   build-and-deploy:
     runs-on: windows-latest
     steps:
-    # - uses: actions/checkout@v2
-    # - name: Setup .NET Core
-    #   uses: actions/setup-dotnet@v1
-    #   with:
-    #     dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-    # - name: Install Angular CLI
-    #   run: npm install -g @angular/cli
-    - name: Install dependencies
-      run: dir
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+    - name: Install dependencies and build Angular App
+      run: cd
       # run: cd .. & cd iHome.Frontend & npm install & npm run-script build && cd ..\iHome
     # - name: Restore
     #   run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
