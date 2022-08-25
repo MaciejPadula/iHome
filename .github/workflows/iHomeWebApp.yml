@@ -21,6 +21,8 @@ jobs:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
     - name: Install Angular CLI
       run: npm install -g @angular/cli
+    - name: Install dependencies
+      run: npm install --prefix .\iHome\iHome.Frontend
     - name: Deploy Angular App
       run: npm run-script build --prefix .\iHome\iHome.Frontend
     - name: Restore
