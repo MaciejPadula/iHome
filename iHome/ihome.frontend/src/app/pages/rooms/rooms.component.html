@@ -2,7 +2,7 @@
     <add-room></add-room>
     <mat-card class="room-card" *ngFor="let room of rooms" bgColor="primary">
         <mat-card-title>{{room.roomName}}</mat-card-title>
-        <mat-card-subtitle>{{room.roomId}}</mat-card-subtitle>
+        <mat-card-subtitle>{{room.roomDescription}}</mat-card-subtitle>
         <mat-card-content>
             <div *ngIf="this.uuid == room.masterUuid" class="room-options">
                 <app-share-list roomId={{room.roomId}}></app-share-list>
