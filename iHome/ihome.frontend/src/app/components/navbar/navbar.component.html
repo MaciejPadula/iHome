@@ -2,10 +2,7 @@
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
     </button>
-    <a mat-button routerLink="/" routerLinkActive="active" *ngIf="(auth.isAuthenticated$ | async) == false">
-        iHome
-    </a>
-    <a mat-button routerLink="/rooms" routerLinkActive="active" *ngIf="auth.isAuthenticated$ | async">
+    <a mat-button routerLink="/" routerLinkActive="active">
         iHome
     </a>
     <span class="example-spacer"></span>
