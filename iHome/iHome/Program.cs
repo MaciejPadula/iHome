@@ -9,6 +9,7 @@ using iHome.Services.DatabaseService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
@@ -139,7 +140,18 @@ app.Use(async (context, next) =>
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"
+    pattern: "{controller=Rooms}"
 );
+
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "wwwroot";
+    if (app.Environment.IsDevelopment())
+    {
+        spa.Options.SourcePath = "../iHome.Frontend";
+        spa.Options.StartupTimeout = new TimeSpan(0, 0, 80);
+        spa.UseAngularCliServer(npmScript: "start");
+    }
+});
 
 app.Run();
