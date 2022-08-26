@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: '',  component: IndexComponent },
   { path: 'rooms', component: RoomsComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: '**', component: NotFoundComponent }
+  { path: 'NotFound', component: NotFoundComponent },
+  { path: '**', redirectTo: 'NotFound' }
 ];
 
 @NgModule({

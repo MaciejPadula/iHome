@@ -11,19 +11,19 @@ export class RoomsApiService {
   private _apiUrl = '';
 
   constructor(public http: HttpClient, private _appSettings: AppSettingsService) {
-    this._apiUrl = _appSettings.BackendUrl + _appSettings.ApiSuffix;
+    this._apiUrl = _appSettings.apiUrl;
    }
 
   public getRooms() {
-    return this.http.get<Array<Room>>(this._apiUrl+'GetRooms');
+    return this.http.get<Array<Room>>(this._apiUrl+'/GetRooms');
   }
 
   public removeRoom(roomId: number){
-    return this.http.post(this._apiUrl+'RemoveRoom/'+roomId, {});
+    return this.http.post(this._apiUrl+'/RemoveRoom/'+roomId, {});
   }
 
   public addRoom(roomName: string, roomDescription: string){
-    return this.http.post(this._apiUrl+'AddRoom', {
+    return this.http.post(this._apiUrl+'/AddRoom', {
       roomName: roomName,
       roomDescription: roomDescription,
       roomImage: ""
@@ -31,36 +31,36 @@ export class RoomsApiService {
   }
 
   public getRoomShares(roomId: number){
-    return this.http.get<Array<User>>(this._apiUrl+'GetRoomUsers/'+roomId);
+    return this.http.get<Array<User>>(this._apiUrl+'/GetRoomUsers/'+roomId);
   }
 
   public getEmailsTest(emailTests: string){
-    return this.http.get<Array<string>>(this._apiUrl + 'GetEmails/' + emailTests);
+    return this.http.get<Array<string>>(this._apiUrl + '/GetEmails/' + emailTests);
   }
 
   public shareRoom(roomId: number, email: string){
-    return this.http.post<Array<string>>(this._apiUrl + 'ShareRoom', {
+    return this.http.post<Array<string>>(this._apiUrl + '/ShareRoom', {
       roomId: roomId,
       email: email
     });
   }
 
   public removeRoomShare(roomId: number, uuid: string){
-    return this.http.post<Array<string>>(this._apiUrl + 'RemoveRoomShare', {
+    return this.http.post<Array<string>>(this._apiUrl + '/RemoveRoomShare', {
       roomId: roomId,
       uuid: uuid
     });
   }
 
   public setDeviceData(deviceId: string, deviceData: string){
-    return this.http.post<Array<string>>(this._apiUrl + 'SetDeviceData', {
+    return this.http.post<Array<string>>(this._apiUrl + '/SetDeviceData', {
       deviceId: deviceId,
       deviceData: deviceData
     });
   }
 
   public setDeviceRoom(roomId: number, deviceId: string){
-    return this.http.post(this._apiUrl + 'SetDeviceRoom', {
+    return this.http.post(this._apiUrl + '/SetDeviceRoom', {
       deviceId: deviceId,
       roomId: roomId
     });

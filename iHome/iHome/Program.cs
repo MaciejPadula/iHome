@@ -143,15 +143,13 @@ app.MapControllerRoute(
     pattern: "{controller=Rooms}"
 );
 
-app.UseSpa(spa =>
+if (app.Environment.IsProduction())
 {
-    spa.Options.SourcePath = "wwwroot";
-    if (app.Environment.IsDevelopment())
+    app.UseSpa(spa =>
     {
-        spa.Options.SourcePath = "../iHome.Frontend";
-        spa.Options.StartupTimeout = new TimeSpan(0, 0, 80);
-        spa.UseAngularCliServer(npmScript: "start");
-    }
-});
+        spa.Options.SourcePath = "wwwroot";
+    });
+}
+
 
 app.Run();
