@@ -35,6 +35,7 @@ import { RGBControlComponent } from './pages/rooms/device/rgbcontrol/rgbcontrol.
 import { TermometerComponent } from './pages/rooms/device/termometer/termometer.component';
 import { IndexComponent } from './pages/index/index.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { environment } from 'src/environments/environment';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -80,12 +81,12 @@ export function tokenGetter() {
     DragDropModule,
     HttpClientModule,
     AuthModule.forRoot({
-      domain: 'dev-e7eyj4xg.eu.auth0.com',
-      clientId: 'eFHpoMFFdC7GXIfi9xe6VrZ5Z07xKl11',
-      audience: 'https://ihomewebapp.azurewebsites.net/api/Rooms',
-      scope: 'openid profile email read:rooms write:rooms',
+      domain: environment.Auth0Domain,
+      clientId: environment.ClientId,
+      audience: environment.BackendUrl + environment.ApiSuffix,
+      scope: environment.ApiScopes,
       httpInterceptor: {
-        allowedList: ['https://ihomewebapp.azurewebsites.net/api/Rooms/*']
+        allowedList: [environment.BackendUrl + environment.ApiSuffix + '/*']
       }
     }),
   ],

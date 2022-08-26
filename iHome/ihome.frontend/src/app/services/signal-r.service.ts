@@ -12,7 +12,7 @@ export class SignalRService {
 
   constructor(private _auth: AuthService, private _appSettings: AppSettingsService) {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(_appSettings.BackendUrl + 'roomsHub')
+      .withUrl(_appSettings.hubUrl)
       .build();
   }
 

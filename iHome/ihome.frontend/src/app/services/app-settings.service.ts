@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppSettingsService {
-  public BackendUrl: string = "https://ihomewebapp.azurewebsites.net/";
-  public ApiSuffix: string = "api/Rooms/";
   constructor() { }
+
+  get apiUrl(){
+    return environment.BackendUrl + environment.ApiSuffix
+  }
+
+  get hubUrl(){
+    return environment.BackendUrl + environment.HubSuffix
+  }
 }

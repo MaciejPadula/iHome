@@ -3,7 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  BackendUrl: "https://localhost:7223/",
+  ApiSuffix: "api/Rooms",
+  HubSuffix: "roomsHub",
+  ApiScopes: "openid profile email read:rooms write:rooms",
+  Auth0Domain:"dev-e7eyj4xg.eu.auth0.com",
+  ClientId: "eFHpoMFFdC7GXIfi9xe6VrZ5Z07xKl11"
 };
 
 /*
