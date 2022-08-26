@@ -148,9 +148,9 @@ app.UseSpa(spa =>
     spa.Options.SourcePath = "wwwroot";
     if (app.Environment.IsDevelopment())
     {
-        spa.Options.SourcePath = "../iHome.Frontend";
+        /*spa.Options.SourcePath = "../iHome.Frontend";
         spa.Options.StartupTimeout = new TimeSpan(0, 0, 80);
-        spa.UseAngularCliServer(npmScript: "start");
+        spa.UseAngularCliServer(npmScript: "start");*/
     }
 });
 
