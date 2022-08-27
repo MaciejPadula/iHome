@@ -22,7 +22,7 @@
                 <app-device 
                     *ngFor="let device of sortDevices(room.devices)"
                     [device]=device
-                    [master]="this.uuid == room.masterUuid"
+                    [owner]="this.uuid == room.masterUuid"
                 ></app-device>
             </div>
         </mat-card-content>
