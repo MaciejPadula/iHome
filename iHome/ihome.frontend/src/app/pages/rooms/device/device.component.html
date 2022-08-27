@@ -1,5 +1,14 @@
-<mat-card class="device-card">
-    <mat-card-title>{{device.deviceName}}</mat-card-title>
+<mat-card class="device-card"
+    cdkDrag
+    [cdkDragData]="device.deviceId"
+    [cdkDragDisabled]="!master"
+>
+    <mat-card-title
+        cdkDragHandle
+        [ngClass]="{'grab': master}"
+    >
+        {{device.deviceName}}
+    </mat-card-title>
     <mat-card-content>
         <app-rgbcontrol *ngIf="device?.deviceType==1" [device]=device></app-rgbcontrol>
         <div *ngIf="device?.deviceType==2">

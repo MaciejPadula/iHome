@@ -12,7 +12,8 @@ export class DeviceComponent implements OnInit {
     deviceName: '',
     deviceData: '',
     deviceType: 1
-  };;
+  };
+  @Input() master: boolean = false;
   constructor() { }
 
   ngOnInit(): void {
