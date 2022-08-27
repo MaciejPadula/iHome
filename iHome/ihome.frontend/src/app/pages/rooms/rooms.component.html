@@ -22,9 +22,7 @@
                 <app-device 
                     *ngFor="let device of sortDevices(room.devices)"
                     [device]=device
-                    cdkDrag
-                    [cdkDragData]="device.deviceId"
-                    [cdkDragDisabled]="this.uuid != room.masterUuid"
+                    [owner]="this.uuid == room.masterUuid"
                 ></app-device>
             </div>
         </mat-card-content>

@@ -9,9 +9,12 @@
     width:12rem;
     height: 12rem;
     margin: 0.5rem;
+}
+
+.grab{
     cursor: grab;
 }
 
-.device-card:active{
-    cursor: grabbing;
+.cdk-drag-placeholder {
+    opacity: 0;
 }
