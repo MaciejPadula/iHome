@@ -2,6 +2,6 @@
 {
     public class GetDevicesToConfigureRequest
     {
-        public string ip { get; set; } = "";
+        public string Ip { get; set; } = "";
     }
 }

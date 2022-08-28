@@ -1,9 +1,13 @@
-<mat-tab-group mat-align-tabs="center">
+<mat-tab-group
+    mat-align-tabs="center" 
+    [(selectedIndex)]="data.Mode"
+    (selectedIndexChange)="updateMode($event)"
+    *ngIf="data.State"
+>
     <mat-tab label="1" class="rgb-component">
         <input class="color-input" type="color" [(ngModel)]=color (change)="updateColor()" />
-        <br />
-        <mat-slide-toggle (change)="updateState()" [(ngModel)]=state>Lamp status</mat-slide-toggle>
     </mat-tab>
-    <mat-tab label="2" class="rgb-component">Content 2</mat-tab>
+    <mat-tab label="2" class="rgb-component" isActive=true>Content 2</mat-tab>
     <mat-tab label="3" class="rgb-component">Content 3</mat-tab>
-  </mat-tab-group>
+</mat-tab-group>
+<mat-slide-toggle (change)="updateState()" [(ngModel)]=state>Lamp status</mat-slide-toggle>

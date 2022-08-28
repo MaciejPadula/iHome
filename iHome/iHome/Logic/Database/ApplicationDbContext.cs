@@ -20,6 +20,7 @@ namespace iHome.Logic.Database
         public DbSet<TRoom>? Rooms { get; set; }
         public DbSet<TDeviceToConfigure>? DevicesToConfigure { get; set; }
         public DbSet<TUsersRooms>? UsersRooms { get; set; }
+        public DbSet<TBills>? Bills { get; set; }
     }
 }
 

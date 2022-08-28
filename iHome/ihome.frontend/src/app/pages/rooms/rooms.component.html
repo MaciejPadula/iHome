@@ -1,14 +1,14 @@
 <div class="rooms" cdkDropListGroup>
     <add-room></add-room>
     <mat-card class="room-card" *ngFor="let room of rooms" bgColor="primary">
-        <mat-card-title>{{room.roomName}}</mat-card-title>
-        <mat-card-subtitle>{{room.roomDescription}}</mat-card-subtitle>
+        <mat-card-title>{{room.name}}</mat-card-title>
+        <mat-card-subtitle>{{room.description}}</mat-card-subtitle>
         <mat-card-content>
-            <div *ngIf="this.uuid == room.masterUuid" class="room-options">
-                <app-share-list roomId={{room.roomId}}></app-share-list>
-                <app-remove-room roomName={{room.roomName}} roomId={{room.roomId}}></app-remove-room>
+            <div *ngIf="this.uuid == room.ownerUuid" class="room-options">
+                <app-share-list roomId={{room.id}}></app-share-list>
+                <app-remove-room roomName={{room.name}} roomId={{room.id}}></app-remove-room>
             </div>
-            <div *ngIf="this.uuid != room.masterUuid" class="room-options">
+            <div *ngIf="this.uuid != room.ownerUuid" class="room-options">
                 <mat-icon fontIcon="share"
                     matTooltip="This room is shared to you by another user"
                 ></mat-icon>
@@ -16,14 +16,15 @@
             <div
                 class="device-container"
                 cdkDropList
-                [cdkDropListData]="{devices: room.devices, roomId: room.roomId}"
+                [cdkDropListData]="{devices: room.devices, roomId: room.id}"
                 (cdkDropListDropped)="drop($event)"
             >
                 <app-device 
                     *ngFor="let device of sortDevices(room.devices)"
                     [device]=device
-                    [owner]="this.uuid == room.masterUuid"
+                    [owner]="this.uuid == room.ownerUuid"
                 ></app-device>
+                <app-add-device [roomId]="room.id"></app-add-device>
             </div>
         </mat-card-content>
         <mat-card-actions></mat-card-actions>

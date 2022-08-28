@@ -1,0 +1,56 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { Device } from 'src/app/models/device';
+import { DeviceToConfigure } from 'src/app/models/device-to-configure';
+import { RoomsApiService } from 'src/app/services/rooms-api.service';
+
+@Component({
+  selector: 'app-available-device',
+  templateUrl: './available-device.component.html',
+  styleUrls: ['./available-device.component.scss']
+})
+export class AvailableDeviceComponent implements OnInit {
+  @Input() roomId: number = 0;
+  @Input() deviceToConfigure: DeviceToConfigure = {
+    id: 0,
+    deviceId: '',
+    deviceType: 0
+  };
+  newDevice: Device = {
+    id: '',
+    type: 0,
+    name: '',
+    data: '',
+    roomId: 0
+  };
+
+  constructor(private _api: RoomsApiService) { }
+
+  ngOnInit(): void {
+    this.newDevice.id = this.deviceToConfigure.deviceId;
+    this.newDevice.type = this.deviceToConfigure.deviceType
+    this.newDevice.roomId = this.roomId;
+    switch(this.deviceToConfigure.deviceType){
+      case 1:
+        this.newDevice.data = JSON.stringify({
+          Red: 255,
+          Green: 255,
+          Blue: 255,
+          State: 1,
+          Mode: 1
+        });
+        break;
+      case 2:
+        this.newDevice.data = JSON.stringify({
+          temp: 0,
+          pressure: 0
+        });
+        break;
+    }
+  }
+
+  addDevice(){
+    if(this.newDevice.name.length >=3 ){
+      this._api.addDevice(this.deviceToConfigure.id, this.newDevice).subscribe();
+    }
+  }
+}

@@ -2,7 +2,7 @@
 {
     public class RemoveRoomShareRequest
     {
-        public int roomId { get; set; }
-        public string uuid { get; set; } = "";
+        public int RoomId { get; set; }
+        public string Uuid { get; set; } = "";
     }
 }

@@ -9,10 +9,11 @@ namespace iHome.Logic.Utils
         {
             return new Device()
             {
-                deviceId = tDevice.deviceId,
-                deviceName = tDevice.deviceName,
-                deviceType = tDevice.deviceType,
-                deviceData = tDevice.deviceData,
+                Id = tDevice.DeviceId,
+                Name = tDevice.DeviceName,
+                Type = tDevice.DeviceType,
+                Data = tDevice.DeviceData,
+                RoomId = tDevice.RoomId,
             };
         }
         public static List<Device> ListOfDevicesFromListOfTDevices(List<TDevice> tDevicesList)

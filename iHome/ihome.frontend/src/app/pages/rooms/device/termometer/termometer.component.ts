@@ -8,10 +8,11 @@ import { Device } from 'src/app/models/device';
 })
 export class TermometerComponent implements OnInit {
   @Input() device: Device = {
-    deviceId: '',
-    deviceName: '',
-    deviceData: '',
-    deviceType: 2
+    id: '',
+    name: '',
+    data: '',
+    type: 2,
+    roomId: 0
   };
   constructor() { }
 

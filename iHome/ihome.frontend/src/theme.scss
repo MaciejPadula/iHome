@@ -26,6 +26,10 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #121212;
+  
+}
+
+.mat-label{
   color: #FFFFFF;
 }
 
@@ -61,5 +65,8 @@ body {
   @include mat.all-component-themes($light-theme);
   body {
     background-color: white;
+  }
+  .mat-label{
+    color: #000000;
   }
 }

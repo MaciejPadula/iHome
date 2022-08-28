@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Device } from 'src/app/models/device';
 import { RGBColor } from 'src/app/models/rgbcolor';
 import { RGBLampData } from 'src/app/models/rgblamp-data';
@@ -11,10 +12,11 @@ import { RoomsApiService } from 'src/app/services/rooms-api.service';
 })
 export class RGBControlComponent implements OnInit {
   @Input() device: Device = {
-    deviceId: '',
-    deviceName: '',
-    deviceData: '',
-    deviceType: 1
+    id: '',
+    name: '',
+    data: '',
+    type: 1,
+    roomId: 0
   };
   data: RGBLampData;
   color: string = "#FFFFFF";
@@ -34,7 +36,7 @@ export class RGBControlComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.device != undefined) {
-      this.data = JSON.parse(this.device.deviceData);
+      this.data = JSON.parse(this.device.data);
     }
     this.state = Boolean(this.data.State);
     this.color = this.rgbToHex(this.data.Red, this.data.Green, this.data.Blue);
@@ -59,9 +61,16 @@ export class RGBControlComponent implements OnInit {
     this.updateDevice();
   }
 
+  updateMode(mode: number){
+    this.data = {
+      ...this.data,
+      Mode: mode
+    };
+    this.updateDevice();
+  }
+
   private updateDevice(){
-    console.log(this.data);
-    this.api.setDeviceData(this.device.deviceId, JSON.stringify(this.data)).subscribe();
+    this.api.setDeviceData(this.device.id, JSON.stringify(this.data)).subscribe();
   }
 
   private componentToHex(c: number): string {

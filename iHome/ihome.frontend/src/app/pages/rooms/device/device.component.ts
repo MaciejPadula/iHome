@@ -8,13 +8,16 @@ import { Device } from 'src/app/models/device';
 })
 export class DeviceComponent implements OnInit {
   @Input() device: Device = {
-    deviceId: '',
-    deviceName: '',
-    deviceData: '',
-    deviceType: 1
+    id: '',
+    name: '',
+    data: '',
+    type: 1,
+    roomId: 0
   };
   @Input() owner: boolean = false;
-  constructor() { }
+  constructor() {
+    
+  }
 
   ngOnInit(): void {
   }

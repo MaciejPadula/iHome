@@ -33,7 +33,7 @@ namespace iHome.Logic.UserInfo
 
         public string GetUserEmail(string uuid)
         {
-            return FetchData("user_id", uuid).email;
+            return FetchData("user_id", uuid).Email;
         }
 
         public List<string> GetEmails(string emailTest)
@@ -45,7 +45,7 @@ namespace iHome.Logic.UserInfo
                 var response = JsonConvert.DeserializeObject<List<User>>(content);
                 if(response != null)
                 {
-                    response.ForEach(user => emails.Add(user.email));
+                    response.ForEach(user => emails.Add(user.Email));
                 }
             }
             catch { }
@@ -63,7 +63,7 @@ namespace iHome.Logic.UserInfo
         }
         public string GetUserUuid(string email)
         {
-            return FetchData("email", email).user_id;
+            return FetchData("email", email).UserId;
         }
 
         private string Request(string url)
