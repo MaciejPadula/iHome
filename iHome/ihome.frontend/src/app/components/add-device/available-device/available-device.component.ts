@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Device } from 'src/app/models/device';
 import { DeviceToConfigure } from 'src/app/models/device-to-configure';
+import { DeviceType } from 'src/app/models/enums/device-type';
+import { RGBModes } from 'src/app/models/enums/rgb-lamp-modes';
 import { RoomsApiService } from 'src/app/services/rooms-api.service';
 
 @Component({
@@ -13,11 +15,11 @@ export class AvailableDeviceComponent implements OnInit {
   @Input() deviceToConfigure: DeviceToConfigure = {
     id: 0,
     deviceId: '',
-    deviceType: 0
+    deviceType: DeviceType.RGBLamp
   };
   newDevice: Device = {
     id: '',
-    type: 0,
+    type: DeviceType.RGBLamp,
     name: '',
     data: '',
     roomId: 0
@@ -30,16 +32,16 @@ export class AvailableDeviceComponent implements OnInit {
     this.newDevice.type = this.deviceToConfigure.deviceType
     this.newDevice.roomId = this.roomId;
     switch(this.deviceToConfigure.deviceType){
-      case 1:
+      case DeviceType.RGBLamp:
         this.newDevice.data = JSON.stringify({
           Red: 255,
           Green: 255,
           Blue: 255,
           State: 1,
-          Mode: 1
+          Mode: RGBModes.Rainbow
         });
         break;
-      case 2:
+      case DeviceType.Termometer:
         this.newDevice.data = JSON.stringify({
           temp: 0,
           pressure: 0

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Device } from 'src/app/models/device';
+import { RGBModes } from 'src/app/models/enums/rgb-lamp-modes';
 import { RGBColor } from 'src/app/models/rgbcolor';
 import { RGBLampData } from 'src/app/models/rgblamp-data';
 import { RoomsApiService } from 'src/app/services/rooms-api.service';
@@ -29,7 +30,7 @@ export class RGBControlComponent implements OnInit {
       Green: 0,
       Blue: 0,
       State: 0,
-      Mode: 0
+      Mode: RGBModes.Rainbow
     }
     this.state = Boolean(this.data.State);
   }

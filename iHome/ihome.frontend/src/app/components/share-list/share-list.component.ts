@@ -44,7 +44,7 @@ export class ShareListDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: string, private api: RoomsApiService
   ) {
     this.roomId = parseInt(data);
-    this.api.getEmailsTest("*").subscribe(res => {
+    this.api.getEmailsByFragment("*").subscribe(res => {
       this.options = res;
     });
 

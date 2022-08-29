@@ -11,8 +11,8 @@
     </mat-card-title>
     <mat-card-content>
         <div class="device-control">
-            <app-rgbcontrol *ngIf="device?.type==1" [device]=device></app-rgbcontrol>
-            <app-termometer *ngIf="device?.type==2" [device]=device></app-termometer>
+            <app-rgbcontrol *ngIf="device?.type==DeviceType.RGBLamp" [device]=device></app-rgbcontrol>
+            <app-termometer *ngIf="device?.type==DeviceType.Termometer" [device]=device></app-termometer>
         </div>
     </mat-card-content>
     <mat-card-actions>

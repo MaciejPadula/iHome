@@ -10,7 +10,8 @@ import { RoomsApiService } from 'src/app/services/rooms-api.service';
   styleUrls: ['./add-device.component.scss']
 })
 export class AddDeviceComponent {
-  @Input() roomId: number = 0;
+  @Input() roomId: number = 0; 
+
   constructor(public dialog: MatDialog) { }
 
   openDialog() {
@@ -31,6 +32,7 @@ export class AddDeviceComponent {
 export class AddDeviceDialogComponent implements OnInit{
   devicesToConfigure: Array<DeviceToConfigure> = [];
   roomId: number;
+  private _ipAddress: string = "0.0.0.0";
 
   constructor(public dialogRef: MatDialogRef<AddDeviceDialogComponent>,
     private _api: RoomsApiService,
@@ -38,22 +40,24 @@ export class AddDeviceDialogComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: number
   ) { 
     this.roomId = data;
-    this.getIPAddress();
+    
   }
 
-  ngOnInit(): void {
-    this.getIPAddress().subscribe((res:any) => {
-      this._api.getDevicesToConfigure(res.ip).subscribe(res => this.devicesToConfigure = res);
-    });
+  async ngOnInit(): Promise<void> {
+    this._ipAddress = (await this.getIPAddress());
+  }
+
+  getDevicesToConfigure(){
+    this._api.getDevicesToConfigure(this._ipAddress).subscribe(res => this.devicesToConfigure = res);
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  private getIPAddress(): any
+  private async getIPAddress(): Promise<any>
   {
-    return this._http.get("http://api.ipify.org/?format=json");
+    return (await this._http.get<any>("http://api.ipify.org/?format=json").toPromise()).ip;
   }
   
 }

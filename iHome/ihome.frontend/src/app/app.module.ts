@@ -63,7 +63,7 @@ export function tokenGetter() {
     NotFoundComponent,
     AddDeviceComponent,
     AddDeviceDialogComponent,
-    AvailableDeviceComponent
+    AvailableDeviceComponent,
   ],
   imports: [
     BrowserModule,

@@ -37,8 +37,8 @@ export class RoomsApiService {
     return this._http.get<Array<User>>(this._apiUrl+'/GetRoomUsers/'+roomId);
   }
 
-  public getEmailsTest(emailTests: string){
-    return this._http.get<Array<string>>(this._apiUrl + '/GetEmails/' + emailTests);
+  public getEmailsByFragment(emailFragment: string){
+    return this._http.get<Array<string>>(this._apiUrl + '/GetEmails/' + emailFragment);
   }
 
   public shareRoom(roomId: number, email: string){
