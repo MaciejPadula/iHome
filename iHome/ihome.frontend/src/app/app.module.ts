@@ -36,6 +36,8 @@ import { TermometerComponent } from './pages/rooms/device/termometer/termometer.
 import { IndexComponent } from './pages/index/index.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { environment } from 'src/environments/environment';
+import { AddDeviceComponent, AddDeviceDialogComponent } from './components/add-device/add-device.component';
+import { AvailableDeviceComponent } from './components/add-device/available-device/available-device.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -58,7 +60,10 @@ export function tokenGetter() {
     RGBControlComponent,
     TermometerComponent,
     IndexComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AddDeviceComponent,
+    AddDeviceDialogComponent,
+    AvailableDeviceComponent,
   ],
   imports: [
     BrowserModule,

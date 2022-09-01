@@ -50,6 +50,6 @@ export class RoomsComponent implements OnInit {
   }
 
   sortDevices(devices: Array<Device>): Array<Device>{
-    return devices.sort((a, b) => a.deviceName.localeCompare(b.deviceName));
+    return devices.sort((a, b) => a.name.localeCompare(b.name));
   }
 }

@@ -1,17 +1,19 @@
 <mat-card class="device-card"
     cdkDrag
-    [cdkDragData]="device.deviceId"
+    [cdkDragData]="device.id"
     [cdkDragDisabled]="!owner"
 >
     <mat-card-title
         cdkDragHandle
         [ngClass]="{'grab': owner}"
     >
-        {{device.deviceName}}
+        {{device.name}}
     </mat-card-title>
     <mat-card-content>
-        <app-rgbcontrol *ngIf="device?.deviceType==1" [device]=device></app-rgbcontrol>
-        <app-termometer *ngIf="device?.deviceType==2" [device]=device></app-termometer>
+        <div class="device-control">
+            <app-rgbcontrol *ngIf="device?.type==DeviceType.RGBLamp" [device]=device></app-rgbcontrol>
+            <app-termometer *ngIf="device?.type==DeviceType.Termometer" [device]=device></app-termometer>
+        </div>
     </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>

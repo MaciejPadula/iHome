@@ -2,9 +2,9 @@
 {
     public class TDeviceToConfigure
     {
-        public int id { get; set; }
-        public string? deviceId { get; set; }
-        public int deviceType { get; set; }
-        public string? ipAddress { get; set; }
+        public int Id { get; set; }
+        public string? DeviceId { get; set; }
+        public int DeviceType { get; set; }
+        public string? IpAddress { get; set; }
     }
 }

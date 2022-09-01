@@ -1,6 +1,7 @@
 export interface Device {
-    deviceId: string,
-    deviceType: number,
-    deviceName: string,
-    deviceData: string
+    id: string,
+    type: number,
+    name: string,
+    data: string,
+    roomId: number
 }

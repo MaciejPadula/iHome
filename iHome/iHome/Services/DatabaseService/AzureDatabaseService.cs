@@ -19,13 +19,13 @@ namespace iHome.Services.DatabaseService
         {
             _applicationDbContext.Add(new TDevice
             {
-                deviceId = deviceId,
-                deviceName = deviceName,
-                deviceType = deviceType,
-                deviceData = deviceData,
-                roomId = roomId
+                DeviceId = deviceId,
+                DeviceName = deviceName,
+                DeviceType = deviceType,
+                DeviceData = deviceData,
+                Room = _applicationDbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefault()
             });
-            var deviceConfigurationToRemove = _applicationDbContext.DevicesToConfigure?.Where(device => device.id == id).FirstOrDefault();
+            var deviceConfigurationToRemove = _applicationDbContext.DevicesToConfigure?.Where(device => device.Id == id).FirstOrDefault();
             if (deviceConfigurationToRemove != null)
             {
                 _applicationDbContext.DevicesToConfigure?.Remove(deviceConfigurationToRemove);
@@ -37,9 +37,9 @@ namespace iHome.Services.DatabaseService
         {
             _applicationDbContext?.DevicesToConfigure?.Add(new TDeviceToConfigure
             {
-                deviceId = deviceId,
-                deviceType = deviceType,
-                ipAddress = ip,
+                DeviceId = deviceId,
+                DeviceType = deviceType,
+                IpAddress = ip,
             });
             return _applicationDbContext?.SaveChanges() > 0;
         }
@@ -48,10 +48,10 @@ namespace iHome.Services.DatabaseService
         {
             _applicationDbContext?.Rooms?.Add(new TRoom()
             {
-                roomName = roomName,
-                roomDescription = roomDescription,
-                roomImage = "",
-                uuid = uuid,
+                RoomName = roomName,
+                RoomDescription = roomDescription,
+                RoomImage = "",
+                Uuid = uuid,
             });
             if (_applicationDbContext?.SaveChanges() == 0)
             {
@@ -60,7 +60,7 @@ namespace iHome.Services.DatabaseService
             int roomId = 0;
             if (_applicationDbContext?.Rooms != null)
             {
-                roomId = _applicationDbContext.Rooms.OrderBy(room => room.roomId).Last().roomId;
+                roomId = _applicationDbContext.Rooms.OrderBy(room => room.RoomId).Last().RoomId;
             }
             
             return ShareRoom(roomId, uuid);
@@ -71,8 +71,8 @@ namespace iHome.Services.DatabaseService
             if (CheckDeviceOwnership(deviceId, uuid)) 
             { 
                 var deviceData = _applicationDbContext?.Devices?
-                        .Where(device => device.deviceId == deviceId)
-                        .Select(device => device.deviceData)
+                        .Where(device => device.DeviceId == deviceId)
+                        .Select(device => device.DeviceData)
                         .FirstOrDefault();
                 if(deviceData != null)
                 {
@@ -84,7 +84,7 @@ namespace iHome.Services.DatabaseService
 
         public List<Device> GetDevices(int roomId)
         {
-            var devices = _applicationDbContext?.Devices?.Where(device => device.roomId == roomId).ToList();
+            var devices = _applicationDbContext.Devices.Where(device => device.RoomId == roomId).ToList();
             if (devices != null)
             {
                 return DataModelsConversionUtils.ListOfDevicesFromListOfTDevices(devices);
@@ -92,19 +92,9 @@ namespace iHome.Services.DatabaseService
             return new List<Device>();
         }
 
-        public int GetDevicesCount(string uuid)
-        {
-            int devicesCount = 0;
-            GetListOfRooms(uuid)?.ForEach(room =>
-            {
-                devicesCount += room.devices.Count;
-            });
-            return devicesCount;
-        }
-
         public List<TDeviceToConfigure>? GetDevicesToConfigure(string ip)
         {
-            var devicesToConfigure = _applicationDbContext.DevicesToConfigure?.Where(device => device.ipAddress == ip).ToList();
+            var devicesToConfigure = _applicationDbContext.DevicesToConfigure?.Where(device => device.IpAddress == ip).ToList();
             if (devicesToConfigure != null)
             {
                 return devicesToConfigure;
@@ -114,46 +104,39 @@ namespace iHome.Services.DatabaseService
 
         public List<Room>? GetListOfRooms(string uuid)
         {
-            try
-            {
-                return _applicationDbContext.Rooms
-                        .Include(room => room.devices)
+            var rooms = _applicationDbContext.Rooms
                         .Join(_applicationDbContext.UsersRooms,
-                            room => room.roomId,
-                            userRoom => userRoom.roomId,
+                            room => room.RoomId,
+                            userRoom => userRoom.RoomId,
                             (room, userRoom) => new Room
                             {
-                                roomId = room.roomId,
-                                roomDescription = room.roomDescription,
-                                roomImage = room.roomImage,
-                                roomName = room.roomName,
-                                devices = DataModelsConversionUtils.ListOfDevicesFromListOfTDevices(room.devices),
-                                uuid = userRoom.uuid,
-                                masterUuid = room.uuid
+                                Id = room.RoomId,
+                                Description = room.RoomDescription,
+                                Image = room.RoomImage,
+                                Name = room.RoomName,
+                                Devices = DataModelsConversionUtils.ListOfDevicesFromListOfTDevices(room.Devices),
+                                Uuid = userRoom.Uuid,
+                                OwnerUuid = room.Uuid
                             }
-                        ).Where(room => room.uuid == uuid)
-                        .OrderBy(room => room.roomName)
+                        ).Where(room => room.Uuid == uuid)
+                        .OrderBy(room => room.Name)
                         .ToList();
+            if(rooms != null)
+            {
+                return rooms;
             }
-            catch { }
-            return null;
-        }
-
-        public int GetRoomsCount(string uuid)
-        {
-            int roomsCount = GetListOfRooms(uuid).Count();
-            return roomsCount;
+            return new List<Room>();
         }
 
         public bool RemoveRoom(int roomId)
         {
-            var roomToRemove = _applicationDbContext.Rooms.Where(room => room.roomId == roomId).FirstOrDefault();
+            var roomToRemove = _applicationDbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefault();
             if (roomToRemove == null)
             {
                 return false;
             }
             _applicationDbContext.Rooms.Remove(roomToRemove);
-            var usersRoomsToRemove = _applicationDbContext.UsersRooms.Where(userRoom => userRoom.roomId == roomId).ToList();
+            var usersRoomsToRemove = _applicationDbContext.UsersRooms.Where(userRoom => userRoom.RoomId == roomId).ToList();
             _applicationDbContext.UsersRooms.RemoveRange(usersRoomsToRemove);
             if (_applicationDbContext.SaveChanges() > 0)
             {
@@ -168,7 +151,7 @@ namespace iHome.Services.DatabaseService
             {
                 var deviceToChange = GetTDevice(deviceId);
                 if (deviceToChange == null) return false;
-                deviceToChange.deviceName = deviceName;
+                deviceToChange.DeviceName = deviceName;
                 _applicationDbContext.Entry(deviceToChange).State = EntityState.Modified;
                 return _applicationDbContext.SaveChanges() > 0;
             }
@@ -181,7 +164,7 @@ namespace iHome.Services.DatabaseService
             {
                 var device = GetTDevice(deviceId);
                 if (device == null) return false;
-                device.deviceData = deviceData;
+                device.DeviceData = deviceData;
                 _applicationDbContext.Entry(device).State = EntityState.Modified;
                 return _applicationDbContext.SaveChanges() > 0;
             }
@@ -194,7 +177,7 @@ namespace iHome.Services.DatabaseService
             {
                 var deviceToChange = GetTDevice(deviceId);
                 if (deviceToChange == null) return false;
-                deviceToChange.roomId = roomId;
+                deviceToChange.RoomId = roomId;
                 _applicationDbContext.Entry(deviceToChange).State = EntityState.Modified;
                 return _applicationDbContext.SaveChanges() > 0;
             }
@@ -207,8 +190,8 @@ namespace iHome.Services.DatabaseService
             {
                 _applicationDbContext.UsersRooms?.Add(new()
                 {
-                    uuid = uuid,
-                    roomId = roomId,
+                    Uuid = uuid,
+                    RoomId = roomId,
                 });
                 if (_applicationDbContext.SaveChanges() > 0)
                 {
@@ -223,19 +206,19 @@ namespace iHome.Services.DatabaseService
             if(_applicationDbContext.UsersRooms == null)
                 return false;
             return _applicationDbContext.UsersRooms
-                .Where(userRoom => userRoom.roomId == roomId && userRoom.uuid == uuid)
+                .Where(userRoom => userRoom.RoomId == roomId && userRoom.Uuid == uuid)
                 .ToList()
                 .Any();
         }
         private List<string> GetOwnersOfDevice(string deviceId)
         {
             var roomId = GetDeviceRoomId(deviceId);
-            var users = _applicationDbContext?.UsersRooms?.Where(userRoom => userRoom.roomId == roomId).ToList();
+            var users = _applicationDbContext?.UsersRooms?.Where(userRoom => userRoom.RoomId == roomId).ToList();
             List<string> usersList = new List<string>();
 
             if(users != null)
             {
-                users.ForEach(userRoom => usersList.Add(userRoom.uuid));
+                users.ForEach(userRoom => usersList.Add(userRoom.Uuid));
             }
 
             return usersList;
@@ -256,7 +239,7 @@ namespace iHome.Services.DatabaseService
 
         public int GetDeviceRoomId(string deviceId)
         {
-            return GetTDevice(deviceId).roomId;
+            return GetTDevice(deviceId).RoomId;
         }
 
         private Device GetDevice(string deviceId)
@@ -266,33 +249,24 @@ namespace iHome.Services.DatabaseService
 
         private TDevice GetTDevice(string deviceId)
         {
-            var rooms = _applicationDbContext.Rooms
-                        .Include(room => room.devices)
-                        .ToList();
-            TDevice dev = new TDevice();
-            rooms.ForEach(room =>
+            var device = _applicationDbContext.Devices.Where(dev => dev.DeviceId == deviceId).FirstOrDefault();
+            if (device != null)
             {
-                room.devices.ForEach(device =>
-                {
-                    if (device.deviceId == deviceId)
-                    {
-                        dev = device;
-                    }
-                });
-            });
-            return dev;
+                return device;
+            }
+            return new TDevice();
         }
 
         public List<string> GetRoomUserIds(int roomId)
         {
             var userRooms = _applicationDbContext?.UsersRooms?
-                .Where(userRoom => userRoom.roomId == roomId)
+                .Where(userRoom => userRoom.RoomId == roomId)
                 .ToList();
             var uuids = new List<string>();
 
             if(userRooms != null)
             {
-                userRooms.ForEach(userRoom => uuids.Add(userRoom.uuid));
+                userRooms.ForEach(userRoom => uuids.Add(userRoom.Uuid));
             }
             
             return uuids;
@@ -300,19 +274,26 @@ namespace iHome.Services.DatabaseService
 
         public bool RemoveRoomShare(int roomId, string uuid, string masterUuid)
         {
-            var room = _applicationDbContext?.Rooms?.Where(room => room.roomId == roomId).FirstOrDefault();
+            var room = _applicationDbContext?.Rooms?.Where(room => room.RoomId == roomId).FirstOrDefault();
             if(room == null) { return false; }
-            if(room.uuid != masterUuid) { return false; }
+            if(room.Uuid != masterUuid) { return false; }
 
             var toRemove = _applicationDbContext?.UsersRooms?
-                .Where(userRoom => userRoom.roomId == roomId && userRoom.uuid == uuid)
+                .Where(userRoom => userRoom.RoomId == roomId && userRoom.Uuid == uuid)
                 .FirstOrDefault();
             if(toRemove != null)
             {
                 _applicationDbContext?.UsersRooms?.Remove(toRemove);
             }
             return _applicationDbContext?.SaveChanges() >= 1;
+        }
 
+        public List<TBills> GetUserBills(string uuid)
+        {
+            var bills = _applicationDbContext?.Bills?.Where(bill => bill.Uuid == uuid).ToList();
+            if(bills != null)
+                return bills;
+            return new List<TBills>();
         }
     }
 }

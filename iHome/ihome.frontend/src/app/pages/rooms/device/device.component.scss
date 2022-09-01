@@ -9,6 +9,14 @@
     width:12rem;
     height: 12rem;
     margin: 0.5rem;
+    padding: 1rem;
+}
+
+.device-control{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .grab{

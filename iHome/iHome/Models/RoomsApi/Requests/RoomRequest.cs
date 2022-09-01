@@ -2,8 +2,8 @@
 {
     public class RoomRequest
     {
-        public string roomName { get; set; } = "";
-        public string roomDescription { get; set; } = "";
-        public string roomImage { get; set; } = "";
+        public string RoomName { get; set; } = "";
+        public string RoomDescription { get; set; } = "";
+        public string RoomImage { get; set; } = "";
     }
 }

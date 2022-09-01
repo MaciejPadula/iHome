@@ -2,7 +2,7 @@
 {
     public class UserRoomRequest
     {
-        public string email { get; set; } = "";
-        public int roomId { get; set; }
+        public string Email { get; set; } = "";
+        public int RoomId { get; set; }
     }
 }

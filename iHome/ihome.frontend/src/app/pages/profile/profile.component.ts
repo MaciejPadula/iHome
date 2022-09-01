@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RoomsApiService } from 'src/app/services/rooms-api.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,8 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _api: RoomsApiService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.getBills();
+  }
+
+  getBills(){
+    this._api.getBills().subscribe(res => console.log(res));
+  }
 
 }

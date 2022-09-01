@@ -2,10 +2,10 @@
 {
     public class Device
     {
-        public string deviceId { get; set; } = "";
-        public int deviceType { get; set; } = 0;
-        public string deviceName { get; set; } = "";
-        public string deviceData { get; set; } = "";
-        public int roomId { get; set; } = 0;
+        public string Id { get; set; } = "";
+        public int Type { get; set; } = 0;
+        public string Name { get; set; } = "";
+        public string Data { get; set; } = "";
+        public int RoomId { get; set; } = 0;
     }
 }

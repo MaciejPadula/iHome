@@ -2,7 +2,7 @@
 {
     public class NewDeviceRoomRequest
     {
-        public string deviceId { get; set; } = "";
-        public int roomId { get; set; } = 0;
+        public string DeviceId { get; set; } = "";
+        public int RoomId { get; set; } = 0;
     }
 }

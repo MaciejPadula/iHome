@@ -1,0 +1,10 @@
+<div class="available-device">
+    <mat-form-field color="primary">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="newDevice.name">
+    </mat-form-field>
+    {{newDevice.id}}
+    <button mat-button (click)="addDevice()">
+        <mat-icon fontIcon="add"></mat-icon>
+    </button>
+</div>

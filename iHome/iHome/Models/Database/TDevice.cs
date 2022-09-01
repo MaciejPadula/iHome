@@ -6,13 +6,13 @@ namespace iHome.Models.Database
     public class TDevice
     {
         [Key]
-        public string deviceId { get; set; } = "";
-        public string deviceName { get; set; } = "";
-        public int deviceType { get; set; } = -1;
-        public string deviceData { get; set; } = "{}";
+        public string DeviceId { get; set; } = "";
+        public string DeviceName { get; set; } = "";
+        public int DeviceType { get; set; } = -1;
+        public string DeviceData { get; set; } = "{}";
 
-        public int roomId { get; set; }
-        [ForeignKey("roomId")]
+        public int RoomId { get; set; }
+        [ForeignKey("RoomId")]
         public virtual TRoom Room { get; set; } = new TRoom();
     }
 }
