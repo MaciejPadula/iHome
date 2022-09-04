@@ -8,7 +8,7 @@ namespace iHome.Services.DatabaseService
 {
     public class AzureDatabaseService : IDatabaseService
     {
-        private ApplicationDbContext _applicationDbContext;
+        private readonly ApplicationDbContext _applicationDbContext;
 
         public AzureDatabaseService(ApplicationDbContext applicationDbContext)
         {
