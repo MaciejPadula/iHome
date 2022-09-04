@@ -36,6 +36,7 @@ export class ShareListDialogComponent implements OnInit {
   email = new FormControl('');
   options: Array<string> = [];
   filteredOptions: Observable<string[]> | undefined;
+  progressBarShow: boolean = false;
 
   public roomId: number = 0;
   public users: Array<User> = [];
@@ -59,7 +60,11 @@ export class ShareListDialogComponent implements OnInit {
   }
 
   public getSharedUsers(){
-    this.api.getRoomShares(this.roomId).subscribe(res => this.users = res);
+    this.progressBarShow = true;
+    this.api.getRoomShares(this.roomId).subscribe(res => {
+      this.users = res
+      this.progressBarShow = false;
+    });
   }
 
   public _filter(value: string):string[] {

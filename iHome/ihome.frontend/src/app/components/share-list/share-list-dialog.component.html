@@ -28,6 +28,7 @@
         {{user.email}}
       </div>
     </div>
+    <mat-progress-bar *ngIf="progressBarShow" mode="indeterminate"></mat-progress-bar>
 </div>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
