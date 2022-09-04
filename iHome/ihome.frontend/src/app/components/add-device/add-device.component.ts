@@ -62,7 +62,7 @@ export class AddDeviceDialogComponent implements OnInit{
 
   private async getIPAddress(): Promise<any>
   {
-    return (await this._http.get<any>("http://api.ipify.org/?format=json").toPromise()).ip;
+    return (await this._http.get<any>("https://api.ipify.org/?format=json").toPromise()).ip;
   }
   
 }
