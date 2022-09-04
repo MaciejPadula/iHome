@@ -186,7 +186,7 @@ namespace iHome.Services.DatabaseService
 
         public bool ShareRoom(int roomId, string uuid)
         {
-            if (!UserRoomConstraintFound(roomId, uuid))
+            if (!UserRoomConstraintFound(roomId, uuid) && uuid!="")
             {
                 _applicationDbContext.UsersRooms?.Add(new()
                 {
