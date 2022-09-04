@@ -20,6 +20,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 // Import the module from the SDK
 import { AuthModule } from '@auth0/auth0-angular';
@@ -85,6 +86,7 @@ export function tokenGetter() {
     ReactiveFormsModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     DragDropModule,
     HttpClientModule,
     AuthModule.forRoot({
