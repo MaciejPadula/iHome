@@ -1,5 +1,9 @@
 <div class="rooms" cdkDropListGroup>
     <add-room></add-room>
+    <div *ngIf="spinnerVisible" class="spinner-container">
+        <mat-spinner diameter="70"></mat-spinner>
+    </div>
+    
     <mat-card class="room-card" *ngFor="let room of rooms" bgColor="primary">
         <mat-card-title>{{room.name}}</mat-card-title>
         <mat-card-subtitle>{{room.description}}</mat-card-subtitle>

@@ -19,9 +19,15 @@ interface RoomDeviceData{
 export class RoomsComponent implements OnInit {
   public rooms: Array<Room> = [];
   uuid: string = "";
+  spinnerVisible = false;
+
   constructor(private _api: RoomsApiService, private _auth: AuthService, private _signalR: SignalRService) {
     this._signalR.addQuery("updateView", () => {
-      this._api.getRooms().subscribe(res => this.rooms = res);
+      this.spinnerVisible = true;
+      this._api.getRooms().subscribe(res => {
+        this.rooms = res;
+        this.spinnerVisible = false;
+      });
     });
     this._signalR.runConnection();
     this._auth.user$.subscribe(u => {

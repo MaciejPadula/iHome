@@ -32,6 +32,7 @@ export class AddDeviceComponent {
 export class AddDeviceDialogComponent implements OnInit{
   devicesToConfigure: Array<DeviceToConfigure> = [];
   roomId: number;
+  spinnerVisible: boolean = false;
   private _ipAddress: string = "0.0.0.0";
 
   constructor(public dialogRef: MatDialogRef<AddDeviceDialogComponent>,
@@ -48,7 +49,11 @@ export class AddDeviceDialogComponent implements OnInit{
   }
 
   getDevicesToConfigure(){
-    this._api.getDevicesToConfigure(this._ipAddress).subscribe(res => this.devicesToConfigure = res);
+    this.spinnerVisible = true;
+    this._api.getDevicesToConfigure(this._ipAddress).subscribe(res => {
+      this.devicesToConfigure = res
+      this.spinnerVisible = false;
+    });
   }
 
   onNoClick(): void {
