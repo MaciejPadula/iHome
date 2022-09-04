@@ -1,6 +1,8 @@
 <h1 mat-dialog-title>Devices to configure</h1>
 <div mat-dialog-content>
-  <mat-spinner *ngIf="spinnerVisible"></mat-spinner>
+  <div *ngIf="spinnerVisible" class="spinner-container">
+    <mat-spinner diameter="70"></mat-spinner>
+  </div>
   <app-available-device *ngFor="let device of devicesToConfigure" [deviceToConfigure]=device [roomId]="roomId"></app-available-device>
 </div>
 <mat-dialog-actions align="end">
