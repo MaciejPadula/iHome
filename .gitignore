@@ -6,3 +6,8 @@ iHome/iHome/Properties
 iHome/iHome/.vs
 iHome/ihome.frontend.react/node_modules
 iHome/iHome.Frontend/src/assets/resources/data/appsettings.json
+iHome/iHome.Mobile/obj
+iHome/iHome.Mobile/bin
+iHome/iHome.Core/bin
+iHome/iHome.Core/obj
+iHome/iHome.Mobile/appsettings.json
