@@ -4,6 +4,7 @@ import { Room } from 'src/app/models/room';
 import { TermometerData } from 'src/app/models/termometer-data';
 import { RoomsApiService } from 'src/app/services/rooms-api.service';
 
+
 @Component({
   selector: 'app-termometer',
   templateUrl: './termometer.component.html',
