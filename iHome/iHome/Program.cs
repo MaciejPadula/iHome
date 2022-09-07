@@ -1,13 +1,11 @@
 using Auth0.AspNetCore.Authentication;
-using iHome;
 using iHome.Core.Logic.Database;
+using iHome.Core.Logic.UserInfo;
 using iHome.Core.Models.Application;
 using iHome.Core.Services.DatabaseService;
 using iHome.Hubs;
 using iHome.Logic.Notificator;
-using iHome.Logic.UserInfo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.OpenApi.Models;
 

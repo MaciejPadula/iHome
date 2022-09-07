@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace iHome.Models.Account
+namespace iHome.Core.Logic.Account
 {
     public class User
     {
