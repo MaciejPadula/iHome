@@ -22,16 +22,12 @@ namespace iHome.Controllers
         private readonly IDatabaseService _databaseService;
         private readonly IUserInfo _userInfo;
         private readonly INotificator _notificator;
+
         public RoomsController(IDatabaseService databaseApi, IUserInfo userInfo, INotificator notificator)
         {
             _userInfo = userInfo;
             _databaseService = databaseApi;
             _notificator = notificator;
-        }
-        [HttpOptions]
-        public IActionResult PreflightRoute()
-        {
-            return NoContent();
         }
 
         [HttpGet("GetRooms/")]

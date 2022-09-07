@@ -87,12 +87,11 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddControllersWithViews();
-
+builder.Services.AddControllers();
 
 builder.Services
     .Configure<ApplicationSettings>(builder.Configuration)
-    .AddScoped<ApplicationDbContext>()
+    .AddDbContext<ApplicationDbContext>()
     .AddScoped<IUserInfo, UserInfo>()
     .AddScoped<IDatabaseService, AzureDatabaseService>()
     .AddScoped<INotificator, Notificator>()
