@@ -1,6 +1,5 @@
 ﻿using iHome.Core.Models.Application;
 using iHome.Core.Services.DatabaseService;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace iHome.Mobile
@@ -18,7 +17,7 @@ namespace iHome.Mobile
             _applicationSettings = options.Value;
             _databaseService = databaseService;
 
-            _databaseService.GetListOfRooms("");
+            var rooms = _databaseService.GetListOfRooms("google-oauth2|111005413535505222179");
         }
 
         private void OnCounterClicked(object sender, EventArgs e)

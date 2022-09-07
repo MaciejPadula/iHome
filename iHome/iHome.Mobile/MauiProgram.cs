@@ -1,4 +1,6 @@
-﻿using iHome.Core.Models.Application;
+﻿using iHome.Core.Logic.Database;
+using iHome.Core.Models.Application;
+using iHome.Core.Services.DatabaseService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -20,11 +22,17 @@ namespace iHome.Mobile
                 });
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .Build();
-            var options = config.Get<ApplicationSettings>();
+                .Build()
+                .Get<ApplicationSettings>();
 
             builder.Services
-                .Configure<ApplicationSettings>(options)
+                .Configure<ApplicationSettings>(options =>
+                {
+                    options.AzureConnectionString = config.AzureConnectionString;
+                    options.Auth0ApiSecret = config.Auth0ApiSecret;
+                })
+                .AddScoped<ApplicationDbContext>()
+                .AddScoped<IDatabaseService,AzureDatabaseService>()
                 .AddScoped<HttpClient>()
                 .AddScoped<MainPage>();
 
