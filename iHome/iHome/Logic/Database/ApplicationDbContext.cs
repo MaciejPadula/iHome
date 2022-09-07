@@ -16,11 +16,11 @@ namespace iHome.Logic.Database
         {
             options.UseSqlServer(_connectionString);
         }
-        public DbSet<TDevice>? Devices { get; set; }
-        public DbSet<TRoom>? Rooms { get; set; }
-        public DbSet<TDeviceToConfigure>? DevicesToConfigure { get; set; }
-        public DbSet<TUsersRooms>? UsersRooms { get; set; }
-        public DbSet<TBills>? Bills { get; set; }
+        public DbSet<TDevice> Devices => Set<TDevice>(); 
+        public DbSet<TRoom> Rooms => Set<TRoom>();
+        public DbSet<TDeviceToConfigure> DevicesToConfigure => Set<TDeviceToConfigure>();
+        public DbSet<TUsersRooms> UsersRooms => Set<TUsersRooms>();
+        public DbSet<TBills> Bills => Set<TBills>();
     }
 }
 
