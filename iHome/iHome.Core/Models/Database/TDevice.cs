@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using iHome.Core.Models.ApiRooms;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace iHome.Models.Database
+namespace iHome.Core.Models.Database
 {
     public class TDevice
     {
@@ -14,5 +15,17 @@ namespace iHome.Models.Database
         public int RoomId { get; set; }
         [ForeignKey("RoomId")]
         public virtual TRoom Room { get; set; } = new TRoom();
+
+        public Device GetDevice()
+        {
+            return new Device()
+            {
+                Id = DeviceId,
+                Name = DeviceName,
+                Type = DeviceType,
+                Data = DeviceData,
+                RoomId = this.RoomId
+            };
+        }
     }
 }

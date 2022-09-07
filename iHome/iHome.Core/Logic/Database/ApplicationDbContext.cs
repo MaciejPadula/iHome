@@ -1,9 +1,9 @@
-﻿using iHome.Models.Application;
-using iHome.Models.Database;
+﻿using iHome.Core.Models.Application;
+using iHome.Core.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace iHome.Logic.Database
+namespace iHome.Core.Logic.Database
 {
     public class ApplicationDbContext : DbContext
     {
@@ -16,7 +16,7 @@ namespace iHome.Logic.Database
         {
             options.UseSqlServer(_connectionString);
         }
-        public DbSet<TDevice> Devices => Set<TDevice>(); 
+        public DbSet<TDevice> Devices => Set<TDevice>();
         public DbSet<TRoom> Rooms => Set<TRoom>();
         public DbSet<TDeviceToConfigure> DevicesToConfigure => Set<TDeviceToConfigure>();
         public DbSet<TUsersRooms> UsersRooms => Set<TUsersRooms>();

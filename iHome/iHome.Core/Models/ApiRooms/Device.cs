@@ -1,4 +1,4 @@
-﻿namespace iHome.Models.DataModels
+﻿namespace iHome.Core.Models.ApiRooms
 {
     public class Device
     {

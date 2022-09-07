@@ -1,4 +1,4 @@
-﻿namespace iHome.Models.Database
+﻿namespace iHome.Core.Models.Database
 {
     public class TBills
     {

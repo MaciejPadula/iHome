@@ -1,18 +1,18 @@
 using Auth0.AspNetCore.Authentication;
 using iHome;
+using iHome.Core.Logic.Database;
+using iHome.Core.Models.Application;
+using iHome.Core.Services.DatabaseService;
 using iHome.Hubs;
-using iHome.Logic.Database;
 using iHome.Logic.Notificator;
 using iHome.Logic.UserInfo;
-using iHome.Models.Application;
-using iHome.Services.DatabaseService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Security.Claims;
+
+if (!Directory.Exists("wwwroot"))
+    Directory.CreateDirectory("wwwroot");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -92,7 +92,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllersWithViews();
 
 
-builder.Services.Configure<ApplicationSettings>(builder.Configuration)
+builder.Services
+    .Configure<ApplicationSettings>(builder.Configuration)
     .AddScoped<ApplicationDbContext>()
     .AddScoped<IUserInfo, UserInfo>()
     .AddScoped<IDatabaseService, AzureDatabaseService>()

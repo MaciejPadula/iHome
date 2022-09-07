@@ -1,6 +1,4 @@
-﻿using iHome.Models.Database;
-
-namespace iHome.Models.DataModels
+﻿namespace iHome.Core.Models.ApiRooms
 {
     public class Room
     {

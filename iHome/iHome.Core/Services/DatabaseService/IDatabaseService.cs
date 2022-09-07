@@ -1,11 +1,11 @@
-﻿using iHome.Models.Database;
-using iHome.Models.DataModels;
+﻿using iHome.Core.Models.ApiRooms;
+using iHome.Core.Models.Database;
 
-namespace iHome.Services.DatabaseService
+namespace iHome.Core.Services.DatabaseService
 {
     public interface IDatabaseService
     {
-        List<Room>? GetListOfRooms(string uuid);
+        List<Room> GetListOfRooms(string uuid);
         bool AddRoom(string roomName, string roomDescription, string uuid);
         bool RemoveRoom(int roomId);
         bool ShareRoom(int roomId, string uuid);
@@ -21,6 +21,6 @@ namespace iHome.Services.DatabaseService
         int GetDeviceRoomId(string deviceId);
         bool RemoveRoomShare(int roomId, string uuid, string masterUuid);
 
-        List<TBills> GetUserBills(string uuid); 
+        List<TBills> GetUserBills(string uuid);
     }
 }
