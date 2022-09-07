@@ -62,6 +62,10 @@ export class RoomsApiService {
     });
   }
 
+  public async getDeviceData(deviceId: string){
+    return await this._http.get<any>(this._apiUrl + '/GetDeviceData/' + deviceId).toPromise();
+  }
+
   public setDeviceRoom(roomId: number, deviceId: string){
     return this._http.post(this._apiUrl + '/SetDeviceRoom', {
       deviceId: deviceId,

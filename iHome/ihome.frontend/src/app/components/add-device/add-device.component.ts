@@ -60,8 +60,7 @@ export class AddDeviceDialogComponent implements OnInit{
     this.dialogRef.close();
   }
 
-  private async getIPAddress(): Promise<any>
-  {
+  private async getIPAddress(): Promise<any> {
     return (await this._http.get<any>("https://api.ipify.org/?format=json").toPromise()).ip;
   }
   

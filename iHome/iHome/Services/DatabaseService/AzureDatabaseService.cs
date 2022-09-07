@@ -8,7 +8,7 @@ namespace iHome.Services.DatabaseService
 {
     public class AzureDatabaseService : IDatabaseService
     {
-        private ApplicationDbContext _applicationDbContext;
+        private readonly ApplicationDbContext _applicationDbContext;
 
         public AzureDatabaseService(ApplicationDbContext applicationDbContext)
         {
@@ -23,7 +23,7 @@ namespace iHome.Services.DatabaseService
                 DeviceName = deviceName,
                 DeviceType = deviceType,
                 DeviceData = deviceData,
-                Room = _applicationDbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefault()
+                Room = _applicationDbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefault(new TRoom())
             });
             var deviceConfigurationToRemove = _applicationDbContext.DevicesToConfigure?.Where(device => device.Id == id).FirstOrDefault();
             if (deviceConfigurationToRemove != null)
