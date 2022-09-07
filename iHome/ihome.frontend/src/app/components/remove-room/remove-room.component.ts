@@ -32,10 +32,11 @@ export class RemoveRoomDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<RemoveRoomDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {roomId: number, roomName: string},
-    private api: RoomsApiService
+    private _api: RoomsApiService
   ) {}
 
-  removeRoom(){
-    this.api.removeRoom(this.data.roomId).subscribe(_ => this.dialogRef.close());
+  public async removeRoom(){
+    this._api.removeRoom(this.data.roomId);
+    this.dialogRef.close();
   }
 };

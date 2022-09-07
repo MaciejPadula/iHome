@@ -26,7 +26,7 @@ export class TermometerComponent implements OnInit {
 
   constructor(private _api: RoomsApiService) { }
 
-  async ngOnInit(): Promise<void> {
+  public async ngOnInit(): Promise<void> {
     this.data = await this._api.getDeviceData(this.device.id);
     setInterval(async () => {
       this.data = await this._api.getDeviceData(this.device.id);

@@ -33,13 +33,14 @@ export class AddRoomDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<AddRoomDialogComponent>, private api: RoomsApiService) { }
 
-  onNoClick(): void {
+  public onNoClick(): void {
     this.dialogRef.close();
   }
   
-  addRoom(): void {
+  public async addRoom() {
     if(this.roomName.length > 3){
-      this.api.addRoom(this.roomName, this.roomDescription).subscribe(_ => this.dialogRef.close());
+      this.api.addRoom(this.roomName, this.roomDescription);
+      this.dialogRef.close()
     }
   }
 }

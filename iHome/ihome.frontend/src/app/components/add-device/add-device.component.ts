@@ -41,22 +41,19 @@ export class AddDeviceDialogComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: number
   ) { 
     this.roomId = data;
-    
   }
 
-  async ngOnInit(): Promise<void> {
+  public async ngOnInit(): Promise<void> {
     this._ipAddress = (await this.getIPAddress());
   }
 
-  getDevicesToConfigure(){
+  public async getDevicesToConfigure(){
     this.spinnerVisible = true;
-    this._api.getDevicesToConfigure(this._ipAddress).subscribe(res => {
-      this.devicesToConfigure = res
-      this.spinnerVisible = false;
-    });
+    this.devicesToConfigure = await this._api.getDevicesToConfigure(this._ipAddress);
+    this.spinnerVisible = false;
   }
 
-  onNoClick(): void {
+  public onNoClick(): void {
     this.dialogRef.close();
   }
 

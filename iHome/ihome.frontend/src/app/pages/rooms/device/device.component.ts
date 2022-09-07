@@ -22,6 +22,6 @@ export class DeviceComponent implements OnInit {
     
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 }

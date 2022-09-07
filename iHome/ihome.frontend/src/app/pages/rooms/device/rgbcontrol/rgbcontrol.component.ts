@@ -35,7 +35,7 @@ export class RGBControlComponent implements OnInit {
     this.state = Boolean(this.data.State);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if(this.device != undefined) {
       this.data = JSON.parse(this.device.data);
     }
@@ -43,7 +43,7 @@ export class RGBControlComponent implements OnInit {
     this.color = this.rgbToHex(this.data.Red, this.data.Green, this.data.Blue);
   }
 
-  updateColor(){
+  public updateColor(){
     const col = this.hexToRgb(this.color)
     this.data = {
       ...this.data,
@@ -54,7 +54,7 @@ export class RGBControlComponent implements OnInit {
     this.updateDevice();
   }
   
-  updateState(){
+  public updateState(){
     this.data = {
       ...this.data,
       State: Number(this.state)
@@ -62,7 +62,7 @@ export class RGBControlComponent implements OnInit {
     this.updateDevice();
   }
 
-  updateMode(mode: number){
+  public updateMode(mode: number){
     this.data = {
       ...this.data,
       Mode: mode
@@ -70,8 +70,8 @@ export class RGBControlComponent implements OnInit {
     this.updateDevice();
   }
 
-  private updateDevice(){
-    this.api.setDeviceData(this.device.id, JSON.stringify(this.data)).subscribe();
+  private async updateDevice(){
+    await this.api.setDeviceData(this.device.id, JSON.stringify(this.data));
   }
 
   private componentToHex(c: number): string {
