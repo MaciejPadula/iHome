@@ -7,7 +7,7 @@ namespace iHome.Core.Models.Database
     public class TDevice
     {
         [Key]
-        public string Id { get; set; } = "";
+        public string DeviceId { get; set; } = "";
         public string Name { get; set; } = "";
         public int Type { get; set; } = -1;
         public string Data { get; set; } = "{}";
@@ -20,7 +20,7 @@ namespace iHome.Core.Models.Database
         {
             return new Device()
             {
-                Id = Id,
+                Id = DeviceId,
                 Name = Name,
                 Type = Type,
                 Data = Data,
