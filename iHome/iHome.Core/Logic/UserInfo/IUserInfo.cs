@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
-namespace iHome.Logic.UserInfo
+namespace iHome.Core.Logic.UserInfo
 {
     public interface IUserInfo
     {
-        Task<string> GetPublicIp(HttpContext httpContext);
         string GetUserUuid(ClaimsPrincipal user);
         string GetUserUuid(string email);
         string GetUserEmail(string uuid);

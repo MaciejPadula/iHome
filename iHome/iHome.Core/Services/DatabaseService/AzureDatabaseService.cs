@@ -33,17 +33,6 @@ namespace iHome.Core.Services.DatabaseService
             return _applicationDbContext.SaveChanges() > 0;
         }
 
-        public bool AddDevicesToConfigure(string deviceId, int deviceType, string ip)
-        {
-            _applicationDbContext?.DevicesToConfigure?.Add(new TDeviceToConfigure
-            {
-                DeviceId = deviceId,
-                DeviceType = deviceType,
-                IpAddress = ip,
-            });
-            return _applicationDbContext?.SaveChanges() > 0;
-        }
-
         public bool AddRoom(string roomName, string roomDescription, string uuid)
         {
             _applicationDbContext?.Rooms?.Add(new TRoom()

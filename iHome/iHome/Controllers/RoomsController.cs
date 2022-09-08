@@ -1,7 +1,7 @@
-﻿using iHome.Core.Models.ApiRooms;
+﻿using iHome.Core.Logic.UserInfo;
+using iHome.Core.Models.ApiRooms;
 using iHome.Core.Services.DatabaseService;
 using iHome.Logic.Notificator;
-using iHome.Logic.UserInfo;
 using iHome.Models.Account.Rooms.Requests;
 using iHome.Models.Requests;
 using iHome.Models.RoomsApi.Requests;
@@ -22,16 +22,12 @@ namespace iHome.Controllers
         private readonly IDatabaseService _databaseService;
         private readonly IUserInfo _userInfo;
         private readonly INotificator _notificator;
+
         public RoomsController(IDatabaseService databaseApi, IUserInfo userInfo, INotificator notificator)
         {
             _userInfo = userInfo;
             _databaseService = databaseApi;
             _notificator = notificator;
-        }
-        [HttpOptions]
-        public IActionResult PreflightRoute()
-        {
-            return NoContent();
         }
 
         [HttpGet("GetRooms/")]
@@ -204,26 +200,6 @@ namespace iHome.Controllers
                 return Ok(devicesToConfigure);
             }
             return NotFound(new { exception = "Can't get devices to configure list" });
-        }
-
-        [HttpPost("AddDevicesToConfigure/")]
-        [Authorize]
-        public async Task<ActionResult> AddDevicesToConfigure([FromBody] NewDeviceToConfigureRequest deviceToConfigure)
-        {
-            var ip = await _userInfo.GetPublicIp(HttpContext);
-            if (ip == null || deviceToConfigure == null) return NotFound(new { exception = "IP or input data equals null" });
-            if (_databaseService.AddDevicesToConfigure(deviceToConfigure.DeviceId, deviceToConfigure.DeviceType, ip))
-            {
-                return Ok(new { status = 200 });
-            }
-            return NotFound(new { exception = "Can't add new device to configure" });
-        }
-
-        [HttpGet("GetIP")]
-        [Authorize]
-        public async Task<ActionResult> GetIP()
-        {
-            return Ok(await _userInfo.GetPublicIp(HttpContext));
         }
 
         [HttpGet("GetEmail/{uuid}")]
