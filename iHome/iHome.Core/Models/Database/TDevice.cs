@@ -7,10 +7,10 @@ namespace iHome.Core.Models.Database
     public class TDevice
     {
         [Key]
-        public string DeviceId { get; set; } = "";
-        public string DeviceName { get; set; } = "";
-        public int DeviceType { get; set; } = -1;
-        public string DeviceData { get; set; } = "{}";
+        public string Id { get; set; } = "";
+        public string Name { get; set; } = "";
+        public int Type { get; set; } = -1;
+        public string Data { get; set; } = "{}";
 
         public int RoomId { get; set; }
         [ForeignKey("RoomId")]
@@ -20,11 +20,11 @@ namespace iHome.Core.Models.Database
         {
             return new Device()
             {
-                Id = DeviceId,
-                Name = DeviceName,
-                Type = DeviceType,
-                Data = DeviceData,
-                RoomId = this.RoomId
+                Id = Id,
+                Name = Name,
+                Type = Type,
+                Data = Data,
+                RoomId = RoomId
             };
         }
     }

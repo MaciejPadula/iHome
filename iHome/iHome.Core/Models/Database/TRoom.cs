@@ -6,10 +6,9 @@ namespace iHome.Core.Models.Database
     {
         [Key]
         public int RoomId { get; set; }
-        public string RoomName { get; set; } = "";
-        public string RoomImage { get; set; } = "";
-        public string RoomDescription { get; set; } = "";
-        public string Uuid { get; set; } = "";
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string UserId { get; set; } = "";
 
         public virtual List<TDevice> Devices { get; set; } = new List<TDevice>();
     }

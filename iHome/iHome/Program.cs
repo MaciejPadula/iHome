@@ -91,7 +91,7 @@ builder.Services.AddControllers();
 
 builder.Services
     .Configure<ApplicationSettings>(builder.Configuration)
-    .AddDbContext<ApplicationDbContext>()
+    .AddDbContext<IDatabaseContext, AzureSQLDbContext>()
     .AddScoped<IUserInfo, UserInfo>()
     .AddScoped<IDatabaseService, AzureDatabaseService>()
     .AddScoped<INotificator, Notificator>()

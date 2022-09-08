@@ -20,19 +20,19 @@ namespace iHome.Mobile
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-            var config = new ConfigurationBuilder()
+            /*var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build()
                 .Get<ApplicationSettings>();
-
-            builder.Services
-                .Configure<ApplicationSettings>(options =>
+            
+             
+             .Configure<ApplicationSettings>(options =>
                 {
                     options.AzureConnectionString = config.AzureConnectionString;
                     options.Auth0ApiSecret = config.Auth0ApiSecret;
-                })
-                .AddScoped<ApplicationDbContext>()
-                .AddScoped<IDatabaseService,AzureDatabaseService>()
+                })*/
+
+            builder.Services
                 .AddScoped<HttpClient>()
                 .AddScoped<MainPage>();
 

@@ -6,18 +6,11 @@ namespace iHome.Mobile
 {
     public partial class MainPage : ContentPage
     {
-        private readonly IDatabaseService _databaseService;
-        private readonly ApplicationSettings _applicationSettings;
         int count = 0;
 
-        public MainPage(IDatabaseService databaseService, IOptions<ApplicationSettings> options)
+        public MainPage()
         {
             InitializeComponent();
-
-            _applicationSettings = options.Value;
-            _databaseService = databaseService;
-
-            var rooms = _databaseService.GetListOfRooms("google-oauth2|111005413535505222179");
         }
 
         private void OnCounterClicked(object sender, EventArgs e)
