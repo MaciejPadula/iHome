@@ -50,9 +50,9 @@ export class AvailableDeviceComponent implements OnInit {
     }
   }
 
-  addDevice(){
+  public async addDevice(){
     if(this.newDevice.name.length >=3 ){
-      this._api.addDevice(this.deviceToConfigure.id, this.newDevice).subscribe();
+      await this._api.addDevice(this.deviceToConfigure.id, this.newDevice);
     }
   }
 }

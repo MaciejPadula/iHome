@@ -37,7 +37,6 @@ export class SignalRService {
 
   private addTransferChartDataListener = () => {
     this.hubConnection.on('ReceiveMessage', (query) => {
-      console.log(query);
       this._queries[query]();
     });
   }

@@ -10,12 +10,12 @@ export class ProfileComponent implements OnInit {
 
   constructor(private _api: RoomsApiService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getBills();
   }
 
-  getBills(){
-    this._api.getBills().subscribe(res => console.log(res));
+  public async getBills(){
+    const res = await this._api.getBills();
   }
 
 }

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { RoomsApiService } from 'src/app/services/rooms-api.service';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-share-list',
@@ -42,32 +43,27 @@ export class ShareListDialogComponent implements OnInit {
   public users: Array<User> = [];
   constructor(
     public dialogRef: MatDialogRef<ShareListDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string, private api: RoomsApiService
+    @Inject(MAT_DIALOG_DATA) public data: string, private _api: RoomsApiService
   ) {
     this.roomId = parseInt(data);
-    this.api.getEmailsByFragment("*").subscribe(res => {
-      this.options = res;
-    });
-
-    this.getSharedUsers();
   }
 
-  ngOnInit() {
+  public async ngOnInit() {
+    this.options = await this._api.getEmailsByFragment("*");
+    await this.getSharedUsers();
     this.filteredOptions = this.email.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value || '')),
+      map(value => this.filter(value || '')),
     );
   }
 
-  public getSharedUsers(){
+  public async getSharedUsers(){
     this.progressBarShow = true;
-    this.api.getRoomShares(this.roomId).subscribe(res => {
-      this.users = res
-      this.progressBarShow = false;
-    });
+    this.users = await this._api.getRoomShares(this.roomId);
+    this.progressBarShow = false;
   }
 
-  public _filter(value: string):string[] {
+  public filter(value: string):string[] {
     if(value.length<3){
       return [];
     }
@@ -76,18 +72,17 @@ export class ShareListDialogComponent implements OnInit {
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  removeShare(uuid: string){
-    this.api.removeRoomShare(this.roomId, uuid).subscribe(_ => this.getSharedUsers());
+  public async removeShare(uuid: string){
+    await this._api.removeRoomShare(this.roomId, uuid);
+    this.getSharedUsers();
   }
 
-  shareRoom(){
+  public async shareRoom(){
     console.log(this.email.value);
     if(this.email.value != undefined){
-      this.api.shareRoom(this.roomId, this.email.value).subscribe(_ => {
-        this.getSharedUsers();
-        this.email.setValue("");
-      });
+      await this._api.shareRoom(this.roomId, this.email.value);
+      this.getSharedUsers();
+      this.email.setValue("");
     }
-    
   }
 };

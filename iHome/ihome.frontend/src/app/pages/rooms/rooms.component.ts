@@ -22,12 +22,14 @@ export class RoomsComponent implements OnInit {
   spinnerVisible = false;
 
   constructor(private _api: RoomsApiService, private _auth: AuthService, private _signalR: SignalRService) {
-    this._signalR.addQuery("updateView", () => {
+    
+  }
+  
+  public ngOnInit() {
+    this._signalR.addQuery("updateView", async () => {
       this.spinnerVisible = true;
-      this._api.getRooms().subscribe(res => {
-        this.rooms = res;
-        this.spinnerVisible = false;
-      });
+      this.rooms = await this._api.getRooms();
+      this.spinnerVisible = false;
     });
     this._signalR.runConnection();
     this._auth.user$.subscribe(u => {
@@ -35,17 +37,14 @@ export class RoomsComponent implements OnInit {
         this.uuid = u.sub;
       }
     });
-  }
-  
-  ngOnInit(): void {
     this._signalR.callToResetView();
   }
 
-  drop(event: CdkDragDrop<RoomDeviceData>){
+  public drop(event: CdkDragDrop<RoomDeviceData>){
     if(event.previousContainer != event.container){
       const deviceId = event.item.data;
       const roomId = event.container.data.roomId;
-      this._api.setDeviceRoom(roomId, deviceId).subscribe();
+      this._api.setDeviceRoom(roomId, deviceId);
       transferArrayItem(
         event.previousContainer.data.devices,
         event.container.data.devices,
@@ -55,7 +54,7 @@ export class RoomsComponent implements OnInit {
     }
   }
 
-  sortDevices(devices: Array<Device>): Array<Device>{
+  public sortDevices(devices: Array<Device>): Array<Device>{
     return devices.sort((a, b) => a.name.localeCompare(b.name));
   }
 }

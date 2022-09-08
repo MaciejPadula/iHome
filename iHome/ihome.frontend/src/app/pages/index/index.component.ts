@@ -18,7 +18,7 @@ export class IndexComponent implements OnInit {
     
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
 }
