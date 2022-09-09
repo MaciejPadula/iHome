@@ -1,14 +1,13 @@
 ﻿using iHome.Core.Logic.UserInfo;
 using iHome.Core.Models.ApiRooms;
+using iHome.Core.Models.Requests;
 using iHome.Core.Services.DatabaseService;
 using iHome.Logic.Notificator;
 using iHome.Models.Account.Rooms.Requests;
 using iHome.Models.Requests;
 using iHome.Models.RoomsApi.Requests;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace iHome.Controllers
 {

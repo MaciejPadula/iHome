@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using iHome.Core.Logic.Database;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using iHome.Core.Models.Requests;
 
 namespace iHome.AzureFunctions.Logic
 {
@@ -24,9 +25,9 @@ namespace iHome.AzureFunctions.Logic
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Admin, "post", Route = null)] HttpRequest req)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            var deviceId = (string)data?.deviceId;
-            var deviceData = (string)data?.deviceData;
+            var data = JsonConvert.DeserializeObject<DeviceDataRequest>(requestBody);
+            var deviceId = data.DeviceId;
+            var deviceData = data.DeviceData;
 
             var deviceToUpdate = _dbContext.Devices.Where(device => device.DeviceId == deviceId).FirstOrDefault();
             deviceToUpdate.Data = deviceData;

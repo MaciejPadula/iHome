@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using iHome.Core.Logic.Database;
 using System.Linq;
+using iHome.Core.Models.Requests;
 
 namespace iHome.AzureFunctions.Logic
 {
@@ -24,8 +25,8 @@ namespace iHome.AzureFunctions.Logic
         {
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            var deviceId = (string)data?.deviceId;
+            var requestData = JsonConvert.DeserializeObject<DeviceDataRequest>(requestBody);
+            var deviceId = requestData.DeviceId;
 
             var deviceToRead = _dbContext.Devices.Where(device => device.DeviceId == deviceId).FirstOrDefault();
 

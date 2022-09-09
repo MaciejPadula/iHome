@@ -1,4 +1,4 @@
-﻿namespace iHome.Models.Requests
+﻿namespace iHome.Core.Models.Requests
 {
     public class DeviceDataRequest
     {
