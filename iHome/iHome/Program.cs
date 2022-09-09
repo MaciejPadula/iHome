@@ -7,6 +7,7 @@ using iHome.Hubs;
 using iHome.Logic.Notificator;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 if (!Directory.Exists("wwwroot"))
@@ -91,7 +92,7 @@ builder.Services.AddControllers();
 
 builder.Services
     .Configure<ApplicationSettings>(builder.Configuration)
-    .AddDbContext<IDatabaseContext, AzureSQLDbContext>()
+    .AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration["AzureConnectionString"]))
     .AddScoped<IUserInfo, UserInfo>()
     .AddScoped<IDatabaseService, AzureDatabaseService>()
     .AddScoped<INotificator, Notificator>()

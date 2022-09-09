@@ -8,11 +8,12 @@ namespace iHome.Core.Services.DatabaseService
 {
     public class AzureDatabaseService : IDatabaseService
     {
-        private readonly IDatabaseContext _dbContext;
+        private readonly AppDbContext _dbContext;
 
-        public AzureDatabaseService(IDatabaseContext dbContext)
+        public AzureDatabaseService(AppDbContext dbContext)
         {
             _dbContext = dbContext;
+            _dbContext.Database.EnsureCreated();
         }
 
         public bool AddDevice(int id, string deviceId, string deviceName, int deviceType, string deviceData, int roomId)
@@ -35,21 +36,18 @@ namespace iHome.Core.Services.DatabaseService
 
         public bool AddRoom(string roomName, string roomDescription, string uuid)
         {
-            _dbContext?.Rooms?.Add(new TRoom()
+            _dbContext.Rooms.Add(new TRoom()
             {
                 Name = roomName,
                 Description = roomDescription,
                 UserId = uuid,
             });
-            if (_dbContext?.SaveChanges() == 0)
+            if (_dbContext.SaveChanges() == 0)
             {
                 return false;
             }
             int roomId = 0;
-            if (_dbContext?.Rooms != null)
-            {
-                roomId = _dbContext.Rooms.OrderBy(room => room.RoomId).Last().RoomId;
-            }
+            roomId = _dbContext.Rooms.OrderBy(room => room.RoomId).Last().RoomId;
 
             return ShareRoom(roomId, uuid);
         }
@@ -93,21 +91,12 @@ namespace iHome.Core.Services.DatabaseService
         public List<Room> GetListOfRooms(string uuid)
         {
             var rooms = _dbContext.Rooms
-                        .Join(_dbContext.UsersRooms,
-                            room => room.RoomId,
-                            userRoom => userRoom.RoomId,
-                            (room, userRoom) => new Room
-                            {
-                                Id = room.RoomId,
-                                Description = room.Description,
-                                Name = room.Name,
-                                Devices = room.Devices.GetDeviceList(),
-                                Uuid = userRoom.UserId,
-                                OwnerUuid = room.UserId
-                            })
-                        .Where(room => room.Uuid == uuid)
-                        .OrderBy(room => room.Name)
-                        .ToList();
+                .Include(db => db.Devices)
+                .Include(db => db.UsersRoom)
+                .ToList()
+                .Where(room => room.UsersRoom.Contains(uuid))
+                .ToList()
+                .ToRoomModelList(uuid);
 
             if (rooms != null)
             {
@@ -176,11 +165,7 @@ namespace iHome.Core.Services.DatabaseService
         {
             if (!UserRoomConstraintFound(roomId, uuid) && uuid != "")
             {
-                _dbContext.UsersRooms?.Add(new()
-                {
-                    UserId = uuid,
-                    RoomId = roomId,
-                });
+                _dbContext.UsersRooms.Add(new() { RoomId = roomId, UserId = uuid});
                 if (_dbContext.SaveChanges() > 0)
                 {
                     return true;
@@ -269,14 +254,6 @@ namespace iHome.Core.Services.DatabaseService
                 _dbContext?.UsersRooms?.Remove(toRemove);
             }
             return _dbContext?.SaveChanges() >= 1;
-        }
-
-        public List<TBills> GetUserBills(string uuid)
-        {
-            var bills = _dbContext?.Bills?.Where(bill => bill.Uuid == uuid).ToList();
-            if (bills != null)
-                return bills;
-            return new List<TBills>();
         }
     }
 }

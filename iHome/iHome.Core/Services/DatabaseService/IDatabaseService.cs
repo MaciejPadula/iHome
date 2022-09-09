@@ -19,7 +19,5 @@ namespace iHome.Core.Services.DatabaseService
         List<string> GetRoomUserIds(int roomId);
         int GetDeviceRoomId(string deviceId);
         bool RemoveRoomShare(int roomId, string uuid, string masterUuid);
-
-        List<TBills> GetUserBills(string uuid);
     }
 }

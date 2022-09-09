@@ -251,22 +251,5 @@ namespace iHome.Controllers
         {
             return Ok(_userInfo.GetEmails(emailTest).OrderBy(e => e).ToList());
         }
-
-        [HttpGet("GetBills")]
-        [Authorize]
-        public ActionResult GetBills()
-        {
-            var uuid = _userInfo.GetUserUuid(User);
-            var bills = _databaseService.GetUserBills(uuid);
-
-            if (bills.Any())
-            {
-                return Ok(bills);
-            }
-            else
-            {
-                return Ok(new { exception = "Can't find any bills" });
-            }
-        }
     }
 }

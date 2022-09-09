@@ -14,7 +14,7 @@ namespace iHome.Core.Models.Database
 
         public int RoomId { get; set; }
         [ForeignKey("RoomId")]
-        public virtual TRoom Room { get; set; } = new TRoom();
+        public virtual TRoom Room { get; set; } = new();
 
         public Device GetDevice()
         {
