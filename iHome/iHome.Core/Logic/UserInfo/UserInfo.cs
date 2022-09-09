@@ -55,7 +55,7 @@ namespace iHome.Core.Logic.UserInfo
         {
             var client = new RestClient(url);
             var request = new RestRequest();
-            request.AddHeader("authorization", _options.Value.Auth0ApiSecret);
+            request.AddHeader("authorization", "Bearer " + _options.Value.Auth0ApiSecret);
             var content = client.Execute(request).Content;
             if (content == null)
             {
