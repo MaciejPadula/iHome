@@ -31,12 +31,12 @@ namespace iHome.Controllers
 
         [HttpGet("GetRooms/")]
         [Authorize]
-        public ActionResult GetRooms()
+        public async Task<ActionResult> GetRooms()
         {
             string? uuid = _userInfo.GetUserUuid(User);
             if (uuid == null) return NotFound();
 
-            var listOfRooms = _databaseService.GetListOfRooms(uuid);
+            var listOfRooms = await _databaseService.GetListOfRooms(uuid);
 
             if (listOfRooms == null)
             {
@@ -52,112 +52,104 @@ namespace iHome.Controllers
             string? uuid = _userInfo.GetUserUuid(User);
             if (room == null || uuid == null) return NotFound(new { exception = "room or uuid is null" });
 
-            _databaseService.AddRoom(room.RoomName, room.RoomDescription, uuid);
+            _databaseService.AddRoom(room.RoomName, room.RoomDescription, uuid).GetAwaiter().GetResult();
             _notificator.NotifyUser(uuid);
             return Ok(new { status = 200 });
         }
 
         [HttpPost("RemoveRoom/{id}")]
         [Authorize]
-        public ActionResult RemoveRoom(int id)
+        public async Task<ActionResult> RemoveRoom(int id)
         {
             string? uuid = _userInfo.GetUserUuid(User);
             if (uuid == null) return NotFound();
-            var uuids = _databaseService.GetRoomUserIds(id);
+            var uuids = await _databaseService.GetRoomUserIds(id);
 
-            _databaseService.RemoveRoom(id);
+            await _databaseService.RemoveRoom(id);
             _notificator.NotifyUsers(uuids);
             return Ok(new { status = 200 });
         }
 
         [HttpPost("ShareRoom")]
         [Authorize]
-        public ActionResult ShareRoom([FromBody] UserRoomRequest userRoom)
+        public async Task<ActionResult> ShareRoom([FromBody] UserRoomRequest userRoom)
         {
             string? uuid = _userInfo.GetUserUuid(userRoom.Email);
             if (uuid == null) return NotFound(new { exception = "Uuid equals null" });
 
-            _databaseService.ShareRoom(userRoom.RoomId, uuid);
-            _notificator.NotifyUsers(_databaseService.GetRoomUserIds(userRoom.RoomId));
+            await _databaseService.ShareRoom(userRoom.RoomId, uuid);
+            _notificator.NotifyUsers(await _databaseService.GetRoomUserIds(userRoom.RoomId));
             return Ok(new { status = 200 });
         }
 
         [HttpGet("GetDevices/{roomId}")]
         [Authorize]
-        public ActionResult GetDevices(int roomId)
+        public async Task<ActionResult> GetDevices(int roomId)
         {
-            var devices = _databaseService.GetDevices(roomId);
-            if (devices != null)
-            {
-                return Ok(devices);
-            }
-            return NotFound(new { exception = "Can't get rooms" });
+            var devices = await _databaseService.GetDevices(roomId);
+            return Ok(devices);
         }
 
         [HttpPost("AddDevice/{id}")]
         [Authorize]
-        public ActionResult AddDevice(int id, [FromBody] Device device)
+        public async Task<ActionResult> AddDevice(int id, [FromBody] Device device)
         {
             string? uuid = _userInfo.GetUserUuid(User);
             if (uuid == null) return NotFound();
             if (device == null) return NotFound(new { exception = "Wrong input data" });
 
-            _databaseService.AddDevice(id, device.Id, device.Name, device.Type, device.Data, device.RoomId);
-            _notificator.NotifyUsers(_databaseService.GetRoomUserIds(device.RoomId));
+            await _databaseService.AddDevice(id, device.Id, device.Name, device.Type, device.Data, device.RoomId);
+            _notificator.NotifyUsers(await _databaseService.GetRoomUserIds(device.RoomId));
             return Ok(new { status = 200 });
         }
 
         [HttpPost("RenameDevice/")]
         [Authorize]
-        public ActionResult RenameDevice([FromBody] RenameDeviceRequest renameDevice)
+        public async Task<ActionResult> RenameDevice([FromBody] RenameDeviceRequest renameDevice)
         {
             string? uuid = _userInfo.GetUserUuid(User);
             if (uuid == null) return NotFound();
 
             if (renameDevice == null) return NotFound(new { exception = "Wrong input data" });
 
-            _databaseService.RenameDevice(renameDevice.DeviceId, renameDevice.DeviceName, uuid);
-            _notificator.NotifyUsers(_databaseService.GetRoomUserIds(_databaseService.GetDeviceRoomId(renameDevice.DeviceId)));
+            await _databaseService.RenameDevice(renameDevice.DeviceId, renameDevice.DeviceName, uuid);
+            _notificator.NotifyUsers(await _databaseService.GetRoomUserIds(await _databaseService.GetDeviceRoomId(renameDevice.DeviceId)));
             return Ok(new { status = 200 });
         }
 
         [HttpGet("GetDeviceData/{deviceId}")]
-        public ActionResult GetDeviceData(string deviceId)
+        public async Task<ActionResult> GetDeviceData(string deviceId)
         {
             string? uuid = _userInfo.GetUserUuid(User);
             if (uuid == null) return NotFound();
 
-            var deviceData = _databaseService.GetDeviceData(deviceId, uuid);
-            if (deviceData != null)
-            {
-                return Ok(deviceData);
-            }
-            return NotFound(new { exception = "Can't read device data" });
+            var deviceData = await _databaseService.GetDeviceData(deviceId, uuid);
+            return Ok(deviceData);
         }
         [HttpPost("SetDeviceData/")]
         [Authorize]
-        public ActionResult SetDeviceData([FromBody] DeviceDataRequest deviceData)
+        public async Task<ActionResult> SetDeviceData([FromBody] DeviceDataRequest deviceData)
         {
             string? uuid = _userInfo.GetUserUuid(User);
             if (uuid == null) return NotFound();
-            var uuids = _databaseService.GetRoomUserIds(_databaseService.GetDeviceRoomId(deviceData.DeviceId));
+            var uuids = await _databaseService.GetRoomUserIds(await _databaseService.GetDeviceRoomId(deviceData.DeviceId));
 
-            _databaseService.SetDeviceData(deviceData.DeviceId, deviceData.DeviceData, uuid);
+            await _databaseService.SetDeviceData(deviceData.DeviceId, deviceData.DeviceData, uuid);
             _notificator.NotifyUsers(uuids, new() { uuid });
             return Ok(new { status = 200 });
         }
 
         [HttpPost("SetDeviceRoom/")]
         [Authorize]
-        public ActionResult SetDeviceRoom([FromBody] NewDeviceRoomRequest newDeviceRoom)
+        public async Task<ActionResult> SetDeviceRoom([FromBody] NewDeviceRoomRequest newDeviceRoom)
         {
-            var oldRoomId = _databaseService.GetDeviceRoomId(newDeviceRoom.DeviceId);
+            var oldRoomId = await _databaseService.GetDeviceRoomId(newDeviceRoom.DeviceId);
             string uuid = _userInfo.GetUserUuid(User);
             if (uuid == null) return NotFound();
-            var uuids = _databaseService.GetRoomUserIds(oldRoomId);
-            uuids.AddRange(_databaseService.GetRoomUserIds(newDeviceRoom.RoomId));
+            var uuids = await _databaseService.GetRoomUserIds(oldRoomId);
+            uuids.AddRange(await _databaseService.GetRoomUserIds(newDeviceRoom.RoomId));
             
-            _databaseService.SetDeviceRoom(newDeviceRoom.DeviceId, newDeviceRoom.RoomId, _userInfo.GetUserUuid(User));
+            await _databaseService.SetDeviceRoom(newDeviceRoom.DeviceId, newDeviceRoom.RoomId, _userInfo.GetUserUuid(User));
             _notificator.NotifyUsers(uuids.Distinct().ToList(), new() { uuid });
             return Ok(new { status = 200 });
         }
@@ -171,14 +163,10 @@ namespace iHome.Controllers
 
         [HttpPost("GetDevicesToConfigure/")]
         [Authorize]
-        public ActionResult GetDevicesToConfigure([FromBody] GetDevicesToConfigureRequest getDevicesToConfigure)
+        public async Task<ActionResult> GetDevicesToConfigure([FromBody] GetDevicesToConfigureRequest getDevicesToConfigure)
         {
-            var devicesToConfigure = _databaseService.GetDevicesToConfigure(getDevicesToConfigure.Ip);
-            if (devicesToConfigure != null)
-            {
-                return Ok(devicesToConfigure);
-            }
-            return NotFound(new { exception = "Can't get devices to configure list" });
+            var devicesToConfigure = await _databaseService.GetDevicesToConfigure(getDevicesToConfigure.Ip);
+            return Ok(devicesToConfigure);
         }
 
         [HttpGet("GetEmail/{uuid}")]
@@ -190,10 +178,10 @@ namespace iHome.Controllers
 
         [HttpGet("GetRoomUsers/{roomId}")]
         [Authorize]
-        public ActionResult GetRoomUsers(int roomId)
+        public async Task<ActionResult> GetRoomUsers(int roomId)
         {
             var masterUuid = _userInfo.GetUserUuid(User);
-            var uuids = _databaseService.GetRoomUserIds(roomId).Where(uuid => uuid != masterUuid).ToList();
+            var uuids = (await _databaseService.GetRoomUserIds(roomId)).Where(uuid => uuid != masterUuid).ToList();
             var users = new List<object>();
             uuids.ForEach(uuid => users.Add(new
             {
@@ -205,12 +193,12 @@ namespace iHome.Controllers
 
         [HttpPost("RemoveRoomShare/")]
         [Authorize]
-        public ActionResult RemoveRoomShare([FromBody] RemoveRoomShareRequest removeShare)
+        public async Task<ActionResult> RemoveRoomShare([FromBody] RemoveRoomShareRequest removeShare)
         {
             var uuid = _userInfo.GetUserUuid(User);
-            var uuids = _databaseService.GetRoomUserIds(removeShare.RoomId);
+            var uuids = await _databaseService.GetRoomUserIds(removeShare.RoomId);
 
-            _databaseService.RemoveRoomShare(removeShare.RoomId, removeShare.Uuid, uuid);
+            await _databaseService.RemoveRoomShare(removeShare.RoomId, removeShare.Uuid, uuid);
             _notificator.NotifyUsers(uuids);
             return Ok(new { status = 200 });
         }

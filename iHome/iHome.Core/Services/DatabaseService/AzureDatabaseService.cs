@@ -16,9 +16,9 @@ namespace iHome.Core.Services.DatabaseService
             _dbContext.Database.EnsureCreated();
         }
 
-        public void AddDevice(int id, string deviceId, string deviceName, int deviceType, string deviceData, int roomId)
+        public async Task AddDevice(int id, string deviceId, string deviceName, int deviceType, string deviceData, int roomId)
         {
-            _dbContext.Devices.Add(new TDevice
+            await _dbContext.Devices.AddAsync(new TDevice
             {
                 DeviceId = deviceId,
                 Name = deviceName,
@@ -26,34 +26,34 @@ namespace iHome.Core.Services.DatabaseService
                 Data = deviceData,
                 Room = _dbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefault(new TRoom())
             });
-            var deviceConfigurationToRemove = _dbContext.DevicesToConfigure?.Where(device => device.Id == id).FirstOrDefault();
+            var deviceConfigurationToRemove = _dbContext.DevicesToConfigure.Where(device => device.Id == id).FirstOrDefault();
             if (deviceConfigurationToRemove != null)
             {
                 _dbContext.DevicesToConfigure?.Remove(deviceConfigurationToRemove);
             }
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void AddRoom(string roomName, string roomDescription, string uuid)
+        public async Task AddRoom(string roomName, string roomDescription, string uuid)
         {
-            var room = _dbContext.Rooms.Add(new TRoom()
+            var room = await _dbContext.Rooms.AddAsync(new TRoom()
             {
                 Name = roomName,
                 Description = roomDescription,
                 UserId = uuid,
             });
-            _dbContext.SaveChanges();
-            ShareRoom(room.Entity.RoomId, uuid);
+            await _dbContext.SaveChangesAsync();
+            await ShareRoom(room.Entity.RoomId, uuid);
         }
 
-        public string GetDeviceData(string deviceId, string uuid)
+        public async Task<string> GetDeviceData(string deviceId, string uuid)
         {
-            if (CheckDeviceOwnership(deviceId, uuid))
+            if (await CheckDeviceOwnership(deviceId, uuid))
             {
-                var deviceData = _dbContext?.Devices?
+                var deviceData = await _dbContext.Devices
                         .Where(device => device.DeviceId == deviceId)
                         .Select(device => device.Data)
-                        .FirstOrDefault();
+                        .FirstOrDefaultAsync();
                 if (deviceData != null)
                 {
                     return deviceData;
@@ -62,9 +62,9 @@ namespace iHome.Core.Services.DatabaseService
             return "{}";
         }
 
-        public List<Device> GetDevices(int roomId)
+        public async Task<List<Device>> GetDevices(int roomId)
         {
-            var devices = _dbContext.Devices.Where(device => device.RoomId == roomId).ToList();
+            var devices = await _dbContext.Devices.Where(device => device.RoomId == roomId).ToListAsync();
             if (devices != null)
             {
                 return devices.GetDeviceList();
@@ -72,9 +72,9 @@ namespace iHome.Core.Services.DatabaseService
             return new();
         }
 
-        public List<TDeviceToConfigure> GetDevicesToConfigure(string ip)
+        public async Task<List<TDeviceToConfigure>> GetDevicesToConfigure(string ip)
         {
-            var devicesToConfigure = _dbContext.DevicesToConfigure?.Where(device => device.IpAddress == ip).ToList();
+            var devicesToConfigure = await _dbContext.DevicesToConfigure.Where(device => device.IpAddress == ip).ToListAsync();
             if (devicesToConfigure != null)
             {
                 return devicesToConfigure;
@@ -82,7 +82,7 @@ namespace iHome.Core.Services.DatabaseService
             return new();
         }
 
-        public List<Room> GetListOfRooms(string uuid)
+        public Task<List<Room>> GetListOfRooms(string uuid)
         {
             var rooms = _dbContext.Rooms
                 .Include(db => db.Devices)
@@ -94,62 +94,62 @@ namespace iHome.Core.Services.DatabaseService
 
             if (rooms != null)
             {
-                return rooms;
+                return Task.FromResult(rooms);
             }
-            return new List<Room>();
+            return Task.FromResult(new List<Room>());
         }
 
-        public void RemoveRoom(int roomId)
+        public async Task RemoveRoom(int roomId)
         {
-            var roomToRemove = _dbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefault();
+            var roomToRemove = await _dbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefaultAsync();
             if (roomToRemove == null)
                 throw new Exception("No room found");
 
             var usersRoomsToRemove = roomToRemove.UsersRoom;
             _dbContext.Rooms.Remove(roomToRemove);
             _dbContext.UsersRooms.RemoveRange(usersRoomsToRemove);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void RenameDevice(string deviceId, string deviceName, string uuid)
+        public async Task RenameDevice(string deviceId, string deviceName, string uuid)
         {
-            if (CheckDeviceOwnership(deviceId, uuid))
+            if (await CheckDeviceOwnership(deviceId, uuid))
             {
                 var deviceToChange = GetTDevice(deviceId);
                 deviceToChange.Name = deviceName;
                 _dbContext.Entry(deviceToChange).State = EntityState.Modified;
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
             }
         }
 
-        public void SetDeviceData(string deviceId, string deviceData, string uuid)
+        public async Task SetDeviceData(string deviceId, string deviceData, string uuid)
         {
-            if (CheckDeviceOwnership(deviceId, uuid))
+            if (await CheckDeviceOwnership(deviceId, uuid))
             {
                 var device = GetTDevice(deviceId);
                 device.Data = deviceData;
                 _dbContext.Entry(device).State = EntityState.Modified;
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
             }
         }
 
-        public void SetDeviceRoom(string deviceId, int roomId, string uuid)
+        public async Task SetDeviceRoom(string deviceId, int roomId, string uuid)
         {
-            if (CheckDeviceOwnership(deviceId, uuid))
+            if (await CheckDeviceOwnership(deviceId, uuid))
             {
                 var deviceToChange = GetTDevice(deviceId);
                 deviceToChange.RoomId = roomId;
                 _dbContext.Entry(deviceToChange).State = EntityState.Modified;
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
             }
         }
 
-        public void ShareRoom(int roomId, string uuid)
+        public async Task ShareRoom(int roomId, string uuid)
         {
             if (!UserRoomConstraintFound(roomId, uuid) && uuid != "")
             {
-                _dbContext.UsersRooms.Add(new() { RoomId = roomId, UserId = uuid});
-                _dbContext.SaveChanges();
+                await _dbContext.UsersRooms.AddAsync(new() { RoomId = roomId, UserId = uuid});
+                await _dbContext.SaveChangesAsync();
             }
         }
         private bool UserRoomConstraintFound(int roomId, string uuid)
@@ -161,10 +161,10 @@ namespace iHome.Core.Services.DatabaseService
                 .ToList()
                 .Any();
         }
-        private List<string> GetOwnersOfDevice(string deviceId)
+        private async Task<List<string>> GetOwnersOfDevice(string deviceId)
         {
-            var roomId = GetDeviceRoomId(deviceId);
-            var users = _dbContext?.UsersRooms?.Where(userRoom => userRoom.RoomId == roomId).ToList();
+            var roomId = await GetDeviceRoomId(deviceId);
+            var users = _dbContext.UsersRooms.Where(userRoom => userRoom.RoomId == roomId).ToList();
             List<string> usersList = new List<string>();
 
             if (users != null)
@@ -174,10 +174,10 @@ namespace iHome.Core.Services.DatabaseService
 
             return usersList;
         }
-        private bool CheckDeviceOwnership(string deviceId, string uuid)
+        private async Task<bool> CheckDeviceOwnership(string deviceId, string uuid)
         {
             var checkedOwnership = false;
-            var owners = GetOwnersOfDevice(deviceId);
+            var owners = await GetOwnersOfDevice(deviceId);
             owners.ForEach(user =>
             {
                 if (user.Equals(uuid))
@@ -188,9 +188,9 @@ namespace iHome.Core.Services.DatabaseService
             return checkedOwnership;
         }
 
-        public int GetDeviceRoomId(string deviceId)
+        public Task<int> GetDeviceRoomId(string deviceId)
         {
-            return GetTDevice(deviceId).RoomId;
+            return Task.FromResult(GetTDevice(deviceId).RoomId);
         }
 
         private TDevice GetTDevice(string deviceId)
@@ -203,11 +203,11 @@ namespace iHome.Core.Services.DatabaseService
             return new TDevice();
         }
 
-        public List<string> GetRoomUserIds(int roomId)
+        public async Task<List<string>> GetRoomUserIds(int roomId)
         {
-            var userRooms = _dbContext?.UsersRooms?
+            var userRooms = await _dbContext.UsersRooms
                 .Where(userRoom => userRoom.RoomId == roomId)
-                .ToList();
+                .ToListAsync();
             var uuids = new List<string>();
 
             if (userRooms != null)
@@ -218,9 +218,9 @@ namespace iHome.Core.Services.DatabaseService
             return uuids;
         }
 
-        public void RemoveRoomShare(int roomId, string uuid, string masterUuid)
+        public async Task RemoveRoomShare(int roomId, string uuid, string masterUuid)
         {
-            var room = _dbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefault();
+            var room = await _dbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefaultAsync();
             if (room == null)
                 throw new Exception("No room uses this ID");
 
