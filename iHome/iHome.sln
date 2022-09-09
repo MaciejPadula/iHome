@@ -5,9 +5,11 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome", "iHome\iHome.csproj", "{1D086E34-FF63-412A-A2BE-AEFEDCADB4A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Mobile", "iHome.Mobile\iHome.Mobile.csproj", "{FEEC16A1-A3ED-4C5B-B08F-CE833687FEC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Mobile", "iHome.Mobile\iHome.Mobile.csproj", "{FEEC16A1-A3ED-4C5B-B08F-CE833687FEC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Core", "iHome.Core\iHome.Core.csproj", "{915332AD-F356-4FC1-9CF7-894018FF9AFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Core", "iHome.Core\iHome.Core.csproj", "{915332AD-F356-4FC1-9CF7-894018FF9AFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.AzureFunctions", "iHome.AzureFunctions\iHome.AzureFunctions.csproj", "{FCFDB271-C73B-4C13-A544-12B8A96BE102}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{915332AD-F356-4FC1-9CF7-894018FF9AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{915332AD-F356-4FC1-9CF7-894018FF9AFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{915332AD-F356-4FC1-9CF7-894018FF9AFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCFDB271-C73B-4C13-A544-12B8A96BE102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCFDB271-C73B-4C13-A544-12B8A96BE102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCFDB271-C73B-4C13-A544-12B8A96BE102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCFDB271-C73B-4C13-A544-12B8A96BE102}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
