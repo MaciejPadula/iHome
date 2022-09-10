@@ -5,11 +5,11 @@ namespace iHome.Core.Helpers
 {
     public static class ListExtensions
     {
-        public static List<Device> GetDeviceList(this List<TDevice> devices)
+        public static List<Device> GetDeviceList(this List<TDevice>? devices)
         {
             if(devices == null)
             {
-                return new();
+                return new List<Device>();
             }
 
             var devicesList = new List<Device>();
@@ -17,9 +17,9 @@ namespace iHome.Core.Helpers
             return devicesList;
         }
 
-        public static bool Contains(this List<TUserRoom> usersRooms, string userId)
+        public static bool Contains(this List<TUserRoom>? usersRooms, string userId)
         {
-            if (!usersRooms.Any())
+            if (usersRooms == null || !usersRooms.Any())
                 return false;
 
             foreach(var userRoom in usersRooms)

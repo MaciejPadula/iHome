@@ -108,8 +108,10 @@ namespace iHome.Core.Services.DatabaseService
             var roomToRemove = await _dbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefaultAsync();
             if (roomToRemove == null)
                 throw new RoomNotFoundException();
-
             var usersRoomsToRemove = roomToRemove.UsersRoom;
+            if (usersRoomsToRemove == null)
+                throw new UserRoomConstraintNotFoundException();
+
             _dbContext.Rooms.Remove(roomToRemove);
             _dbContext.UsersRooms.RemoveRange(usersRoomsToRemove);
             await _dbContext.SaveChangesAsync();

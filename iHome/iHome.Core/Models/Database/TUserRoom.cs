@@ -10,6 +10,6 @@ namespace iHome.Core.Models.Database
         public string UserId { get; set; } = "";
         public int RoomId { get; set; }
         [ForeignKey("RoomId")]
-        public virtual TRoom Room { get; set; }
+        public virtual TRoom? Room { get; set; }
     }
 }
