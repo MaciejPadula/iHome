@@ -27,8 +27,10 @@ namespace iHome.AzureFunctions.Logic
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var requestData = JsonConvert.DeserializeObject<DeviceDataRequest>(requestBody);
             var deviceId = requestData.DeviceId;
-
             var deviceToRead = _dbContext.Devices.Where(device => device.DeviceId == deviceId).FirstOrDefault();
+
+            if (deviceToRead == null)
+                return new NotFoundResult();
 
             return new OkObjectResult(deviceToRead.Data);
         }

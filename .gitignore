@@ -14,3 +14,9 @@ iHome/iHome.Mobile/appsettings.json
 iHome/iHome.AzureFunctions/Properties
 iHome/iHome.AzureFunctions/appsettings.json
 iHome/iHome.AzureFunctions/appsettings.Development.json
+iHome/iHome.Backend/.config
+iHome/iHome.Backend/.vs
+iHome/iHome.Backend/bin
+iHome/iHome.Backend/obj
+iHome/iHome.Backend/Properties
+iHome/iHome.Backend/appsettings.json

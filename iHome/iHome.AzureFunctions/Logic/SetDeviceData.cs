@@ -28,16 +28,15 @@ namespace iHome.AzureFunctions.Logic
             var data = JsonConvert.DeserializeObject<DeviceDataRequest>(requestBody);
             var deviceId = data.DeviceId;
             var deviceData = data.DeviceData;
-
             var deviceToUpdate = _dbContext.Devices.Where(device => device.DeviceId == deviceId).FirstOrDefault();
+
+            if (deviceToUpdate == null)
+                return new NotFoundResult();
+
             deviceToUpdate.Data = deviceData;
-            _dbContext.Entry(deviceToUpdate).State = EntityState.Modified;
             _dbContext.SaveChanges();
 
-            return new OkObjectResult(new
-            {
-                deviceId
-            });
+            return new OkResult();
         }
     }
 }

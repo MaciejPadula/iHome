@@ -9,8 +9,8 @@ namespace iHome.Core.Services.DatabaseService
         Task<List<Room>> GetListOfRooms(string uuid);
         Task RemoveRoom(int roomId);
 
-        Task ShareRoom(int roomId, string uuid);
-        Task RemoveRoomShare(int roomId, string uuid, string masterUuid);
+        Task AddUserRoomConstraint(int roomId, string uuid);
+        Task RemoveUserRoomConstraint(int roomId, string uuid, string masterUuid);
 
         Task AddDevice(int id, string deviceId, string deviceName, int deviceType, string deviceData, int roomId);        
         Task<List<Device>> GetDevices(int roomId);
