@@ -2,6 +2,8 @@
 
 @include mat.core();
 
+$darkBg: #222222;
+$darkBody: #121212;
 
 $light-theme: mat.define-light-theme((color: (
   primary: mat.define-palette(mat.$blue-palette, 600),
@@ -25,27 +27,27 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #121212;
+  background-color: $darkBody;
   
 }
 
 .mat-label{
-  color: #FFFFFF;
+  color: $darkBg;
 }
 
 .mat-card {
-  background-color: #222222;
+  background-color: $darkBg;
   color:white;
   border: solid rgba(255,255,255,0.4) 1px;
 }
 
 .mat-dialog-container{
-  background-color: #222222;
+  background-color: $darkBg;
   color:white;
 }
 
 .mat-menu-content{
-  background-color: #222222;
+  background-color: $darkBg;
   color:white;
 }
 
@@ -62,7 +64,7 @@ body {
 }
 
 .mat-menu-panel{
-  background-color: #222222;
+  background-color: $darkBg;
 }
 
 @media (prefers-color-scheme: light) {
@@ -72,5 +74,8 @@ body {
   }
   .mat-label{
     color: #000000;
+  }
+  .mat-card {
+    border: solid rgba(0,0,0,0.4) 1px;
   }
 }
