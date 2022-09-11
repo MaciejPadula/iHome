@@ -95,7 +95,11 @@ builder.Services
     .Configure<ApplicationSettings>(builder.Configuration)
     .AddDbContext<AppDbContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration["AzureConnectionString"]);
+        options.UseSqlServer(builder.Configuration["AzureConnectionString"], sqlOptions =>
+        {
+            sqlOptions.EnableRetryOnFailure();
+        });
+        
     })
     .AddScoped<IUserInfo, UserInfo>()
     .AddScoped<IDatabaseService, AzureDatabaseService>()
