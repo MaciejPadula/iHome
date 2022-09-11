@@ -1,5 +1,7 @@
-﻿using iHome.Core.Logic.UserInfo;
+﻿using iHome.Backend.Models.RoomsApi.Error;
+using iHome.Core.Logic.UserInfo;
 using iHome.Core.Models.ApiRooms;
+using iHome.Core.Models.Errors;
 using iHome.Core.Models.Requests;
 using iHome.Core.Services.DatabaseService;
 using iHome.Logic.Notificator;
@@ -44,10 +46,18 @@ namespace iHome.Controllers
         [Authorize]
         public async Task<ActionResult> AddRoom([FromBody()] RoomRequest room)
         {
-            string uuid = _userInfo.GetUserUuid(User);
+            try
+            {
+                room.Validate();
+                string uuid = _userInfo.GetUserUuid(User);
 
-            await _databaseService.AddRoom(room.RoomName, room.RoomDescription, uuid);
-            _notificator.NotifyUser(uuid);
+                await _databaseService.AddRoom(room.RoomName, room.RoomDescription, uuid);
+                _notificator.NotifyUser(uuid);
+            }
+            catch(RequestModelValidationException e)
+            {
+                return Ok(e.Message);
+            }
 
             return Ok();
         }
@@ -89,8 +99,14 @@ namespace iHome.Controllers
         [Authorize]
         public async Task<ActionResult> AddDevice(int id, [FromBody] Device device)
         {
-            await _databaseService.AddDevice(id, device.Id, device.Name, device.Type, device.Data, device.RoomId);
-            _notificator.NotifyUsers(await _databaseService.GetRoomUserIds(device.RoomId));
+            try
+            {
+                device.Validate();
+
+                await _databaseService.AddDevice(id, device.Id, device.Name, device.Type, device.Data, device.RoomId);
+                _notificator.NotifyUsers(await _databaseService.GetRoomUserIds(device.RoomId));
+            }
+            catch (Exception e) { return Ok(e.Message); }
 
             return Ok();
         }
@@ -99,12 +115,20 @@ namespace iHome.Controllers
         [Authorize]
         public async Task<ActionResult> RenameDevice([FromBody] RenameDeviceRequest renameDevice)
         {
-            string uuid = _userInfo.GetUserUuid(User);
-            var roomId = await _databaseService.GetDeviceRoomId(renameDevice.DeviceId);
-            var uuids = await _databaseService.GetRoomUserIds(roomId);
+            try
+            {
+                renameDevice.Validate();
+                string uuid = _userInfo.GetUserUuid(User);
+                var roomId = await _databaseService.GetDeviceRoomId(renameDevice.DeviceId);
+                var uuids = await _databaseService.GetRoomUserIds(roomId);
 
-            await _databaseService.RenameDevice(renameDevice.DeviceId, renameDevice.DeviceName, uuid);
-            _notificator.NotifyUsers(uuids);
+                await _databaseService.RenameDevice(renameDevice.DeviceId, renameDevice.DeviceName, uuid);
+                _notificator.NotifyUsers(uuids);
+            }
+            catch(Exception e)
+            {
+                return Ok(e.Message);
+            }
 
             return Ok();
         }
@@ -179,7 +203,7 @@ namespace iHome.Controllers
             uuids.ForEach(uuid => users.Add(new
             {
                 email = _userInfo.GetUserEmail(uuid),
-                uuid = uuid
+                uuid
             }));
 
             return Ok(users);

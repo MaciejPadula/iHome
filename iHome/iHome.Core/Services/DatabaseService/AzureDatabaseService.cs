@@ -23,14 +23,7 @@ namespace iHome.Core.Services.DatabaseService
             if (room == null)
                 throw new RoomNotFoundException();
 
-            await _dbContext.Devices.AddAsync(new TDevice
-            {
-                DeviceId = deviceId,
-                Name = deviceName,
-                Type = deviceType,
-                Data = deviceData,
-                Room = room
-            });
+            await _dbContext.Devices.AddAsync(new TDevice(deviceId, deviceName, deviceType, deviceData, roomId, room));
             var deviceConfigurationToRemove = _dbContext.DevicesToConfigure.Where(device => device.Id == id).FirstOrDefault();
             if (deviceConfigurationToRemove == null)
                 throw new DeviceNotFoundException();
@@ -41,12 +34,7 @@ namespace iHome.Core.Services.DatabaseService
 
         public async Task AddRoom(string roomName, string roomDescription, string uuid)
         {
-            var room = await _dbContext.Rooms.AddAsync(new TRoom()
-            {
-                Name = roomName,
-                Description = roomDescription,
-                UserId = uuid,
-            });
+            var room = await _dbContext.Rooms.AddAsync(new TRoom(roomName, roomDescription, uuid, new List<TUserRoom>(), new List<TDevice>()));
             await _dbContext.SaveChangesAsync();
             await AddUserRoomConstraint(room.Entity.RoomId, uuid);
         }
@@ -72,7 +60,7 @@ namespace iHome.Core.Services.DatabaseService
             if (devices == null)
                 return new List<Device>();
 
-            return devices.GetDeviceList();
+            return devices.ToDevicesList();
         }
 
         public async Task<List<TDeviceToConfigure>> GetDevicesToConfigure(string ip)
@@ -148,8 +136,11 @@ namespace iHome.Core.Services.DatabaseService
         {
             if (await UserRoomConstraintFound(roomId, uuid))
                 return;
+            var room = await _dbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefaultAsync();
+            if (room == null)
+                throw new RoomNotFoundException();
 
-            await _dbContext.UsersRooms.AddAsync(new() { RoomId = roomId, UserId = uuid });
+            await _dbContext.UsersRooms.AddAsync(new TUserRoom(uuid, roomId, room));
             await _dbContext.SaveChangesAsync();
         }
         private async Task<bool> UserRoomConstraintFound(int roomId, string uuid)

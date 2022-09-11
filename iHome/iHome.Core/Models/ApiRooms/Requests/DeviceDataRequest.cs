@@ -2,7 +2,13 @@
 {
     public class DeviceDataRequest
     {
-        public string DeviceId { get; set; } = string.Empty;
-        public string DeviceData { get; set; } = string.Empty;
+        public string DeviceId { get; set; }
+        public string DeviceData { get; set; }
+
+        public DeviceDataRequest(string deviceId, string deviceData)
+        {
+            DeviceId = deviceId;
+            DeviceData = deviceData;
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace iHome.AzureFunctions.Logic
             var deviceType = (int)data?.deviceType;
             var ip = req.HttpContext.Connection.RemoteIpAddress.ToString();
 
-            _dbContext.DevicesToConfigure.Add(new TDeviceToConfigure() { DeviceId = deviceId, DeviceType = deviceType, IpAddress = ip});
+            _dbContext.DevicesToConfigure.Add(new TDeviceToConfigure(deviceId, deviceType, ip));
             _dbContext.SaveChanges();
 
             return new OkResult();

@@ -5,7 +5,7 @@ namespace iHome.Core.Helpers
 {
     public static class ListExtensions
     {
-        public static List<Device> GetDeviceList(this List<TDevice>? devices)
+        public static List<Device> ToDevicesList(this List<TDevice>? devices)
         {
             if(devices == null)
             {
@@ -33,15 +33,7 @@ namespace iHome.Core.Helpers
         public static List<Room> ToRoomModelList(this List<TRoom> rooms, string uuid)
         {
             var roomList = new List<Room>();
-            rooms.ForEach(room => roomList.Add(new Room()
-            {
-                Id = room.RoomId,
-                Name = room.Name,
-                Description = room.Description,
-                Devices = room.Devices.GetDeviceList(),
-                OwnerUuid = room.UserId,
-                Uuid = uuid
-            }));
+            rooms.ForEach(room => roomList.Add(new Room(room.RoomId, room.Name, room.Description, room.Devices.ToDevicesList(), uuid, room.UserId)));
             return roomList;
         }
     }
