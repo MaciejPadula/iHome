@@ -18,6 +18,10 @@ namespace iHome.Core.Models.Database
 
         public TDevice()
         {
+            DeviceId = "";
+            Name = "";
+            Data = "{}";
+            Room = new TRoom();
         }
 
         public TDevice(string deviceId, string name, int type, string data, int roomId, TRoom room)

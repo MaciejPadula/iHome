@@ -13,6 +13,8 @@ namespace iHome.Core.Models.Database
 
         public TDeviceToConfigure()
         {
+            DeviceId = "";
+            IpAddress = "";
         }
 
         public TDeviceToConfigure(string deviceId, int deviceType, string ipAddress)

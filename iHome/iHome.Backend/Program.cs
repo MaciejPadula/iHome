@@ -43,10 +43,11 @@ builder.Services.AddAuthentication(options =>
             return Task.CompletedTask;
         }
     };
-}).AddAuth0WebAppAuthentication(options => {
-        options.Domain = builder.Configuration["Auth0:Domain"];
-        options.ClientId = builder.Configuration["Auth0:ClientId"];
-        options.Scope = "openid profile email";
+}).AddAuth0WebAppAuthentication(options =>
+{
+    options.Domain = builder.Configuration["Auth0:Domain"];
+    options.ClientId = builder.Configuration["Auth0:ClientId"];
+    options.Scope = "openid profile email";
 });
 builder.Services.AddSwaggerGen(c =>
 {
@@ -92,7 +93,10 @@ builder.Services.AddControllers();
 
 builder.Services
     .Configure<ApplicationSettings>(builder.Configuration)
-    .AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration["AzureConnectionString"]))
+    .AddDbContext<AppDbContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration["AzureConnectionString"]);
+    })
     .AddScoped<IUserInfo, UserInfo>()
     .AddScoped<IDatabaseService, AzureDatabaseService>()
     .AddScoped<INotificator, Notificator>()

@@ -16,6 +16,11 @@ namespace iHome.Core.Models.Database
 
         public TRoom()
         {
+            Name = "";
+            Description = "";
+            UserId = "";
+            UsersRoom = new List<TUserRoom>();
+            Devices = new List<TDevice>();
         }
 
         public TRoom(string name, string description, string userId, List<TUserRoom> usersRoom, List<TDevice> devices)

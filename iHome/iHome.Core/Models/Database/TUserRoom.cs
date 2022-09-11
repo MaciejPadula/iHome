@@ -14,6 +14,8 @@ namespace iHome.Core.Models.Database
 
         public TUserRoom()
         {
+            UserId = "";
+            Room = new TRoom();
         }
 
         public TUserRoom(string userId, int roomId, TRoom room)
