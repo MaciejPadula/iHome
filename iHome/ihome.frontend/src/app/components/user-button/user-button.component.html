@@ -3,7 +3,7 @@
         <img class="profile-picture" *ngIf="auth.user$ | async as user" src={{user.picture}}  matTooltip={{user.name}} />
     </button>
     <mat-menu #menu="matMenu">
-        <mat-label *ngIf="auth.user$ | async as user">{{user.name}}</mat-label>
+        <mat-label *ngIf="auth.user$ | async as user" class="profile-name">{{user.name}}</mat-label>
         <a mat-menu-item routerLink="/profile" routerLinkActive="active">
             Profile
         </a>

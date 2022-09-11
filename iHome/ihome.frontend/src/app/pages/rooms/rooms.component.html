@@ -9,8 +9,13 @@
         <mat-card-subtitle>{{room.description}}</mat-card-subtitle>
         <mat-card-content>
             <div *ngIf="this.uuid == room.ownerUuid" class="room-options">
-                <app-share-list roomId={{room.id}}></app-share-list>
-                <app-remove-room roomName={{room.name}} roomId={{room.id}}></app-remove-room>
+                <button mat-raised-button [matMenuTriggerFor]="menu" color="primary">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <app-share-list roomId={{room.id}}></app-share-list>
+                    <app-remove-room roomName={{room.name}} roomId={{room.id}}></app-remove-room>
+                </mat-menu>
             </div>
             <div *ngIf="this.uuid != room.ownerUuid" class="room-options">
                 <mat-icon fontIcon="share"

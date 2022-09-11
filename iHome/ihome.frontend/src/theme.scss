@@ -61,6 +61,10 @@ body {
   color:white !important;
 }
 
+.mat-menu-panel{
+  background-color: #222222;
+}
+
 @media (prefers-color-scheme: light) {
   @include mat.all-component-themes($light-theme);
   body {
