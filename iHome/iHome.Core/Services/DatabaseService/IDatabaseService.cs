@@ -5,21 +5,23 @@ namespace iHome.Core.Services.DatabaseService
 {
     public interface IDatabaseService
     {
-        List<Room> GetListOfRooms(string uuid);
-        bool AddRoom(string roomName, string roomDescription, string uuid);
-        bool RemoveRoom(int roomId);
-        bool ShareRoom(int roomId, string uuid);
-        List<Device> GetDevices(int roomId);
-        bool AddDevice(int id, string deviceId, string deviceName, int deviceType, string deviceData, int roomId);
-        bool RenameDevice(string deviceId, string deviceName, string uuid);
-        string GetDeviceData(string deviceId, string uuid);
-        bool SetDeviceData(string deviceId, string deviceData, string uuid);
-        bool SetDeviceRoom(string deviceId, int roomId, string uuid);
-        List<TDeviceToConfigure>? GetDevicesToConfigure(string ip);
-        List<string> GetRoomUserIds(int roomId);
-        int GetDeviceRoomId(string deviceId);
-        bool RemoveRoomShare(int roomId, string uuid, string masterUuid);
+        Task AddRoom(string roomName, string roomDescription, string uuid);
+        Task<List<Room>> GetListOfRooms(string uuid);
+        Task RemoveRoom(int roomId);
 
-        List<TBills> GetUserBills(string uuid);
+        Task AddUserRoomConstraint(int roomId, string uuid);
+        Task RemoveUserRoomConstraint(int roomId, string uuid, string masterUuid);
+
+        Task AddDevice(int id, string deviceId, string deviceName, int deviceType, string deviceData, int roomId);        
+        Task<List<Device>> GetDevices(int roomId);
+        Task RenameDevice(string deviceId, string deviceName, string uuid);
+        Task SetDeviceData(string deviceId, string deviceData, string uuid);
+        Task<string> GetDeviceData(string deviceId, string uuid);
+        
+        Task SetDeviceRoom(string deviceId, int roomId, string uuid);
+        Task<List<TDeviceToConfigure>> GetDevicesToConfigure(string ip);
+        Task<List<string>> GetRoomUserIds(int roomId);
+        Task<int> GetDeviceRoomId(string deviceId);
+        
     }
 }

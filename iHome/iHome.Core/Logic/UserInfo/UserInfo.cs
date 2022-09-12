@@ -1,5 +1,6 @@
 ﻿using iHome.Core.Logic.Account;
 using iHome.Core.Models.Application;
+using iHome.Core.Models.Errors;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
@@ -41,21 +42,23 @@ namespace iHome.Core.Logic.UserInfo
         {
             var uuid = user?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             if (uuid == null)
-            {
-                return "";
-            }
+                throw new UserNotFoundException();
+
             return uuid;
         }
         public string GetUserUuid(string email)
         {
-            return FetchData("email", email).UserId;
+            var uuid = FetchData("email", email).UserId;
+            if (uuid == null)
+                throw new UserNotFoundException();
+            return uuid;
         }
 
         private string Request(string url)
         {
             var client = new RestClient(url);
             var request = new RestRequest();
-            request.AddHeader("authorization", _options.Value.Auth0ApiSecret);
+            request.AddHeader("authorization", "Bearer " + _options.Value.Auth0ApiSecret);
             var content = client.Execute(request).Content;
             if (content == null)
             {
