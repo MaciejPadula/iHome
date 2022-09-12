@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
+using iHome.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -20,19 +21,23 @@ namespace iHome.Backend.Middleware
             {
                 await _next.Invoke(context);
             }
+            catch (DatabaseException e)
+            {
+                await RespondWithError(context, context.Response.StatusCode, e);
+            }
             catch (Exception e)
             {
-                await RespondWithError(context, e);
+                await RespondWithError(context, 500, e);
             }
         }
 
-        private async Task RespondWithError(HttpContext context, Exception ex)
+        private async Task RespondWithError(HttpContext context, int statusCode, Exception ex)
         {
             var responseObject = new
             {
                 context.Request.Path,
-                context.Response.StatusCode,
-                ex.Message
+                statusCode,
+                ex.Message,
             };
             await context.Response.WriteAsync(JsonConvert.SerializeObject(responseObject));
         }

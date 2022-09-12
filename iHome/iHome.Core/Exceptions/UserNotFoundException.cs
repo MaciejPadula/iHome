@@ -1,6 +1,8 @@
-﻿namespace iHome.Core.Middleware.Exceptions
+﻿using iHome.Core.Exceptions;
+
+namespace iHome.Core.Middleware.Exceptions
 {
-    public class UserNotFoundException : Exception
+    public class UserNotFoundException : UserAuthException
     {
     }
 }
