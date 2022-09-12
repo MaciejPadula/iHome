@@ -1,7 +1,5 @@
-﻿using iHome.Backend.Models.RoomsApi.Error;
-using iHome.Core.Logic.UserInfo;
+﻿using iHome.Core.Logic.UserInfo;
 using iHome.Core.Models.ApiRooms;
-using iHome.Core.Models.Errors;
 using iHome.Core.Models.Requests;
 using iHome.Core.Services.DatabaseService;
 using iHome.Logic.Notificator;
@@ -46,18 +44,11 @@ namespace iHome.Controllers
         [Authorize]
         public async Task<ActionResult> AddRoom([FromBody()] RoomRequest room)
         {
-            try
-            {
-                room.Validate();
-                string uuid = _userInfo.GetUserUuid(User);
+            room.Validate();
+            string uuid = _userInfo.GetUserUuid(User);
 
-                await _databaseService.AddRoom(room.RoomName, room.RoomDescription, uuid);
-                _notificator.NotifyUser(uuid);
-            }
-            catch(RequestModelValidationException e)
-            {
-                return Ok(e.Message);
-            }
+            await _databaseService.AddRoom(room.RoomName, room.RoomDescription, uuid);
+            _notificator.NotifyUser(uuid);
 
             return Ok();
         }
@@ -99,14 +90,10 @@ namespace iHome.Controllers
         [Authorize]
         public async Task<ActionResult> AddDevice(int id, [FromBody] Device device)
         {
-            try
-            {
-                device.Validate();
+            device.Validate();
 
-                await _databaseService.AddDevice(id, device.Id, device.Name, device.Type, device.Data, device.RoomId);
-                _notificator.NotifyUsers(await _databaseService.GetRoomUserIds(device.RoomId));
-            }
-            catch (Exception e) { return Ok(e.Message); }
+            await _databaseService.AddDevice(id, device.Id, device.Name, device.Type, device.Data, device.RoomId);
+            _notificator.NotifyUsers(await _databaseService.GetRoomUserIds(device.RoomId));
 
             return Ok();
         }
@@ -115,20 +102,13 @@ namespace iHome.Controllers
         [Authorize]
         public async Task<ActionResult> RenameDevice([FromBody] RenameDeviceRequest renameDevice)
         {
-            try
-            {
-                renameDevice.Validate();
-                string uuid = _userInfo.GetUserUuid(User);
-                var roomId = await _databaseService.GetDeviceRoomId(renameDevice.DeviceId);
-                var uuids = await _databaseService.GetRoomUserIds(roomId);
+            renameDevice.Validate();
+            string uuid = _userInfo.GetUserUuid(User);
+            var roomId = await _databaseService.GetDeviceRoomId(renameDevice.DeviceId);
+            var uuids = await _databaseService.GetRoomUserIds(roomId);
 
-                await _databaseService.RenameDevice(renameDevice.DeviceId, renameDevice.DeviceName, uuid);
-                _notificator.NotifyUsers(uuids);
-            }
-            catch(Exception e)
-            {
-                return Ok(e.Message);
-            }
+            await _databaseService.RenameDevice(renameDevice.DeviceId, renameDevice.DeviceName, uuid);
+            _notificator.NotifyUsers(uuids);
 
             return Ok();
         }

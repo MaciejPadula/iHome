@@ -3,7 +3,7 @@ using iHome.Core.Models.Database;
 using iHome.Core.Models.ApiRooms;
 using iHome.Core.Logic.Database;
 using iHome.Core.Helpers;
-using iHome.Core.Models.Errors;
+using iHome.Core.Middleware.Exceptions;
 
 namespace iHome.Core.Services.DatabaseService
 {

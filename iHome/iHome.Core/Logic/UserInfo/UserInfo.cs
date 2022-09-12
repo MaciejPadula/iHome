@@ -1,6 +1,6 @@
 ﻿using iHome.Core.Logic.Account;
+using iHome.Core.Middleware.Exceptions;
 using iHome.Core.Models.Application;
-using iHome.Core.Models.Errors;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;

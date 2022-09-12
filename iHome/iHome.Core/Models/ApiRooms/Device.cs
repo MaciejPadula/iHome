@@ -1,4 +1,4 @@
-﻿using iHome.Backend.Models.RoomsApi.Error;
+﻿using iHome.Core.Middleware.Exceptions;
 using iHome.Core.Models.RoomsApi.Validators;
 
 namespace iHome.Core.Models.ApiRooms
