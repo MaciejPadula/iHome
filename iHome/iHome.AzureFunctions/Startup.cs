@@ -3,6 +3,7 @@ using iHome.Core.Logic.Database;
 using iHome.Core.Models.Application;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -26,6 +27,9 @@ namespace iHome.AzureFunctions
         public override void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(_applicationSettings.AzureConnectionString));
+            builder.Services
+                .AddSingleton<MemoryCacheOptions>()
+                .AddSingleton<MemoryCache>();
         }
     }
 }
