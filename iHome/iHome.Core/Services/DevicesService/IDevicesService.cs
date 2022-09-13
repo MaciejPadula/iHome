@@ -1,10 +1,4 @@
-﻿using iHome.Core.Models.ApiRooms;
-using iHome.Core.Models.Database;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using iHome.Core.Models.Database;
 
 namespace iHome.Core.Services.DevicesService
 {
