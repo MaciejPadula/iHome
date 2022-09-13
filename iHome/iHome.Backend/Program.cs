@@ -1,4 +1,5 @@
 using Auth0.AspNetCore.Authentication;
+using iHome.Backend.Middleware;
 using iHome.Core.Logic.Database;
 using iHome.Core.Logic.UserInfo;
 using iHome.Core.Models.Application;
@@ -149,6 +150,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Rooms}"
 );
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 if (app.Environment.IsProduction())
 {

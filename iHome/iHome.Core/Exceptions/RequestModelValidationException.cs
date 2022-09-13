@@ -1,4 +1,4 @@
-﻿namespace iHome.Backend.Models.RoomsApi.Error
+﻿namespace iHome.Core.Middleware.Exceptions
 {
     public class RequestModelValidationException : Exception
     {
