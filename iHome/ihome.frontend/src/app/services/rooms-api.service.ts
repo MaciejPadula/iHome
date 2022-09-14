@@ -80,10 +80,6 @@ export class RoomsApiService {
     }));
   }
 
-  public getBills(): Promise<Bill[]> {
-    return firstValueFrom(this._http.get<Bill[]>(this._apiUrl+'/GetBills'));
-  }
-
   public addDevice(id: number, device: Device) {
     return firstValueFrom(this._http.post(this._apiUrl + '/AddDevice/' + id, device));
   }
