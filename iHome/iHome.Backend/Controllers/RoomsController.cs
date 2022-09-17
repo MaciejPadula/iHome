@@ -1,7 +1,8 @@
 ﻿using iHome.Core.Logic.UserInfo;
 using iHome.Core.Models.ApiRooms;
 using iHome.Core.Models.Requests;
-using iHome.Core.Services.DatabaseService;
+using iHome.Core.Services.DevicesService;
+using iHome.Core.Services.RoomsService;
 using iHome.Logic.Notificator;
 using iHome.Models.Account.Rooms.Requests;
 using iHome.Models.Requests;
@@ -18,14 +19,16 @@ namespace iHome.Controllers
     [ApiController]
     public class RoomsController : ControllerBase
     {
-        private readonly IDatabaseService _databaseService;
+        private readonly IRoomsService _roomsService;
+        private readonly IDevicesService _devicesService;
         private readonly IUserInfo _userInfo;
         private readonly INotificator _notificator;
 
-        public RoomsController(IDatabaseService databaseApi, IUserInfo userInfo, INotificator notificator)
+        public RoomsController(IRoomsService roomsService, IDevicesService devicesService, IUserInfo userInfo, INotificator notificator)
         {
+            _roomsService = roomsService;
+            _devicesService = devicesService;
             _userInfo = userInfo;
-            _databaseService = databaseApi;
             _notificator = notificator;
         }
 
@@ -35,7 +38,7 @@ namespace iHome.Controllers
         {
             string uuid = _userInfo.GetUserUuid(User);
 
-            var listOfRooms = await _databaseService.GetListOfRooms(uuid);
+            var listOfRooms = await _roomsService.GetRooms(uuid);
 
             return Ok(listOfRooms);
         }
@@ -47,7 +50,7 @@ namespace iHome.Controllers
             room.Validate();
             string uuid = _userInfo.GetUserUuid(User);
 
-            await _databaseService.AddRoom(room.RoomName, room.RoomDescription, uuid);
+            await _roomsService.AddRoom(room.RoomName, room.RoomDescription, uuid);
             _notificator.NotifyUser(uuid);
 
             return Ok();
@@ -57,9 +60,9 @@ namespace iHome.Controllers
         [Authorize]
         public async Task<ActionResult> RemoveRoom(int id)
         {
-            var uuids = await _databaseService.GetRoomUserIds(id);
+            var uuids = await _roomsService.GetRoomUserIds(id);
 
-            await _databaseService.RemoveRoom(id);
+            await _roomsService.RemoveRoom(id);
             _notificator.NotifyUsers(uuids);
 
             return Ok();
@@ -71,19 +74,10 @@ namespace iHome.Controllers
         {
             string uuid = _userInfo.GetUserUuid(userRoom.Email);
 
-            await _databaseService.AddUserRoomConstraint(userRoom.RoomId, uuid);
-            _notificator.NotifyUsers(await _databaseService.GetRoomUserIds(userRoom.RoomId));
+            await _roomsService.AddUserRoomConstraint(userRoom.RoomId, uuid);
+            _notificator.NotifyUsers(await _roomsService.GetRoomUserIds(userRoom.RoomId));
 
             return Ok();
-        }
-
-        [HttpGet("GetDevices/{roomId}")]
-        [Authorize]
-        public async Task<ActionResult> GetDevices(int roomId)
-        {
-            var devices = await _databaseService.GetDevices(roomId);
-
-            return Ok(devices);
         }
 
         [HttpPost("AddDevice/{id}")]
@@ -92,8 +86,8 @@ namespace iHome.Controllers
         {
             device.Validate();
 
-            await _databaseService.AddDevice(id, device.Id, device.Name, device.Type, device.Data, device.RoomId);
-            _notificator.NotifyUsers(await _databaseService.GetRoomUserIds(device.RoomId));
+            await _devicesService.AddDevice(id, device.Id, device.Name, device.Type, device.Data, device.RoomId);
+            _notificator.NotifyUsers(await _roomsService.GetRoomUserIds(device.RoomId));
 
             return Ok();
         }
@@ -104,10 +98,10 @@ namespace iHome.Controllers
         {
             renameDevice.Validate();
             string uuid = _userInfo.GetUserUuid(User);
-            var roomId = await _databaseService.GetDeviceRoomId(renameDevice.DeviceId);
-            var uuids = await _databaseService.GetRoomUserIds(roomId);
+            var roomId = await _devicesService.GetDeviceRoomId(renameDevice.DeviceId);
+            var uuids = await _roomsService.GetRoomUserIds(roomId);
 
-            await _databaseService.RenameDevice(renameDevice.DeviceId, renameDevice.DeviceName, uuid);
+            await _devicesService.RenameDevice(renameDevice.DeviceId, renameDevice.DeviceName, uuid);
             _notificator.NotifyUsers(uuids);
 
             return Ok();
@@ -118,7 +112,7 @@ namespace iHome.Controllers
         {
             string uuid = _userInfo.GetUserUuid(User);
 
-            var deviceData = await _databaseService.GetDeviceData(deviceId, uuid);
+            var deviceData = await _devicesService.GetDeviceData(deviceId, uuid);
 
             return Ok(deviceData);
         }
@@ -126,10 +120,11 @@ namespace iHome.Controllers
         [Authorize]
         public async Task<ActionResult> SetDeviceData([FromBody] DeviceDataRequest deviceData)
         {
+            var roomId = await _devicesService.GetDeviceRoomId(deviceData.DeviceId);
             string uuid = _userInfo.GetUserUuid(User);
-            var uuids = await _databaseService.GetRoomUserIds(await _databaseService.GetDeviceRoomId(deviceData.DeviceId));
+            var uuids = await _roomsService.GetRoomUserIds(roomId);
 
-            await _databaseService.SetDeviceData(deviceData.DeviceId, deviceData.DeviceData, uuid);
+            await _devicesService.SetDeviceData(deviceData.DeviceId, deviceData.DeviceData, uuid);
             _notificator.NotifyUsers(uuids, new List<string>() { uuid });
 
             return Ok();
@@ -139,12 +134,12 @@ namespace iHome.Controllers
         [Authorize]
         public async Task<ActionResult> SetDeviceRoom([FromBody] NewDeviceRoomRequest newDeviceRoom)
         {
-            var oldRoomId = await _databaseService.GetDeviceRoomId(newDeviceRoom.DeviceId);
+            var oldRoomId = await _devicesService.GetDeviceRoomId(newDeviceRoom.DeviceId);
             string uuid = _userInfo.GetUserUuid(User);
-            var uuids = await _databaseService.GetRoomUserIds(oldRoomId);
-            uuids.AddRange(await _databaseService.GetRoomUserIds(newDeviceRoom.RoomId));
-            
-            await _databaseService.SetDeviceRoom(newDeviceRoom.DeviceId, newDeviceRoom.RoomId, _userInfo.GetUserUuid(User));
+            var uuids = await _roomsService.GetRoomUserIds(oldRoomId);
+            uuids.AddRange(await _roomsService.GetRoomUserIds(newDeviceRoom.RoomId));
+
+            await _devicesService.SetDeviceRoom(newDeviceRoom.DeviceId, newDeviceRoom.RoomId, _userInfo.GetUserUuid(User));
             _notificator.NotifyUsers(uuids.Distinct().ToList(), new List<string>() { uuid });
 
             return Ok();
@@ -161,7 +156,7 @@ namespace iHome.Controllers
         [Authorize]
         public async Task<ActionResult> GetDevicesToConfigure([FromBody] GetDevicesToConfigureRequest getDevicesToConfigure)
         {
-            var devicesToConfigure = await _databaseService.GetDevicesToConfigure(getDevicesToConfigure.Ip);
+            var devicesToConfigure = await _devicesService.GetDevicesToConfigure(getDevicesToConfigure.Ip);
 
             return Ok(devicesToConfigure);
         }
@@ -178,7 +173,7 @@ namespace iHome.Controllers
         public async Task<ActionResult> GetRoomUsers(int roomId)
         {
             var userId = _userInfo.GetUserUuid(User);
-            var uuids = (await _databaseService.GetRoomUserIds(roomId)).Where(uuid => uuid != userId).ToList();
+            var uuids = (await _roomsService.GetRoomUserIds(roomId)).Where(uuid => uuid != userId).ToList();
             var users = new List<object>();
             uuids.ForEach(uuid => users.Add(new
             {
@@ -194,9 +189,9 @@ namespace iHome.Controllers
         public async Task<ActionResult> RemoveRoomShare([FromBody] RemoveRoomShareRequest removeShare)
         {
             var uuid = _userInfo.GetUserUuid(User);
-            var uuids = await _databaseService.GetRoomUserIds(removeShare.RoomId);
+            var uuids = await _roomsService.GetRoomUserIds(removeShare.RoomId);
 
-            await _databaseService.RemoveUserRoomConstraint(removeShare.RoomId, removeShare.Uuid, uuid);
+            await _roomsService.RemoveUserRoomConstraint(removeShare.RoomId, removeShare.Uuid, uuid);
             _notificator.NotifyUsers(uuids);
 
             return Ok();
