@@ -7,5 +7,7 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+  showFiller = false;
+  
   constructor(public auth: AuthService) { }
 }
