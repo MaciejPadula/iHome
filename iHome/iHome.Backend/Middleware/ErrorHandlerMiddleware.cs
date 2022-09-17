@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Net.Http;
-using iHome.Core.Exceptions;
-using Microsoft.AspNetCore.Http;
+﻿using iHome.Core.Exceptions;
 using Newtonsoft.Json;
 
 namespace iHome.Backend.Middleware

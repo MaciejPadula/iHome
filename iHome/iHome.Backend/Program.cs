@@ -3,7 +3,8 @@ using iHome.Backend.Middleware;
 using iHome.Core.Logic.Database;
 using iHome.Core.Logic.UserInfo;
 using iHome.Core.Models.Application;
-using iHome.Core.Services.DatabaseService;
+using iHome.Core.Services.DevicesService;
+using iHome.Core.Services.RoomsService;
 using iHome.Hubs;
 using iHome.Logic.Notificator;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -103,7 +104,8 @@ builder.Services
         
     })
     .AddScoped<IUserInfo, UserInfo>()
-    .AddScoped<IDatabaseService, AzureDatabaseService>()
+    .AddScoped<IDevicesService, DevicesService>()
+    .AddScoped<IRoomsService, RoomsService>()
     .AddScoped<INotificator, Notificator>()
     .AddScoped<RoomsHub>();
 
