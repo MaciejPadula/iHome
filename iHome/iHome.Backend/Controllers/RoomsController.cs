@@ -82,7 +82,7 @@ namespace iHome.Controllers
 
         [HttpPost("AddDevice/{id}")]
         [Authorize]
-        public async Task<ActionResult> AddDevice(int id, [FromBody] Device device)
+        public async Task<ActionResult> AddDevice(Guid id, [FromBody] Device device)
         {
             device.Validate();
 

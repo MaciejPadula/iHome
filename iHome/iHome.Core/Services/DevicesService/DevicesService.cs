@@ -14,7 +14,7 @@ namespace iHome.Core.Services.DevicesService
             _dbContext = dbContext;
         }
 
-        public async Task AddDevice(int id, string deviceId, string deviceName, int deviceType, string deviceData, Guid roomId)
+        public async Task AddDevice(Guid id, string deviceId, string deviceName, int deviceType, string deviceData, Guid roomId)
         {
             var room = await _dbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefaultAsync();
             if (room == null)
