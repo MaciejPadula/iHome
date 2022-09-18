@@ -8,7 +8,7 @@ namespace iHome.Core.Models.Database
         [Key]
         public int Id { get; set; }
         public string UserId { get; set; }
-        public int RoomId { get; set; }
+        public Guid RoomId { get; set; }
         [ForeignKey("RoomId")]
         public virtual TRoom Room { get; set; }
 
@@ -18,7 +18,7 @@ namespace iHome.Core.Models.Database
             Room = new TRoom();
         }
 
-        public TUserRoom(string userId, int roomId, TRoom room)
+        public TUserRoom(string userId, Guid roomId, TRoom room)
         {
             UserId = userId;
             RoomId = roomId;

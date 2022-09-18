@@ -13,7 +13,7 @@ export class DeviceComponent implements OnInit {
     name: '',
     data: '',
     type: DeviceType.RGBLamp,
-    roomId: 0
+    roomId: ''
   };
   DeviceType = DeviceType;
 

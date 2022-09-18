@@ -12,7 +12,7 @@ namespace iHome.Core.Models.Database
         public int Type { get; set; }
         public string Data { get; set; }
 
-        public int RoomId { get; set; }
+        public Guid RoomId { get; set; }
         [ForeignKey("RoomId")]
         public virtual TRoom Room { get; set; }
 
@@ -24,7 +24,7 @@ namespace iHome.Core.Models.Database
             Room = new TRoom();
         }
 
-        public TDevice(string deviceId, string name, int type, string data, int roomId, TRoom room)
+        public TDevice(string deviceId, string name, int type, string data, Guid roomId, TRoom room)
         {
             DeviceId = deviceId;
             Name = name;
