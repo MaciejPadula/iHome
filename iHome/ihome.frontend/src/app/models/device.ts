@@ -3,5 +3,5 @@ export interface Device {
     type: number,
     name: string,
     data: string,
-    roomId: number
+    roomId: string
 }

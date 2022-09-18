@@ -58,7 +58,7 @@ namespace iHome.Controllers
 
         [HttpPost("RemoveRoom/{id}")]
         [Authorize]
-        public async Task<ActionResult> RemoveRoom(int id)
+        public async Task<ActionResult> RemoveRoom(Guid id)
         {
             var uuids = await _roomsService.GetRoomUserIds(id);
 
@@ -82,7 +82,7 @@ namespace iHome.Controllers
 
         [HttpPost("AddDevice/{id}")]
         [Authorize]
-        public async Task<ActionResult> AddDevice(int id, [FromBody] Device device)
+        public async Task<ActionResult> AddDevice(Guid id, [FromBody] Device device)
         {
             device.Validate();
 
@@ -170,7 +170,7 @@ namespace iHome.Controllers
 
         [HttpGet("GetRoomUsers/{roomId}")]
         [Authorize]
-        public async Task<ActionResult> GetRoomUsers(int roomId)
+        public async Task<ActionResult> GetRoomUsers(Guid roomId)
         {
             var userId = _userInfo.GetUserUuid(User);
             var uuids = (await _roomsService.GetRoomUserIds(roomId)).Where(uuid => uuid != userId).ToList();

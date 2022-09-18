@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using iHome.Core.Logic.Database;
 using iHome.Core.Models.Database;
+using System;
 
 namespace iHome.AzureFunctions.Logic
 {
@@ -28,7 +29,7 @@ namespace iHome.AzureFunctions.Logic
             var deviceType = (int)data?.deviceType;
             var ip = req.HttpContext.Connection.RemoteIpAddress.ToString();
 
-            _dbContext.DevicesToConfigure.Add(new TDeviceToConfigure(deviceId, deviceType, ip));
+            _dbContext.DevicesToConfigure.Add(new TDeviceToConfigure(Guid.NewGuid(), deviceId, deviceType, ip));
             _dbContext.SaveChanges();
 
             return new OkResult();

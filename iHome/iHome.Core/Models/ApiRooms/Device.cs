@@ -9,9 +9,9 @@ namespace iHome.Core.Models.ApiRooms
         public int Type { get; set; }
         public string Name { get; set; }
         public string Data { get; set; } = "{}";
-        public int RoomId { get; set; }
+        public Guid RoomId { get; set; }
 
-        public Device(string id, int type, string name, int roomId)
+        public Device(string id, int type, string name, Guid roomId)
         {
             Id = id;
             Type = type;

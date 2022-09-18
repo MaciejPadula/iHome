@@ -14,7 +14,7 @@ namespace iHome.Core.Services.DevicesService
             _dbContext = dbContext;
         }
 
-        public async Task AddDevice(int id, string deviceId, string deviceName, int deviceType, string deviceData, int roomId)
+        public async Task AddDevice(Guid id, string deviceId, string deviceName, int deviceType, string deviceData, Guid roomId)
         {
             var room = await _dbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefaultAsync();
             if (room == null)
@@ -43,7 +43,7 @@ namespace iHome.Core.Services.DevicesService
             return deviceData;
         }
 
-        public Task<int> GetDeviceRoomId(string deviceId)
+        public Task<Guid> GetDeviceRoomId(string deviceId)
         {
             return Task.FromResult(GetTDevice(deviceId).RoomId);
         }
@@ -77,7 +77,7 @@ namespace iHome.Core.Services.DevicesService
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task SetDeviceRoom(string deviceId, int roomId, string uuid)
+        public async Task SetDeviceRoom(string deviceId, Guid roomId, string uuid)
         {
             if (!await CheckDeviceOwnership(deviceId, uuid))
                 return;

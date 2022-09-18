@@ -1,7 +1,7 @@
 import { Device } from "./device";
 
 export interface Room {
-    id: number,
+    id: string,
     name: string,
     description: string,
     ownerUuid: string,

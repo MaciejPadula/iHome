@@ -18,12 +18,12 @@ namespace iHome.Core.Services.RoomsService
 
         public async Task AddRoom(string roomName, string roomDescription, string uuid)
         {
-            var room = await _dbContext.Rooms.AddAsync(new TRoom(roomName, roomDescription, uuid, new List<TUserRoom>(), new List<TDevice>()));
+            var room = await _dbContext.Rooms.AddAsync(new TRoom(Guid.NewGuid(), roomName, roomDescription, uuid, new List<TUserRoom>(), new List<TDevice>()));
             await _dbContext.SaveChangesAsync();
             await AddUserRoomConstraint(room.Entity.RoomId, uuid);
         }
 
-        public async Task AddUserRoomConstraint(int roomId, string uuid)
+        public async Task AddUserRoomConstraint(Guid roomId, string uuid)
         {
             if (await UserRoomConstraintFound(roomId, uuid))
                 return;
@@ -31,7 +31,7 @@ namespace iHome.Core.Services.RoomsService
             if (room == null)
                 throw new RoomNotFoundException();
 
-            await _dbContext.UsersRooms.AddAsync(new TUserRoom(uuid, roomId, room));
+            await _dbContext.UsersRooms.AddAsync(new TUserRoom(Guid.NewGuid(), uuid, roomId, room));
             await _dbContext.SaveChangesAsync();
         }
 
@@ -51,7 +51,7 @@ namespace iHome.Core.Services.RoomsService
             return Task.FromResult(rooms);
         }
 
-        public async Task<List<string>> GetRoomUserIds(int roomId)
+        public async Task<List<string>> GetRoomUserIds(Guid roomId)
         {
             var userRooms = await _dbContext.UsersRooms
                 .Where(userRoom => userRoom.RoomId == roomId)
@@ -66,7 +66,7 @@ namespace iHome.Core.Services.RoomsService
             return uuids;
         }
 
-        public async Task RemoveRoom(int roomId)
+        public async Task RemoveRoom(Guid roomId)
         {
             var roomToRemove = await _dbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefaultAsync();
             if (roomToRemove == null)
@@ -80,7 +80,7 @@ namespace iHome.Core.Services.RoomsService
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task RemoveUserRoomConstraint(int roomId, string uuid, string masterUuid)
+        public async Task RemoveUserRoomConstraint(Guid roomId, string uuid, string masterUuid)
         {
             var room = await _dbContext.Rooms.Where(room => room.RoomId == roomId).FirstOrDefaultAsync();
             if (room == null)
@@ -98,12 +98,11 @@ namespace iHome.Core.Services.RoomsService
             await _dbContext.SaveChangesAsync();
         }
 
-        private async Task<bool> UserRoomConstraintFound(int roomId, string uuid)
+        private async Task<bool> UserRoomConstraintFound(Guid roomId, string uuid)
         {
-            return (await _dbContext.UsersRooms
-                .Where(userRoom => userRoom.RoomId == roomId && userRoom.UserId == uuid)
-                .ToListAsync())
-                .Any();
+            var first = await _dbContext.UsersRooms
+                .Where(userRoom => userRoom.RoomId == roomId && userRoom.UserId == uuid).ToListAsync();
+            return first.Any();
         }
     }
 }
