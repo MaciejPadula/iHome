@@ -3,9 +3,9 @@
     public class UserRoomRequest
     {
         public string Email { get; set; }
-        public int RoomId { get; set; }
+        public Guid RoomId { get; set; }
 
-        public UserRoomRequest(string email, int roomId)
+        public UserRoomRequest(string email, Guid roomId)
         {
             Email = email;
             RoomId = roomId;

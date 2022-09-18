@@ -8,7 +8,7 @@ import { SignalRService } from 'src/app/services/signal-r.service';
 
 interface RoomDeviceData{
   devices: Array<Device>;
-  roomId: number;
+  roomId: string;
 }
 
 @Component({

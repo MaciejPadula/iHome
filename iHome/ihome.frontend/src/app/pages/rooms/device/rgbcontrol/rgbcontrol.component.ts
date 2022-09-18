@@ -17,7 +17,7 @@ export class RGBControlComponent implements OnInit {
     name: '',
     data: '',
     type: 1,
-    roomId: 0
+    roomId: ''
   };
   data: RGBLampData;
   color: string = "#FFFFFF";

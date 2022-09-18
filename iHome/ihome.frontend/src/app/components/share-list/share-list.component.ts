@@ -39,13 +39,13 @@ export class ShareListDialogComponent implements OnInit {
   filteredOptions: Observable<string[]> | undefined;
   progressBarShow: boolean = false;
 
-  public roomId: number = 0;
+  public roomId: string = "";
   public users: Array<User> = [];
   constructor(
     public dialogRef: MatDialogRef<ShareListDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string, private _api: RoomsApiService
   ) {
-    this.roomId = parseInt(data);
+    this.roomId = data;
   }
 
   public async ngOnInit() {

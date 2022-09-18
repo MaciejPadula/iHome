@@ -10,7 +10,7 @@ import { RoomsApiService } from 'src/app/services/rooms-api.service';
   styleUrls: ['./add-device.component.scss']
 })
 export class AddDeviceComponent {
-  @Input() roomId: number = 0; 
+  @Input() roomId: string = ""; 
 
   constructor(public dialog: MatDialog) { }
 
@@ -31,14 +31,14 @@ export class AddDeviceComponent {
 })
 export class AddDeviceDialogComponent implements OnInit{
   devicesToConfigure: Array<DeviceToConfigure> = [];
-  roomId: number;
+  roomId: string;
   spinnerVisible: boolean = false;
   private _ipAddress: string = "0.0.0.0";
 
   constructor(public dialogRef: MatDialogRef<AddDeviceDialogComponent>,
     private _api: RoomsApiService,
     private _http: HttpClient,
-    @Inject(MAT_DIALOG_DATA) public data: number
+    @Inject(MAT_DIALOG_DATA) public data: string
   ) { 
     this.roomId = data;
   }

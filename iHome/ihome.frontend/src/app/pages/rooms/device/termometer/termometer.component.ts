@@ -16,7 +16,7 @@ export class TermometerComponent implements OnInit {
     name: '',
     data: '',
     type: 2,
-    roomId: 0
+    roomId: ''
   };
 
   data: TermometerData = {

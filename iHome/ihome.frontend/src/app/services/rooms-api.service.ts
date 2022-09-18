@@ -22,7 +22,7 @@ export class RoomsApiService {
     return firstValueFrom(this._http.get<Room[]>(this._apiUrl+'/GetRooms'));
   }
 
-  public removeRoom(roomId: number) {
+  public removeRoom(roomId: string) {
     return firstValueFrom(this._http.post(this._apiUrl+'/RemoveRoom/'+roomId, {}));
   }
 
@@ -34,7 +34,7 @@ export class RoomsApiService {
     }));
   }
 
-  public getRoomShares(roomId: number): Promise<User[]>{
+  public getRoomShares(roomId: string): Promise<User[]>{
     return firstValueFrom(this._http.get<User[]>(this._apiUrl+'/GetRoomUsers/'+roomId));
   }
 
@@ -42,14 +42,14 @@ export class RoomsApiService {
     return firstValueFrom(this._http.get<string[]>(this._apiUrl + '/GetEmails/' + emailFragment));
   }
 
-  public shareRoom(roomId: number, email: string) {
+  public shareRoom(roomId: string, email: string) {
     return firstValueFrom(this._http.post(this._apiUrl + '/ShareRoom', {
       roomId: roomId,
       email: email
     }));
   }
 
-  public removeRoomShare(roomId: number, uuid: string){
+  public removeRoomShare(roomId: string, uuid: string){
     return firstValueFrom(this._http.post(this._apiUrl + '/RemoveRoomShare', {
       roomId: roomId,
       uuid: uuid
@@ -67,7 +67,7 @@ export class RoomsApiService {
     return firstValueFrom(this._http.get<any>(this._apiUrl + '/GetDeviceData/' + deviceId));
   }
 
-  public setDeviceRoom(roomId: number, deviceId: string){
+  public setDeviceRoom(roomId: string, deviceId: string){
     return firstValueFrom(this._http.post(this._apiUrl + '/SetDeviceRoom', {
       deviceId: deviceId,
       roomId: roomId

@@ -2,10 +2,10 @@
 {
     public class RemoveRoomShareRequest
     {
-        public int RoomId { get; set; }
+        public Guid RoomId { get; set; }
         public string Uuid { get; set; }
 
-        public RemoveRoomShareRequest(int roomId, string uuid)
+        public RemoveRoomShareRequest(Guid roomId, string uuid)
         {
             RoomId = roomId;
             Uuid = uuid;

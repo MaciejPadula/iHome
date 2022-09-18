@@ -6,10 +6,10 @@ namespace iHome.Core.Services.RoomsService
     {
         Task<List<Room>> GetRooms(string uuid);
         Task AddRoom(string roomName, string roomDescription, string uuid);
-        Task RemoveRoom(int roomId);
+        Task RemoveRoom(Guid roomId);
 
-        Task AddUserRoomConstraint(int roomId, string uuid);
-        Task RemoveUserRoomConstraint(int roomId, string uuid, string masterUuid);
-        Task<List<string>> GetRoomUserIds(int roomId);
+        Task AddUserRoomConstraint(Guid roomId, string uuid);
+        Task RemoveUserRoomConstraint(Guid roomId, string uuid, string masterUuid);
+        Task<List<string>> GetRoomUserIds(Guid roomId);
     }
 }

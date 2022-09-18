@@ -5,7 +5,7 @@ namespace iHome.Core.Models.Database
     public class TRoom
     {
         [Key]
-        public int RoomId { get; set; }
+        public Guid RoomId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string UserId { get; set; }
@@ -22,8 +22,9 @@ namespace iHome.Core.Models.Database
             Devices = new List<TDevice>();
         }
 
-        public TRoom(string name, string description, string userId, List<TUserRoom> usersRoom, List<TDevice> devices)
+        public TRoom(Guid roomId, string name, string description, string userId, List<TUserRoom> usersRoom, List<TDevice> devices)
         {
+            RoomId = roomId;
             Name = name;
             Description = description;
             UserId = userId;

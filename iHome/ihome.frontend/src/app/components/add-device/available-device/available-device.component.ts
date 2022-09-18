@@ -11,7 +11,7 @@ import { RoomsApiService } from 'src/app/services/rooms-api.service';
   styleUrls: ['./available-device.component.scss']
 })
 export class AvailableDeviceComponent implements OnInit {
-  @Input() roomId: number = 0;
+  @Input() roomId: string = "";
   @Input() deviceToConfigure: DeviceToConfigure = {
     id: 0,
     deviceId: '',
@@ -22,7 +22,7 @@ export class AvailableDeviceComponent implements OnInit {
     type: DeviceType.RGBLamp,
     name: '',
     data: '',
-    roomId: 0
+    roomId: ''
   };
 
   constructor(private _api: RoomsApiService) { }

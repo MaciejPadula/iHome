@@ -31,7 +31,7 @@ export class RemoveRoomComponent {
 export class RemoveRoomDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<RemoveRoomDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {roomId: number, roomName: string},
+    @Inject(MAT_DIALOG_DATA) public data: {roomId: string, roomName: string},
     private _api: RoomsApiService
   ) {}
 
