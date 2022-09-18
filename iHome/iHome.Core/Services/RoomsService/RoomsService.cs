@@ -31,7 +31,7 @@ namespace iHome.Core.Services.RoomsService
             if (room == null)
                 throw new RoomNotFoundException();
 
-            await _dbContext.UsersRooms.AddAsync(new TUserRoom(uuid, roomId, room));
+            await _dbContext.UsersRooms.AddAsync(new TUserRoom(Guid.NewGuid(), uuid, roomId, room));
             await _dbContext.SaveChangesAsync();
         }
 

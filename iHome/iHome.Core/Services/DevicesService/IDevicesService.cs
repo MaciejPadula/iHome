@@ -4,7 +4,7 @@ namespace iHome.Core.Services.DevicesService
 {
     public interface IDevicesService
     {
-        Task AddDevice(int id, string deviceId, string deviceName, int deviceType, string deviceData, Guid roomId);
+        Task AddDevice(Guid id, string deviceId, string deviceName, int deviceType, string deviceData, Guid roomId);
 
         Task<string> GetDeviceData(string deviceId, string uuid);
         Task SetDeviceData(string deviceId, string deviceData, string uuid);

@@ -28,6 +28,16 @@ namespace iHome.Core.Logic.Database
                 .Entity<TUserRoom>()
                 .Property(e => e.RoomId)
                 .HasConversion(converter);
+
+            modelBuilder
+                .Entity<TUserRoom>()
+                .Property(e => e.Id)
+                .HasConversion(converter);
+
+            modelBuilder
+               .Entity<TDeviceToConfigure>()
+               .Property(e => e.Id)
+               .HasConversion(converter);
         }
 
         public DbSet<TDevice> Devices => Set<TDevice>();
