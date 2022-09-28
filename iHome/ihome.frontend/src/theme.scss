@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-
+@use './app/components/sidenav/sidenav.component-theme' as sidenav;
 @include mat.core();
 
 $darkBg: #222222;
@@ -23,7 +23,7 @@ $dark-theme: mat.define-light-theme((color: (
 )));
 
 @include mat.all-component-themes($dark-theme);
-
+@include sidenav.theme($dark-theme);
 html,
 body {
   height: 100%;
@@ -38,6 +38,7 @@ body {
 
 @media (prefers-color-scheme: light) {
   @include mat.all-component-themes($light-theme);
+  @include sidenav.theme($light-theme);
   body {
     background-color: $lightBody;
   }
@@ -52,7 +53,7 @@ body {
   }
 
   /*font*/
-  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card {
+  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card, .mat-button {
     color:$lightFont !important;
   }
 }
@@ -73,7 +74,7 @@ body {
   }
    
   /*font*/
-  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card {
+  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card, .mat-button {
     color:$darkFont !important;
   }
 }
