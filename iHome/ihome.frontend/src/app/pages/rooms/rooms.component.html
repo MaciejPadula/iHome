@@ -3,7 +3,7 @@
     <div *ngIf="spinnerVisible" class="spinner-container">
         <mat-spinner diameter="70"></mat-spinner>
     </div>
-    <div *ngIf="!spinnerVisible" style="width:100%">
+    <div *ngIf="!spinnerVisible" style="display: flex; width: 100%;">
 	    <mat-card class="room-card" *ngFor="let room of rooms" bgColor="primary">
 	        <mat-card-title>{{room.name}}</mat-card-title>
 	        <mat-card-subtitle>{{room.description}}</mat-card-subtitle>
