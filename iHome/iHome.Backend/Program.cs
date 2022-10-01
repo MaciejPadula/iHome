@@ -101,7 +101,6 @@ builder.Services
         {
             sqlOptions.EnableRetryOnFailure();
         });
-        
     })
     .AddScoped<IUserInfo, UserInfo>()
     .AddScoped<IDevicesService, DevicesService>()

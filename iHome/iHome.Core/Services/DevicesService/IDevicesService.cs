@@ -12,7 +12,7 @@ namespace iHome.Core.Services.DevicesService
         Task RenameDevice(string deviceId, string deviceName, string uuid);
         Task<Guid> GetDeviceRoomId(string deviceId);
         Task SetDeviceRoom(string deviceId, Guid roomId, string uuid);
-        
+
         Task<List<TDeviceToConfigure>> GetDevicesToConfigure(string ip);
     }
 }

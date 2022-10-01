@@ -1,7 +1,4 @@
-﻿using iHome.Core.Models.Application;
-using Microsoft.Extensions.Options;
-
-namespace iHome.Mobile
+﻿namespace iHome.Mobile
 {
     public partial class MainPage : ContentPage
     {
