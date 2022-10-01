@@ -1,12 +1,12 @@
-using System.IO;
-using System.Threading.Tasks;
+using iHome.Core.Models.Requests;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using iHome.Core.Models.Requests;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace iHome.AzureFunctions.Logic
 {
@@ -20,7 +20,7 @@ namespace iHome.AzureFunctions.Logic
         }
 
         [FunctionName("ResetDeviceCache")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Admin,"post", Route = null)] HttpRequest req)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Admin, "post", Route = null)] HttpRequest req)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<DeviceDataRequest>(requestBody);

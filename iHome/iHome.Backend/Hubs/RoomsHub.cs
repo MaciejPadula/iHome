@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 
 namespace iHome.Hubs
 {
-    public class RoomsHub: Hub
+    public class RoomsHub : Hub
     {
         public async Task LoginToSignalR(string uuid)
         {

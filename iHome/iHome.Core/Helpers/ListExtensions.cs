@@ -7,7 +7,7 @@ namespace iHome.Core.Helpers
     {
         public static List<Device> ToDevicesList(this List<TDevice>? devices)
         {
-            if(devices == null)
+            if (devices == null)
             {
                 return new List<Device>();
             }
@@ -22,7 +22,7 @@ namespace iHome.Core.Helpers
             if (usersRooms == null || !usersRooms.Any())
                 return false;
 
-            foreach(var userRoom in usersRooms)
+            foreach (var userRoom in usersRooms)
             {
                 if (userRoom.UserId == userId)
                     return true;

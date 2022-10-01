@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace iHome.Core.Services.DevicesService
 {
-    public class DevicesService: IDevicesService
+    public class DevicesService : IDevicesService
     {
         private readonly AppDbContext _dbContext;
 

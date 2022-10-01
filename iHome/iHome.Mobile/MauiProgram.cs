@@ -1,11 +1,4 @@
-﻿using iHome.Core.Logic.Database;
-using iHome.Core.Models.Application;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System.Reflection;
-
-namespace iHome.Mobile
+﻿namespace iHome.Mobile
 {
     public static class MauiProgram
     {
