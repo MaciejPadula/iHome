@@ -42,6 +42,7 @@ import { environment } from 'src/environments/environment';
 import { AddDeviceComponent, AddDeviceDialogComponent } from './components/add-device/add-device.component';
 import { AvailableDeviceComponent } from './components/add-device/available-device/available-device.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { IndexButtonComponent } from './components/sidenav/index-button/index-button.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -69,6 +70,7 @@ export function tokenGetter() {
     AddDeviceDialogComponent,
     AvailableDeviceComponent,
     SidenavComponent,
+    IndexButtonComponent,
   ],
   imports: [
     BrowserModule,
