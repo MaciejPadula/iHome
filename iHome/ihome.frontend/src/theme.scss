@@ -53,7 +53,7 @@ body {
   }
 
   /*font*/
-  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card, .mat-button {
+  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card, .mat-button, p {
     color:$lightFont !important;
   }
 }
@@ -74,7 +74,7 @@ body {
   }
    
   /*font*/
-  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card, .mat-button {
+  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card, .mat-button, p {
     color:$darkFont !important;
   }
 }

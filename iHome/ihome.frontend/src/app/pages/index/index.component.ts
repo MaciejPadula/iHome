@@ -9,7 +9,7 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class IndexComponent implements OnInit {
 
-  constructor(private _auth: AuthService, private _router: Router) {
+  constructor(private _auth: AuthService, private _router: Router, public auth: AuthService) {
     this._auth.isAuthenticated$.subscribe(userAuthenticated => {
       if(userAuthenticated){
         this._router.navigate(['/rooms']);
