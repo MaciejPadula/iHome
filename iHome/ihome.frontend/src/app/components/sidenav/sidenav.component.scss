@@ -1,0 +1,23 @@
+.mat-drawer-container{
+    background-color: rgba(0,0,0,0);
+}
+
+.example-sidenav{
+    position: fixed;
+    left:0;
+    top:0;
+}
+
+.index-button{
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 16px;
+}
+
+@media (max-width: 599px){
+    .index-button{
+        height: 56px;
+    }
+}

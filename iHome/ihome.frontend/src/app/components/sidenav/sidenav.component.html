@@ -1,0 +1,13 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <div class="index-button">
+            <index-button [drawer]="drawer"></index-button>
+        </div>
+        <add-room></add-room>
+    </mat-drawer>
+    <div *ngIf="!drawer.opened">
+        <index-button [drawer]="drawer"></index-button>
+    </div>
+    
+</mat-drawer-container>
+
