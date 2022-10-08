@@ -2,7 +2,7 @@
     <div *ngIf="spinnerVisible" class="spinner-container">
         <mat-spinner diameter="70"></mat-spinner>
     </div>
-    <div *ngIf="!spinnerVisible" style="display: flex; width: 100%;">
+    <div *ngIf="!spinnerVisible" class="rooms-container">
 	    <mat-card class="room-card" *ngFor="let room of rooms" bgColor="primary">
 	        <mat-card-title>{{room.name}}</mat-card-title>
 	        <mat-card-subtitle>{{room.description}}</mat-card-subtitle>
@@ -31,6 +31,7 @@
 	                    *ngFor="let device of sortDevices(room.devices)"
 	                    [device]=device
 	                    [owner]="this.uuid == room.ownerUuid"
+						style="display:inline-flex;"
 	                ></app-device>
 	                <app-add-device [roomId]="room.id"></app-add-device>
 	            </div>
