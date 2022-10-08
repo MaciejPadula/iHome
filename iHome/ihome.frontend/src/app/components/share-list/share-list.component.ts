@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { RoomsApiService } from 'src/app/services/rooms-api.service';
-import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-share-list',
@@ -35,8 +34,7 @@ export class ShareListComponent implements OnInit {
 })
 export class ShareListDialogComponent implements OnInit {
   email = new FormControl('');
-  options: Array<string> = [];
-  filteredOptions: Observable<string[]> | undefined;
+  filteredOptions: Observable<Promise<string[]>> | undefined;
   progressBarShow: boolean = false;
 
   public roomId: string = "";
@@ -49,11 +47,10 @@ export class ShareListDialogComponent implements OnInit {
   }
 
   public async ngOnInit() {
-    this.options = await this._api.getEmailsByFragment("*");
     await this.getSharedUsers();
     this.filteredOptions = this.email.valueChanges.pipe(
       startWith(''),
-      map(value => this.filter(value || '')),
+      map(async value => await this.filter(value || ''))
     );
   }
 
@@ -63,13 +60,12 @@ export class ShareListDialogComponent implements OnInit {
     this.progressBarShow = false;
   }
 
-  public filter(value: string):string[] {
-    if(value.length<3){
-      return [];
-    }
-    const filterValue = value.toLowerCase();
+  public async filter(value: string):Promise<string[]> {
+    let options = await this._api.getEmailsByFragment(value);
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    const filterValue = value.toLowerCase();
+    
+    return options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   public async removeShare(uuid: string){
