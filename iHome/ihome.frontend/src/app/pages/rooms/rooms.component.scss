@@ -7,10 +7,14 @@
     align-items: center;
 }
 
+.rooms-container{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
 .room-card{
-    position: relative;
-    width:96%;
-    margin: 2%;
+    margin-top: 2%;
 }
 
 .room-options{
