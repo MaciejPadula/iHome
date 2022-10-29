@@ -33,9 +33,6 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { AddRoomComponent, AddRoomDialogComponent } from './components/add-room/add-room.component';
 import { RemoveRoomComponent, RemoveRoomDialogComponent } from './components/remove-room/remove-room.component';
 import { ShareListComponent, ShareListDialogComponent } from './components/share-list/share-list.component';
-import { DeviceComponent } from './pages/rooms/device/device.component';
-import { RGBControlComponent } from './pages/rooms/device/rgbcontrol/rgbcontrol.component';
-import { TermometerComponent } from './pages/rooms/device/termometer/termometer.component';
 import { IndexComponent } from './pages/index/index.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { environment } from 'src/environments/environment';
@@ -43,6 +40,10 @@ import { AddDeviceComponent, AddDeviceDialogComponent } from './components/add-d
 import { AvailableDeviceComponent } from './components/add-device/available-device/available-device.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { IndexButtonComponent } from './components/sidenav/index-button/index-button.component';
+import { RoomComponent } from './components/room/room.component';
+import { DeviceComponent } from './components/device/device.component';
+import { DeviceDialogComponent, RgbLampComponent } from './components/device/rgb-lamp/rgb-lamp.component';
+import { ThermometerComponent } from './components/device/thermometer/thermometer.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -62,8 +63,6 @@ export function tokenGetter() {
     ShareListComponent,
     ShareListDialogComponent,
     DeviceComponent,
-    RGBControlComponent,
-    TermometerComponent,
     IndexComponent,
     NotFoundComponent,
     AddDeviceComponent,
@@ -71,6 +70,10 @@ export function tokenGetter() {
     AvailableDeviceComponent,
     SidenavComponent,
     IndexButtonComponent,
+    RoomComponent,
+    RgbLampComponent,
+    DeviceDialogComponent,
+    ThermometerComponent
   ],
   imports: [
     BrowserModule,

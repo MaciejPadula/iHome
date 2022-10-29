@@ -2,7 +2,12 @@
     <div *ngIf="spinnerVisible" class="spinner-container">
         <mat-spinner diameter="70"></mat-spinner>
     </div>
-    <div *ngIf="!spinnerVisible" class="rooms-container">
+	<mat-tab-group *ngIf="!spinnerVisible">
+		<mat-tab *ngFor="let room of rooms" bgColor="primary" label={{room.name}} >
+			<app-room [room]="room"></app-room>
+		</mat-tab>
+	</mat-tab-group>
+    <!-- <div *ngIf="!spinnerVisible" class="rooms-container">
 	    <mat-card class="room-card" *ngFor="let room of rooms" bgColor="primary">
 	        <mat-card-title>{{room.name}}</mat-card-title>
 	        <mat-card-subtitle>{{room.description}}</mat-card-subtitle>
@@ -38,5 +43,5 @@
 	        </mat-card-content>
 	        <mat-card-actions></mat-card-actions>
 	    </mat-card>
-    </div>
+    </div> -->
 </div>

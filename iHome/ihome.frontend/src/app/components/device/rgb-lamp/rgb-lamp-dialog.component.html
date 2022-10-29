@@ -1,0 +1,28 @@
+
+
+<h1 mat-dialog-title>
+    {{data.device.name}}
+    <mat-icon 
+        [ngClass]="data.data.State ? 'material-icons color_green' : 'material-icons color_red'"
+        style="cursor: pointer;"
+        (click)="turnState()">
+        power_settings_new
+    </mat-icon>
+</h1>
+<div mat-dialog-content>
+    <mat-tab-group
+            mat-align-tabs="center" 
+            [(selectedIndex)]="data.data.Mode"
+            (selectedIndexChange)="updateMode($event)">
+        <mat-tab label="Static" class="rgb-component">
+            <div class="color-wrapper">
+                <input class="color-input" type="color" [(ngModel)]=color (change)="updateColor()" />
+            </div>
+        </mat-tab>
+        <mat-tab label="Rainbow" class="rgb-component" isActive=true>Content 2</mat-tab>
+        <mat-tab label="Breath" class="rgb-component">Content 3</mat-tab>
+    </mat-tab-group>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

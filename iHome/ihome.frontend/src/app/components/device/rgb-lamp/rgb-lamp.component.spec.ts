@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RGBControlComponent } from './rgbcontrol.component';
+import { RgbLampComponent } from './rgb-lamp.component';
 
-describe('RGBControlComponent', () => {
-  let component: RGBControlComponent;
-  let fixture: ComponentFixture<RGBControlComponent>;
+describe('RgbLampComponent', () => {
+  let component: RgbLampComponent;
+  let fixture: ComponentFixture<RgbLampComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RGBControlComponent ]
+      declarations: [ RgbLampComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RGBControlComponent);
+    fixture = TestBed.createComponent(RgbLampComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

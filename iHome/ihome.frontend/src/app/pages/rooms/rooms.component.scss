@@ -1,43 +1,47 @@
 .rooms{
-    width: 90%;
-    margin-left: 5%;
+    width: 80%;
+    margin-left: 10%;
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.rooms-container{
-    display: flex;
+.mat-tab-group{
     width: 100%;
-    flex-direction: column;
 }
 
-.room-card{
-    margin-top: 2%;
-}
+// .rooms-container{
+//     display: flex;
+//     width: 100%;
+//     flex-direction: column;
+// }
 
-.room-options{
-    position: absolute;
-    top:0px;
-    right:0px;
-}
+// .room-card{
+//     margin-top: 2%;
+// }
 
-.device-container{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 2rem;
-    flex-wrap: wrap;
-}
+// .room-options{
+//     position: absolute;
+//     top:0px;
+//     right:0px;
+// }
 
-.mat-card-content{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
+// .device-container{
+//     width: 100%;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     min-height: 2rem;
+//     flex-wrap: wrap;
+// }
+
+// .mat-card-content{
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     justify-content: center;
+// }
 
 .spinner-container{
     display: flex;
