@@ -1,0 +1,7 @@
+<mat-card class="device">
+    <mat-card-content>
+        <h3>{{device.name}}</h3>
+        <app-thermometer *ngIf="device.type == DeviceType.Termometer" [device]="device"></app-thermometer>
+    </mat-card-content>
+    <app-rgb-lamp *ngIf="device.type == DeviceType.RGBLamp" [device]="device"></app-rgb-lamp>
+</mat-card>

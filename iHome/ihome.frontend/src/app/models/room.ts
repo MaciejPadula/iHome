@@ -6,5 +6,15 @@ export interface Room {
     description: string,
     ownerUuid: string,
     devices: Array<Device>
-
 }
+
+const defaultRoom: Room = {
+    id: '',
+    name: '',
+    description: '',
+    ownerUuid: '',
+    devices: []
+}
+export {
+    defaultRoom
+};

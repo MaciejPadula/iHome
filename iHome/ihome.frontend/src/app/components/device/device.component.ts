@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Device } from 'src/app/models/device';
+import { defaultDevice, Device } from 'src/app/models/device';
 import { DeviceType } from 'src/app/models/enums/device-type';
 
 @Component({
@@ -8,20 +8,12 @@ import { DeviceType } from 'src/app/models/enums/device-type';
   styleUrls: ['./device.component.scss']
 })
 export class DeviceComponent implements OnInit {
-  @Input() device: Device = {
-    id: '',
-    name: '',
-    data: '',
-    type: DeviceType.RGBLamp,
-    roomId: ''
-  };
+  @Input() device: Device = defaultDevice;
   DeviceType = DeviceType;
 
-  @Input() owner: boolean = false;
-  constructor() {
-    
+  constructor() { }
+
+  ngOnInit(): void {
   }
 
-  public ngOnInit(): void {
-  }
 }

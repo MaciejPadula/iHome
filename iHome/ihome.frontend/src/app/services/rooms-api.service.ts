@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Room } from '../models/room';
 import { User } from '../models/user';
 import { AppSettingsService } from './app-settings.service';
-import { Bill } from '../models/bill';
 import { DeviceToConfigure } from '../models/device-to-configure';
 import { Device } from '../models/device';
 import { firstValueFrom } from 'rxjs';

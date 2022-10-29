@@ -41,6 +41,7 @@ body {
   @include sidenav.theme($light-theme);
   body {
     background-color: $lightBody;
+    
   }
 
   .mat-card {
@@ -53,7 +54,7 @@ body {
   }
 
   /*font*/
-  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card, .mat-button, p {
+  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card, .mat-button, p, .mat-tab-label-content {
     color:$lightFont !important;
   }
 }
@@ -62,6 +63,7 @@ body {
   @include mat.all-component-themes($dark-theme);
   body {
     background-color: $darkBody;
+    color: $darkFont !important;
   }
 
   .mat-card {
@@ -74,11 +76,12 @@ body {
   }
    
   /*font*/
-  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card, .mat-button, p {
+  .mat-input-element::placeholder, .mat-menu-item, .mat-dialog-container, .mat-menu-content, .mat-label, .mat-card, .mat-button, p, .mat-tab-label-content {
     color:$darkFont !important;
   }
 }
-
+.material-icons.color_green { color: #00FF00; }
+.material-icons.color_red { color: #FF0000; }
 
 .mat-drawer-inner-container{
   display: flex;

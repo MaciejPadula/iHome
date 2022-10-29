@@ -5,3 +5,15 @@ export interface Device {
     data: string,
     roomId: string
 }
+
+const defaultDevice: Device = {
+    id: "",
+    type: 0,
+    name: "",
+    data: "",
+    roomId: ""
+};
+
+export {
+    defaultDevice
+};
