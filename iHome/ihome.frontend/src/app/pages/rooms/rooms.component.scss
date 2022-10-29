@@ -11,37 +11,12 @@
     width: 100%;
 }
 
-// .rooms-container{
-//     display: flex;
-//     width: 100%;
-//     flex-direction: column;
-// }
-
-// .room-card{
-//     margin-top: 2%;
-// }
-
-// .room-options{
-//     position: absolute;
-//     top:0px;
-//     right:0px;
-// }
-
-// .device-container{
-//     width: 100%;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     min-height: 2rem;
-//     flex-wrap: wrap;
-// }
-
-// .mat-card-content{
-//     display: flex;
-//     flex-direction: row;
-//     align-items: center;
-//     justify-content: center;
-// }
+.tab-label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
 
 .spinner-container{
     display: flex;

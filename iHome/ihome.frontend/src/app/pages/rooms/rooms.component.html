@@ -3,45 +3,27 @@
         <mat-spinner diameter="70"></mat-spinner>
     </div>
 	<mat-tab-group *ngIf="!spinnerVisible">
-		<mat-tab *ngFor="let room of rooms" bgColor="primary" label={{room.name}} >
+		<mat-tab *ngFor="let room of rooms" bgColor="primary">
+			<ng-template mat-tab-label>
+				<div class="tab-label">
+					{{room.name}}
+					<div *ngIf="this.uuid == room.ownerUuid" class="room-options">
+						<mat-icon mat-button [matMenuTriggerFor]="menu">more_vert</mat-icon>
+						<mat-menu #menu="matMenu">
+							<app-share-list roomId={{room.id}}></app-share-list>
+							<app-remove-room roomName={{room.name}} roomId={{room.id}}></app-remove-room>
+						</mat-menu>
+					</div>
+					<div *ngIf="this.uuid != room.ownerUuid" class="room-options">
+						<mat-icon fontIcon="share"
+							matTooltip="This room is shared to you by another user"
+						></mat-icon>
+					</div>
+				</div>
+				
+			</ng-template>
+			
 			<app-room [room]="room"></app-room>
 		</mat-tab>
 	</mat-tab-group>
-    <!-- <div *ngIf="!spinnerVisible" class="rooms-container">
-	    <mat-card class="room-card" *ngFor="let room of rooms" bgColor="primary">
-	        <mat-card-title>{{room.name}}</mat-card-title>
-	        <mat-card-subtitle>{{room.description}}</mat-card-subtitle>
-	        <mat-card-content>
-	            <div *ngIf="this.uuid == room.ownerUuid" class="room-options">
-	                <button mat-raised-button [matMenuTriggerFor]="menu" color="primary">
-	                    <mat-icon>more_vert</mat-icon>
-	                </button>
-	                <mat-menu #menu="matMenu">
-	                    <app-share-list roomId={{room.id}}></app-share-list>
-	                    <app-remove-room roomName={{room.name}} roomId={{room.id}}></app-remove-room>
-	                </mat-menu>
-	            </div>
-	            <div *ngIf="this.uuid != room.ownerUuid" class="room-options">
-	                <mat-icon fontIcon="share"
-	                    matTooltip="This room is shared to you by another user"
-	                ></mat-icon>
-	            </div>
-	            <div
-	                class="device-container"
-	                cdkDropList
-	                [cdkDropListData]="{devices: room.devices, roomId: room.id}"
-	                (cdkDropListDropped)="drop($event)"
-	            >
-	                <app-device 
-	                    *ngFor="let device of sortDevices(room.devices)"
-	                    [device]=device
-	                    [owner]="this.uuid == room.ownerUuid"
-						style="display:inline-flex;"
-	                ></app-device>
-	                <app-add-device [roomId]="room.id"></app-add-device>
-	            </div>
-	        </mat-card-content>
-	        <mat-card-actions></mat-card-actions>
-	    </mat-card>
-    </div> -->
 </div>
