@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace iHome.Mobile
+namespace iHome.WearOS
 {
     internal class Program : MauiApplication
     {
