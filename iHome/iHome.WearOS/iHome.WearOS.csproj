@@ -6,17 +6,17 @@
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
-		<RootNamespace>iHome.Mobile</RootNamespace>
+		<RootNamespace>iHome.WearOS</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>iHome.Mobile</ApplicationTitle>
+		<ApplicationTitle>iHome</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.ihome.mobile</ApplicationId>
-		<ApplicationIdGuid>FC16A4FF-8B60-414F-BD73-4E05B367C328</ApplicationIdGuid>
+		<ApplicationId>com.companyname.ihome.wearos</ApplicationId>
+		<ApplicationIdGuid>1DAE28A8-CE1D-4D8E-AA8E-AA4CFBB05351</ApplicationIdGuid>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -48,38 +48,6 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Remove="appsettings.Development.json" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Include="appsettings.Development.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Include="appsettings_example.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Include="appsettings.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\iHome.Core\iHome.Core.csproj" />
-	</ItemGroup>
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptioniHomeWearOSHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

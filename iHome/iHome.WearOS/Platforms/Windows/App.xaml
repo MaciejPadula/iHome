@@ -1,8 +1,8 @@
 ﻿<maui:MauiWinUIApplication
-    x:Class="iHome.Mobile.WinUI.App"
+    x:Class="iHome.WearOS.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:iHome.Mobile.WinUI">
+    xmlns:local="using:iHome.WearOS.WinUI">
 
 </maui:MauiWinUIApplication>

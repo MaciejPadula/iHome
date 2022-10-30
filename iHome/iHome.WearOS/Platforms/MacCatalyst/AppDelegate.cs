@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace iHome.Mobile
+namespace iHome.WearOS
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

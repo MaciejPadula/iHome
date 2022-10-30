@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace iHome.Mobile
+namespace iHome.WearOS
 {
     [Application]
     public class MainApplication : MauiApplication

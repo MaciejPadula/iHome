@@ -1,6 +1,7 @@
-﻿using UIKit;
+﻿using ObjCRuntime;
+using UIKit;
 
-namespace iHome.Mobile
+namespace iHome.WearOS
 {
     public class Program
     {

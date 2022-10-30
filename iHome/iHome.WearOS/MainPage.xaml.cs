@@ -1,4 +1,4 @@
-﻿namespace iHome.Mobile
+﻿namespace iHome.WearOS
 {
     public partial class MainPage : ContentPage
     {
