@@ -8,11 +8,8 @@ if (!Directory.Exists("wwwroot"))
 
 var builder = WebApplication.CreateBuilder(args);
 
-const string myPolicy = "Angular";
-
 builder.Services
     .ConfigureSwagger()
-    .ConfigureCors(myPolicy)
     .ConfigureAuth0Authentication(builder.Configuration);
 
 builder.Services
@@ -47,7 +44,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseCors(myPolicy);
+app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
 
 app.UseAuthentication();
 app.UseAuthorization();
