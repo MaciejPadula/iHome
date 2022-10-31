@@ -56,21 +56,5 @@ namespace iHome.Backend.Services
                 });
             });
         }
-
-        public static IServiceCollection ConfigureCors(this IServiceCollection services, string myPolicy)
-        {
-            return services.AddCors(options =>
-            {
-                options.AddPolicy(myPolicy,
-                    policy =>
-                    {
-                        policy
-                            .SetIsOriginAllowed(_ => true)
-                            .AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .AllowCredentials();
-                    });
-            });
-        }
     }
 }
