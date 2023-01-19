@@ -22,3 +22,7 @@ iHome/iHome.Backend/Properties
 iHome/iHome.Backend/appsettings.json
 iHome/iHome.WearOS/bin
 iHome/iHome.WearOS/obj
+src/iHome/.vs
+src/iHome/iHome/Properties
+src/iHome/Properties
+src/iHome.Core/obj
