@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome", "iHome\iHome.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Core", "iHome.Core\iHome.Core.csproj", "{11F549E4-78DB-493D-B3CB-C01862198A72}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Microservices.Devices.Contract", "iHome.Microservices.Devices.Contract\iHome.Microservices.Devices.Contract.csproj", "{C597DE64-7B8B-4756-A5CB-B221AA34F4E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{11F549E4-78DB-493D-B3CB-C01862198A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11F549E4-78DB-493D-B3CB-C01862198A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11F549E4-78DB-493D-B3CB-C01862198A72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C597DE64-7B8B-4756-A5CB-B221AA34F4E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C597DE64-7B8B-4756-A5CB-B221AA34F4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C597DE64-7B8B-4756-A5CB-B221AA34F4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C597DE64-7B8B-4756-A5CB-B221AA34F4E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

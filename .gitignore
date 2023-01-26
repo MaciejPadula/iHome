@@ -29,3 +29,5 @@ src/iHome.Core/obj
 src/.vs
 src/iHome.Core/bin
 src/iHome/appsettings.json
+src/iHome.Microservices.Devices.Contract/bin
+src/iHome.Microservices.Devices.Contract/obj

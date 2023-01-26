@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace iHome.Core.Models;
+namespace iHome.Microservices.Devices.Contract.Models;
 
 public class Device
 {

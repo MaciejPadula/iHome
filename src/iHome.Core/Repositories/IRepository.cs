@@ -6,7 +6,6 @@ public interface IRepository
 {
     DbSet<Room> Rooms { get; }
     DbSet<SharedRoom> SharedRooms { get; }
-    DbSet<Device> Devices { get; }
 
     void SaveChanges();
 }
