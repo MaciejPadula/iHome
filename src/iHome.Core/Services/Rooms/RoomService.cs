@@ -14,7 +14,8 @@ internal class RoomService : IRoomService
 
     public void AddRoom(string roomName, Guid userId)
     {
-        if (_repository.Rooms.Any(room => room.Name == roomName && room.UserId == userId))
+        if (_repository.Rooms
+            .Any(room => room.Name == roomName && room.UserId == userId))
         {
             throw new RoomAlreadyExistsException();
         }
@@ -37,7 +38,7 @@ internal class RoomService : IRoomService
     public void RemoveRoom(Guid userId, Guid roomId)
     {
         var room = _repository.Rooms.FirstOrDefault(r => r.Id == roomId && r.UserId == userId);
-        if (room == null) return;
+        if (room == null) throw new RoomNotFoundException();
 
         _repository.Rooms.Remove(room);
         _repository.SaveChanges();
@@ -45,8 +46,16 @@ internal class RoomService : IRoomService
 
     public void ShareRoom(Guid userId, Guid roomId)
     {
-        var room = _repository.Rooms.FirstOrDefault(r => r.Id == roomId);
-        if(room == null) return;
+        if(!_repository.Rooms.Any(r => r.Id == roomId))
+        {
+            throw new RoomNotFoundException();
+        }
+
+        if (_repository.SharedRooms
+            .Any(share => share.RoomId == roomId || share.UserId == userId))
+        {
+            throw new RoomAlreadySharedException();
+        }
 
         _repository.SharedRooms.Add(new SharedRoom
         {
