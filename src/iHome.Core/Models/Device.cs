@@ -1,6 +1,14 @@
-﻿namespace iHome.Core.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace iHome.Core.Models;
+
 public class Device
 {
-    public required Guid Id { get; init; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
     public required string Name { get; set; }
+    public required string Data { get; set; }
+    public required string HubId { get; set; }
+    public required Guid RoomId { get; set; }
+    public required string MacAddress { get; init; }
 }

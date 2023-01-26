@@ -1,6 +1,17 @@
+using iHome.Core.Helpers;
+using iHome.Logic;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services
+    .AddScoped<IUserAccessor, MockUserAccessor>()
+    .AddDataContexts(
+        options => options.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"]),
+        options => options.UseCosmos(builder.Configuration["ConnectionStrings:AzureCosmos"] ?? string.Empty, builder.Configuration["Azure:Cosmos:Database"] ?? string.Empty)
+    )
+    .AddRoomService();
 
 builder.Services.AddControllersWithViews();
 
