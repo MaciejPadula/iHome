@@ -26,3 +26,6 @@ src/iHome/.vs
 src/iHome/iHome/Properties
 src/iHome/Properties
 src/iHome.Core/obj
+src/.vs
+src/iHome.Core/bin
+src/iHome/appsettings.json
