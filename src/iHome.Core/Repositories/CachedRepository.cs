@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace iHome.Core.Repositories;
+
 public class CachedRepository : IRepository
 {
     private readonly IMemoryCache _memoryCache;

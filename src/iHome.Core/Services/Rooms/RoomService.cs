@@ -31,11 +31,18 @@ internal class RoomService : IRoomService
     public IEnumerable<Room> GetRooms(Guid userId)
     {
         return _repository.Rooms
-            .Where(r => r.UserId == userId)
+            .Where(r => r.UserId == userId || UserCanUseRoom(r.Id, userId))
             .ToList();
     }
 
-    public void RemoveRoom(Guid userId, Guid roomId)
+    private bool UserCanUseRoom(Guid roomId, Guid userId)
+    {
+        return _repository.SharedRooms
+            .Where(s => s.UserId == userId && s.RoomId == roomId)
+            .Any();
+    }
+
+    public void RemoveRoom(Guid roomId, Guid userId)
     {
         var room = _repository.Rooms.FirstOrDefault(r => r.Id == roomId && r.UserId == userId);
         if (room == null) throw new RoomNotFoundException();
@@ -44,7 +51,7 @@ internal class RoomService : IRoomService
         _repository.SaveChanges();
     }
 
-    public void ShareRoom(Guid userId, Guid roomId)
+    public void ShareRoom(Guid roomId, Guid userId)
     {
         if(!_repository.Rooms.Any(r => r.Id == roomId))
         {
@@ -65,7 +72,7 @@ internal class RoomService : IRoomService
         _repository.SaveChanges();
     }
 
-    public void UnshareRoom(Guid userId, Guid roomId)
+    public void UnshareRoom(Guid roomId, Guid userId)
     {
         var constraint = _repository.SharedRooms
             .Where(c => c.UserId == userId && c.RoomId == roomId)
