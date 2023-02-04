@@ -35,3 +35,4 @@ src/iHome.Devices.Contract/obj
 src/iHome.Devices.ApiClient/obj
 src/iHome.Devices.Contract/bin
 src/iHome.Devices.ApiClient/bin
+src/iHome/ClientApp/package-lock.json
