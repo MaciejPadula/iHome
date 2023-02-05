@@ -18,7 +18,10 @@ public class DeviceService : IDeviceService
 
     public Guid AddDevice(string name, string macAddress, DeviceType type, string hubId, Guid roomId, Guid userId)
     {
-        if (!_roomService.UserCanAccessRoom(roomId, userId)) throw new Exception() ;
+        if (!_roomService.UserCanAccessRoom(roomId, userId))
+        {
+            throw new RoomNotFoundException();
+        }
 
         var deviceId = _deviceDataContext.Devices.Add(new Device
         {
@@ -32,6 +35,19 @@ public class DeviceService : IDeviceService
 
         _deviceDataContext.SaveChanges();
         return deviceId;
+    }
+
+    public void ChangeDeviceRoom(Guid deviceId, Guid roomId, Guid userId)
+    {
+        if(!_roomService.UserCanAccessRoom(roomId, userId))
+        {
+            throw new RoomNotFoundException();
+        }
+
+        var device = GetDevice(deviceId, userId);
+        device.RoomId = roomId;
+
+        _deviceDataContext.SaveChanges();
     }
 
     public Device GetDevice(Guid deviceId, Guid userId)
@@ -79,13 +95,24 @@ public class DeviceService : IDeviceService
         _deviceDataContext.SaveChanges();
     }
 
-    public void Save()
+    public void RenameDevice(Guid deviceId, string newName, Guid userId)
     {
+        var device = GetDevice(deviceId, userId);
+        device.Name = newName;
+
+        _deviceDataContext.SaveChanges();
+    }
+
+    public void SetDeviceData(Guid deviceId, string data, Guid userId)
+    {
+        var device = GetDevice(deviceId, userId);
+        device.Data = data;
+
         _deviceDataContext.SaveChanges();
     }
 
     private bool CanGetDevice(Device device, Guid userId)
     {
-        return _roomService.GetRooms(userId).Any(r => r.Id == device.RoomId);
+        return _roomService.UserCanAccessRoom(device.RoomId, userId);
     }
 }

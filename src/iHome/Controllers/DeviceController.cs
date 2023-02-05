@@ -30,19 +30,13 @@ public class DeviceController : ControllerBase, IDeviceManipulator, IDeviceProvi
     [HttpPost("ChangeDeviceName")]
     public void ChangeDeviceName(ChangeDeviceNameRequest request)
     {
-        var device = _deviceService.GetDevice(request.DeviceId, _userAccessor.UserId);
-
-        device.Name = request.Name;
-        _deviceService.Save();
+        _deviceService.RenameDevice(request.DeviceId, request.Name, _userAccessor.UserId);
     }
 
     [HttpPost("ChangeDeviceRoom")]
     public void ChangeDeviceRoom(ChangeDeviceRoomRequest request)
     {
-        var device = _deviceService.GetDevice(request.DeviceId, _userAccessor.UserId);
-
-        device.RoomId = request.RoomId;
-        _deviceService.Save();
+        _deviceService.ChangeDeviceRoom(request.DeviceId, request.RoomId, _userAccessor.UserId);
     }
 
     [HttpGet("GetDeviceData/{deviceId}")]
@@ -68,9 +62,6 @@ public class DeviceController : ControllerBase, IDeviceManipulator, IDeviceProvi
     [HttpPost("SetDeviceData")]
     public void SetDeviceData(SetDeviceDataRequest request)
     {
-        var device = _deviceService.GetDevice(request.DeviceId, _userAccessor.UserId);
-
-        device.Data = request.Data;
-        _deviceService.Save();
+        _deviceService.SetDeviceData(request.DeviceId, request.Data, _userAccessor.UserId);
     }
 }

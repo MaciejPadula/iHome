@@ -8,5 +8,7 @@ public class DevicesDataContext : DbContext
 
     public DevicesDataContext(DbContextOptions<DevicesDataContext> options)
         : base(options)
-    { }
+    {
+        Database.EnsureCreated();
+    }
 }

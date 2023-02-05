@@ -8,5 +8,7 @@ public interface IDeviceService
     Device GetDevice(Guid deviceId, Guid userId);
     IEnumerable<Device> GetDevices(Guid userId);
     void RemoveDevice(Guid deviceId, Guid userId);
-    void Save();
+    void RenameDevice(Guid deviceId, string newName, Guid userId);
+    void ChangeDeviceRoom(Guid deviceId, Guid roomId, Guid userId);
+    void SetDeviceData(Guid deviceId, string data, Guid userId);
 }

@@ -84,7 +84,7 @@ internal class RoomService : IRoomService
 
     public bool UserCanAccessRoom(Guid roomId, Guid userId)
     {
-        return _infraDataContext.Rooms.Any(room => room.UserId == userId) ||
-            _infraDataContext.SharedRooms.Any(room => room.UserId == userId);
+        return _infraDataContext.Rooms.Where(room => room.Id == roomId).Any(room => room.UserId == userId) ||
+            _infraDataContext.SharedRooms.Where(room => room.RoomId == roomId).Any(room => room.UserId == userId);
     }
 }
