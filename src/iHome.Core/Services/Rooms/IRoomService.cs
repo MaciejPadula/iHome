@@ -3,6 +3,8 @@
 namespace iHome.Core.Services.Rooms;
 public interface IRoomService
 {
+    bool UserCanAccessRoom(Guid roomId, Guid userId);
+
     void AddRoom(string roomName, Guid userId);
     IEnumerable<Room> GetRooms(Guid userId);
     void RemoveRoom(Guid roomId, Guid userId);

@@ -18,6 +18,8 @@ public class DeviceService : IDeviceService
 
     public Guid AddDevice(string name, string macAddress, DeviceType type, string hubId, Guid roomId, Guid userId)
     {
+        if (!_roomService.UserCanAccessRoom(roomId, userId)) throw new Exception() ;
+
         var deviceId = _deviceDataContext.Devices.Add(new Device
         {
             Name = name,

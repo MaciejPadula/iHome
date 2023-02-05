@@ -12,7 +12,8 @@ builder.Services
         options => options.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"]),
         options => options.UseCosmos(builder.Configuration["ConnectionStrings:AzureCosmos"] ?? string.Empty, builder.Configuration["Azure:Cosmos:Database"] ?? string.Empty)
     )
-    .AddRoomService();
+    .AddRoomService()
+    .AddDeviceService();
 
 builder.Services.AddSwaggerGen(o => o.SwaggerDoc("v1", new OpenApiInfo { Title = "iHome", Version = "v1"}));
 

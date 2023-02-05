@@ -81,4 +81,10 @@ internal class RoomService : IRoomService
         _infraDataContext.SharedRooms.Remove(constraint);
         _infraDataContext.SaveChanges();
     }
+
+    public bool UserCanAccessRoom(Guid roomId, Guid userId)
+    {
+        return _infraDataContext.Rooms.Any(room => room.UserId == userId) ||
+            _infraDataContext.SharedRooms.Any(room => room.UserId == userId);
+    }
 }
