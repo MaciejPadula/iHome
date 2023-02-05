@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Controllers;
 
-[Route("api")]
+[Route("api/[controller]")]
 [ApiController]
 public class RoomController : ControllerBase
 {
@@ -31,5 +31,12 @@ public class RoomController : ControllerBase
     {
         var devices = _roomService.GetRooms(_userAccessor.UserId);
         return Ok(devices);
+    }
+
+    [HttpDelete("RemoveRoom/{roomId}")]
+    public IActionResult RemoveRoom(Guid roomId)
+    {
+        _roomService.RemoveRoom(roomId, _userAccessor.UserId);
+        return Ok();
     }
 }

@@ -5,75 +5,86 @@ using iHome.Core.Repositories;
 namespace iHome.Core.Services.Rooms;
 internal class RoomService : IRoomService
 {
-    private readonly IRepository _repository;
+    private readonly InfraDataContext _infraDataContext;
 
-    public RoomService(IRepository repository)
+    public RoomService(InfraDataContext infraDataContext)
     {
-        _repository = repository;
+        _infraDataContext = infraDataContext;
     }
 
     public void AddRoom(string roomName, Guid userId)
     {
-        if (_repository.Rooms
+        if (_infraDataContext.Rooms
             .Any(room => room.Name == roomName && room.UserId == userId))
         {
             throw new RoomAlreadyExistsException();
         }
             
-        _repository.Rooms.Add(new Room
+        _infraDataContext.Rooms.Add(new Room
         {
             Name = roomName,
             UserId = userId
         });
-        _repository.SaveChanges();
+        _infraDataContext.SaveChanges();
     }
 
     public IEnumerable<Room> GetRooms(Guid userId)
     {
-        return _repository.Rooms
-            .Where(r => r.UserId == userId)
-            .ToList();
+        return _infraDataContext.Rooms
+            .Where(room => room.UserId == userId)
+            .GroupJoin(
+                _infraDataContext.SharedRooms.Where(sharedRoom => sharedRoom.UserId == userId),
+                room => room.Id,
+                sharedRoom => sharedRoom.RoomId,
+                (room, sharedRoom) => room
+            );
     }
 
-    public void RemoveRoom(Guid userId, Guid roomId)
+    public void RemoveRoom(Guid roomId, Guid userId)
     {
-        var room = _repository.Rooms.FirstOrDefault(r => r.Id == roomId && r.UserId == userId);
+        var room = _infraDataContext.Rooms.FirstOrDefault(r => r.Id == roomId && r.UserId == userId);
         if (room == null) throw new RoomNotFoundException();
 
-        _repository.Rooms.Remove(room);
-        _repository.SaveChanges();
+        _infraDataContext.Rooms.Remove(room);
+        _infraDataContext.SaveChanges();
     }
 
-    public void ShareRoom(Guid userId, Guid roomId)
+    public void ShareRoom(Guid roomId, Guid userId)
     {
-        if(!_repository.Rooms.Any(r => r.Id == roomId))
+        if(!_infraDataContext.Rooms.Any(r => r.Id == roomId))
         {
             throw new RoomNotFoundException();
         }
 
-        if (_repository.SharedRooms
+        if (_infraDataContext.SharedRooms
             .Any(share => share.RoomId == roomId || share.UserId == userId))
         {
             throw new RoomAlreadySharedException();
         }
 
-        _repository.SharedRooms.Add(new SharedRoom
+        _infraDataContext.SharedRooms.Add(new SharedRoom
         {
             UserId = userId,
             RoomId = roomId
         });
-        _repository.SaveChanges();
+        _infraDataContext.SaveChanges();
     }
 
-    public void UnshareRoom(Guid userId, Guid roomId)
+    public void UnshareRoom(Guid roomId, Guid userId)
     {
-        var constraint = _repository.SharedRooms
+        var constraint = _infraDataContext.SharedRooms
             .Where(c => c.UserId == userId && c.RoomId == roomId)
             .SingleOrDefault();
 
         if(constraint == null) return;
 
-        _repository.SharedRooms.Remove(constraint);
-        _repository.SaveChanges();
+        _infraDataContext.SharedRooms.Remove(constraint);
+        _infraDataContext.SaveChanges();
+    }
+
+    public bool UserCanAccessRoom(Guid roomId, Guid userId)
+    {
+        return _infraDataContext.Rooms.Where(room => room.Id == roomId).Any(room => room.UserId == userId) ||
+            _infraDataContext.SharedRooms.Where(room => room.RoomId == roomId).Any(room => room.UserId == userId);
     }
 }

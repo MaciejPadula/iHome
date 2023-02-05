@@ -1,6 +1,7 @@
 using iHome.Core.Helpers;
 using iHome.Logic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +12,20 @@ builder.Services
         options => options.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"]),
         options => options.UseCosmos(builder.Configuration["ConnectionStrings:AzureCosmos"] ?? string.Empty, builder.Configuration["Azure:Cosmos:Database"] ?? string.Empty)
     )
-    .AddRoomService();
+    .AddRoomService()
+    .AddDeviceService();
+
+builder.Services.AddSwaggerGen(o => o.SwaggerDoc("v1", new OpenApiInfo { Title = "iHome", Version = "v1"}));
 
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(o => o.SwaggerEndpoint("/swagger/v1/swagger.json", "iHome V1"));
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

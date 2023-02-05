@@ -1,4 +1,4 @@
-﻿using iHome.Core.Models;
+﻿using iHome.Devices.Contract.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace iHome.Core.Repositories;
@@ -8,5 +8,7 @@ public class DevicesDataContext : DbContext
 
     public DevicesDataContext(DbContextOptions<DevicesDataContext> options)
         : base(options)
-    {}
+    {
+        Database.EnsureCreated();
+    }
 }

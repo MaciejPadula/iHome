@@ -29,3 +29,11 @@ src/iHome.Core/obj
 src/.vs
 src/iHome.Core/bin
 src/iHome/appsettings.json
+src/iHome.Microservices.Devices.Contract/bin
+src/iHome.Microservices.Devices.Contract/obj
+src/iHome.Devices.Contract/obj
+src/iHome.Devices.ApiClient/obj
+src/iHome.Devices.Contract/bin
+src/iHome.Devices.ApiClient/bin
+src/iHome/ClientApp/package-lock.json
+src/iHome/ClientApp/.angular
