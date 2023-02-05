@@ -7,11 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 namespace iHome.Core.Helpers;
 public static class DependencyInjectionExtensions
 {
-    public static IServiceCollection AddDataContexts(this IServiceCollection services, Action<DbContextOptionsBuilder> infraBuilder, Action<DbContextOptionsBuilder> devicesBuilder)
+    public static IServiceCollection AddDataContexts(this IServiceCollection services, Action<DbContextOptionsBuilder> infraBuilder)
     {
         return services
-            .AddDbContext<InfraDataContext>(infraBuilder)
-            .AddDbContext<DevicesDataContext>(devicesBuilder);
+            .AddDbContext<SqlDataContext>(infraBuilder);
     }
 
     public static IServiceCollection AddRoomService(this IServiceCollection services)

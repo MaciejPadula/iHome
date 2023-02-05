@@ -9,8 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddScoped<IUserAccessor, MockUserAccessor>()
     .AddDataContexts(
-        options => options.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"]),
-        options => options.UseCosmos(builder.Configuration["ConnectionStrings:AzureCosmos"] ?? string.Empty, builder.Configuration["Azure:Cosmos:Database"] ?? string.Empty)
+        options => options.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"])
     )
     .AddRoomService()
     .AddDeviceService();
@@ -38,6 +37,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
 
 app.MapControllerRoute(
     name: "default",

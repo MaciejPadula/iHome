@@ -5,9 +5,9 @@ using iHome.Core.Repositories;
 namespace iHome.Core.Services.Rooms;
 internal class RoomService : IRoomService
 {
-    private readonly InfraDataContext _infraDataContext;
+    private readonly SqlDataContext _infraDataContext;
 
-    public RoomService(InfraDataContext infraDataContext)
+    public RoomService(SqlDataContext infraDataContext)
     {
         _infraDataContext = infraDataContext;
     }
@@ -30,14 +30,7 @@ internal class RoomService : IRoomService
 
     public IEnumerable<Room> GetRooms(Guid userId)
     {
-        return _infraDataContext.Rooms
-            .Where(room => room.UserId == userId)
-            .GroupJoin(
-                _infraDataContext.SharedRooms.Where(sharedRoom => sharedRoom.UserId == userId),
-                room => room.Id,
-                sharedRoom => sharedRoom.RoomId,
-                (room, sharedRoom) => room
-            );
+        return _infraDataContext.GetUsersRooms(userId);
     }
 
     public void RemoveRoom(Guid roomId, Guid userId)

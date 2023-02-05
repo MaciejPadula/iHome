@@ -1,0 +1,12 @@
+<button mat-button *ngIf="!isAuthenticated">Login</button>
+
+<div *ngIf="isAuthenticated">
+    <button mat-button [matMenuTriggerFor]="menu">
+        <img src="" alt="user" />
+    </button>
+    <mat-menu #menu="matMenu">
+        <div mat-menu-item>USERNAME</div>
+        <button mat-menu-item>Rooms</button>
+        <button mat-menu-item>Logout</button>
+    </mat-menu>
+</div>
