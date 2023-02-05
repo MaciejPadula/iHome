@@ -37,3 +37,4 @@ src/iHome.Devices.Contract/bin
 src/iHome.Devices.ApiClient/bin
 src/iHome/ClientApp/package-lock.json
 src/iHome/ClientApp/.angular
+src/iHome/ClientApp/.vscode
