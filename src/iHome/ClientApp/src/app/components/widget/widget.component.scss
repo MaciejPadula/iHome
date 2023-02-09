@@ -1,0 +1,21 @@
+.widget {
+    height: 10rem;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.widget-border{
+    border: solid #999999 1px;
+}
+
+.small-widget {
+    width: 24vw;
+}
+
+.medium-widget {
+    width: 48vw;
+}
+
+.wide-widget {
+    width: 96vw;
+}

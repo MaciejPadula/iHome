@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,16 @@ import { UserComponent } from './components/navbar/user/user.component';
 import { DeviceComponent } from './components/device/device.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { IndexComponent } from './pages/index/index.component';
+import { WidgetComponent } from './components/widget/widget.component';
+import { AddRoomDialogComponent } from './components/add-room-dialog/add-room-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule }from '@angular/material/input';
+import { AddWidgetDialogComponent } from './components/add-widget-dialog/add-widget-dialog.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { RenameRoomDialogComponent } from './components/rename-room-dialog/rename-room-dialog.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -27,26 +38,30 @@ import { IndexComponent } from './pages/index/index.component';
     NavbarComponent,
     UserComponent,
     DeviceComponent,
-    IndexComponent
+    IndexComponent,
+    WidgetComponent,
+    AddRoomDialogComponent,
+    AddWidgetDialogComponent,
+    RenameRoomDialogComponent
   ],
   imports: [
     BrowserModule,
     AuthModule.forRoot({
-      domain: 'dev-e7eyj4xg.eu.auth0.com',
-      clientId: 'eFHpoMFFdC7GXIfi9xe6VrZ5Z07xKl11',
+      domain: environment.authDomain,
+      clientId: environment.authClientId,
       authorizationParams: {
         redirect_uri: window.location.origin,
-        audience: 'https://localhost:32678/api',
-        scope: 'openid profile email read:rooms write:rooms',
+        audience: environment.authAudience,
+        scope: environment.authScope,
       },
       httpInterceptor: {
         allowedList: [
           {
-            uri: 'https://localhost:32678/api/*',
+            uri: `${environment.authAudience}/*`,
             tokenOptions: {
               authorizationParams: {
-                audience: 'https://localhost:32678/api',
-                scope: 'openid profile email read:rooms write:rooms'
+                audience: environment.authAudience,
+                scope: environment.authScope
               }
             }
           }
@@ -60,7 +75,13 @@ import { IndexComponent } from './pages/index/index.component';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatRadioModule,
+    MatCheckboxModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }

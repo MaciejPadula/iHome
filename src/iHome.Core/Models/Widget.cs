@@ -10,4 +10,5 @@ public class Widget
     public Guid Id { get; set; }
     public WidgetType WidgetType { get; set; }
     public Guid RoomId { get; set; }
+    public bool ShowBorder { get; set; }
 }
