@@ -21,7 +21,7 @@ public class WidgetController : ControllerBase
     [HttpPost("AddWidget")]
     public IActionResult AddWidget([FromBody] AddWidgetRequest request)
     {
-        _widgetService.AddWidget(request.WidgetType, request.RoomId, _userAccessor.UserId);
+        _widgetService.AddWidget(request.WidgetType, request.RoomId, request.ShowBorder, _userAccessor.UserId);
         return Ok();
     }
 

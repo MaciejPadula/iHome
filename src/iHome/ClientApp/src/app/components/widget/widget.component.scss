@@ -1,8 +1,11 @@
 .widget {
     height: 10rem;
-    border: solid #999999 1px;
     box-sizing: border-box;
     position: relative;
+}
+
+.widget-border{
+    border: solid #999999 1px;
 }
 
 .small-widget {

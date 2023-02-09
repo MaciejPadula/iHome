@@ -10,6 +10,7 @@ import { WidgetsService } from 'src/app/services/widgets.service';
 })
 export class AddWidgetDialogComponent {
   public selectedType = WidgetType.Small;
+  public showBorder = false;
   public readonly widgetTypes = [WidgetType.Small, WidgetType.Medium, WidgetType.Wide];
 
   constructor(
@@ -19,7 +20,8 @@ export class AddWidgetDialogComponent {
 
   public confirm(): void {
     this.dialogRef.close({
-      widgetType: this.selectedType
+      widgetType: this.selectedType,
+      showBorder: this.showBorder
     });
   }
 
@@ -32,6 +34,7 @@ export class AddWidgetDialogComponent {
   }
 
   public get widgetStyle(): string {
-    return this._widgetsService.resolveWidgetStyleByType(this.selectedType);
+    const additionalStyle = this.showBorder ? ' widget-border' : '';
+    return this._widgetsService.resolveWidgetStyleByType(this.selectedType) + additionalStyle;
   }
 }

@@ -17,7 +17,7 @@ public class WidgetService : IWidgetService
         _sqlDataContext = sqlDataContext;
     }
 
-    public void AddWidget(WidgetType type, Guid roomId, string userId)
+    public void AddWidget(WidgetType type, Guid roomId, bool showBorder, string userId)
     {
         if (!_roomService.UserCanAccessRoom(roomId, userId)) throw new RoomNotFoundException();
 
@@ -25,6 +25,7 @@ public class WidgetService : IWidgetService
         {
             WidgetType = type,
             RoomId = roomId,
+            ShowBorder = showBorder,
         });
         _sqlDataContext.SaveChanges();
     }

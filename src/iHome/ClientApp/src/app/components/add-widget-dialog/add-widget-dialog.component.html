@@ -8,9 +8,10 @@
                     {{getWidgetTypeString(type)}}
                 </mat-radio-button>
             </mat-radio-group>
+            <mat-checkbox [(ngModel)]="showBorder">Show Borders</mat-checkbox>           
         </div>
         <div class="w-full sm:w-1/2 h-20 bg-white flex justify-center">
-            <div [class]="widgetStyle + ' h-20 bg-black'"></div>
+            <div [class]="widgetStyle + ' h-20 widget'"></div>
         </div>
     </div>
 </div>

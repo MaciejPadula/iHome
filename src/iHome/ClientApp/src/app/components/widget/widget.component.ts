@@ -18,7 +18,8 @@ export class WidgetComponent {
   ) { }
 
   public get widgetStyle(): string {
-    return this._widgetsService.resolveWidgetStyle(this.widget);
+    const additionalStyle = this.widget.showBorder ? ' widget-border' : '';
+    return this._widgetsService.resolveWidgetStyle(this.widget) + additionalStyle;
   }
 
   public get type(): string{

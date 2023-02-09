@@ -1,3 +1,12 @@
+.widget{
+    box-sizing: border-box;
+    background-color: #BABABA;
+}
+
+.widget-border{
+    border: solid #777777 2px;
+}
+
 .small-widget {
     width: 25%;
 }

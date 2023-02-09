@@ -71,12 +71,12 @@ export class RoomComponent implements OnInit {
       .subscribe(data => {
         if(data == null) return;
 
-        this.addWidget(data.widgetType);
+        this.addWidget(data.widgetType, data.showBorder);
       });
   }
 
-  private addWidget(widgetType: WidgetType){
-    this._widgetsService.addWidget(widgetType, this.id)
+  private addWidget(widgetType: WidgetType, showBorder: boolean){
+    this._widgetsService.addWidget(widgetType, this.id, showBorder)
       .subscribe(_ => this._refreshService.refresh());
   }
 }

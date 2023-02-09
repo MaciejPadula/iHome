@@ -27,6 +27,7 @@ import { MatInputModule }from '@angular/material/input';
 import { AddWidgetDialogComponent } from './components/add-widget-dialog/add-widget-dialog.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { RenameRoomDialogComponent } from './components/rename-room-dialog/rename-room-dialog.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { environment } from 'src/environments/environment';
 
 @NgModule({
@@ -79,7 +80,8 @@ import { environment } from 'src/environments/environment';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    MatRadioModule
+    MatRadioModule,
+    MatCheckboxModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }

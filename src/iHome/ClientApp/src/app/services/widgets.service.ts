@@ -14,10 +14,11 @@ export class WidgetsService {
 
   constructor(private _api: HttpClient) { }
 
-  public addWidget(widgetType: WidgetType, roomId: string){
+  public addWidget(widgetType: WidgetType, roomId: string, showBorder: boolean){
     return this._api.post(this._baseApiUrl + 'AddWidget', {
       widgetType,
-      roomId
+      roomId,
+      showBorder
     });
   }
 
