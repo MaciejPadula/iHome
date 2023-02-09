@@ -1,23 +1,41 @@
 using iHome.Core.Helpers;
 using iHome.Logic;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
-    .AddScoped<IUserAccessor, MockUserAccessor>()
+    .AddHttpContextAccessor()
+    .AddScoped<IUserAccessor, HttpContextUserAccessor>()
     .AddDataContexts(
-        options => options.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"]),
-        options => options.UseCosmos(builder.Configuration["ConnectionStrings:AzureCosmos"] ?? string.Empty, builder.Configuration["Azure:Cosmos:Database"] ?? string.Empty)
+        options => options.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"])
     )
     .AddRoomService()
-    .AddDeviceService();
+    .AddDeviceService()
+    .AddWidgetService();
 
 builder.Services.AddSwaggerGen(o => o.SwaggerDoc("v1", new OpenApiInfo { Title = "iHome", Version = "v1"}));
 
 builder.Services.AddControllersWithViews();
+
+string domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = domain;
+        options.Audience = builder.Configuration["Auth0:Audience"];
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            NameClaimType = ClaimTypes.NameIdentifier
+        };
+    });
+
 
 var app = builder.Build();
 
@@ -34,10 +52,17 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
 
 app.MapControllerRoute(
     name: "default",

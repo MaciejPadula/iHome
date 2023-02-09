@@ -2,5 +2,7 @@
 
 public enum DeviceType
 {
-    RGBLamp = 1
+    Unknown = 0,
+    RGBLamp = 1,
+    Thermometer = 2
 }

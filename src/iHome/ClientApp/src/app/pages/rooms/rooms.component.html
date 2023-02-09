@@ -1,0 +1,11 @@
+<nav mat-tab-nav-bar mat-align-tabs="center">
+    <a mat-tab-link *ngFor="let room of rooms$ | async" [routerLink]="'/rooms/' + room.id" [state]="room" routerLinkActive #rla="routerLinkActive"
+      [active]="rla.isActive">
+      {{room.name}}
+    </a>
+    <button mat-icon-button color="accent" (click)="addRoom()">
+        <mat-icon>add</mat-icon>
+    </button>
+</nav>
+
+<app-room></app-room>

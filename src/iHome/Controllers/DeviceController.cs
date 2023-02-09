@@ -41,16 +41,14 @@ public class DeviceController : ControllerBase, IDeviceManipulator, IDeviceProvi
 
     [HttpGet("GetDeviceData/{deviceId}")]
     public string GetDeviceData(Guid deviceId)
-    {   
+    {
         return _deviceService.GetDevice(deviceId, _userAccessor.UserId).Data;
     }
 
     [HttpGet("GetDevices/{roomId}")]
     public IEnumerable<Device> GetDevices(Guid roomId)
     {
-        return _deviceService.GetDevices(_userAccessor.UserId)
-            .Where(d => d.RoomId == roomId)
-            .ToList();
+        return _deviceService.GetDevices(roomId, _userAccessor.UserId);
     }
 
     [HttpDelete("RemoveDevice")]
