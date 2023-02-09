@@ -10,7 +10,7 @@ import { WidgetsService } from 'src/app/services/widgets.service';
 })
 export class AddWidgetDialogComponent {
   public selectedType = WidgetType.Small;
-  public showBorder = false;
+  public showBorder = true;
   public readonly widgetTypes = [WidgetType.Small, WidgetType.Medium, WidgetType.Wide];
 
   constructor(

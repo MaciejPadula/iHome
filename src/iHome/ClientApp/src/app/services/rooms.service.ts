@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Room } from '../models/room';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { Room } from '../models/room';
 })
 export class RoomsService {
 
-  private readonly _baseApiUrl = 'https://localhost:32678/api/Room/';
+  private readonly _baseApiUrl = `${environment.authAudience}/Room/`;
 
   constructor(private _api: HttpClient) { }
 

@@ -1,6 +1,7 @@
 .widget{
     box-sizing: border-box;
     background-color: #BABABA;
+    transition:  0.7s width, 0.7s border;
 }
 
 .widget-border{
