@@ -12,7 +12,7 @@ internal class RoomService : IRoomService
         _infraDataContext = infraDataContext;
     }
 
-    public void AddRoom(string roomName, Guid userId)
+    public void AddRoom(string roomName, string userId)
     {
         if (_infraDataContext.Rooms
             .Any(room => room.Name == roomName && room.UserId == userId))
@@ -28,12 +28,12 @@ internal class RoomService : IRoomService
         _infraDataContext.SaveChanges();
     }
 
-    public IEnumerable<Room> GetRooms(Guid userId)
+    public IEnumerable<Room> GetRooms(string userId)
     {
         return _infraDataContext.GetUsersRooms(userId);
     }
 
-    public void RemoveRoom(Guid roomId, Guid userId)
+    public void RemoveRoom(Guid roomId, string userId)
     {
         var room = _infraDataContext.Rooms.FirstOrDefault(r => r.Id == roomId && r.UserId == userId);
         if (room == null) throw new RoomNotFoundException();
@@ -42,20 +42,20 @@ internal class RoomService : IRoomService
         _infraDataContext.SaveChanges();
     }
 
-    public void ShareRoom(Guid roomId, Guid userId)
+    public void ShareRoom(Guid roomId, string userId)
     {
         if(!_infraDataContext.Rooms.Any(r => r.Id == roomId))
         {
             throw new RoomNotFoundException();
         }
 
-        if (_infraDataContext.SharedRooms
+        if (_infraDataContext.UserRoom
             .Any(share => share.RoomId == roomId || share.UserId == userId))
         {
             throw new RoomAlreadySharedException();
         }
 
-        _infraDataContext.SharedRooms.Add(new SharedRoom
+        _infraDataContext.UserRoom.Add(new UserRoom
         {
             UserId = userId,
             RoomId = roomId
@@ -63,21 +63,21 @@ internal class RoomService : IRoomService
         _infraDataContext.SaveChanges();
     }
 
-    public void UnshareRoom(Guid roomId, Guid userId)
+    public void UnshareRoom(Guid roomId, string userId)
     {
-        var constraint = _infraDataContext.SharedRooms
+        var constraint = _infraDataContext.UserRoom
             .Where(c => c.UserId == userId && c.RoomId == roomId)
             .SingleOrDefault();
 
         if(constraint == null) return;
 
-        _infraDataContext.SharedRooms.Remove(constraint);
+        _infraDataContext.UserRoom.Remove(constraint);
         _infraDataContext.SaveChanges();
     }
 
-    public bool UserCanAccessRoom(Guid roomId, Guid userId)
+    public bool UserCanAccessRoom(Guid roomId, string userId)
     {
         return _infraDataContext.Rooms.Where(room => room.Id == roomId).Any(room => room.UserId == userId) ||
-            _infraDataContext.SharedRooms.Where(room => room.RoomId == roomId).Any(room => room.UserId == userId);
+            _infraDataContext.UserRoom.Where(room => room.RoomId == roomId).Any(room => room.UserId == userId);
     }
 }

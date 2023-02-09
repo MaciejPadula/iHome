@@ -26,7 +26,6 @@ export class RoomComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.id);
     this._refreshService.refresh$
       .pipe(untilDestroyed(this))
       .subscribe(_ => this.getDevices());
@@ -40,6 +39,7 @@ export class RoomComponent implements OnInit {
   }
 
   public getDevices(){
+    if(!this.id) return;
     this._devicesService.getRoomDevices(this.id)
       .subscribe(devices => this.devicesSubject$.next(devices));
   }

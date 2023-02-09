@@ -3,12 +3,12 @@
 namespace iHome.Core.Services.Rooms;
 public interface IRoomService
 {
-    bool UserCanAccessRoom(Guid roomId, Guid userId);
+    bool UserCanAccessRoom(Guid roomId, string userId);
 
-    void AddRoom(string roomName, Guid userId);
-    IEnumerable<Room> GetRooms(Guid userId);
-    void RemoveRoom(Guid roomId, Guid userId);
+    void AddRoom(string roomName, string userId);
+    IEnumerable<Room> GetRooms(string userId);
+    void RemoveRoom(Guid roomId, string userId);
 
-    void ShareRoom(Guid roomId, Guid userId);
-    void UnshareRoom(Guid roomId, Guid userId);
+    void ShareRoom(Guid roomId, string userId);
+    void UnshareRoom(Guid roomId, string userId);
 }

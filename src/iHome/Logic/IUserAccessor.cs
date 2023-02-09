@@ -2,7 +2,7 @@
 
 public interface IUserAccessor
 {
-    Guid UserId { get; }
+    string UserId { get; }
     string Name { get; }
     string Email { get; }
 }

@@ -16,7 +16,7 @@ public class DeviceService : IDeviceService
         _sqlDataContext = sqlDataContext;
     }
 
-    public Guid AddDevice(string name, string macAddress, DeviceType type, Guid hubId, Guid roomId, Guid userId)
+    public Guid AddDevice(string name, string macAddress, DeviceType type, Guid hubId, Guid roomId, string userId)
     {
         if (!_roomService.UserCanAccessRoom(roomId, userId))
         {
@@ -37,7 +37,7 @@ public class DeviceService : IDeviceService
         return deviceId;
     }
 
-    public void ChangeDeviceRoom(Guid deviceId, Guid roomId, Guid userId)
+    public void ChangeDeviceRoom(Guid deviceId, Guid roomId, string userId)
     {
         if(!_roomService.UserCanAccessRoom(roomId, userId))
         {
@@ -50,7 +50,7 @@ public class DeviceService : IDeviceService
         _sqlDataContext.SaveChanges();
     }
 
-    public Device GetDevice(Guid deviceId, Guid userId)
+    public Device GetDevice(Guid deviceId, string userId)
     {
         var device = _sqlDataContext.Devices.FirstOrDefault(d => d.Id == deviceId);
         if (device == null || !CanGetDevice(device, userId))
@@ -61,7 +61,7 @@ public class DeviceService : IDeviceService
         return device;
     }
 
-    public IEnumerable<Device> GetDevices(Guid roomId, Guid userId)
+    public IEnumerable<Device> GetDevices(Guid roomId, string userId)
     {
         return _sqlDataContext.Devices
             .Join(
@@ -73,7 +73,7 @@ public class DeviceService : IDeviceService
             .ToList();
     }
 
-    public void RemoveDevice(Guid deviceId, Guid userId)
+    public void RemoveDevice(Guid deviceId, string userId)
     {
         var device = _sqlDataContext.Devices.FirstOrDefault(d => d.Id == deviceId);
         if (device == null)
@@ -90,7 +90,7 @@ public class DeviceService : IDeviceService
         _sqlDataContext.SaveChanges();
     }
 
-    public void RenameDevice(Guid deviceId, string newName, Guid userId)
+    public void RenameDevice(Guid deviceId, string newName, string userId)
     {
         var device = GetDevice(deviceId, userId);
         device.Name = newName;
@@ -98,7 +98,7 @@ public class DeviceService : IDeviceService
         _sqlDataContext.SaveChanges();
     }
 
-    public void SetDeviceData(Guid deviceId, string data, Guid userId)
+    public void SetDeviceData(Guid deviceId, string data, string userId)
     {
         var device = GetDevice(deviceId, userId);
         device.Data = data;
@@ -106,7 +106,7 @@ public class DeviceService : IDeviceService
         _sqlDataContext.SaveChanges();
     }
 
-    private bool CanGetDevice(Device device, Guid userId)
+    private bool CanGetDevice(Device device, string userId)
     {
         return _roomService.UserCanAccessRoom(device.RoomId, userId);
     }

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +17,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { UserComponent } from './components/navbar/user/user.component';
 import { DeviceComponent } from './components/device/device.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { IndexComponent } from './pages/index/index.component';
 
 @NgModule({
   declarations: [
@@ -24,10 +26,33 @@ import { MatMenuModule } from '@angular/material/menu';
     RoomComponent,
     NavbarComponent,
     UserComponent,
-    DeviceComponent
+    DeviceComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,
+    AuthModule.forRoot({
+      domain: 'dev-e7eyj4xg.eu.auth0.com',
+      clientId: 'eFHpoMFFdC7GXIfi9xe6VrZ5Z07xKl11',
+      authorizationParams: {
+        redirect_uri: window.location.origin,
+        audience: 'https://localhost:32678/api',
+        scope: 'openid profile email read:rooms write:rooms',
+      },
+      httpInterceptor: {
+        allowedList: [
+          {
+            uri: 'https://localhost:32678/api/*',
+            tokenOptions: {
+              authorizationParams: {
+                audience: 'https://localhost:32678/api',
+                scope: 'openid profile email read:rooms write:rooms'
+              }
+            }
+          }
+        ]
+      }
+    }),
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
@@ -37,7 +62,9 @@ import { MatMenuModule } from '@angular/material/menu';
     MatButtonModule,
     MatMenuModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

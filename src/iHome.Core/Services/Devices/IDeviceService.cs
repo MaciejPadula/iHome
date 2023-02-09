@@ -4,11 +4,11 @@ namespace iHome.Core.Services.Devices;
 
 public interface IDeviceService
 {
-    Guid AddDevice(string name, string macAddress, DeviceType type, Guid hubId, Guid roomId, Guid userId);
-    Device GetDevice(Guid deviceId, Guid userId);
-    IEnumerable<Device> GetDevices(Guid roomId, Guid userId);
-    void RemoveDevice(Guid deviceId, Guid userId);
-    void RenameDevice(Guid deviceId, string newName, Guid userId);
-    void ChangeDeviceRoom(Guid deviceId, Guid roomId, Guid userId);
-    void SetDeviceData(Guid deviceId, string data, Guid userId);
+    Guid AddDevice(string name, string macAddress, DeviceType type, Guid hubId, Guid roomId, string userId);
+    Device GetDevice(Guid deviceId, string userId);
+    IEnumerable<Device> GetDevices(Guid roomId, string userId);
+    void RemoveDevice(Guid deviceId, string userId);
+    void RenameDevice(Guid deviceId, string newName, string userId);
+    void ChangeDeviceRoom(Guid deviceId, Guid roomId, string userId);
+    void SetDeviceData(Guid deviceId, string data, string userId);
 }
