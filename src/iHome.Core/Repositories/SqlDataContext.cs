@@ -38,4 +38,16 @@ public class SqlDataContext : DbContext
                 (room, widget) => widget
             );
     }
+
+    public IQueryable<Device> GetWidgetDevices(Guid widgetId)
+    {
+        return WidgetsDevices
+            .Where(widgetDevice => widgetDevice.WidgetId == widgetId)
+            .Join(
+                Devices,
+                widgetDevice => widgetDevice.DeviceId,
+                device => device.Id,
+                (widgetDevice, device) => device
+            );
+    }
 }

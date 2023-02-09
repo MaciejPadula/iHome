@@ -25,16 +25,22 @@ public class WidgetController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("GetWidgets/{id}")]
+    [HttpGet("GetWidgets/{roomId}")]
     public IActionResult GetWidgets(Guid roomId)
     {
         return Ok(_widgetService.GetWidgets(roomId, _userAccessor.UserId));
     }
 
-    [HttpDelete("RemoveWidget/{id}")]
-    public IActionResult RemoveWidget(Guid id)
+    [HttpGet("GetWidgetDevices/{widgetId}")]
+    public IActionResult GetWidgetDevices(Guid widgetId)
     {
-        _widgetService.RemoveWidget(id, _userAccessor.UserId);
+        return Ok(_widgetService.GetWidgetDevices(widgetId, _userAccessor.UserId));
+    }
+
+    [HttpDelete("RemoveWidget/{widgetId}")]
+    public IActionResult RemoveWidget(Guid widgetId)
+    {
+        _widgetService.RemoveWidget(widgetId, _userAccessor.UserId);
         return Ok();
     }
 }

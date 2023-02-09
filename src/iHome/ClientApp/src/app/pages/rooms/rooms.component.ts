@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subject } from 'rxjs';
+import { AddRoomDialogComponent } from 'src/app/components/add-room-dialog/add-room-dialog.component';
 import { Room } from 'src/app/models/room';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { RoomsService } from 'src/app/services/rooms.service';
@@ -16,15 +19,31 @@ export class RoomsComponent implements OnInit {
   private roomsSubject$ = new Subject<Room[]>();
   public rooms$ = this.roomsSubject$.asObservable();
 
+  public anyRoom = false;
+
   constructor(
     private _roomsService: RoomsService,
-    private _refreshService: RefreshService
+    private _refreshService: RefreshService,
+    private _router: Router,
+    private _route: ActivatedRoute,
+    private _dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this._refreshService.refresh$
       .pipe(untilDestroyed(this))
       .subscribe(_ => this.loadRooms());
+
+    this._route.params
+      .pipe(untilDestroyed(this))
+      .subscribe(params => {
+        if(params['id']) {
+          this.anyRoom = true;
+          return;
+        }
+        this.anyRoom = false;
+        this._refreshService.refresh();
+      });
 
     this._refreshService.refresh();
   }
@@ -34,8 +53,21 @@ export class RoomsComponent implements OnInit {
       .subscribe(rooms => this.roomsSubject$.next(rooms));
   }
 
-  public addRoom(){
-    this._roomsService.addRoom("asdasdasdasd")
-      .subscribe(_ => this._refreshService.refresh());
+  public composeAddRoomDialog(){
+    this._dialog.open(AddRoomDialogComponent)
+      .afterClosed()
+      .subscribe(data => {
+        if(!data) return;
+        if(data.roomName.length <= 3) return;
+
+        this._roomsService.addRoom(data.roomName)
+          .subscribe(_ => this._refreshService.refresh());
+      });
+  }
+
+  public removeRoom(roomId: string){
+    
+    this._roomsService.removeRoom(roomId)
+      .subscribe(_ => this._router.navigate(['/rooms']));
   }
 }

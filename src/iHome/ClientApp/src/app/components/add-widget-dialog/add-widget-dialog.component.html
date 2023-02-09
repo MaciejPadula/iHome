@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Adding new widget</h1>
+<div mat-dialog-content>
+    <div class="flex flex-col sm:flex-row justify-center sm:justify-start items-center sm:items-start">
+        <div class="w-full sm:w-1/2">
+            <label id="widget-type-size">Select widget size</label>
+            <mat-radio-group aria-labelledby="widget-type-size" [(ngModel)]="selectedType" class="flex flex-col items-start">
+                <mat-radio-button *ngFor="let type of widgetTypes" [value]="type">
+                    {{getWidgetTypeString(type)}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="w-full sm:w-1/2 h-20 bg-white flex justify-center">
+            <div [class]="widgetStyle + ' h-20 bg-black'"></div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="flex !justify-end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="confirm()" cdkFocusInitial>Create</button>
+</div>

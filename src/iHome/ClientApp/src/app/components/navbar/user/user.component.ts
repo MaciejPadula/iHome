@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { Observable } from 'rxjs';
 
@@ -8,12 +8,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['./user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserComponent implements OnInit {
-
-  constructor(private _auth: AuthService) { }
-
-  ngOnInit(): void {
-  }
+export class UserComponent {
+  constructor(
+    private _auth: AuthService
+  ) { }
 
   public login(): void {
     this._auth.loginWithPopup();

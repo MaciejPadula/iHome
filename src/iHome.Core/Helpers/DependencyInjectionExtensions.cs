@@ -26,6 +26,6 @@ public static class DependencyInjectionExtensions
 
     public static IServiceCollection AddWidgetService(this IServiceCollection services)
     {
-        return services.AddScoped<IWidgetService>();
+        return services.AddScoped<IWidgetService, WidgetService>();
     }
 }

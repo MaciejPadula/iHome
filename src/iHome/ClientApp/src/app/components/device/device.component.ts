@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-device',
@@ -6,11 +6,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./device.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeviceComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+export class DeviceComponent {
 
 }

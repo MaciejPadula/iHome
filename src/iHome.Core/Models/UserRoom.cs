@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace iHome.Core.Models;
 
 [Table("UsersRooms", Schema = "maciejadmin")]
-public class SharedRoom
+public class UserRoom
 {
     [Key]
     public Guid Id { get; init; } = Guid.NewGuid();

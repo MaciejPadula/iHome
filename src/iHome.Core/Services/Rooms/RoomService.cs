@@ -5,79 +5,79 @@ using iHome.Core.Repositories;
 namespace iHome.Core.Services.Rooms;
 internal class RoomService : IRoomService
 {
-    private readonly SqlDataContext _infraDataContext;
+    private readonly SqlDataContext _sqlDataContext;
 
-    public RoomService(SqlDataContext infraDataContext)
+    public RoomService(SqlDataContext sqlDataContext)
     {
-        _infraDataContext = infraDataContext;
+        _sqlDataContext = sqlDataContext;
     }
 
     public void AddRoom(string roomName, string userId)
     {
-        if (_infraDataContext.Rooms
+        if (_sqlDataContext.Rooms
             .Any(room => room.Name == roomName && room.UserId == userId))
         {
             throw new RoomAlreadyExistsException();
         }
             
-        _infraDataContext.Rooms.Add(new Room
+        _sqlDataContext.Rooms.Add(new Room
         {
             Name = roomName,
             UserId = userId
         });
-        _infraDataContext.SaveChanges();
+        _sqlDataContext.SaveChanges();
     }
 
     public IEnumerable<Room> GetRooms(string userId)
     {
-        return _infraDataContext.GetUsersRooms(userId);
+        return _sqlDataContext.GetUsersRooms(userId);
     }
 
     public void RemoveRoom(Guid roomId, string userId)
     {
-        var room = _infraDataContext.Rooms.FirstOrDefault(r => r.Id == roomId && r.UserId == userId);
+        var room = _sqlDataContext.Rooms.FirstOrDefault(r => r.Id == roomId && r.UserId == userId);
         if (room == null) throw new RoomNotFoundException();
 
-        _infraDataContext.Rooms.Remove(room);
-        _infraDataContext.SaveChanges();
+        _sqlDataContext.Rooms.Remove(room);
+        _sqlDataContext.SaveChanges();
     }
 
     public void ShareRoom(Guid roomId, string userId)
     {
-        if(!_infraDataContext.Rooms.Any(r => r.Id == roomId))
+        if(!_sqlDataContext.Rooms.Any(r => r.Id == roomId))
         {
             throw new RoomNotFoundException();
         }
 
-        if (_infraDataContext.UserRoom
+        if (_sqlDataContext.UserRoom
             .Any(share => share.RoomId == roomId || share.UserId == userId))
         {
             throw new RoomAlreadySharedException();
         }
 
-        _infraDataContext.UserRoom.Add(new UserRoom
+        _sqlDataContext.UserRoom.Add(new UserRoom
         {
             UserId = userId,
             RoomId = roomId
         });
-        _infraDataContext.SaveChanges();
+        _sqlDataContext.SaveChanges();
     }
 
     public void UnshareRoom(Guid roomId, string userId)
     {
-        var constraint = _infraDataContext.UserRoom
+        var constraint = _sqlDataContext.UserRoom
             .Where(c => c.UserId == userId && c.RoomId == roomId)
             .SingleOrDefault();
 
         if(constraint == null) return;
 
-        _infraDataContext.UserRoom.Remove(constraint);
-        _infraDataContext.SaveChanges();
+        _sqlDataContext.UserRoom.Remove(constraint);
+        _sqlDataContext.SaveChanges();
     }
 
     public bool UserCanAccessRoom(Guid roomId, string userId)
     {
-        return _infraDataContext.Rooms.Where(room => room.Id == roomId).Any(room => room.UserId == userId) ||
-            _infraDataContext.UserRoom.Where(room => room.RoomId == roomId).Any(room => room.UserId == userId);
+        return _sqlDataContext.Rooms.Where(room => room.Id == roomId).Any(room => room.UserId == userId) ||
+            _sqlDataContext.UserRoom.Where(room => room.RoomId == roomId).Any(room => room.UserId == userId);
     }
 }

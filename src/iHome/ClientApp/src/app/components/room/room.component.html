@@ -1,3 +1,10 @@
-<div class="room p-4 flex flex-col sm:flex-row justify-center items-center sm:justify-start sm:items-start">
-    <app-device *ngFor="let device of devices$ | async"></app-device>
+<div class="flex justify-end m-4">
+    <button mat-raised-button color="primary" (click)="composeAddWidgetDialog()">
+        Add new widget
+        <mat-icon>add_to_home_screen</mat-icon>
+    </button>    
+</div>
+
+<div class="w-full flex flex-row flex-wrap items-center justify-center">
+    <app-widget *ngFor="let widget of widgets$ | async" [widget]="widget"></app-widget>
 </div>
