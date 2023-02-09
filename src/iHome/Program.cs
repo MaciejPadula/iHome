@@ -16,7 +16,8 @@ builder.Services
         options => options.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"])
     )
     .AddRoomService()
-    .AddDeviceService();
+    .AddDeviceService()
+    .AddWidgetService();
 
 builder.Services.AddSwaggerGen(o => o.SwaggerDoc("v1", new OpenApiInfo { Title = "iHome", Version = "v1"}));
 

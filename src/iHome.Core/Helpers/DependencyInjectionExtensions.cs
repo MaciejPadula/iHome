@@ -1,6 +1,7 @@
 ﻿using iHome.Core.Repositories;
 using iHome.Core.Services.Devices;
 using iHome.Core.Services.Rooms;
+using iHome.Core.Services.Widgets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,5 +22,10 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddDeviceService(this IServiceCollection services)
     {
         return services.AddScoped<IDeviceService, DeviceService>();
+    }
+
+    public static IServiceCollection AddWidgetService(this IServiceCollection services)
+    {
+        return services.AddScoped<IWidgetService>();
     }
 }
