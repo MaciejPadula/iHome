@@ -23,6 +23,20 @@ export class WidgetsService {
     });
   }
 
+  public insertDevice(widgetId: string, deviceId: string): Observable<object>{
+    return this._api.post<object>(this._baseApiUrl + 'InsertDevice', {
+      widgetId,
+      deviceId
+    });
+  }
+
+  public removeDevice(widgetId: string, deviceId: string): Observable<object> {
+    return this._api.post(this._baseApiUrl + 'RemoveDevice', {
+      widgetId,
+      deviceId
+    });
+  }
+
   public getWidgets(roomId: string): Observable<Widget[]> {
     return this._api.get<Widget[]>(this._baseApiUrl + 'GetWidgets/' + roomId);
   }

@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Device } from '../models/device';
 
+type NewType = Observable<Device[]>;
+
 @Injectable({
   providedIn: 'root'
 })

@@ -14,7 +14,7 @@ export class UserComponent {
   ) { }
 
   public login(): void {
-    this._auth.loginWithPopup();
+    this._auth.loginWithRedirect();
   }
 
   public logout(): void {
