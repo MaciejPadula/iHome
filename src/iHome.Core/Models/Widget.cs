@@ -11,4 +11,15 @@ public class Widget
     public WidgetType WidgetType { get; set; }
     public Guid RoomId { get; set; }
     public bool ShowBorder { get; set; }
+    [NotMapped]
+    public int MaxNumberOfDevices => GetMaxNumberOfDevices(WidgetType);
+
+    private int GetMaxNumberOfDevices(WidgetType type) => type switch
+    {
+        WidgetType.Unknown => 0,
+        WidgetType.Small => 1,
+        WidgetType.Medium => 2,
+        WidgetType.Wide => 4,
+        _ => 0
+    };
 }

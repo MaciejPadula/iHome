@@ -3,10 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subject } from 'rxjs';
-import { Device } from 'src/app/models/device';
 import { Widget } from 'src/app/models/widget';
 import { WidgetType } from 'src/app/models/widget-type';
-import { DevicesService } from 'src/app/services/devices.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { WidgetsService } from 'src/app/services/widgets.service';
 import { AddWidgetDialogComponent } from '../add-widget-dialog/add-widget-dialog.component';
@@ -19,16 +17,12 @@ import { AddWidgetDialogComponent } from '../add-widget-dialog/add-widget-dialog
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoomComponent implements OnInit {
-  private devicesSubject$ = new Subject<Device[]>();
-  public devices$ = this.devicesSubject$.asObservable();
-
   private widgetsSubject$ = new Subject<Widget[]>();
   public widgets$ = this.widgetsSubject$.asObservable();
 
-  private id: string;
+  public id: string;
 
   constructor(
-    private _devicesService: DevicesService,
     private _refreshService: RefreshService,
     private _widgetsService: WidgetsService,
     private _router: Router,
@@ -47,12 +41,6 @@ export class RoomComponent implements OnInit {
         this.id = params['id'];
         this._refreshService.refresh();
       });
-  }
-
-  public getDevices(){
-    if(!this.id) return;
-    this._devicesService.getRoomDevices(this.id)
-      .subscribe(devices => this.devicesSubject$.next(devices));
   }
 
   public getWidgets(){

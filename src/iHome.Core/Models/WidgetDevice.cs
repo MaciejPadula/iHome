@@ -1,5 +1,8 @@
-﻿namespace iHome.Core.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace iHome.Core.Models;
+
+[Table("WidgetsDevices", Schema = "maciejadmin")]
 public class WidgetDevice
 {
     public Guid Id { get; set; }

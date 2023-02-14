@@ -1,0 +1,18 @@
+.example-sidenav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+}
+
+.device-row{
+    text-align: center;
+    width: 100%;
+    height: min-content;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.device-row:hover{
+    background-color: #999999;
+}

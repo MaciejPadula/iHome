@@ -29,6 +29,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { RenameRoomDialogComponent } from './components/rename-room-dialog/rename-room-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { environment } from 'src/environments/environment';
+import { DevicesSidenavComponent } from './components/devices-sidenav/devices-sidenav.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,8 @@ import { environment } from 'src/environments/environment';
     WidgetComponent,
     AddRoomDialogComponent,
     AddWidgetDialogComponent,
-    RenameRoomDialogComponent
+    RenameRoomDialogComponent,
+    DevicesSidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +85,9 @@ import { environment } from 'src/environments/environment';
     MatInputModule,
     FormsModule,
     MatRadioModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSidenavModule,
+    DragDropModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }

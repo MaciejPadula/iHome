@@ -25,6 +25,20 @@ public class WidgetController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("InsertDevice")]
+    public IActionResult InsertDevice([FromBody] InsertDeviceRequest request)
+    {
+        _widgetService.InsertDevice(request.WidgetId, request.DeviceId, _userAccessor.UserId);
+        return Ok();
+    }
+
+    [HttpPost("RemoveDevice")]
+    public IActionResult RemoveDevice([FromBody] RemoveDeviceRequest request)
+    {
+        _widgetService.RemoveDevice(request.WidgetId, request.DeviceId, _userAccessor.UserId);
+        return Ok();
+    }
+
     [HttpGet("GetWidgets/{roomId}")]
     public IActionResult GetWidgets(Guid roomId)
     {

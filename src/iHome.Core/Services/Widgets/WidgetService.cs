@@ -49,13 +49,14 @@ public class WidgetService : IWidgetService
 
     public void InsertDevice(Guid widgetId, Guid deviceId, string userId)
     {
-        var widget = _sqlDataContext.Widgets.FirstOrDefault(widget => widget.Id == widgetId);
-        if (widget == null) throw new Exception();
-
-        if (!_roomService.UserCanAccessRoom(widget.RoomId, userId)) throw new RoomNotFoundException();
+        var widget = GetWidget(widgetId, userId);
 
         var device = _sqlDataContext.Devices.FirstOrDefault(device => device.Id == deviceId);
         if(device == null || device.RoomId != widget.RoomId) throw new DeviceNotFoundException();
+
+        if(_sqlDataContext.WidgetsDevices
+                .Any(widgetDevice => widgetDevice.WidgetId == widgetId && widgetDevice.DeviceId == deviceId) ||
+           _sqlDataContext.WidgetsDevices.Count(widgetDevice => widgetDevice.WidgetId == widgetId) >= widget.MaxNumberOfDevices) throw new Exception();
 
         _sqlDataContext.WidgetsDevices.Add(new WidgetDevice
         {
@@ -63,6 +64,30 @@ public class WidgetService : IWidgetService
             DeviceId = deviceId
         });
         _sqlDataContext.SaveChanges();
+    }
+
+    public void RemoveDevice(Guid widgetId, Guid deviceId, string userId)
+    {
+        var widget = GetWidget(widgetId, userId);
+
+        var device = _sqlDataContext.Devices.FirstOrDefault(device => device.Id == deviceId);
+        if (device == null || device.RoomId != widget.RoomId) throw new DeviceNotFoundException();
+
+        var widgetDevice = _sqlDataContext.WidgetsDevices.FirstOrDefault(x => x.DeviceId == deviceId && x.WidgetId == widget.Id);
+        if(widgetDevice == null) throw new DeviceNotFoundException();
+
+        _sqlDataContext.WidgetsDevices.Remove(widgetDevice);
+        _sqlDataContext.SaveChanges();
+    }
+
+    private Widget GetWidget(Guid widgetId, string userId)
+    {
+        var widget = _sqlDataContext.Widgets.FirstOrDefault(widget => widget.Id == widgetId);
+        if (widget == null) throw new Exception();
+
+        if (!_roomService.UserCanAccessRoom(widget.RoomId, userId)) throw new RoomNotFoundException();
+
+        return widget;
     }
 
     public void RemoveWidget(Guid widgetId, string userId)

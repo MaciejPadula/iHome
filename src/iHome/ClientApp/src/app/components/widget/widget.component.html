@@ -3,12 +3,12 @@
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #actions="matMenu">
-    <button mat-menu-item (click)="removeWidget()">
-        <mat-icon>delete</mat-icon>
-        Remove
-    </button>
+        <button mat-menu-item (click)="removeWidget()">
+            <mat-icon>delete</mat-icon>
+            Remove
+        </button>
     </mat-menu>
-    <div>
-        DEVICES ....
+    <div class="flex flex-row h-full" cdkDropList (cdkDropListDropped)="drop($event)">
+        <app-device *ngFor="let device of devices$ | async" [widgetId]="widget.id" [device]="device"></app-device>
     </div>
 </div>
