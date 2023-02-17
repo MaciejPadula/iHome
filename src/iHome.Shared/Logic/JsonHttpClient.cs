@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
 
-namespace iHome.Devices.ApiClient;
+namespace iHome.Shared.Logic;
 
 public class JsonHttpClient : HttpClient
 {
@@ -10,6 +10,11 @@ public class JsonHttpClient : HttpClient
         var json = JsonConvert.SerializeObject(body);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = PostAsync(url, content).Result;
+    }
+
+    public T? PostSync<T>(string url)
+    {
+        return PostSync<T>(url, new { });
     }
 
     public T? PostSync<T>(string url, object body)

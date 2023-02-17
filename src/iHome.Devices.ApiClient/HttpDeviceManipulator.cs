@@ -1,5 +1,6 @@
 ﻿using iHome.Devices.Contract.Interfaces;
 using iHome.Devices.Contract.Models.Requests;
+using iHome.Shared.Logic;
 
 namespace iHome.Devices.ApiClient;
 

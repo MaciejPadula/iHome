@@ -20,7 +20,7 @@ public class DeviceController : ControllerBase, IDeviceManipulator, IDeviceProvi
     }
 
     [HttpPost("AddDevice")]
-    public Guid AddDevice(AddDeviceRequest request)
+    public Guid AddDevice([FromBody] AddDeviceRequest request)
     {
         return _deviceService.AddDevice(
             request.Name, request.MacAddress, request.Type, request.HubId,
@@ -28,37 +28,37 @@ public class DeviceController : ControllerBase, IDeviceManipulator, IDeviceProvi
     }
 
     [HttpPost("ChangeDeviceName")]
-    public void ChangeDeviceName(ChangeDeviceNameRequest request)
+    public void ChangeDeviceName([FromBody] ChangeDeviceNameRequest request)
     {
         _deviceService.RenameDevice(request.DeviceId, request.Name, _userAccessor.UserId);
     }
 
     [HttpPost("ChangeDeviceRoom")]
-    public void ChangeDeviceRoom(ChangeDeviceRoomRequest request)
+    public void ChangeDeviceRoom([FromBody] ChangeDeviceRoomRequest request)
     {
         _deviceService.ChangeDeviceRoom(request.DeviceId, request.RoomId, _userAccessor.UserId);
     }
 
-    [HttpGet("GetDeviceData/{deviceId}")]
-    public string GetDeviceData(Guid deviceId)
+    [HttpPost("GetDeviceData")]
+    public string GetDeviceData([FromBody] GetDeviceDataRequest request)
     {
-        return _deviceService.GetDevice(deviceId, _userAccessor.UserId).Data;
+        return _deviceService.GetDevice(request.DeviceId, _userAccessor.UserId).Data;
     }
 
-    [HttpGet("GetDevices/{roomId}")]
-    public IEnumerable<Device> GetDevices(Guid roomId)
+    [HttpPost("GetDevices")]
+    public IEnumerable<Device> GetDevices([FromBody] GetDevicesRequest request)
     {
-        return _deviceService.GetDevices(roomId, _userAccessor.UserId);
+        return _deviceService.GetDevices(request.RoomId, _userAccessor.UserId);
     }
 
-    [HttpDelete("RemoveDevice")]
-    public void RemoveDevice(RemoveDeviceRequest request)
+    [HttpPost("RemoveDevice")]
+    public void RemoveDevice([FromBody] RemoveDeviceRequest request)
     {
         _deviceService.RemoveDevice(request.DeviceId, _userAccessor.UserId);
     }
 
     [HttpPost("SetDeviceData")]
-    public void SetDeviceData(SetDeviceDataRequest request)
+    public void SetDeviceData([FromBody] SetDeviceDataRequest request)
     {
         _deviceService.SetDeviceData(request.DeviceId, request.Data, _userAccessor.UserId);
     }
