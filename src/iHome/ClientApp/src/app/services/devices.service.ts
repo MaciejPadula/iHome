@@ -16,6 +16,8 @@ export class DevicesService {
   constructor(private _api: HttpClient) { }
 
   public getRoomDevices(roomId: string): Observable<Device[]> {
-    return this._api.post<Device[]>(this._baseApiUrl + 'GetDevices/' + roomId, {});
+    return this._api.post<Device[]>(this._baseApiUrl + 'GetDevices', {
+      roomId
+    });
   }
 }

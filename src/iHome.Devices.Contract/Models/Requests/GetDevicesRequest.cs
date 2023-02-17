@@ -2,5 +2,5 @@
 
 public class GetDevicesRequest
 {
-    public Guid RoomId { get; set; }
+    public required Guid RoomId { get; set; }
 }

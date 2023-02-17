@@ -2,5 +2,5 @@
 
 public class RemoveDeviceRequest
 {
-    public Guid DeviceId { get; set; }
+    public required Guid DeviceId { get; set; }
 }
