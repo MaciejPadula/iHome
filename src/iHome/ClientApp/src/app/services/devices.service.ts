@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Device } from '../models/device';
 
-type NewType = Observable<Device[]>;
-
 @Injectable({
   providedIn: 'root'
 })
@@ -17,5 +15,9 @@ export class DevicesService {
 
   public getRoomDevices(roomId: string): Observable<Device[]> {
     return this._api.get<Device[]>(this._baseApiUrl + 'GetDevices/' + roomId);
+  }
+
+  public getDeviceData<T>(deviceId: string): Observable<T> {
+    return this._api.get<T>(this._baseApiUrl + 'GetDeviceData/' + deviceId);
   }
 }

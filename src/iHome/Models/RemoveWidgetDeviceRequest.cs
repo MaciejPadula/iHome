@@ -1,6 +1,6 @@
 ﻿namespace iHome.Models;
 
-public class RemoveDeviceRequest
+public class RemoveWidgetDeviceRequest
 {
     public required Guid WidgetId { get; set; }
     public required Guid DeviceId { get; set; }

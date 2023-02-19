@@ -32,6 +32,7 @@ import { environment } from 'src/environments/environment';
 import { DevicesSidenavComponent } from './components/devices-sidenav/devices-sidenav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ThermometerComponent } from './components/device/thermometer/thermometer.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AddRoomDialogComponent,
     AddWidgetDialogComponent,
     RenameRoomDialogComponent,
-    DevicesSidenavComponent
+    DevicesSidenavComponent,
+    ThermometerComponent
   ],
   imports: [
     BrowserModule,

@@ -33,7 +33,7 @@ public class WidgetController : ControllerBase
     }
 
     [HttpPost("RemoveDevice")]
-    public IActionResult RemoveDevice([FromBody] RemoveDeviceRequest request)
+    public IActionResult RemoveDevice([FromBody] RemoveWidgetDeviceRequest request)
     {
         _widgetService.RemoveDevice(request.WidgetId, request.DeviceId, _userAccessor.UserId);
         return Ok();
