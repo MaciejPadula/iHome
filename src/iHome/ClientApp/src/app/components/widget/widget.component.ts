@@ -1,7 +1,7 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { catchError, map, of, startWith, Subject, switchMap, tap } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Device } from 'src/app/models/device';
 import { Widget } from 'src/app/models/widget';
 import { WidgetType } from 'src/app/models/widget-type';
