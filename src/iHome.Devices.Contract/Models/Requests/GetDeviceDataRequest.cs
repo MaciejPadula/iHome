@@ -1,6 +1,6 @@
 ﻿namespace iHome.Devices.Contract.Models.Requests;
 
-public class RemoveDeviceRequest
+public class GetDeviceDataRequest
 {
     public required Guid DeviceId { get; set; }
 }
