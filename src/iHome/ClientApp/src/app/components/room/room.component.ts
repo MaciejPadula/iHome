@@ -33,7 +33,7 @@ export class RoomComponent implements OnInit {
   ngOnInit(): void {
     this._refreshService.refresh$
       .pipe(untilDestroyed(this))
-      .subscribe(_ => this.getWidgets());
+      .subscribe(() => this.getWidgets());
 
     this._route.params
       .pipe(untilDestroyed(this))
@@ -48,7 +48,7 @@ export class RoomComponent implements OnInit {
     this._widgetsService.getWidgets(this.id)
       .subscribe({
         next: widgets => this.widgetsSubject$.next(widgets),
-        error: _ => this._router.navigate(['/rooms'])
+        error: err => this._router.navigate(['/rooms'])
       });
   }
 
@@ -65,6 +65,6 @@ export class RoomComponent implements OnInit {
 
   private addWidget(widgetType: WidgetType, showBorder: boolean){
     this._widgetsService.addWidget(widgetType, this.id, showBorder)
-      .subscribe(_ => this._refreshService.refresh());
+      .subscribe(() => this._refreshService.refresh());
   }
 }

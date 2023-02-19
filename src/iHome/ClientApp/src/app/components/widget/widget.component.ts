@@ -31,7 +31,7 @@ export class WidgetComponent implements OnInit {
 
     this._refreshService.refresh$
       .pipe(untilDestroyed(this))
-      .subscribe(_ => this.getDevices())
+      .subscribe(() => this.getDevices())
   }
 
   public get widgetStyle(): string {
@@ -45,13 +45,13 @@ export class WidgetComponent implements OnInit {
 
   public removeWidget(){
     this._widgetsService.removeWidget(this.widget.id)
-      .subscribe(_ => this._refreshService.refresh());
+      .subscribe(() => this._refreshService.refresh());
   }
 
   public drop(event: CdkDragDrop<Device>) {
     const device: Device = event.item.data;
     this._widgetsService.insertDevice(this.widget.id, device.id)
-      .subscribe(_ => this._refreshService.refresh());
+      .subscribe(() => this._refreshService.refresh());
   }
 
   public getDevices(){

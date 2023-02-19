@@ -20,6 +20,6 @@ export class DeviceComponent {
 
   public removeFromWidget(){
     this._widgetsService.removeDevice(this.widgetId, this.device.id)
-      .subscribe(_ => this._refreshService.refresh());
+      .subscribe(() => this._refreshService.refresh());
   }
 }

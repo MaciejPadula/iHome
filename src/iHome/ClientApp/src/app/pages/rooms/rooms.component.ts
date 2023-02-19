@@ -32,7 +32,7 @@ export class RoomsComponent implements OnInit {
   ngOnInit(): void {
     this._refreshService.refresh$
       .pipe(untilDestroyed(this))
-      .subscribe(_ => this.loadRooms());
+      .subscribe(() => this.loadRooms());
 
     this._route.params
       .pipe(untilDestroyed(this))
@@ -61,13 +61,13 @@ export class RoomsComponent implements OnInit {
         if(data.roomName.length <= 3) return;
 
         this._roomsService.addRoom(data.roomName)
-          .subscribe(_ => this._refreshService.refresh());
+          .subscribe(() => this._refreshService.refresh());
       });
   }
 
   public removeRoom(roomId: string){
     
     this._roomsService.removeRoom(roomId)
-      .subscribe(_ => this._router.navigate(['/rooms']));
+      .subscribe(() => this._router.navigate(['/rooms']));
   }
 }

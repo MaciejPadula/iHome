@@ -20,6 +20,8 @@ export class DevicesService {
   }
 
   public getDeviceData<T>(deviceId: string): Observable<T> {
-    return this._api.get<T>(this._baseApiUrl + 'GetDeviceData/' + deviceId);
+    return this._api.post<T>(this._baseApiUrl + 'GetDeviceData', {
+      deviceId
+    });
   }
 }

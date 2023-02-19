@@ -29,7 +29,7 @@ export class ThermometerComponent implements OnInit {
         untilDestroyed(this),
         filter(data => data == this.device.id)
       )
-      .subscribe(_ => this.getDeviceData());
+      .subscribe(() => this.getDeviceData());
     
     this._refreshService.refreshDevice(this.device.id);
   }
