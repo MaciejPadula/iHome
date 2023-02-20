@@ -9,6 +9,6 @@ public interface IRoomService
     IEnumerable<Room> GetRooms(string userId);
     void RemoveRoom(Guid roomId, string userId);
 
-    void ShareRoom(Guid roomId, string userId);
-    void UnshareRoom(Guid roomId, string userId);
+    void ShareRoom(Guid roomId, string userId, string callerUserId);
+    void UnshareRoom(Guid roomId, string userId, string callerUserId);
 }

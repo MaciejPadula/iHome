@@ -2,6 +2,7 @@
 using iHome.Core.Repositories;
 using iHome.Core.Services.Rooms;
 using iHome.Devices.Contract.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace iHome.Core.Services.Devices;
 
@@ -63,14 +64,12 @@ public class DeviceService : IDeviceService
 
     public IEnumerable<Device> GetDevices(Guid roomId, string userId)
     {
-        return _sqlDataContext.Devices
-            .Join(
-                _sqlDataContext.GetUsersRooms(userId).Where(room => room.Id == roomId),
-                d => d.RoomId,
-                r => r.Id,
-                (d, r) => d
-            )
-            .ToList();
+        var room = _sqlDataContext.GetUsersRooms(userId)
+            .Include(r => r.Devices)
+            .FirstOrDefault(room => room.Id == roomId);
+        if (room == null) throw new RoomNotFoundException();
+
+        return room.Devices;
     }
 
     public void RemoveDevice(Guid deviceId, string userId)

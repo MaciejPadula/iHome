@@ -42,9 +42,9 @@ internal class RoomService : IRoomService
         _sqlDataContext.SaveChanges();
     }
 
-    public void ShareRoom(Guid roomId, string userId)
+    public void ShareRoom(Guid roomId, string userId, string callerUserId)
     {
-        if(!_sqlDataContext.Rooms.Any(r => r.Id == roomId))
+        if(!_sqlDataContext.Rooms.Any(r => r.Id == roomId && r.UserId == callerUserId))
         {
             throw new RoomNotFoundException();
         }
@@ -63,8 +63,10 @@ internal class RoomService : IRoomService
         _sqlDataContext.SaveChanges();
     }
 
-    public void UnshareRoom(Guid roomId, string userId)
+    public void UnshareRoom(Guid roomId, string userId, string callerUserId)
     {
+        if(!_sqlDataContext.Rooms.Any(r => r.Id == roomId && r.UserId == callerUserId)) throw new RoomNotFoundException();
+
         var constraint = _sqlDataContext.UserRoom
             .Where(c => c.UserId == userId && c.RoomId == roomId)
             .SingleOrDefault();

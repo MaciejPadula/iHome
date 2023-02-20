@@ -1,6 +1,7 @@
 ﻿using iHome.Core.Services.Rooms;
 using iHome.Logic;
-using iHome.Models;
+using iHome.Models.Requests;
+using iHome.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Controllers;

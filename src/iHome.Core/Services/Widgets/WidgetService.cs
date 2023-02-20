@@ -33,12 +33,16 @@ public class WidgetService : IWidgetService
 
     public IEnumerable<Device> GetWidgetDevices(Guid widgetId, string userId)
     {
-        var widget = _sqlDataContext.Widgets.FirstOrDefault(widget => widget.Id == widgetId);
+        var widget = _sqlDataContext.Widgets
+            .Include(w => w.WidgetDevices)
+            .ThenInclude(w => w.Device)
+            .FirstOrDefault(widget => widget.Id == widgetId);
+
         if (widget == null) throw new Exception();
 
         if (!_roomService.UserCanAccessRoom(widget.RoomId, userId)) throw new RoomNotFoundException();
 
-        return _sqlDataContext.GetWidgetDevices(widgetId);
+        return widget.WidgetDevices.Select(w => w.Device);
     }
 
     public IEnumerable<Widget> GetWidgets(Guid roomId, string userId)

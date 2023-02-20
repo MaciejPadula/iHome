@@ -10,4 +10,6 @@ public class UserRoom
     public Guid Id { get; init; } = Guid.NewGuid();
     public required Guid RoomId { get; set; }
     public required string UserId { get; set; }
+
+    public virtual Room Room { get; set; }
 }

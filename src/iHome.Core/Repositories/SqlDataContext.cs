@@ -17,25 +17,13 @@ public class SqlDataContext : DbContext
 
     public IQueryable<Room> GetUsersRooms(string userId)
     {
-        return Rooms
-            .Where(room => room.UserId == userId)
-            .GroupJoin(
-                UserRoom.Where(sharedRoom => sharedRoom.UserId == userId),
-                room => room.Id,
-                sharedRoom => sharedRoom.RoomId,
-                (room, sharedRoom) => room
-            );
-    }
+        var rooms = Rooms.Where(r => r.UserId == userId);
 
-    public IQueryable<Device> GetWidgetDevices(Guid widgetId)
-    {
-        return WidgetsDevices
-            .Where(widgetDevice => widgetDevice.WidgetId == widgetId)
-            .Join(
-                Devices,
-                widgetDevice => widgetDevice.DeviceId,
-                device => device.Id,
-                (widgetDevice, device) => device
-            );
+        var sharedRooms = UserRoom
+            .Where(r => r.UserId == userId)
+            .Include(r => r.Room)
+            .Select(r => r.Room);
+
+        return rooms.Concat(sharedRooms);
     }
 }

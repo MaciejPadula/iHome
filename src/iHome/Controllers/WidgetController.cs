@@ -1,6 +1,7 @@
 ﻿using iHome.Core.Services.Widgets;
 using iHome.Logic;
-using iHome.Models;
+using iHome.Models.Requests;
+using iHome.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Controllers;
@@ -42,7 +43,15 @@ public class WidgetController : ControllerBase
     [HttpGet("GetWidgets/{roomId}")]
     public IActionResult GetWidgets(Guid roomId)
     {
-        return Ok(_widgetService.GetWidgets(roomId, _userAccessor.UserId));
+        return Ok(_widgetService.GetWidgets(roomId, _userAccessor.UserId)
+            .Select(w => new GetWidgetsWidget
+            {
+                Id = w.Id,
+                RoomId = roomId,
+                MaxNumberOfDevices = w.MaxNumberOfDevices,
+                WidgetType = w.WidgetType,
+                ShowBorder = w.ShowBorder
+            }));
     }
 
     [HttpGet("GetWidgetDevices/{widgetId}")]

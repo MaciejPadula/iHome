@@ -14,4 +14,5 @@ public class Room
     public required string UserId { get; init; }
 
     public virtual Collection<Widget> Widgets { get; init; }
+    public virtual Collection<Device> Devices { get; init; }
 }

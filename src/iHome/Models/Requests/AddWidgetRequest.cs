@@ -1,6 +1,6 @@
 ﻿using iHome.Core.Models;
 
-namespace iHome.Models;
+namespace iHome.Models.Requests;
 
 public class AddWidgetRequest
 {
