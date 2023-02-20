@@ -6,7 +6,12 @@
         </button>
         <app-devices-sidenav [roomId]="id"></app-devices-sidenav> 
     </div>
-    <div class="w-full flex flex-row flex-wrap items-center justify-center">
-        <app-widget *ngFor="let widget of widgets$ | async" [widget]="widget"></app-widget>
+    <ng-template #loading>
+        <div class="w-full flex items-center justify-center">
+            <mat-spinner mode="indeterminate"></mat-spinner>
+        </div>
+    </ng-template>
+    <div *ngIf="widgets$ | async as widgets; else loading" class="w-full flex flex-row flex-wrap items-center justify-center">
+        <app-widget *ngFor="let widget of widgets" [widget]="widget"></app-widget>
     </div>
 </div>

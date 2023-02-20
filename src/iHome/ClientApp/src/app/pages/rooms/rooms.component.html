@@ -1,6 +1,10 @@
 <nav mat-tab-nav-bar mat-align-tabs="center">
-    <a mat-tab-link *ngFor="let room of rooms$ | async" [routerLink]="'/rooms/' + room.id" [state]="room" routerLinkActive #rla="routerLinkActive"
-      [active]="rla.isActive">
+  <ng-template #loading>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </ng-template>
+  <div *ngIf="rooms$ | async as rooms; else loading">
+    <a mat-tab-link *ngFor="let room of rooms" [routerLink]="'/rooms/' + room.id" [state]="room" routerLinkActive #rla="routerLinkActive"
+    [active]="rla.isActive">
       <div>
         {{room.name}}
       </div>
@@ -17,6 +21,7 @@
     <button mat-icon-button color="accent" (click)="composeAddRoomDialog()">
         <mat-icon>add</mat-icon>
     </button>
+  </div>
 </nav>
 
 <app-room *ngIf="anyRoom"></app-room>

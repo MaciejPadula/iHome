@@ -1,2 +1,8 @@
-<p>{{(data$ | async)?.temperature ?? "NULL"}}</p>
-<p>{{(data$ | async)?.pressure ?? "NULL"}}</p>
+<!-- <div class="flex flex-col" *ngIf="data$ | async as data; else loading">
+    <p>{{data.temperature}}</p>
+    <p>{{data.pressure}}</p>
+</div> -->
+<div *ngIf="0; else loading"></div>
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>

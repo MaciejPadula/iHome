@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, Subject } from 'rxjs';
 import { Device } from 'src/app/models/device';
@@ -10,7 +10,8 @@ import { ThermometerData } from './thermometer-data';
 @Component({
   selector: 'app-thermometer',
   templateUrl: './thermometer.component.html',
-  styleUrls: ['./thermometer.component.scss']
+  styleUrls: ['./thermometer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThermometerComponent implements OnInit {
   @Input() public device: Device;

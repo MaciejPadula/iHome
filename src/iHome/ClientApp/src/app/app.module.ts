@@ -33,6 +33,9 @@ import { DevicesSidenavComponent } from './components/devices-sidenav/devices-si
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ThermometerComponent } from './components/device/thermometer/thermometer.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -89,7 +92,10 @@ import { ThermometerComponent } from './components/device/thermometer/thermomete
     MatRadioModule,
     MatCheckboxModule,
     MatSidenavModule,
-    DragDropModule
+    DragDropModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    NgxSkeletonLoaderModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }
