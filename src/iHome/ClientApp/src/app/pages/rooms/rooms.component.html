@@ -36,10 +36,10 @@
         <div class="w-14 h-14 m-4">
           <img class="rounded-full w-full h-full" src="https://www.thespruce.com/thmb/iMt63n8NGCojUETr6-T8oj-5-ns=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/PAinteriors-7-cafe9c2bd6be4823b9345e591e4f367f.jpg">
         </div>
-        <p>{{room.name}}</p>
-      </div>
-      <div>
-        {{room.userEmail}}
+        <div class="flex flex-col">
+          <p>{{room.name}}</p>
+          <small>{{room.userEmail}}</small>
+        </div>
       </div>
     </a>
     <button mat-icon-button color="accent" (click)="composeAddRoomDialog()">
