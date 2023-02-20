@@ -1,4 +1,4 @@
-<nav mat-tab-nav-bar mat-align-tabs="center">
+<nav mat-tab-nav-bar mat-align-tabs="center" *ngIf="anyRoom">
   <ng-template #loading>
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </ng-template>
@@ -25,3 +25,25 @@
 </nav>
 
 <app-room *ngIf="anyRoom"></app-room>
+
+<div *ngIf="!anyRoom">
+  <ng-template #loading>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </ng-template>
+  <div *ngIf="rooms$ | async as rooms; else loading" class="flex flex-col justify-center items-center">
+    <a *ngFor="let room of rooms" [routerLink]="'/rooms/' + room.id" class="p-4 w-full flex flex-row justify-between">
+      <div class="flex flex-row items-center">
+        <div class="w-14 h-14 m-4">
+          <img class="rounded-full w-full h-full" src="https://www.thespruce.com/thmb/iMt63n8NGCojUETr6-T8oj-5-ns=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/PAinteriors-7-cafe9c2bd6be4823b9345e591e4f367f.jpg">
+        </div>
+        <p>{{room.name}}</p>
+      </div>
+      <div>
+        {{room.userEmail}}
+      </div>
+    </a>
+    <button mat-icon-button color="accent" (click)="composeAddRoomDialog()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>

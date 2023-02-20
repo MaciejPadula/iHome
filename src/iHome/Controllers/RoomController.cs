@@ -29,7 +29,14 @@ public class RoomController : ControllerBase
     [HttpGet("GetRooms")]
     public IActionResult GetRooms()
     {
-        var devices = _roomService.GetRooms(_userAccessor.UserId);
+        var devices = _roomService.GetRooms(_userAccessor.UserId)
+            .Select(room => new GetRoomsRoom
+            {
+                Id = room.Id,
+                Name = room.Name,
+                UserId = room.UserId,
+                UserEmail = ""
+            });
         return Ok(devices);
     }
 

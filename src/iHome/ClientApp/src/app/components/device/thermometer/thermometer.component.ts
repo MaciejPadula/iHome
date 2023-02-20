@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { faThermometerFull } from '@fortawesome/free-solid-svg-icons';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, Subject } from 'rxjs';
 import { Device } from 'src/app/models/device';
@@ -15,6 +16,7 @@ import { ThermometerData } from './thermometer-data';
 })
 export class ThermometerComponent implements OnInit {
   @Input() public device: Device;
+  public faThermometer = faThermometerFull;
 
   private dataSubject$ = new Subject<ThermometerData>();
   public data$ = this.dataSubject$.asObservable();
@@ -38,5 +40,19 @@ export class ThermometerComponent implements OnInit {
   private getDeviceData() {
     this._deviceService.getDeviceData<ThermometerData>(this.device.id)
       .subscribe(data => this.dataSubject$.next(data));
+  }
+
+  public formattedTemperature(temp: number): string{
+    ///celsius:
+    return this.valueWithUnit(temp.toFixed(2), '°C');
+  }
+
+  public formattedPreassure(press: number): string{
+    ///eu:
+    return this.valueWithUnit(press.toFixed(2), '°hPa');
+  }
+
+  private valueWithUnit(valueFormatted: string, unit: string): string{
+    return `${valueFormatted} [${unit}]`;
   }
 }

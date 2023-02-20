@@ -27,18 +27,6 @@ public class SqlDataContext : DbContext
             );
     }
 
-    public IQueryable<Widget> GetRoomWidgets(Guid roomId)
-    {
-        return Rooms
-            .Where(room => room.Id == roomId)
-            .Join(
-                Widgets,
-                room => room.Id,
-                widget => widget.RoomId,
-                (room, widget) => widget
-            );
-    }
-
     public IQueryable<Device> GetWidgetDevices(Guid widgetId)
     {
         return WidgetsDevices
