@@ -13,7 +13,7 @@ public class Widget
     public WidgetType WidgetType { get; set; }
     public Guid RoomId { get; set; }
     public bool ShowBorder { get; set; }
-    public virtual Collection<WidgetDevice> WidgetDevices { get; set; }
+    public virtual Collection<WidgetDevice>? WidgetDevices { get; set; }
 
     [NotMapped]
     public int MaxNumberOfDevices => GetMaxNumberOfDevices(WidgetType);

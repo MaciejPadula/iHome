@@ -1,4 +1,5 @@
 ﻿using iHome.Core.Services.Rooms;
+using iHome.Core.Services.Users;
 using iHome.Logic;
 using iHome.Models.Requests;
 using iHome.Models.Responses;
@@ -11,12 +12,14 @@ namespace iHome.Controllers;
 public class RoomController : ControllerBase
 {
     private readonly IRoomService _roomService;
-
+    private readonly IUserService _userService;
     private readonly IUserAccessor _userAccessor;
+    
 
-    public RoomController(IRoomService roomService, IUserAccessor userAccessor)
+    public RoomController(IRoomService roomService, IUserService userService, IUserAccessor userAccessor)
     {
         _roomService = roomService;
+        _userService = userService;
         _userAccessor = userAccessor;
     }
 
@@ -36,7 +39,7 @@ public class RoomController : ControllerBase
                 Id = room.Id,
                 Name = room.Name,
                 UserId = room.UserId,
-                UserEmail = ""
+                UserEmail = _userService.GetUserById(room.UserId)?.Email ?? string.Empty
             });
         return Ok(devices);
     }

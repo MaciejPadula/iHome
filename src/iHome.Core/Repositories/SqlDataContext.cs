@@ -14,16 +14,4 @@ public class SqlDataContext : DbContext
     public SqlDataContext(DbContextOptions<SqlDataContext> options)
         : base(options)
     { }
-
-    public IQueryable<Room> GetUsersRooms(string userId)
-    {
-        var rooms = Rooms.Where(r => r.UserId == userId);
-
-        var sharedRooms = UserRoom
-            .Where(r => r.UserId == userId)
-            .Include(r => r.Room)
-            .Select(r => r.Room);
-
-        return rooms.Concat(sharedRooms);
-    }
 }

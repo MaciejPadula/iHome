@@ -1,14 +1,18 @@
 ﻿using iHome.Core.Exceptions;
 using iHome.Core.Models;
 using iHome.Core.Repositories;
+using iHome.Core.Services.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace iHome.Core.Services.Rooms;
 internal class RoomService : IRoomService
 {
+    private readonly IUserService _userService;
     private readonly SqlDataContext _sqlDataContext;
 
-    public RoomService(SqlDataContext sqlDataContext)
+    public RoomService(IUserService userService, SqlDataContext sqlDataContext)
     {
+        _userService = userService;
         _sqlDataContext = sqlDataContext;
     }
 
@@ -30,7 +34,13 @@ internal class RoomService : IRoomService
 
     public IEnumerable<Room> GetRooms(string userId)
     {
-        return _sqlDataContext.GetUsersRooms(userId);
+        return QueryRooms(userId);
+    }
+
+    public IEnumerable<Room> GetRoomsWithDevices(string userId)
+    {
+        return QueryRooms(userId)
+            .Include(r => r.Devices);
     }
 
     public void RemoveRoom(Guid roomId, string userId)
@@ -44,7 +54,9 @@ internal class RoomService : IRoomService
 
     public void ShareRoom(Guid roomId, string userId, string callerUserId)
     {
-        if(!_sqlDataContext.Rooms.Any(r => r.Id == roomId && r.UserId == callerUserId))
+        if (!_userService.UserExist(new UserFilter { Id = userId })) throw new UserNotFoundException();
+
+        if (!_sqlDataContext.Rooms.Any(r => r.Id == roomId && r.UserId == callerUserId))
         {
             throw new RoomNotFoundException();
         }
@@ -65,9 +77,13 @@ internal class RoomService : IRoomService
 
     public void UnshareRoom(Guid roomId, string userId, string callerUserId)
     {
-        if(!_sqlDataContext.Rooms.Any(r => r.Id == roomId && r.UserId == callerUserId)) throw new RoomNotFoundException();
+        var room = QueryRooms(callerUserId)
+            .Include(r => r.UsersRooms)
+            .FirstOrDefault(r => r.Id == roomId);
 
-        var constraint = _sqlDataContext.UserRoom
+        if (room == null) throw new RoomNotFoundException();
+
+        var constraint = room.UsersRooms?
             .Where(c => c.UserId == userId && c.RoomId == roomId)
             .SingleOrDefault();
 
@@ -81,5 +97,18 @@ internal class RoomService : IRoomService
     {
         return _sqlDataContext.Rooms.Where(room => room.Id == roomId).Any(room => room.UserId == userId) ||
             _sqlDataContext.UserRoom.Where(room => room.RoomId == roomId).Any(room => room.UserId == userId);
+    }
+
+    private IQueryable<Room> QueryRooms(string userId)
+    {
+        var rooms = _sqlDataContext.Rooms.Where(r => r.UserId == userId);
+
+        var sharedRooms = _sqlDataContext.UserRoom
+            .Where(r => r.UserId == userId)
+            .Include(r => r.Room)
+            .Select(r => r.Room)
+            .OfType<Room>();
+
+        return rooms.Concat(sharedRooms);
     }
 }
