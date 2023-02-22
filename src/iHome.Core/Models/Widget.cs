@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,7 +12,7 @@ public class Widget
     public WidgetType WidgetType { get; set; }
     public Guid RoomId { get; set; }
     public bool ShowBorder { get; set; }
-    public virtual Collection<WidgetDevice>? WidgetDevices { get; set; }
+    public virtual Collection<WidgetDevice> WidgetDevices { get; set; } = new();
 
     [NotMapped]
     public int MaxNumberOfDevices => GetMaxNumberOfDevices(WidgetType);
