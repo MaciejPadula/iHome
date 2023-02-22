@@ -1,4 +1,5 @@
-﻿using iHome.Core.Services.Rooms;
+﻿using iHome.Core.Models;
+using iHome.Core.Services.Rooms;
 using iHome.Core.Services.Users;
 using iHome.Logic;
 using iHome.Models.Requests;
@@ -38,10 +39,20 @@ public class RoomController : ControllerBase
             {
                 Id = room.Id,
                 Name = room.Name,
-                UserId = room.UserId,
-                UserEmail = _userService.GetUserById(room.UserId)?.Email ?? string.Empty
+                User = _userService.GetUserById(room.UserId)
+                    ?? new User { Id = room.UserId, Name = string.Empty, Email = string.Empty }
             });
         return Ok(devices);
+    }
+
+    [HttpGet("GetRoomUsers/{roomId}")]
+    public IActionResult GetRoomUsers(Guid roomId)
+    {
+        var x = _roomService.GetRoomUsers(roomId, _userAccessor.UserId)
+            .Select(usr => _userService.GetUserById(usr.UserId)?.Email)
+            .OfType<User>();
+
+        return Ok(x);
     }
 
     [HttpDelete("RemoveRoom/{roomId}")]

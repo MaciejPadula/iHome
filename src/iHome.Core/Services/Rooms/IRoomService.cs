@@ -11,5 +11,6 @@ public interface IRoomService
     void RemoveRoom(Guid roomId, string userId);
 
     void ShareRoom(Guid roomId, string userId, string callerUserId);
+    IEnumerable<UserRoom> GetRoomUsers(Guid roomId, string userId);
     void UnshareRoom(Guid roomId, string userId, string callerUserId);
 }

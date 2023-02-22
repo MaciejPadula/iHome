@@ -1,6 +1,7 @@
 ﻿using iHome.Core.Helpers;
 using iHome.Core.Models;
 using iHome.Shared.Logic;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace iHome.Core.Services.Users;
@@ -25,10 +26,18 @@ public class Auth0UserService : IUserService
         var url = new Auth0QueryBuilder("https://dev-e7eyj4xg.eu.auth0.com")
             .WithUserId(userFilter.Id)
             .WithEmail(userFilter.Email)
+            .WithUsername(userFilter.Name)
             .Build();
-        var users = _client.GetSync<IEnumerable<User>>(url);
 
-        return users ?? Enumerable.Empty<User>();
+        try
+        {
+            var users = _client.GetSync<IEnumerable<User>>(url);
+            return users ?? Enumerable.Empty<User>();
+        }
+        catch (JsonSerializationException)
+        {
+            return Enumerable.Empty<User>();
+        }
     }
 
     public bool UserExist(UserFilter userFilter)

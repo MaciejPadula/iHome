@@ -34,6 +34,16 @@ namespace iHome.Core.Helpers
             return this;
         }
 
+        public Auth0QueryBuilder WithUsername(string? name)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                _queryParameters.Add("name", name);
+            }
+
+            return this;
+        }
+
         public string Build()
         {
             var query = _queryParameters.Select(param => $"{param.Key}:{param.Value}");

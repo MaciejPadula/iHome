@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Adding new room</h1>
+<div mat-dialog-content>
+    <mat-form-field appearance="fill">
+        <mat-label>User info</mat-label>
+        <input
+               placeholder="Enter username or email"
+               matInput
+               [formControl]="searchPhrase"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let user of filteredUsers$ | async" [value]="user.email">
+                {{user.name}}
+                <small *ngIf="user.name !== user.email">{{user.email}}</small>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions class="flex !justify-end">
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>

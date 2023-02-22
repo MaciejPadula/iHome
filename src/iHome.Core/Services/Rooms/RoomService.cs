@@ -75,6 +75,18 @@ internal class RoomService : IRoomService
         _sqlDataContext.SaveChanges();
     }
 
+    public IEnumerable<UserRoom> GetRoomUsers(Guid roomId, string userId)
+    {
+        var room = QueryRooms(userId)
+            .Where(room => room.Id == roomId)
+            .Include(r => r.UsersRooms)
+            .FirstOrDefault();
+
+        if (room == null) throw new RoomNotFoundException();
+
+        return room.UsersRooms;
+    }
+
     public void UnshareRoom(Guid roomId, string userId, string callerUserId)
     {
         var room = QueryRooms(callerUserId)
@@ -101,14 +113,21 @@ internal class RoomService : IRoomService
 
     private IQueryable<Room> QueryRooms(string userId)
     {
-        var rooms = _sqlDataContext.Rooms.Where(r => r.UserId == userId);
-
-        var sharedRooms = _sqlDataContext.UserRoom
+        return _sqlDataContext.Rooms
             .Where(r => r.UserId == userId)
-            .Include(r => r.Room)
-            .Select(r => r.Room)
-            .OfType<Room>();
+            .GroupJoin(
+                _sqlDataContext.UserRoom,
+                room => room.Id,
+                userRoom => userRoom.RoomId,
+                (room, userRoom) => room
+            );
 
-        return rooms.Concat(sharedRooms);
+        //var sharedRooms = _sqlDataContext.UserRoom
+        //    .Where(r => r.UserId == userId)
+        //    .Include(r => r.Room)
+        //    .Select(r => r.Room)
+        //    .OfType<Room>();
+
+        //return rooms.Union(sharedRooms);
     }
 }

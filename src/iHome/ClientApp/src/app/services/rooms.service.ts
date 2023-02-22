@@ -23,6 +23,10 @@ export class RoomsService {
     });
   }
 
+  public getRoomUsers(roomId: string): Observable<string[]>{
+    return this._api.get<string[]>(this._baseApiUrl + `GetRoomUsers/${roomId}`);
+  }
+
   public removeRoom(roomId: string): Observable<object> {
     return this._api.delete(this._baseApiUrl + 'RemoveRoom/' + roomId);
   }
