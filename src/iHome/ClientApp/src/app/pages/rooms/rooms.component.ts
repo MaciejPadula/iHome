@@ -47,8 +47,6 @@ export class RoomsComponent implements OnInit {
         this.anyRoom = false;
         this._refreshService.refresh();
       });
-
-    this._refreshService.refresh();
   }
 
   private loadRooms(){
