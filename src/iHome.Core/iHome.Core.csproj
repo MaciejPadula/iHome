@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\iHome.Devices.Contract\iHome.Devices.Contract.csproj" />
+    <ProjectReference Include="..\iHome.Shared\iHome.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -64,12 +64,11 @@ public class DeviceService : IDeviceService
 
     public IEnumerable<Device> GetDevices(Guid roomId, string userId)
     {
-        var room = _sqlDataContext.GetUsersRooms(userId)
-            .Include(r => r.Devices)
+        var room = _roomService.GetRoomsWithDevices(userId)
             .FirstOrDefault(room => room.Id == roomId);
         if (room == null) throw new RoomNotFoundException();
 
-        return room.Devices;
+        return room.Devices ?? Enumerable.Empty<Device>();
     }
 
     public void RemoveDevice(Guid deviceId, string userId)

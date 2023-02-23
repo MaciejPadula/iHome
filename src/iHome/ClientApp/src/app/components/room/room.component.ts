@@ -48,7 +48,7 @@ export class RoomComponent implements OnInit {
     this._widgetsService.getWidgets(this.id)
       .subscribe({
         next: widgets => this.widgetsSubject$.next(widgets),
-        error: err => this._router.navigate(['/rooms'])
+        error: () => this._router.navigate(['/rooms'])
       });
   }
 

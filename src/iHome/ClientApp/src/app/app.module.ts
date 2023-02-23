@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,6 +36,8 @@ import { ThermometerComponent } from './components/device/thermometer/thermomete
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ShareRoomDialogComponent } from './components/share-room-dialog/share-room-dialog.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AddWidgetDialogComponent,
     RenameRoomDialogComponent,
     DevicesSidenavComponent,
-    ThermometerComponent
+    ThermometerComponent,
+    ShareRoomDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -89,13 +92,15 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    ReactiveFormsModule,
     MatRadioModule,
     MatCheckboxModule,
     MatSidenavModule,
     DragDropModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatAutocompleteModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }

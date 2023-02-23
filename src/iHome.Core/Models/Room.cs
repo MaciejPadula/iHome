@@ -13,6 +13,7 @@ public class Room
     public required string Name { get; init; }
     public required string UserId { get; init; }
 
-    public virtual Collection<Widget> Widgets { get; init; }
-    public virtual Collection<Device> Devices { get; init; }
+    public virtual Collection<Widget> Widgets { get; init; } = new();
+    public virtual Collection<Device> Devices { get; init; } = new();
+    public virtual Collection<UserRoom> UsersRooms { get; init; } = new();
 }

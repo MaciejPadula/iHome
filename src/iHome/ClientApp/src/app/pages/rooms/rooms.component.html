@@ -31,17 +31,20 @@
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </ng-template>
   <div *ngIf="rooms$ | async as rooms; else loading" class="flex flex-col justify-center items-center">
-    <a *ngFor="let room of rooms" [routerLink]="'/rooms/' + room.id" class="p-4 w-full flex flex-row justify-between">
-      <div class="flex flex-row items-center">
+    <div *ngFor="let room of rooms" class="p-4 w-full flex flex-row justify-between">
+      <a class="flex flex-row items-center" [routerLink]="'/rooms/' + room.id">
         <div class="w-14 h-14 m-4">
           <img class="rounded-full w-full h-full" src="https://www.thespruce.com/thmb/iMt63n8NGCojUETr6-T8oj-5-ns=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/PAinteriors-7-cafe9c2bd6be4823b9345e591e4f367f.jpg">
         </div>
         <div class="flex flex-col">
           <p>{{room.name}}</p>
-          <small>{{room.userEmail}}</small>
+          <small>{{room.user.name}}</small>
         </div>
+      </a>
+      <div *ngIf="(user | async)?.sub === room.user.id">
+        <button mat-icon-button (click)="composeShareRoomDialog(room)"><mat-icon>share</mat-icon></button>
       </div>
-    </a>
+    </div>
     <button mat-icon-button color="accent" (click)="composeAddRoomDialog()">
       <mat-icon>add</mat-icon>
     </button>
