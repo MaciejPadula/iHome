@@ -3,9 +3,12 @@ using iHome.Devices.Contract.Interfaces;
 using iHome.Devices.Contract.Models;
 using iHome.Devices.Contract.Models.Requests;
 using iHome.Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Controllers;
+
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class DeviceController : ControllerBase, IDeviceManipulator, IDeviceProvider

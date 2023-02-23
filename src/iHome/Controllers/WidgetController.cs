@@ -2,10 +2,12 @@
 using iHome.Logic;
 using iHome.Models.Requests;
 using iHome.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class WidgetController : ControllerBase
