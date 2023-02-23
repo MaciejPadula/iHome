@@ -8,7 +8,10 @@
             Remove
         </button>
     </mat-menu>
-    <div class="flex flex-row h-full" cdkDropList (cdkDropListDropped)="drop($event)">
-        <app-device *ngFor="let device of devices$ | async" [widgetId]="widget.id" [device]="device"></app-device>
+    <ng-template #loading>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </ng-template>
+    <div *ngIf="devices$ | async as devices; else loading" class="flex flex-row h-full p-4" cdkDropList (cdkDropListDropped)="drop($event)">
+        <app-device *ngFor="let device of devices" [widgetId]="widget.id" [device]="device"></app-device>
     </div>
 </div>

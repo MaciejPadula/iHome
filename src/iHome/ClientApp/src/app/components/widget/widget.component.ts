@@ -1,7 +1,7 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { catchError, map, of, startWith, Subject, switchMap, tap } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Device } from 'src/app/models/device';
 import { Widget } from 'src/app/models/widget';
 import { WidgetType } from 'src/app/models/widget-type';
@@ -18,6 +18,8 @@ import { WidgetsService } from 'src/app/services/widgets.service';
 export class WidgetComponent implements OnInit {
   @Input() public widget: Widget;
 
+  private refreshSubscription$: Subscription;
+  
   private devicesSubject$ = new Subject<Device[]>();
   public devices$ = this.devicesSubject$.asObservable();
 
@@ -29,9 +31,9 @@ export class WidgetComponent implements OnInit {
   ngOnInit(): void {
     this.getDevices();
 
-    this._refreshService.refresh$
+    this.refreshSubscription$ = this._refreshService.refresh$
       .pipe(untilDestroyed(this))
-      .subscribe(_ => this.getDevices())
+      .subscribe(() => this.getDevices())
   }
 
   public get widgetStyle(): string {
@@ -45,13 +47,16 @@ export class WidgetComponent implements OnInit {
 
   public removeWidget(){
     this._widgetsService.removeWidget(this.widget.id)
-      .subscribe(_ => this._refreshService.refresh());
+      .subscribe(() => {
+        this.refreshSubscription$.unsubscribe();
+        this._refreshService.refresh()
+      });
   }
 
   public drop(event: CdkDragDrop<Device>) {
     const device: Device = event.item.data;
     this._widgetsService.insertDevice(this.widget.id, device.id)
-      .subscribe(_ => this._refreshService.refresh());
+      .subscribe(() => this._refreshService.refresh());
   }
 
   public getDevices(){

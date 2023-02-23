@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService, User } from '@auth0/auth0-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AddRoomDialogComponent } from 'src/app/components/add-room-dialog/add-room-dialog.component';
+import { ShareRoomDialogComponent } from 'src/app/components/share-room-dialog/share-room-dialog.component';
 import { Room } from 'src/app/models/room';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { RoomsService } from 'src/app/services/rooms.service';
@@ -26,13 +28,14 @@ export class RoomsComponent implements OnInit {
     private _refreshService: RefreshService,
     private _router: Router,
     private _route: ActivatedRoute,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _auth: AuthService
   ) { }
 
   ngOnInit(): void {
     this._refreshService.refresh$
       .pipe(untilDestroyed(this))
-      .subscribe(_ => this.loadRooms());
+      .subscribe(() => this.loadRooms());
 
     this._route.params
       .pipe(untilDestroyed(this))
@@ -61,13 +64,24 @@ export class RoomsComponent implements OnInit {
         if(data.roomName.length <= 3) return;
 
         this._roomsService.addRoom(data.roomName)
-          .subscribe(_ => this._refreshService.refresh());
+          .subscribe(() => this._refreshService.refresh());
       });
   }
 
+  public composeShareRoomDialog(room: Room) {
+    this._dialog.open(ShareRoomDialogComponent, {
+      data: room
+    })
+      .afterClosed()
+      .subscribe();
+  }
+
   public removeRoom(roomId: string){
-    
     this._roomsService.removeRoom(roomId)
-      .subscribe(_ => this._router.navigate(['/rooms']));
+      .subscribe(() => this._router.navigate(['/rooms']));
+  }
+
+  public get user(): Observable<User | null | undefined> {
+    return this._auth.user$;
   }
 }

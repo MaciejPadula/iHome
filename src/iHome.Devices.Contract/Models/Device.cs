@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace iHome.Devices.Contract.Models;
 
 [Table("Devices", Schema = "maciejadmin")]
 public class Device
 {
+    [Key]
     public Guid Id { get; init; } = Guid.NewGuid();
     public required string Name { get; set; }
     public required DeviceType Type { get; init; }

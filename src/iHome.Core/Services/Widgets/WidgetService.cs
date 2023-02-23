@@ -3,6 +3,8 @@ using iHome.Core.Models;
 using iHome.Core.Repositories;
 using iHome.Core.Services.Rooms;
 using iHome.Devices.Contract.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace iHome.Core.Services.Widgets;
 
@@ -32,19 +34,30 @@ public class WidgetService : IWidgetService
 
     public IEnumerable<Device> GetWidgetDevices(Guid widgetId, string userId)
     {
-        var widget = _sqlDataContext.Widgets.FirstOrDefault(widget => widget.Id == widgetId);
+        var widget = _sqlDataContext.Widgets
+            .Where(w => w.Id == widgetId)
+            .Include(w => w.WidgetDevices)
+            .ThenInclude(w => w.Device)
+            .FirstOrDefault();
+
         if (widget == null) throw new Exception();
 
         if (!_roomService.UserCanAccessRoom(widget.RoomId, userId)) throw new RoomNotFoundException();
 
-        return _sqlDataContext.GetWidgetDevices(widgetId);
+        return widget.WidgetDevices.Select(w => w.Device).OfType<Device>() ?? Enumerable.Empty<Device>();
     }
 
     public IEnumerable<Widget> GetWidgets(Guid roomId, string userId)
     {
         if (!_roomService.UserCanAccessRoom(roomId, userId)) throw new RoomNotFoundException();
 
-        return _sqlDataContext.GetRoomWidgets(roomId).ToList();
+        var roomWithWidgets = _sqlDataContext.Rooms
+            .Include(context => context.Widgets)
+            .FirstOrDefault();
+
+        if(roomWithWidgets == null) throw new Exception();
+
+        return roomWithWidgets.Widgets ?? Enumerable.Empty<Widget>();
     }
 
     public void InsertDevice(Guid widgetId, Guid deviceId, string userId)

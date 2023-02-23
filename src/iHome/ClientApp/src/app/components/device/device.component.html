@@ -1,6 +1,9 @@
 <div class="device">
-    <button mat-icon-button (click)="removeFromWidget()">
-        <mat-icon>delete</mat-icon>
-    </button>
-    <p>{{device.name}}</p>
+    <div class="flex flex-row items-center">
+        <h3>{{device.name}}</h3>
+        <!-- <button mat-icon-button (click)="removeFromWidget()">
+            <mat-icon>delete</mat-icon>
+        </button> -->
+    </div>
+    <app-thermometer *ngIf="device.type === 2" [device]="device"></app-thermometer>
 </div>
