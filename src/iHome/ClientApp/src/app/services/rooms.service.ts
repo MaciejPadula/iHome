@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Room } from '../models/room';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,22 @@ export class RoomsService {
     });
   }
 
-  public getRoomUsers(roomId: string): Observable<string[]>{
-    return this._api.get<string[]>(this._baseApiUrl + `GetRoomUsers/${roomId}`);
+  public getRoomUsers(roomId: string): Observable<User[]>{
+    return this._api.get<User[]>(this._baseApiUrl + `GetRoomUsers/${roomId}`);
+  }
+
+  public shareRoom(roomId: string, userId: string): Observable<object>{
+    return this._api.post<string[]>(this._baseApiUrl + 'ShareRoom', {
+      roomId,
+      userId
+    });
+  }
+
+  public unshareRoom(roomId: string, userId: string): Observable<object>{
+    return this._api.post<string[]>(this._baseApiUrl + 'UnshareRoom', {
+      roomId,
+      userId
+    });
   }
 
   public removeRoom(roomId: string): Observable<object> {

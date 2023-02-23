@@ -16,7 +16,6 @@ public class RoomController : ControllerBase
     private readonly IUserService _userService;
     private readonly IUserAccessor _userAccessor;
     
-
     public RoomController(IRoomService roomService, IUserService userService, IUserAccessor userAccessor)
     {
         _roomService = roomService;
@@ -49,10 +48,25 @@ public class RoomController : ControllerBase
     public IActionResult GetRoomUsers(Guid roomId)
     {
         var x = _roomService.GetRoomUsers(roomId, _userAccessor.UserId)
-            .Select(usr => _userService.GetUserById(usr.UserId)?.Email)
-            .OfType<User>();
+            .Select(usr => _userService.GetUserById(usr.UserId))
+            .OfType<User>()
+            .OrderBy(usr => usr.Name);
 
         return Ok(x);
+    }
+
+    [HttpPost("ShareRoom")]
+    public IActionResult ShareRoom([FromBody] ShareRoomRequest request)
+    {
+        _roomService.ShareRoom(request.RoomId, request.UserId, _userAccessor.UserId);
+        return Ok();
+    }
+
+    [HttpPost("UnshareRoom")]
+    public IActionResult ShareRoom([FromBody] UnshareRoomRequest request)
+    {
+        _roomService.UnshareRoom(request.RoomId, request.UserId, _userAccessor.UserId);
+        return Ok();
     }
 
     [HttpDelete("RemoveRoom/{roomId}")]

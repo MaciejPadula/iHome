@@ -61,8 +61,9 @@ internal class RoomService : IRoomService
             throw new RoomNotFoundException();
         }
 
-        if (_sqlDataContext.UserRoom
-            .Any(share => share.RoomId == roomId || share.UserId == userId))
+        if (callerUserId == userId ||
+            _sqlDataContext.UserRoom
+                .Any(share => share.RoomId == roomId && share.UserId == userId))
         {
             throw new RoomAlreadySharedException();
         }
@@ -77,10 +78,7 @@ internal class RoomService : IRoomService
 
     public IEnumerable<UserRoom> GetRoomUsers(Guid roomId, string userId)
     {
-        var room = QueryRooms(userId)
-            .Where(room => room.Id == roomId)
-            .Include(r => r.UsersRooms)
-            .FirstOrDefault();
+        var room = QueryRoom(roomId, userId);
 
         if (room == null) throw new RoomNotFoundException();
 
@@ -89,9 +87,7 @@ internal class RoomService : IRoomService
 
     public void UnshareRoom(Guid roomId, string userId, string callerUserId)
     {
-        var room = QueryRooms(callerUserId)
-            .Include(r => r.UsersRooms)
-            .FirstOrDefault(r => r.Id == roomId);
+        var room = QueryRoom(roomId, callerUserId);
 
         if (room == null) throw new RoomNotFoundException();
 
@@ -111,23 +107,15 @@ internal class RoomService : IRoomService
             _sqlDataContext.UserRoom.Where(room => room.RoomId == roomId).Any(room => room.UserId == userId);
     }
 
+    private Room? QueryRoom(Guid roomId, string userId)
+    {
+        return QueryRooms(userId).FirstOrDefault(r => r.Id == roomId);
+    }
+
     private IQueryable<Room> QueryRooms(string userId)
     {
         return _sqlDataContext.Rooms
-            .Where(r => r.UserId == userId)
-            .GroupJoin(
-                _sqlDataContext.UserRoom,
-                room => room.Id,
-                userRoom => userRoom.RoomId,
-                (room, userRoom) => room
-            );
-
-        //var sharedRooms = _sqlDataContext.UserRoom
-        //    .Where(r => r.UserId == userId)
-        //    .Include(r => r.Room)
-        //    .Select(r => r.Room)
-        //    .OfType<Room>();
-
-        //return rooms.Union(sharedRooms);
+            .Include(r => r.UsersRooms)
+            .Where(r => r.UserId == userId || r.UsersRooms.Any(u => u.UserId == userId));
     }
 }

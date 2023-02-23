@@ -1,19 +1,25 @@
-<h1 mat-dialog-title>Adding new room</h1>
+<h1 mat-dialog-title>Room sharing</h1>
 <div mat-dialog-content>
     <mat-form-field appearance="fill">
-        <mat-label>User info</mat-label>
+        <mat-label>Username</mat-label>
         <input
-               placeholder="Enter username or email"
-               matInput
-               [formControl]="searchPhrase"
-               [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let user of filteredUsers$ | async" [value]="user.email">
+            placeholder="Enter username or email"
+            matInput
+            [formControl]="searchPhrase"
+            [matAutocomplete]="auto">
+        <button mat-icon-button matSuffix (click)="share()"><mat-icon>share</mat-icon></button>
+        <mat-autocomplete #auto="matAutocomplete" name="userSearch" ngDefaultControl (optionSelected)="selectionChange($event.option.value)" [displayWith]="userMapper">
+            <mat-option *ngFor="let user of filteredUsers$ | async" [value]="user">
                 {{user.name}}
                 <small *ngIf="user.name !== user.email">{{user.email}}</small>
             </mat-option>
         </mat-autocomplete>
     </mat-form-field>
+    
+    <div *ngFor="let user of users$ | async" class="flex items-center">
+        <div>{{user.name}}</div>
+        <button mat-icon-button (click)="unshare(user)"><mat-icon>remove_circle</mat-icon></button>
+    </div>
 </div>
 <div mat-dialog-actions class="flex !justify-end">
   <button mat-button (click)="onNoClick()">Close</button>
