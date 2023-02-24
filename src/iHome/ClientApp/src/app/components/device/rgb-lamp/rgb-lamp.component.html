@@ -1,0 +1,7 @@
+<div class="flex flex-col text-lg" *ngIf="data$ | async as rgbData; else loading">
+    <chrome-picker [control]="colorPickerControl"></chrome-picker>
+    <mat-slide-toggle [formControl]="stateControl" (change)="updateDeviceData()">Slide Toggle Checked</mat-slide-toggle>
+</div>
+<ng-template #loading>
+    <mat-spinner mode="indeterminate" diameter="50"></mat-spinner>
+</ng-template>

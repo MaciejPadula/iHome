@@ -2,6 +2,7 @@ using iHome.Core.Helpers;
 using iHome.Logic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
@@ -14,7 +15,9 @@ builder.Services
     .AddHttpContextAccessor()
     .AddScoped<IUserAccessor, HttpContextUserAccessor>()
     .AddDataContexts(
-        options => options.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"])
+        options => options
+            .UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"])
+            .ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))
     )
     .AddRoomService()
     .AddDeviceService()

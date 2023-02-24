@@ -38,6 +38,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ShareRoomDialogComponent } from './components/share-room-dialog/share-room-dialog.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { RgbLampComponent } from './components/device/rgb-lamp/rgb-lamp.component';
+import { ColorPickerModule } from '@iplab/ngx-color-picker';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     RenameRoomDialogComponent,
     DevicesSidenavComponent,
     ThermometerComponent,
-    ShareRoomDialogComponent
+    ShareRoomDialogComponent,
+    RgbLampComponent
   ],
   imports: [
     BrowserModule,
@@ -100,7 +104,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     FontAwesomeModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    ColorPickerModule,
+    MatSlideToggleModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }
