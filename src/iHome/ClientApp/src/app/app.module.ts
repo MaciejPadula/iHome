@@ -41,6 +41,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RgbLampComponent } from './components/device/rgb-lamp/rgb-lamp.component';
 import { ColorPickerModule } from '@iplab/ngx-color-picker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-dialog/rgb-lamp-dialog.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     DevicesSidenavComponent,
     ThermometerComponent,
     ShareRoomDialogComponent,
-    RgbLampComponent
+    RgbLampComponent,
+    RgbLampDialogComponent
   ],
   imports: [
     BrowserModule,
