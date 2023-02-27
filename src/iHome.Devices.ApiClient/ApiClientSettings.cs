@@ -2,5 +2,6 @@
 
 public class ApiClientSettings
 {
-    public required string BaseApiUrl { get; set; }
+    public string BaseApiUrl { get; set; } = string.Empty;
+    public string Authorization { get; set; } = string.Empty;
 }

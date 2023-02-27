@@ -2,5 +2,5 @@
 
 public class GetDeviceDataRequest
 {
-    public required Guid DeviceId { get; set; }
+    public Guid DeviceId { get; set; }
 }

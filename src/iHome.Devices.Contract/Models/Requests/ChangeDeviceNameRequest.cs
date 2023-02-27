@@ -2,6 +2,6 @@
 
 public class ChangeDeviceNameRequest
 {
-    public required Guid DeviceId { get; set; }
-    public required string Name { get; set; }
+    public Guid DeviceId { get; set; }
+    public string Name { get; set; } = string.Empty;
 }

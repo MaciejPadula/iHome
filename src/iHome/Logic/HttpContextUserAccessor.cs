@@ -11,10 +11,12 @@ namespace iHome.Logic
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string UserId => _httpContextAccessor.HttpContext?.User?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+        public string UserId => GetClaimValueByType(ClaimTypes.NameIdentifier);
+        public string Name => GetClaimValueByType(ClaimTypes.Name);
+        public string Email => GetClaimValueByType(ClaimTypes.Email);
 
-        public string Name => _httpContextAccessor.HttpContext?.User?.FindFirst(c => c.Type == ClaimTypes.Name)?.Value ?? string.Empty;
+        public Claim? FindClaimByType(string type) => _httpContextAccessor.HttpContext?.User?.FindFirst(c => c.Type == type);
 
-        public string Email => _httpContextAccessor.HttpContext?.User?.FindFirst(c => c.Type == ClaimTypes.Email)?.Value ?? string.Empty;
+        public string GetClaimValueByType(string type) => FindClaimByType(type)?.Value ?? string.Empty;
     }
 }

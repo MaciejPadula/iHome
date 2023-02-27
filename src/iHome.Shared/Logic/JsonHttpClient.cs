@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace iHome.Shared.Logic;
@@ -26,7 +27,9 @@ public class JsonHttpClient : HttpClient
             .Content
             .ReadAsStringAsync()
             .Result;
-        
+
+        if (typeof(T) == typeof(string)) return (T)(object)response;
+
         return JsonConvert.DeserializeObject<T>(response);
     }
 
@@ -39,5 +42,10 @@ public class JsonHttpClient : HttpClient
             .Result;
 
         return JsonConvert.DeserializeObject<T>(response);
+    }
+
+    public void SetBearerToken(string bearer)
+    {
+        DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
     }
 }
