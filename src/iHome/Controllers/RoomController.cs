@@ -1,6 +1,8 @@
 ﻿using iHome.Core.Models;
 using iHome.Core.Services.Rooms;
 using iHome.Core.Services.Users;
+using iHome.Devices.Contract.Interfaces;
+using iHome.Devices.Contract.Models;
 using iHome.Logic;
 using iHome.Models.Requests;
 using iHome.Models.Responses;
@@ -12,7 +14,7 @@ namespace iHome.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class RoomController : ControllerBase
+public class RoomController : ControllerBase, IRoomProvider
 {
     private readonly IRoomService _roomService;
     private readonly IUserService _userService;
@@ -35,7 +37,7 @@ public class RoomController : ControllerBase
     [HttpGet("GetRooms")]
     public IActionResult GetRooms()
     {
-        var devices = _roomService.GetRooms(_userAccessor.UserId)
+        var rooms = _roomService.GetRooms(_userAccessor.UserId)
             .Select(room => new GetRoomsRoom
             {
                 Id = room.Id,
@@ -43,7 +45,7 @@ public class RoomController : ControllerBase
                 User = _userService.GetUserById(room.UserId)
                     ?? new User { Id = room.UserId, Name = string.Empty, Email = string.Empty }
             });
-        return Ok(devices);
+        return Ok(rooms);
     }
 
     [HttpGet("GetRoomUsers/{roomId}")]
@@ -76,5 +78,17 @@ public class RoomController : ControllerBase
     {
         _roomService.RemoveRoom(roomId, _userAccessor.UserId);
         return Ok();
+    }
+
+    [HttpPost("GetRoomsForHub")]
+    public IEnumerable<GetRoomRequestRoom> GetRoomsForHub()
+    {
+        return _roomService.GetRooms(_userAccessor.UserId)
+            .Select(r => new GetRoomRequestRoom
+            {
+                Id = r.Id,
+                Name = r.Name,
+                UserId = r.UserId
+            });
     }
 }
