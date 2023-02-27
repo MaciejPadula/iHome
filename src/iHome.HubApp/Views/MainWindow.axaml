@@ -7,16 +7,11 @@
         x:Class="iHome.HubApp.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="iHome.HubApp">
-
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
 	<StackPanel>
-		<AvalonIf Value="{Binding IsAuthenticated, Mode=OneWay}">
-			<Button Command="{Binding Logout}" HorizontalAlignment="Center" VerticalAlignment="Center">Logout</Button>
-		</AvalonIf>
-
-
+		<Button Command="{Binding Login}" HorizontalAlignment="Center" VerticalAlignment="Center">Login</Button>
 	</StackPanel>
 </Window>

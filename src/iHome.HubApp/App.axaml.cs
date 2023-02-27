@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using iHome.Devices.ApiClient;
+using iHome.Devices.Contract.Interfaces;
 using iHome.HubApp.Exceptions;
 using iHome.HubApp.Services.UserService;
 using iHome.HubApp.ViewModels;
@@ -34,7 +36,9 @@ public partial class App : Application
             desktop.MainWindow = new MainWindow
             {
                 DataContext = new MainWindowViewModel(
-                    Bootstrapper.GetService<IUserService>()),
+                    Bootstrapper.GetService<IUserService>(),
+                    Bootstrapper.GetService<IDeviceProvider>(),
+                    Bootstrapper.GetService<ApiClientSettings>()),
             };
         }
 

@@ -6,10 +6,10 @@ namespace iHome.Devices.Contract.Models;
 public class Device
 {
     public Guid Id { get; init; } = Guid.NewGuid();
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public DeviceType Type { get; init; }
-    public string Data { get; set; }
+    public string Data { get; set; } = string.Empty;
     public Guid HubId { get; set; }
     public Guid RoomId { get; set; }
-    public string MacAddress { get; init; }
+    public string MacAddress { get; init; } = string.Empty;
 }
