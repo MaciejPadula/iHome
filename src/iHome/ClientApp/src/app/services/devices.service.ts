@@ -24,4 +24,11 @@ export class DevicesService {
       deviceId
     });
   }
+
+  public setDeviceData(deviceId: string, data: string): Observable<object> {
+    return this._api.post<object>(this._baseApiUrl + 'SetDeviceData', {
+      deviceId,
+      data
+    });
+  }
 }

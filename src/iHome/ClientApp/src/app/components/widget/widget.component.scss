@@ -9,13 +9,32 @@
 }
 
 .small-widget {
-    width: 24vw;
+    width: 48vw;
 }
 
 .medium-widget {
-    width: 48vw;
+    width: 96vw;
 }
 
 .wide-widget {
     width: 96vw;
+}
+
+@media (min-width: 640px) {
+    .small-widget {
+        width: 24vw;
+    }
+    
+    .medium-widget {
+        width: 48vw;
+    }
+    
+    .wide-widget {
+        width: 96vw;
+    }
+}
+
+
+app-device{
+    width: 100%;
 }

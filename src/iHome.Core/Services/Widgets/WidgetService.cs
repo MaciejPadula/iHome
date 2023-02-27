@@ -52,6 +52,7 @@ public class WidgetService : IWidgetService
         if (!_roomService.UserCanAccessRoom(roomId, userId)) throw new RoomNotFoundException();
 
         var roomWithWidgets = _sqlDataContext.Rooms
+            .Where(r => r.Id == roomId)
             .Include(context => context.Widgets)
             .FirstOrDefault();
 

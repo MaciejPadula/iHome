@@ -25,6 +25,7 @@
     "@fortawesome/angular-fontawesome": "^0.12.1",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@iplab/ngx-color-picker": "^15.0.2",
     "@ngneat/until-destroy": "^9.2.3",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

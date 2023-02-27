@@ -14,7 +14,8 @@ builder.Services
     .AddHttpContextAccessor()
     .AddScoped<IUserAccessor, HttpContextUserAccessor>()
     .AddDataContexts(
-        options => options.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"])
+        options => options
+            .UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"])
     )
     .AddRoomService()
     .AddDeviceService()

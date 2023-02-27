@@ -49,7 +49,7 @@ public class WidgetController : ControllerBase
             .Select(w => new GetWidgetsWidget
             {
                 Id = w.Id,
-                RoomId = roomId,
+                RoomId = w.RoomId,
                 MaxNumberOfDevices = w.MaxNumberOfDevices,
                 WidgetType = w.WidgetType,
                 ShowBorder = w.ShowBorder
