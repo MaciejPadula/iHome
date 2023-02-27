@@ -14,40 +14,4 @@ public class SqlDataContext : DbContext
     public SqlDataContext(DbContextOptions<SqlDataContext> options)
         : base(options)
     { }
-
-    public IQueryable<Room> GetUsersRooms(string userId)
-    {
-        return Rooms
-            .Where(room => room.UserId == userId)
-            .GroupJoin(
-                UserRoom.Where(sharedRoom => sharedRoom.UserId == userId),
-                room => room.Id,
-                sharedRoom => sharedRoom.RoomId,
-                (room, sharedRoom) => room
-            );
-    }
-
-    public IQueryable<Widget> GetRoomWidgets(Guid roomId)
-    {
-        return Rooms
-            .Where(room => room.Id == roomId)
-            .Join(
-                Widgets,
-                room => room.Id,
-                widget => widget.RoomId,
-                (room, widget) => widget
-            );
-    }
-
-    public IQueryable<Device> GetWidgetDevices(Guid widgetId)
-    {
-        return WidgetsDevices
-            .Where(widgetDevice => widgetDevice.WidgetId == widgetId)
-            .Join(
-                Devices,
-                widgetDevice => widgetDevice.DeviceId,
-                device => device.Id,
-                (widgetDevice, device) => device
-            );
-    }
 }

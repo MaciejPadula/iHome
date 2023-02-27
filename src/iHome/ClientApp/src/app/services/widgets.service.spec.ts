@@ -23,11 +23,12 @@ describe('WidgetsService', () => {
     const widget: Widget = {
       id: '',
       widgetType: WidgetType.Small,
-      roomId: ''
-    }
+      roomId: '',
+      showBorder: false
+    };
 
     //Act
-    const widgetClass = service.resolveWidgetStyle(widget)
+    const widgetClass = service.resolveWidgetStyle(widget);
 
     //Assert
     expect(widgetClass).toBe('small-widget');

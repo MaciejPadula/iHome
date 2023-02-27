@@ -18,4 +18,17 @@ export class DevicesService {
       roomId
     });
   }
+
+  public getDeviceData<T>(deviceId: string): Observable<T> {
+    return this._api.post<T>(this._baseApiUrl + 'GetDeviceData', {
+      deviceId
+    });
+  }
+
+  public setDeviceData(deviceId: string, data: string): Observable<object> {
+    return this._api.post<object>(this._baseApiUrl + 'SetDeviceData', {
+      deviceId,
+      data
+    });
+  }
 }

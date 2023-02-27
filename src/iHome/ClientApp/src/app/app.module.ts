@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +32,16 @@ import { environment } from 'src/environments/environment';
 import { DevicesSidenavComponent } from './components/devices-sidenav/devices-sidenav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ThermometerComponent } from './components/device/thermometer/thermometer.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ShareRoomDialogComponent } from './components/share-room-dialog/share-room-dialog.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { RgbLampComponent } from './components/device/rgb-lamp/rgb-lamp.component';
+import { ColorPickerModule } from '@iplab/ngx-color-picker';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-dialog/rgb-lamp-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +56,11 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AddRoomDialogComponent,
     AddWidgetDialogComponent,
     RenameRoomDialogComponent,
-    DevicesSidenavComponent
+    DevicesSidenavComponent,
+    ThermometerComponent,
+    ShareRoomDialogComponent,
+    RgbLampComponent,
+    RgbLampDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -84,10 +98,17 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    ReactiveFormsModule,
     MatRadioModule,
     MatCheckboxModule,
     MatSidenavModule,
-    DragDropModule
+    DragDropModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    FontAwesomeModule,
+    MatAutocompleteModule,
+    ColorPickerModule,
+    MatSlideToggleModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }

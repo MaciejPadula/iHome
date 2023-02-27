@@ -42,3 +42,4 @@ src/iHome/ClientApp/package-lock.json
 src/iHome/ClientApp/src/environments/environment.ts
 src/iHome.Shared/bin
 src/iHome.Shared/obj
+src/iHome/ClientApp/src/environments/environment.prod.ts

@@ -1,10 +1,13 @@
 ﻿using iHome.Core.Services.Widgets;
 using iHome.Logic;
-using iHome.Models;
+using iHome.Models.Requests;
+using iHome.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class WidgetController : ControllerBase
@@ -33,7 +36,7 @@ public class WidgetController : ControllerBase
     }
 
     [HttpPost("RemoveDevice")]
-    public IActionResult RemoveDevice([FromBody] RemoveDeviceRequest request)
+    public IActionResult RemoveDevice([FromBody] RemoveWidgetDeviceRequest request)
     {
         _widgetService.RemoveDevice(request.WidgetId, request.DeviceId, _userAccessor.UserId);
         return Ok();
@@ -42,7 +45,15 @@ public class WidgetController : ControllerBase
     [HttpGet("GetWidgets/{roomId}")]
     public IActionResult GetWidgets(Guid roomId)
     {
-        return Ok(_widgetService.GetWidgets(roomId, _userAccessor.UserId));
+        return Ok(_widgetService.GetWidgets(roomId, _userAccessor.UserId)
+            .Select(w => new GetWidgetsWidget
+            {
+                Id = w.Id,
+                RoomId = w.RoomId,
+                MaxNumberOfDevices = w.MaxNumberOfDevices,
+                WidgetType = w.WidgetType,
+                ShowBorder = w.ShowBorder
+            }));
     }
 
     [HttpGet("GetWidgetDevices/{widgetId}")]

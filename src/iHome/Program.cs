@@ -10,14 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
+    .AddHttpClient()
     .AddHttpContextAccessor()
     .AddScoped<IUserAccessor, HttpContextUserAccessor>()
     .AddDataContexts(
-        options => options.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"])
+        options => options
+            .UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"])
     )
     .AddRoomService()
     .AddDeviceService()
-    .AddWidgetService();
+    .AddWidgetService()
+    .AddUserService(builder.Configuration["Auth0:ApiToken"]);
 
 builder.Services.AddSwaggerGen(o =>
 {
@@ -75,11 +78,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseAuthentication();
-app.UseAuthorization();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseCors(x => x
                 .AllowAnyMethod()
