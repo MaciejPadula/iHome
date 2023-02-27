@@ -10,13 +10,13 @@ namespace iHome.HubApp.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     private readonly IUserService _userService;
-    private readonly IDeviceProvider _deviceProvider;
+    private readonly IRoomProvider _roomProvider;
     private readonly ApiClientSettings _clientSettings;
 
-    public MainWindowViewModel(IUserService userService, IDeviceProvider deviceProvider, ApiClientSettings clientSettings)
+    public MainWindowViewModel(IUserService userService, IRoomProvider roomProvider, ApiClientSettings clientSettings)
     {
         _userService = userService;
-        _deviceProvider = deviceProvider;
+        _roomProvider = roomProvider;
         _clientSettings = clientSettings;
     }
 
@@ -29,15 +29,11 @@ public class MainWindowViewModel : ViewModelBase
             if (_userService.IsAuthenticated)
             {
                 _clientSettings.Authorization = _userService.AccessToken;
+                var rooms = _roomProvider.GetRoomsForHub();
             }
-            var d = _deviceProvider.GetDeviceData(new()
-            {
-                DeviceId = Guid.Parse("5da7d086-fa89-43b8-97b4-3f95f8092e0b")
-            });
         }
-        catch(Exception e)
+        catch(Exception)
         {
-            var i = 2;
         }
     });
 

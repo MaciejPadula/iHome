@@ -27,4 +27,10 @@ public static class DependencyInjectionExtensions
         services.TryAddScoped<JsonHttpClient>();
         return services.AddScoped<IDeviceProvider, HttpDeviceProvider>();
     }
+
+    public static IServiceCollection AddRoomProvider(this IServiceCollection services)
+    {
+        services.TryAddScoped<JsonHttpClient>();
+        return services.AddScoped<IRoomProvider, HttpRoomProvider>();
+    }
 }

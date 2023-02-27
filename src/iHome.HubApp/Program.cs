@@ -30,7 +30,8 @@ internal class Program
             .AddScoped<IUserService, Auth0UserService>()
             .ConfigureApiClient(configuration["BaseApiUrl"])
             .AddDeviceProvider()
-            .AddDeviceManipulator();
+            .AddDeviceManipulator()
+            .AddRoomProvider();
 
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
