@@ -2,8 +2,10 @@ using Auth0.OidcClient;
 using Avalonia;
 using Avalonia.ReactiveUI;
 using iHome.Devices.ApiClient;
+using iHome.HubApp.Helpers;
 using iHome.HubApp.Logic.ClaimsResolver;
 using iHome.HubApp.Services.UserService;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using static System.Formats.Asn1.AsnWriter;
@@ -17,19 +19,18 @@ internal class Program
     [STAThread]
     public static void Main(string[] args)
     {
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile("settings.json")
+            .Build();
+
         Bootstrapper.Services
             .AddScoped<IClaimsResolver, ClaimsResolver>()
-            .AddScoped(_ => new Auth0ClientOptions()
-            {
-                Domain = "dev-e7eyj4xg.eu.auth0.com",
-                ClientId = "gRbUysKvbUB49XCU9y3RlOmoYFFmVHWJ",
-                Scope = "openid profile email read:rooms write:rooms",
-                
-            })
+            .AddAuth0Configuration(configuration["Audience"])
             .AddScoped<IAuth0Client, Auth0Client>()
             .AddScoped<IUserService, Auth0UserService>()
-            .ConfigureApiClient("settings.json")
-            .AddDeviceProvider();
+            .ConfigureApiClient(configuration["BaseApiUrl"])
+            .AddDeviceProvider()
+            .AddDeviceManipulator();
 
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }

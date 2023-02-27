@@ -2,23 +2,17 @@
 using iHome.Shared.Logic;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Newtonsoft.Json;
 
 namespace iHome.Devices.ApiClient;
 
 public static class DependencyInjectionExtensions
 {
-    public static IServiceCollection ConfigureApiClient(this IServiceCollection services, string settingsFile)
+    public static IServiceCollection ConfigureApiClient(this IServiceCollection services, string? baseApiUrl)
     {
-        try
+        services.TryAddScoped(_ => new ApiClientSettings
         {
-            var text = File.ReadAllText(settingsFile);
-            var settings = JsonConvert.DeserializeObject<ApiClientSettings>(text);
-            if (settings == null) return services;
-
-            services.TryAddScoped(_ => settings);
-        }
-        catch { }
+            BaseApiUrl = baseApiUrl ?? string.Empty
+        });
         return services;
     }
 

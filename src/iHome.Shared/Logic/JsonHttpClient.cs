@@ -27,7 +27,9 @@ public class JsonHttpClient : HttpClient
             .Content
             .ReadAsStringAsync()
             .Result;
-        
+
+        if (typeof(T) == typeof(string)) return (T)(object)response;
+
         return JsonConvert.DeserializeObject<T>(response);
     }
 

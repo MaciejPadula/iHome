@@ -2,6 +2,7 @@
 using IdentityModel.OidcClient;
 using iHome.HubApp.Exceptions;
 using iHome.HubApp.Logic.ClaimsResolver;
+using iHome.HubApp.Models;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -12,20 +13,23 @@ public class Auth0UserService : IUserService
 {
     private readonly IClaimsResolver _claimsResolver;
     private readonly IAuth0Client _authClient;
+    private readonly Auth0ServiceConfiguration _configuration;
     private ClaimsPrincipal? _user;
     private string? _accessToken;
 
-    public Auth0UserService(IClaimsResolver claimsResolver, IAuth0Client authClient)
+    public Auth0UserService(IClaimsResolver claimsResolver, IAuth0Client authClient, Auth0ServiceConfiguration configuration)
     {
         _claimsResolver = claimsResolver;
         _authClient = authClient;
-
-        
+        _configuration = configuration;
     }
 
     public async Task Login()
     {
-        var loginResult = await _authClient.LoginAsync();
+        var loginResult = await _authClient.LoginAsync(new
+        {
+            audience = _configuration.Audience
+        });
 
         if (loginResult.IsError) throw new UserNotAuthenticatedException(loginResult.Error);
         
