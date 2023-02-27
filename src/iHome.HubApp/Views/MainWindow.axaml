@@ -13,5 +13,13 @@
 
 	<StackPanel>
 		<Button Command="{Binding Login}" HorizontalAlignment="Center" VerticalAlignment="Center">Login</Button>
-	</StackPanel>
+
+		<ItemsControl Items="{Binding Rooms}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Label Content="{Binding Name}"/>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+</StackPanel>
 </Window>

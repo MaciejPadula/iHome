@@ -37,7 +37,7 @@ public partial class App : Application
             {
                 DataContext = new MainWindowViewModel(
                     Bootstrapper.GetService<IUserService>(),
-                    Bootstrapper.GetService<IDeviceProvider>(),
+                    Bootstrapper.GetService<IRoomProvider>(),
                     Bootstrapper.GetService<ApiClientSettings>()),
             };
         }
