@@ -1,4 +1,4 @@
-﻿namespace iHome.Devices.Contract.Models;
+﻿namespace iHome.Core.Models;
 
 public enum DeviceType
 {
