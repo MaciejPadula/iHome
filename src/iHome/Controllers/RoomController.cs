@@ -14,7 +14,7 @@ namespace iHome.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class RoomController : ControllerBase, IRoomProvider
+public class RoomController : ControllerBase
 {
     private readonly IRoomService _roomService;
     private readonly IUserService _userService;
@@ -78,17 +78,5 @@ public class RoomController : ControllerBase, IRoomProvider
     {
         _roomService.RemoveRoom(roomId, _userAccessor.UserId);
         return Ok();
-    }
-
-    [HttpPost("GetRoomsForHub")]
-    public IEnumerable<GetRoomRequestRoom> GetRoomsForHub()
-    {
-        return _roomService.GetRooms(_userAccessor.UserId)
-            .Select(r => new GetRoomRequestRoom
-            {
-                Id = r.Id,
-                Name = r.Name,
-                UserId = r.UserId
-            });
     }
 }

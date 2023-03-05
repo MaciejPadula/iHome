@@ -3,6 +3,7 @@ using iHome.Devices.Contract.Interfaces;
 using iHome.Devices.Contract.Models;
 using iHome.Devices.Contract.Models.Requests;
 using iHome.Logic;
+using iHome.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +12,7 @@ namespace iHome.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class DeviceController : ControllerBase, IDeviceManipulator, IDeviceProvider
+public class DeviceController : ControllerBase, IDeviceDataService
 {
     private readonly IDeviceService _deviceService;
     private readonly IUserAccessor _userAccessor;
@@ -26,7 +27,7 @@ public class DeviceController : ControllerBase, IDeviceManipulator, IDeviceProvi
     public Guid AddDevice([FromBody] AddDeviceRequest request)
     {
         return _deviceService.AddDevice(
-            request.Name, request.MacAddress, request.Type, request.HubId,
+            request.Name, request.MacAddress, request.Type,
             request.RoomId, _userAccessor.UserId);
     }
 

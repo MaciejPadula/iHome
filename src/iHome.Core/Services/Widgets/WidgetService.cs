@@ -4,7 +4,6 @@ using iHome.Core.Repositories;
 using iHome.Core.Services.Rooms;
 using iHome.Devices.Contract.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 
 namespace iHome.Core.Services.Widgets;
 
@@ -56,7 +55,7 @@ public class WidgetService : IWidgetService
             .Include(context => context.Widgets)
             .FirstOrDefault();
 
-        if(roomWithWidgets == null) throw new Exception();
+        if (roomWithWidgets == null) throw new Exception();
 
         return roomWithWidgets.Widgets ?? Enumerable.Empty<Widget>();
     }
@@ -66,9 +65,9 @@ public class WidgetService : IWidgetService
         var widget = GetWidget(widgetId, userId);
 
         var device = _sqlDataContext.Devices.FirstOrDefault(device => device.Id == deviceId);
-        if(device == null || device.RoomId != widget.RoomId) throw new DeviceNotFoundException();
+        if (device == null || device.RoomId != widget.RoomId) throw new DeviceNotFoundException();
 
-        if(_sqlDataContext.WidgetsDevices
+        if (_sqlDataContext.WidgetsDevices
                 .Any(widgetDevice => widgetDevice.WidgetId == widgetId && widgetDevice.DeviceId == deviceId) ||
            _sqlDataContext.WidgetsDevices.Count(widgetDevice => widgetDevice.WidgetId == widgetId) >= widget.MaxNumberOfDevices) throw new Exception();
 
@@ -88,7 +87,7 @@ public class WidgetService : IWidgetService
         if (device == null || device.RoomId != widget.RoomId) throw new DeviceNotFoundException();
 
         var widgetDevice = _sqlDataContext.WidgetsDevices.FirstOrDefault(x => x.DeviceId == deviceId && x.WidgetId == widget.Id);
-        if(widgetDevice == null) throw new DeviceNotFoundException();
+        if (widgetDevice == null) throw new DeviceNotFoundException();
 
         _sqlDataContext.WidgetsDevices.Remove(widgetDevice);
         _sqlDataContext.SaveChanges();
@@ -110,7 +109,7 @@ public class WidgetService : IWidgetService
         if (widget == null) throw new Exception();
 
         if (!_roomService.UserCanAccessRoom(widget.RoomId, userId)) throw new RoomNotFoundException();
-        
+
         _sqlDataContext.Widgets.Remove(widget);
         _sqlDataContext.SaveChanges();
     }

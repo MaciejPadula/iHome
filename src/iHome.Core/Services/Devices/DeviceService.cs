@@ -1,4 +1,5 @@
 ﻿using iHome.Core.Exceptions;
+using iHome.Core.Models;
 using iHome.Core.Repositories;
 using iHome.Core.Services.Rooms;
 using iHome.Devices.Contract.Models;
@@ -17,7 +18,7 @@ public class DeviceService : IDeviceService
         _sqlDataContext = sqlDataContext;
     }
 
-    public Guid AddDevice(string name, string macAddress, DeviceType type, Guid hubId, Guid roomId, string userId)
+    public Guid AddDevice(string name, string macAddress, DeviceType type, Guid roomId, string userId)
     {
         if (!_roomService.UserCanAccessRoom(roomId, userId))
         {
@@ -29,7 +30,6 @@ public class DeviceService : IDeviceService
             Name = name,
             Type = type,
             Data = "",
-            HubId = hubId,
             RoomId = roomId,
             MacAddress = macAddress
         }).Entity.Id;
