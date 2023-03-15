@@ -46,7 +46,7 @@ public class DeviceController : ControllerBase, IDeviceDataService
     [HttpPost("GetDeviceData")]
     public string GetDeviceData([FromBody] GetDeviceDataRequest request)
     {
-        return _deviceService.GetDevice(request.DeviceId, _userAccessor.UserId).Data;
+        return _deviceService.GetDeviceData(request.DeviceId, _userAccessor.UserId);
     }
 
     [HttpPost("GetDevices")]
