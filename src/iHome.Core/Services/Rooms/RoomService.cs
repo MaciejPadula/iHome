@@ -16,78 +16,79 @@ internal class RoomService : IRoomService
         _sqlDataContext = sqlDataContext;
     }
 
-    public void AddRoom(string roomName, string userId)
+    public async Task AddRoom(string roomName, string userId)
     {
-        if (_sqlDataContext.Rooms
-            .Any(room => room.Name == roomName && room.UserId == userId))
+        if (await _sqlDataContext.Rooms
+            .AnyAsync(room => room.Name == roomName && room.UserId == userId))
         {
             throw new RoomAlreadyExistsException();
         }
             
-        _sqlDataContext.Rooms.Add(new Room
+        await _sqlDataContext.Rooms.AddAsync(new Room
         {
             Name = roomName,
             UserId = userId
         });
-        _sqlDataContext.SaveChanges();
+        await _sqlDataContext.SaveChangesAsync();
     }
 
-    public IEnumerable<Room> GetRooms(string userId)
+    public async Task<IEnumerable<Room>> GetRooms(string userId)
     {
-        return QueryRooms(userId);
+        return await QueryRooms(userId).ToListAsync();
     }
 
-    public IEnumerable<Room> GetRoomsWithDevices(string userId)
+    public async Task<IEnumerable<Room>> GetRoomsWithDevices(string userId)
     {
-        return QueryRooms(userId)
-            .Include(r => r.Devices);
+        return await QueryRooms(userId)
+            .Include(r => r.Devices)
+            .ToListAsync();
     }
 
-    public void RemoveRoom(Guid roomId, string userId)
+    public async Task RemoveRoom(Guid roomId, string userId)
     {
-        var room = _sqlDataContext.Rooms.FirstOrDefault(r => r.Id == roomId && r.UserId == userId);
+        var room = await _sqlDataContext.Rooms.FirstOrDefaultAsync(r => r.Id == roomId && r.UserId == userId);
         if (room == null) throw new RoomNotFoundException();
 
         _sqlDataContext.Rooms.Remove(room);
-        _sqlDataContext.SaveChanges();
+        await _sqlDataContext.SaveChangesAsync();
     }
 
-    public void ShareRoom(Guid roomId, string userId, string callerUserId)
+    public async Task ShareRoom(Guid roomId, string userId, string callerUserId)
     {
-        if (!_userService.UserExist(new UserFilter { Id = userId })) throw new UserNotFoundException();
+        if (!await _userService.UserExist(new UserFilter { Id = userId })) throw new UserNotFoundException();
 
-        if (!_sqlDataContext.Rooms.Any(r => r.Id == roomId && r.UserId == callerUserId))
+        if (!await _sqlDataContext.Rooms.AnyAsync(r => r.Id == roomId && r.UserId == callerUserId))
         {
             throw new RoomNotFoundException();
         }
 
         if (callerUserId == userId ||
-            _sqlDataContext.UserRoom
-                .Any(share => share.RoomId == roomId && share.UserId == userId))
+            await _sqlDataContext.UserRoom
+                .AnyAsync(share => share.RoomId == roomId && share.UserId == userId))
         {
             throw new RoomAlreadySharedException();
         }
 
-        _sqlDataContext.UserRoom.Add(new UserRoom
+        await _sqlDataContext.UserRoom.AddAsync(new UserRoom
         {
             UserId = userId,
             RoomId = roomId
         });
-        _sqlDataContext.SaveChanges();
+        await _sqlDataContext.SaveChangesAsync();
     }
 
-    public IEnumerable<UserRoom> GetRoomUsers(Guid roomId, string userId)
+    public async Task<IEnumerable<UserRoom>> GetRoomUsers(Guid roomId, string userId)
     {
-        var room = QueryRoom(roomId, userId);
+        var room = await QueryRoom(roomId, userId);
 
         if (room == null) throw new RoomNotFoundException();
 
         return room.UsersRooms;
     }
 
-    public void UnshareRoom(Guid roomId, string userId, string callerUserId)
+    public async Task UnshareRoom(Guid roomId, string userId, string callerUserId)
     {
-        var room = QueryRoom(roomId, callerUserId);
+        var room = await QueryRoom(roomId, callerUserId);
 
         if (room == null) throw new RoomNotFoundException();
 
@@ -98,18 +99,18 @@ internal class RoomService : IRoomService
         if(constraint == null) return;
 
         _sqlDataContext.UserRoom.Remove(constraint);
-        _sqlDataContext.SaveChanges();
+        await _sqlDataContext.SaveChangesAsync();
     }
 
-    public bool UserCanAccessRoom(Guid roomId, string userId)
+    public async Task<bool> UserCanAccessRoom(Guid roomId, string userId)
     {
-        return _sqlDataContext.Rooms.Where(room => room.Id == roomId).Any(room => room.UserId == userId) ||
-            _sqlDataContext.UserRoom.Where(room => room.RoomId == roomId).Any(room => room.UserId == userId);
+        return await _sqlDataContext.Rooms.Where(room => room.Id == roomId).AnyAsync(room => room.UserId == userId) ||
+            await _sqlDataContext.UserRoom.Where(room => room.RoomId == roomId).AnyAsync(room => room.UserId == userId);
     }
 
-    private Room? QueryRoom(Guid roomId, string userId)
+    private async Task<Room?> QueryRoom(Guid roomId, string userId)
     {
-        return QueryRooms(userId).FirstOrDefault(r => r.Id == roomId);
+        return await QueryRooms(userId).Where(r => r.Id == roomId).FirstOrDefaultAsync();
     }
 
     private IQueryable<Room> QueryRooms(string userId)

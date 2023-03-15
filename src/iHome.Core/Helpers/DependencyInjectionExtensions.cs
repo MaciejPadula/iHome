@@ -20,7 +20,7 @@ public static class DependencyInjectionExtensions
             AuthTokenAsyncFactory = () => Task.FromResult(authToken),
             AsAccessToken = true
         };
-        services.AddScoped(_ => new FirebaseClient(url, firebaseOptions));
+        services.AddScoped(_ => new FirebaseClient(url));
         services.AddScoped<IDeviceDataRepository, FirebaseDeviceDataRepository>();
 
         return services;
@@ -44,8 +44,7 @@ public static class DependencyInjectionExtensions
     {
         services.AddScoped(_ => new Auth0ApiConfiguration { Token = token ?? string.Empty });
         services.AddScoped<IUserService, Auth0UserService>();
-        services.TryAddScoped<JsonHttpClient>();
-
+        
         return services;
     }
 }

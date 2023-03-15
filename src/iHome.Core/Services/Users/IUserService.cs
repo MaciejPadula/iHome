@@ -4,7 +4,7 @@ namespace iHome.Core.Services.Users;
 
 public interface IUserService
 {
-    IEnumerable<User> GetUsers(UserFilter userFilter);
-    User? GetUserById(string userId);
-    bool UserExist(UserFilter userFilter);
+    Task<IEnumerable<User>> GetUsers(UserFilter userFilter);
+    Task<User?> GetUserById(string userId);
+    Task<bool> UserExist(UserFilter userFilter);
 }
