@@ -3,18 +3,20 @@ using iHome.Core.Models;
 using iHome.Core.Repositories;
 using iHome.Core.Services.Rooms;
 using iHome.Devices.Contract.Models;
-using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace iHome.Core.Services.Devices;
 
 public class DeviceService : IDeviceService
 {
     private readonly IRoomService _roomService;
+    private readonly IDeviceDataRepository _deviceDataRepository;
     private readonly SqlDataContext _sqlDataContext;
 
-    public DeviceService(IRoomService roomService, SqlDataContext sqlDataContext)
+    public DeviceService(IRoomService roomService, IDeviceDataRepository deviceDataRepository, SqlDataContext sqlDataContext)
     {
         _roomService = roomService;
+        _deviceDataRepository = deviceDataRepository;
         _sqlDataContext = sqlDataContext;
     }
 
@@ -40,7 +42,7 @@ public class DeviceService : IDeviceService
 
     public void ChangeDeviceRoom(Guid deviceId, Guid roomId, string userId)
     {
-        if(!_roomService.UserCanAccessRoom(roomId, userId))
+        if (!_roomService.UserCanAccessRoom(roomId, userId))
         {
             throw new RoomNotFoundException();
         }
@@ -99,9 +101,15 @@ public class DeviceService : IDeviceService
     public void SetDeviceData(Guid deviceId, string data, string userId)
     {
         var device = GetDevice(deviceId, userId);
-        device.Data = data;
 
-        _sqlDataContext.SaveChanges();
+        _deviceDataRepository.SetData(device.MacAddress, data);
+    }
+
+    public string GetDeviceData(Guid deviceId, string userId)
+    {
+        var device = GetDevice(deviceId, userId);
+
+        return _deviceDataRepository.GetData(device.MacAddress);
     }
 
     private bool CanGetDevice(Device device, string userId)

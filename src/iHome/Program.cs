@@ -9,18 +9,16 @@ using System.Security.Claims;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services
-    .AddHttpClient()
-    .AddHttpContextAccessor()
-    .AddScoped<IUserAccessor, HttpContextUserAccessor>()
-    .AddDataContexts(
-        options => options
-            .UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"])
-    )
-    .AddRoomService()
-    .AddDeviceService()
-    .AddWidgetService()
-    .AddUserService(builder.Configuration["Auth0:ApiToken"]);
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserAccessor, HttpContextUserAccessor>();
+
+builder.Services.AddDataContexts(o => o.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"]));
+builder.Services.AddFirebaseRepositories(builder.Configuration["Firebase:Url"], builder.Configuration["Firebase:AuthToken"]);
+
+builder.Services.AddCoreServices();
+builder.Services.AddUserService(builder.Configuration["Auth0:ApiToken"]);
+
 
 builder.Services.AddSwaggerGen(o =>
 {

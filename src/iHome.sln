@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Devices.Contract", "i
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Shared", "iHome.Shared\iHome.Shared.csproj", "{41B63713-1D7E-4D79-AB09-9F221B75A18A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.HubApp", "iHome.HubApp\iHome.HubApp.csproj", "{91442481-5CB1-4E7A-A33C-5191383554C4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{41B63713-1D7E-4D79-AB09-9F221B75A18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41B63713-1D7E-4D79-AB09-9F221B75A18A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41B63713-1D7E-4D79-AB09-9F221B75A18A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{91442481-5CB1-4E7A-A33C-5191383554C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91442481-5CB1-4E7A-A33C-5191383554C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91442481-5CB1-4E7A-A33C-5191383554C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91442481-5CB1-4E7A-A33C-5191383554C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

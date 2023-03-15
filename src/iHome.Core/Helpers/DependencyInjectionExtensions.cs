@@ -1,4 +1,5 @@
-﻿using iHome.Core.Models;
+﻿using Firebase.Database;
+using iHome.Core.Models;
 using iHome.Core.Repositories;
 using iHome.Core.Services.Devices;
 using iHome.Core.Services.Rooms;
@@ -12,33 +13,38 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 namespace iHome.Core.Helpers;
 public static class DependencyInjectionExtensions
 {
+    public static IServiceCollection AddFirebaseRepositories(this IServiceCollection services, string? url, string? authToken)
+    {
+        var firebaseOptions = new FirebaseOptions
+        {
+            AuthTokenAsyncFactory = () => Task.FromResult(authToken),
+            AsAccessToken = true
+        };
+        services.AddScoped(_ => new FirebaseClient(url, firebaseOptions));
+        services.AddScoped<IDeviceDataRepository, FirebaseDeviceDataRepository>();
+
+        return services;
+    }
+
     public static IServiceCollection AddDataContexts(this IServiceCollection services, Action<DbContextOptionsBuilder> infraBuilder)
     {
-        return services
-            .AddDbContext<SqlDataContext>(infraBuilder);
+        return services.AddDbContext<SqlDataContext>(infraBuilder);
     }
 
-    public static IServiceCollection AddRoomService(this IServiceCollection services)
+    public static IServiceCollection AddCoreServices(this IServiceCollection services)
     {
-        return services.AddScoped<IRoomService, RoomService>();
-    }
+        services.AddScoped<IRoomService, RoomService>();
+        services.AddScoped<IDeviceService, DeviceService>();
+        services.AddScoped<IWidgetService, WidgetService>();
 
-    public static IServiceCollection AddDeviceService(this IServiceCollection services)
-    {
-        return services.AddScoped<IDeviceService, DeviceService>();
-    }
-
-    public static IServiceCollection AddWidgetService(this IServiceCollection services)
-    {
-        return services.AddScoped<IWidgetService, WidgetService>();
+        return services;
     }
 
     public static IServiceCollection AddUserService(this IServiceCollection services, string? token)
     {
-        services
-            .AddScoped(_ => new Auth0ApiConfiguration { Token = token ?? string.Empty })
-            .AddScoped<IUserService, Auth0UserService>()
-            .TryAddScoped<JsonHttpClient>();
+        services.AddScoped(_ => new Auth0ApiConfiguration { Token = token ?? string.Empty });
+        services.AddScoped<IUserService, Auth0UserService>();
+        services.TryAddScoped<JsonHttpClient>();
 
         return services;
     }
