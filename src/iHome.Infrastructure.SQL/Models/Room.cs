@@ -1,9 +1,8 @@
-﻿using iHome.Devices.Contract.Models;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace iHome.Core.Models;
+namespace iHome.Infrastructure.SQL.Models;
 
 [Table("Rooms", Schema = "maciejadmin")]
 public class Room

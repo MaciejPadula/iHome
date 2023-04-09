@@ -1,9 +1,8 @@
 ﻿using iHome.Core.Exceptions;
-using iHome.Core.Models;
-using iHome.Core.Repositories;
 using iHome.Core.Services.Rooms;
-using iHome.Devices.Contract.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using iHome.Infrastructure.Firebase.Repositories;
+using iHome.Infrastructure.SQL.Contexts;
+using iHome.Infrastructure.SQL.Models;
 
 namespace iHome.Core.Services.Devices;
 

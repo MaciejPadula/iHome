@@ -1,4 +1,5 @@
 ﻿using iHome.Core.Models;
+using iHome.Infrastructure.SQL.Models;
 
 namespace iHome.Core.Services.Rooms;
 public interface IRoomService

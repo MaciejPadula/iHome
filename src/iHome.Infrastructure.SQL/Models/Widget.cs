@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace iHome.Core.Models;
+namespace iHome.Infrastructure.SQL.Models;
 
 [Table("Widgets", Schema = "maciejadmin")]
 public class Widget

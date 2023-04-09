@@ -1,7 +1,8 @@
 using iHome.Core.Helpers;
+using iHome.Infrastructure.Firebase.Helpers;
+using iHome.Infrastructure.SQL.Helpers;
 using iHome.Logic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
@@ -13,11 +14,11 @@ builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserAccessor, HttpContextUserAccessor>();
 
-builder.Services.AddDataContexts(o => o.UseSqlServer(builder.Configuration["ConnectionStrings:AzureSQL"]));
+builder.Services.AddDataContexts(builder.Configuration["ConnectionStrings:AzureSQL"]);
 builder.Services.AddFirebaseRepositories(builder.Configuration["Firebase:Url"], builder.Configuration["Firebase:AuthToken"]);
+builder.Services.AddUserService(builder.Configuration["Auth0:ApiToken"]);
 
 builder.Services.AddCoreServices();
-builder.Services.AddUserService(builder.Configuration["Auth0:ApiToken"]);
 
 
 builder.Services.AddSwaggerGen(o =>
