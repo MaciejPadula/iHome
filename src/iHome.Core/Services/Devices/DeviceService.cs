@@ -3,6 +3,7 @@ using iHome.Core.Services.Rooms;
 using iHome.Infrastructure.Firebase.Repositories;
 using iHome.Infrastructure.SQL.Contexts;
 using iHome.Infrastructure.SQL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace iHome.Core.Services.Devices;
 
