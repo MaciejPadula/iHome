@@ -48,3 +48,4 @@ src/iHome.Infrastructure/obj
 src/iHome.Infrastructure.Firebase/obj
 src/iHome.Infrastructure.SQL/obj
 src/iHome.Scheduler.Infrastructure/obj
+src/iHome.Infrastructure.Firebase/bin

@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\iHome.Scheduler.Repositories\iHome.Scheduler.Infrastructure.csproj" />
+    <ProjectReference Include="..\iHome.Scheduler.Infrastructure\iHome.Scheduler.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
