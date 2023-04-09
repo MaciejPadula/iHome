@@ -1,0 +1,4 @@
+# iHome.ESPDevices build property overrides
+#
+recipe.hooks.prebuild.2.pattern=
+build.opt.flags=

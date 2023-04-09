@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iHome.ESPDevices", "iHome.ESPDevices\iHome.ESPDevices.vcxproj", "{D704B473-41F6-46EA-B263-07F194F2637B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iHome.ESPDevices.Contract", "iHome.ESPDevices.Contract\iHome.ESPDevices.Contract.vcxitems", "{1984ACF1-7F31-4571-B81E-5613508879B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|ARM.ActiveCfg = Debug|ARM
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|ARM.Build.0 = Debug|ARM
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|ARM.Deploy.0 = Debug|ARM
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|ARM64.Build.0 = Debug|ARM64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|x64.ActiveCfg = Debug|x64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|x64.Build.0 = Debug|x64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|x64.Deploy.0 = Debug|x64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|x86.ActiveCfg = Debug|x86
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|x86.Build.0 = Debug|x86
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Debug|x86.Deploy.0 = Debug|x86
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|ARM.ActiveCfg = Release|ARM
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|ARM.Build.0 = Release|ARM
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|ARM.Deploy.0 = Release|ARM
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|ARM64.ActiveCfg = Release|ARM64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|ARM64.Build.0 = Release|ARM64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|ARM64.Deploy.0 = Release|ARM64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|x64.ActiveCfg = Release|x64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|x64.Build.0 = Release|x64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|x64.Deploy.0 = Release|x64
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|x86.ActiveCfg = Release|x86
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|x86.Build.0 = Release|x86
+		{D704B473-41F6-46EA-B263-07F194F2637B}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40D74A7E-0AE4-4864-AC02-996A7CFAFCF2}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		iHome.ESPDevices.Contract\iHome.ESPDevices.Contract.vcxitems*{1984acf1-7f31-4571-b81e-5613508879b3}*SharedItemsImports = 9
+		iHome.ESPDevices.Contract\iHome.ESPDevices.Contract.vcxitems*{d704b473-41f6-46ea-b263-07f194f2637b}*SharedItemsImports = 4
+	EndGlobalSection
+EndGlobal

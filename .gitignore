@@ -43,3 +43,8 @@ src/iHome/ClientApp/src/environments/environment.ts
 src/iHome.Shared/bin
 src/iHome.Shared/obj
 src/iHome/ClientApp/src/environments/environment.prod.ts
+esp/iHome.ESPDevices/.vs
+esp/iHome.ESPDevices/__vm
+esp/iHome.ESPDevices/obj
+esp/.vs/iHome.ESPDevices/FileContentIndex
+esp/.vs/iHome.ESPDevices/v17
