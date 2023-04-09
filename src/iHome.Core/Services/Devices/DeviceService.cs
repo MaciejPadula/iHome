@@ -19,43 +19,43 @@ public class DeviceService : IDeviceService
         _sqlDataContext = sqlDataContext;
     }
 
-    public Guid AddDevice(string name, string macAddress, DeviceType type, Guid roomId, string userId)
+    public async Task<Guid> AddDevice(string name, string macAddress, DeviceType type, Guid roomId, string userId)
     {
-        if (!_roomService.UserCanAccessRoom(roomId, userId))
+        if (!await _roomService.UserCanAccessRoom(roomId, userId))
         {
             throw new RoomNotFoundException();
         }
 
-        var deviceId = _sqlDataContext.Devices.Add(new Device
+        var device = await _sqlDataContext.Devices.AddAsync(new Device
         {
             Name = name,
             Type = type,
             Data = "",
             RoomId = roomId,
             MacAddress = macAddress
-        }).Entity.Id;
+        });
 
-        _sqlDataContext.SaveChanges();
-        return deviceId;
+        await _sqlDataContext.SaveChangesAsync();
+        return device.Entity.Id;
     }
 
-    public void ChangeDeviceRoom(Guid deviceId, Guid roomId, string userId)
+    public async Task ChangeDeviceRoom(Guid deviceId, Guid roomId, string userId)
     {
-        if (!_roomService.UserCanAccessRoom(roomId, userId))
+        if (!await _roomService.UserCanAccessRoom(roomId, userId))
         {
             throw new RoomNotFoundException();
         }
 
-        var device = GetDevice(deviceId, userId);
+        var device = await GetDevice(deviceId, userId);
         device.RoomId = roomId;
 
-        _sqlDataContext.SaveChanges();
+        await _sqlDataContext.SaveChangesAsync();
     }
 
-    public Device GetDevice(Guid deviceId, string userId)
+    public async Task<Device> GetDevice(Guid deviceId, string userId)
     {
-        var device = _sqlDataContext.Devices.FirstOrDefault(d => d.Id == deviceId);
-        if (device == null || !CanGetDevice(device, userId))
+        var device = await _sqlDataContext.Devices.FirstOrDefaultAsync(d => d.Id == deviceId);
+        if (device == null || !await CanGetDevice(device, userId))
         {
             throw new DeviceNotFoundException();
         }
@@ -63,56 +63,57 @@ public class DeviceService : IDeviceService
         return device;
     }
 
-    public IEnumerable<Device> GetDevices(Guid roomId, string userId)
+    public async Task<IEnumerable<Device>> GetDevices(Guid roomId, string userId)
     {
-        var room = _roomService.GetRoomsWithDevices(userId)
-            .FirstOrDefault(room => room.Id == roomId);
-        if (room == null) throw new RoomNotFoundException();
+        var userRooms = await _roomService.GetRoomsWithDevices(userId);
 
-        return room.Devices ?? Enumerable.Empty<Device>();
+        var selectedRoom = userRooms.FirstOrDefault(room => room.Id == roomId);
+        if (selectedRoom == null) throw new RoomNotFoundException();
+
+        return selectedRoom.Devices ?? Enumerable.Empty<Device>();
     }
 
-    public void RemoveDevice(Guid deviceId, string userId)
+    public async Task RemoveDevice(Guid deviceId, string userId)
     {
-        var device = _sqlDataContext.Devices.FirstOrDefault(d => d.Id == deviceId);
+        var device = await _sqlDataContext.Devices.FirstOrDefaultAsync(d => d.Id == deviceId);
         if (device == null)
         {
             throw new DeviceNotFoundException();
         }
 
-        if (!CanGetDevice(device, userId))
+        if (!await CanGetDevice(device, userId))
         {
             throw new DeviceNotFoundException();
         }
 
         _sqlDataContext.Devices.Remove(device);
-        _sqlDataContext.SaveChanges();
+        await _sqlDataContext.SaveChangesAsync();
     }
 
-    public void RenameDevice(Guid deviceId, string newName, string userId)
+    public async Task RenameDevice(Guid deviceId, string newName, string userId)
     {
-        var device = GetDevice(deviceId, userId);
+        var device = await GetDevice(deviceId, userId);
         device.Name = newName;
 
-        _sqlDataContext.SaveChanges();
+        await _sqlDataContext.SaveChangesAsync();
     }
 
-    public void SetDeviceData(Guid deviceId, string data, string userId)
+    public async Task SetDeviceData(Guid deviceId, string data, string userId)
     {
-        var device = GetDevice(deviceId, userId);
+        var device = await GetDevice(deviceId, userId);
 
-        _deviceDataRepository.SetData(device.MacAddress, data);
+        await _deviceDataRepository.SetData(device.MacAddress, data);
     }
 
-    public string GetDeviceData(Guid deviceId, string userId)
+    public async Task<string> GetDeviceData(Guid deviceId, string userId)
     {
-        var device = GetDevice(deviceId, userId);
+        var device = await GetDevice(deviceId, userId);
 
-        return _deviceDataRepository.GetData(device.MacAddress);
+        return await _deviceDataRepository.GetData(device.MacAddress);
     }
 
-    private bool CanGetDevice(Device device, string userId)
+    private async Task<bool> CanGetDevice(Device device, string userId)
     {
-        return _roomService.UserCanAccessRoom(device.RoomId, userId);
+        return await _roomService.UserCanAccessRoom(device.RoomId, userId);
     }
 }

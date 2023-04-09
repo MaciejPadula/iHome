@@ -25,8 +25,7 @@ public static class DependencyInjectionExtensions
     {
         services.AddScoped(_ => new Auth0ApiConfiguration { Token = token ?? string.Empty });
         services.AddScoped<IUserService, Auth0UserService>();
-        services.TryAddScoped<JsonHttpClient>();
-
+        
         return services;
     }
 }

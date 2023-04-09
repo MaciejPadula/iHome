@@ -4,12 +4,12 @@ namespace iHome.Core.Services.Devices;
 
 public interface IDeviceService
 {
-    Guid AddDevice(string name, string macAddress, DeviceType type, Guid roomId, string userId);
-    Device GetDevice(Guid deviceId, string userId);
-    IEnumerable<Device> GetDevices(Guid roomId, string userId);
-    void RemoveDevice(Guid deviceId, string userId);
-    void RenameDevice(Guid deviceId, string newName, string userId);
-    void ChangeDeviceRoom(Guid deviceId, Guid roomId, string userId);
-    void SetDeviceData(Guid deviceId, string data, string userId);
-    string GetDeviceData(Guid deviceId, string userId);
+    Task<Guid> AddDevice(string name, string macAddress, DeviceType type, Guid roomId, string userId);
+    Task<Device> GetDevice(Guid deviceId, string userId);
+    Task<IEnumerable<Device>> GetDevices(Guid roomId, string userId);
+    Task RemoveDevice(Guid deviceId, string userId);
+    Task RenameDevice(Guid deviceId, string newName, string userId);
+    Task ChangeDeviceRoom(Guid deviceId, Guid roomId, string userId);
+    Task SetDeviceData(Guid deviceId, string data, string userId);
+    Task<string> GetDeviceData(Guid deviceId, string userId);
 }

@@ -20,7 +20,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("GetUsers/{searchPhrase}")]
-    public IActionResult GetUsers(string searchPhrase)
+    public async Task<IActionResult> GetUsers(string searchPhrase)
     {
         if (searchPhrase.Length < 3)
         {
@@ -40,7 +40,7 @@ public class UserController : ControllerBase
             filter.Id = searchWildcard;
         }
 
-        var users = _userService.GetUsers(filter);
+        var users = await _userService.GetUsers(filter);
 
         return Ok(users);
     }

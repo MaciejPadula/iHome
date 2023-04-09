@@ -4,8 +4,8 @@ namespace iHome.Infrastructure.Firebase.Repositories;
 
 public interface IDeviceDataRepository
 {
-    string GetData(string identifier);
-    void SetData(string identifier, string data);
+    Task<string> GetData(string identifier);
+    Task SetData(string identifier, string data);
 }
 
 public class FirebaseDeviceDataRepository : IDeviceDataRepository
@@ -17,17 +17,18 @@ public class FirebaseDeviceDataRepository : IDeviceDataRepository
         _client = client;
     }
 
-    public string GetData(string identifier)
+    public async Task<string> GetData(string identifier)
     {
-        return _client
+        var data = await _client
             .Child($"{identifier}")
-            .OnceAsJsonAsync()
-            .Result;
+            .OnceAsJsonAsync();
+
+        return data;
     }
 
-    public void SetData(string identifier, string data)
+    public async Task SetData(string identifier, string data)
     {
-        _client
+        await _client
             .Child($"{identifier}")
             .PutAsync(data);
     }

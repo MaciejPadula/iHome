@@ -4,6 +4,6 @@ namespace iHome.Devices.Contract.Interfaces;
 
 public interface IDeviceDataService
 {
-    string GetDeviceData(GetDeviceDataRequest request);
-    void SetDeviceData(SetDeviceDataRequest request);
+    Task<string> GetDeviceData(GetDeviceDataRequest request);
+    Task SetDeviceData(SetDeviceDataRequest request);
 }

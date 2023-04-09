@@ -1,6 +1,5 @@
 ﻿using iHome.Core.Helpers;
 using iHome.Core.Models;
-using iHome.Shared.Logic;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
@@ -8,20 +7,21 @@ namespace iHome.Core.Services.Users;
 
 public class Auth0UserService : IUserService
 {
-    private readonly JsonHttpClient _client;
+    private readonly HttpClient _client;
 
-    public Auth0UserService(JsonHttpClient client, Auth0ApiConfiguration apiConfiguration)
+    public Auth0UserService(HttpClient client, Auth0ApiConfiguration apiConfiguration)
     {
         _client = client;
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiConfiguration.Token);
     }
 
-    public User? GetUserById(string userId)
+    public async Task<User?> GetUserById(string userId)
     {
-        return GetUsers(new UserFilter { Id = userId }).FirstOrDefault();
+        var users = await GetUsers(new UserFilter { Id = userId });
+        return users.FirstOrDefault();
     }
 
-    public IEnumerable<User> GetUsers(UserFilter userFilter)
+    public async Task<IEnumerable<User>> GetUsers(UserFilter userFilter)
     {
         var url = new Auth0QueryBuilder("https://dev-e7eyj4xg.eu.auth0.com")
             .WithUserId(userFilter.Id)
@@ -31,8 +31,8 @@ public class Auth0UserService : IUserService
 
         try
         {
-            var users = _client.GetSync<IEnumerable<User>>(url);
-            return users ?? Enumerable.Empty<User>();
+            var users = await _client.GetAsync(url);
+            return JsonConvert.DeserializeObject<IEnumerable<User>>(await users.Content.ReadAsStringAsync()) ?? Enumerable.Empty<User>();
         }
         catch (JsonSerializationException)
         {
@@ -40,8 +40,9 @@ public class Auth0UserService : IUserService
         }
     }
 
-    public bool UserExist(UserFilter userFilter)
+    public async Task<bool> UserExist(UserFilter userFilter)
     {
-        return GetUsers(userFilter).Any();
+        var users = await GetUsers(userFilter);
+        return users.Any();
     }
 }
