@@ -1,7 +1,8 @@
 ﻿using iHome.Core.Exceptions;
 using iHome.Core.Models;
-using iHome.Core.Repositories;
 using iHome.Core.Services.Users;
+using iHome.Infrastructure.SQL.Contexts;
+using iHome.Infrastructure.SQL.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace iHome.Core.Services.Rooms;
@@ -96,7 +97,7 @@ internal class RoomService : IRoomService
             .Where(c => c.UserId == userId && c.RoomId == roomId)
             .SingleOrDefault();
 
-        if(constraint == null) return;
+        if (constraint == null) return;
 
         _sqlDataContext.UserRoom.Remove(constraint);
         await _sqlDataContext.SaveChangesAsync();

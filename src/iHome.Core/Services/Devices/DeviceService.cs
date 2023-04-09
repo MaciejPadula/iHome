@@ -1,8 +1,8 @@
 ﻿using iHome.Core.Exceptions;
-using iHome.Core.Models;
-using iHome.Core.Repositories;
 using iHome.Core.Services.Rooms;
-using iHome.Devices.Contract.Models;
+using iHome.Infrastructure.Firebase.Repositories;
+using iHome.Infrastructure.SQL.Contexts;
+using iHome.Infrastructure.SQL.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace iHome.Core.Services.Devices;

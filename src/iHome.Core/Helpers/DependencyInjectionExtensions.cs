@@ -1,6 +1,5 @@
 ﻿using Firebase.Database;
 using iHome.Core.Models;
-using iHome.Core.Repositories;
 using iHome.Core.Services.Devices;
 using iHome.Core.Services.Rooms;
 using iHome.Core.Services.Users;
@@ -13,24 +12,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 namespace iHome.Core.Helpers;
 public static class DependencyInjectionExtensions
 {
-    public static IServiceCollection AddFirebaseRepositories(this IServiceCollection services, string? url, string? authToken)
-    {
-        var firebaseOptions = new FirebaseOptions
-        {
-            AuthTokenAsyncFactory = () => Task.FromResult(authToken),
-            AsAccessToken = true
-        };
-        services.AddScoped(_ => new FirebaseClient(url));
-        services.AddScoped<IDeviceDataRepository, FirebaseDeviceDataRepository>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddDataContexts(this IServiceCollection services, Action<DbContextOptionsBuilder> infraBuilder)
-    {
-        return services.AddDbContext<SqlDataContext>(infraBuilder);
-    }
-
     public static IServiceCollection AddCoreServices(this IServiceCollection services)
     {
         services.AddScoped<IRoomService, RoomService>();

@@ -1,8 +1,8 @@
-﻿using iHome.Core.Models;
-using iHome.Devices.Contract.Models;
+﻿using iHome.Infrastructure.SQL.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace iHome.Core.Repositories;
+namespace iHome.Infrastructure.SQL.Contexts;
+
 public class SqlDataContext : DbContext
 {
     public DbSet<Room> Rooms => Set<Room>();

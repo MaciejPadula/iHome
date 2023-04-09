@@ -1,5 +1,4 @@
-﻿using iHome.Core.Models;
-using iHome.Devices.Contract.Models;
+﻿using iHome.Infrastructure.SQL.Models;
 
 namespace iHome.Core.Services.Widgets;
 

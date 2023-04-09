@@ -1,6 +1,6 @@
 ﻿using Firebase.Database;
 
-namespace iHome.Core.Repositories;
+namespace iHome.Infrastructure.Firebase.Repositories;
 
 public interface IDeviceDataRepository
 {
