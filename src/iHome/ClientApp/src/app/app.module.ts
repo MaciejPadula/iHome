@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -42,6 +42,9 @@ import { RgbLampComponent } from './components/device/rgb-lamp/rgb-lamp.componen
 import { ColorPickerModule } from '@iplab/ngx-color-picker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-dialog/rgb-lamp-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { GlobalErrorHandler } from './errors/global-error-handler';
+import { ErrorDialogComponent } from './errors/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +63,8 @@ import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-di
     ThermometerComponent,
     ShareRoomDialogComponent,
     RgbLampComponent,
-    RgbLampDialogComponent
+    RgbLampDialogComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -108,10 +112,12 @@ import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-di
     FontAwesomeModule,
     MatAutocompleteModule,
     ColorPickerModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSnackBarModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
   ],
   bootstrap: [AppComponent]
 })
