@@ -1,0 +1,3 @@
+<div class="schedules-container w-full sm:w-4/5 m-auto">
+    <app-schedule class="w-full" *ngFor="let schedule of schedules$ | async" [schedule]="schedule"></app-schedule>
+</div>

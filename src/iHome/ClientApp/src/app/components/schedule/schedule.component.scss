@@ -1,0 +1,19 @@
+.schedule {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    border: solid #909090 1px;
+    box-sizing: border-box;
+
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.schedule-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

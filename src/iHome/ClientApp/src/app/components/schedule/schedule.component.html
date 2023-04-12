@@ -1,0 +1,22 @@
+<div class="schedule">
+    <div class="schedule-row">
+        <div>{{schedule.name}}</div>
+        <div class="flex flex-row items-center justify-center">
+            <div>
+                {{ timeFormatPipe(schedule.hour, schedule.minute) }}
+            </div>
+            <button mat-icon-button (click)="toggleVisibility()">U</button>
+        </div>
+    </div>
+    <div *ngIf="showDevices">
+        <select [(ngModel)]="selectedDeviceId">
+            <option *ngFor="let device of devicesSubject$ | async" [value]="device.id">{{device.name}}</option>
+        </select>
+        <button mat-button (click)="addDeviceSnapshot()">Add Snapshot</button>
+
+        <div *ngFor="let device of scheduleDevices$ | async">
+            <div>{{device.id}}</div>
+            <div>{{device.deviceData}}</div>
+        </div>
+    </div>
+</div>

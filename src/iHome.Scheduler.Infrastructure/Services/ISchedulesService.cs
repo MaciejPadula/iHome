@@ -1,4 +1,4 @@
-﻿using iHome.Scheduler.Repositories.Models;
+﻿using iHome.Infrastructure.SQL.Models;
 
 namespace iHome.Scheduler.Infrastructure.Services;
 

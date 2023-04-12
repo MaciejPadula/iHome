@@ -2,6 +2,7 @@
 using iHome.Core.Models;
 using iHome.Core.Services.Devices;
 using iHome.Core.Services.Rooms;
+using iHome.Core.Services.Schedules;
 using iHome.Core.Services.Users;
 using iHome.Core.Services.Widgets;
 using iHome.Shared.Logic;
@@ -14,6 +15,7 @@ public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddCoreServices(this IServiceCollection services)
     {
+        services.AddScoped<IScheduleService, ScheduleService>();
         services.AddScoped<IRoomService, RoomService>();
         services.AddScoped<IDeviceService, DeviceService>();
         services.AddScoped<IWidgetService, WidgetService>();

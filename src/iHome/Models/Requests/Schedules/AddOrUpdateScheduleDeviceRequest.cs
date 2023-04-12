@@ -1,8 +1,7 @@
-﻿namespace iHome.Scheduler.Repositories.Models;
+﻿namespace iHome.Models.Requests.Schedules;
 
-public class ScheduleDevice
+public class AddOrUpdateScheduleDeviceRequest
 {
-    public Guid Id { get; set; } = new Guid();
     public required Guid ScheduleId { get; set; }
     public required Guid DeviceId { get; set; }
     public required string DeviceData { get; set; }

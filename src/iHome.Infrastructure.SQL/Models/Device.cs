@@ -13,4 +13,6 @@ public class Device
     public required string Data { get; set; } = string.Empty;
     public required Guid RoomId { get; set; }
     public required string MacAddress { get; init; } = string.Empty;
+
+    public virtual Room? Room { get; set; }
 }
