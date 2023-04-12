@@ -42,6 +42,9 @@ import { RgbLampComponent } from './components/device/rgb-lamp/rgb-lamp.componen
 import { ColorPickerModule } from '@iplab/ngx-color-picker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-dialog/rgb-lamp-dialog.component';
+import { SchedulesComponent } from './pages/schedules/schedules.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -60,7 +63,9 @@ import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-di
     ThermometerComponent,
     ShareRoomDialogComponent,
     RgbLampComponent,
-    RgbLampDialogComponent
+    RgbLampDialogComponent,
+    SchedulesComponent,
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,
@@ -108,7 +113,8 @@ import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-di
     FontAwesomeModule,
     MatAutocompleteModule,
     ColorPickerModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }
