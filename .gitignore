@@ -50,3 +50,7 @@ src/iHome.Infrastructure.SQL/obj
 src/iHome.Scheduler.Infrastructure/obj
 src/iHome.Infrastructure.Firebase/bin
 src/iHome.Infrastructure.SQL/bin
+terraform/.terraform
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
