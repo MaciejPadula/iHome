@@ -1,4 +1,4 @@
-﻿using iHome.Core.Models;
+﻿using iHome.Infrastructure.SQL.Models;
 
 namespace iHome.Models.Requests;
 

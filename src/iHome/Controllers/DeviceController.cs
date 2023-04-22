@@ -1,7 +1,7 @@
 ﻿using iHome.Core.Services.Devices;
 using iHome.Devices.Contract.Interfaces;
-using iHome.Devices.Contract.Models;
 using iHome.Devices.Contract.Models.Requests;
+using iHome.Infrastructure.SQL.Models;
 using iHome.Logic;
 using iHome.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
@@ -24,46 +24,52 @@ public class DeviceController : ControllerBase, IDeviceDataService
     }
 
     [HttpPost("AddDevice")]
-    public Guid AddDevice([FromBody] AddDeviceRequest request)
+    public async Task<Guid> AddDevice([FromBody] AddDeviceRequest request)
     {
-        return _deviceService.AddDevice(
+        var deviceId = await _deviceService.AddDevice(
             request.Name, request.MacAddress, request.Type,
             request.RoomId, _userAccessor.UserId);
+
+        return deviceId;
     }
 
     [HttpPost("ChangeDeviceName")]
-    public void ChangeDeviceName([FromBody] ChangeDeviceNameRequest request)
+    public async Task ChangeDeviceName([FromBody] ChangeDeviceNameRequest request)
     {
-        _deviceService.RenameDevice(request.DeviceId, request.Name, _userAccessor.UserId);
+        await _deviceService.RenameDevice(request.DeviceId, request.Name, _userAccessor.UserId);
     }
 
     [HttpPost("ChangeDeviceRoom")]
-    public void ChangeDeviceRoom([FromBody] ChangeDeviceRoomRequest request)
+    public async Task ChangeDeviceRoom([FromBody] ChangeDeviceRoomRequest request)
     {
-        _deviceService.ChangeDeviceRoom(request.DeviceId, request.RoomId, _userAccessor.UserId);
+        await _deviceService.ChangeDeviceRoom(request.DeviceId, request.RoomId, _userAccessor.UserId);
     }
 
     [HttpPost("GetDeviceData")]
-    public string GetDeviceData([FromBody] GetDeviceDataRequest request)
+    public async Task<string> GetDeviceData([FromBody] GetDeviceDataRequest request)
     {
-        return _deviceService.GetDeviceData(request.DeviceId, _userAccessor.UserId);
+        var data = await _deviceService.GetDeviceData(request.DeviceId, _userAccessor.UserId);
+
+        return data;
     }
 
     [HttpPost("GetDevices")]
-    public IEnumerable<Device> GetDevices([FromBody] GetDevicesRequest request)
+    public async Task<IEnumerable<Device>> GetDevices([FromBody] GetDevicesRequest request)
     {
-        return _deviceService.GetDevices(request.RoomId, _userAccessor.UserId);
+        var devices = await _deviceService.GetDevices(request.RoomId, _userAccessor.UserId);
+
+        return devices;
     }
 
     [HttpPost("RemoveDevice")]
-    public void RemoveDevice([FromBody] RemoveDeviceRequest request)
+    public async Task RemoveDevice([FromBody] RemoveDeviceRequest request)
     {
-        _deviceService.RemoveDevice(request.DeviceId, _userAccessor.UserId);
+        await _deviceService.RemoveDevice(request.DeviceId, _userAccessor.UserId);
     }
 
     [HttpPost("SetDeviceData")]
-    public void SetDeviceData([FromBody] SetDeviceDataRequest request)
+    public async Task SetDeviceData([FromBody] SetDeviceDataRequest request)
     {
-        _deviceService.SetDeviceData(request.DeviceId, request.Data, _userAccessor.UserId);
+        await _deviceService.SetDeviceData(request.DeviceId, request.Data, _userAccessor.UserId);
     }
 }

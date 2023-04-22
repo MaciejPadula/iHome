@@ -1,4 +1,4 @@
-﻿namespace iHome.Core.Models;
+﻿namespace iHome.Infrastructure.SQL.Models;
 
 public enum WidgetType
 {

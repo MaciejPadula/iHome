@@ -43,6 +43,13 @@ src/iHome/ClientApp/src/environments/environment.ts
 src/iHome.Shared/bin
 src/iHome.Shared/obj
 src/iHome/ClientApp/src/environments/environment.prod.ts
+src/iHome.Scheduler/obj
+src/iHome.Infrastructure/obj
+src/iHome.Infrastructure.Firebase/obj
+src/iHome.Infrastructure.SQL/obj
+src/iHome.Scheduler.Infrastructure/obj
+src/iHome.Infrastructure.Firebase/bin
+src/iHome.Infrastructure.SQL/bin
 terraform/.terraform
 terraform/.terraform.lock.hcl
 terraform/terraform.tfstate

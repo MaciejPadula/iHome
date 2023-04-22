@@ -22,30 +22,30 @@ public class WidgetController : ControllerBase
     }
 
     [HttpPost("AddWidget")]
-    public IActionResult AddWidget([FromBody] AddWidgetRequest request)
+    public async Task<IActionResult> AddWidget([FromBody] AddWidgetRequest request)
     {
-        _widgetService.AddWidget(request.WidgetType, request.RoomId, request.ShowBorder, _userAccessor.UserId);
+        await _widgetService.AddWidget(request.WidgetType, request.RoomId, request.ShowBorder, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpPost("InsertDevice")]
-    public IActionResult InsertDevice([FromBody] InsertDeviceRequest request)
+    public async Task<IActionResult> InsertDevice([FromBody] InsertDeviceRequest request)
     {
-        _widgetService.InsertDevice(request.WidgetId, request.DeviceId, _userAccessor.UserId);
+        await _widgetService.InsertDevice(request.WidgetId, request.DeviceId, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpPost("RemoveDevice")]
-    public IActionResult RemoveDevice([FromBody] RemoveWidgetDeviceRequest request)
+    public async Task<IActionResult> RemoveDevice([FromBody] RemoveWidgetDeviceRequest request)
     {
-        _widgetService.RemoveDevice(request.WidgetId, request.DeviceId, _userAccessor.UserId);
+        await _widgetService.RemoveDevice(request.WidgetId, request.DeviceId, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpGet("GetWidgets/{roomId}")]
-    public IActionResult GetWidgets(Guid roomId)
+    public async Task<IActionResult> GetWidgets(Guid roomId)
     {
-        return Ok(_widgetService.GetWidgets(roomId, _userAccessor.UserId)
+        var widgets = (await _widgetService.GetWidgets(roomId, _userAccessor.UserId))
             .Select(w => new GetWidgetsWidget
             {
                 Id = w.Id,
@@ -53,19 +53,22 @@ public class WidgetController : ControllerBase
                 MaxNumberOfDevices = w.MaxNumberOfDevices,
                 WidgetType = w.WidgetType,
                 ShowBorder = w.ShowBorder
-            }));
+            });
+
+        return Ok(widgets);
     }
 
     [HttpGet("GetWidgetDevices/{widgetId}")]
-    public IActionResult GetWidgetDevices(Guid widgetId)
+    public async Task<IActionResult> GetWidgetDevices(Guid widgetId)
     {
-        return Ok(_widgetService.GetWidgetDevices(widgetId, _userAccessor.UserId));
+        var devices = await _widgetService.GetWidgetDevices(widgetId, _userAccessor.UserId);
+        return Ok(devices);
     }
 
     [HttpDelete("RemoveWidget/{widgetId}")]
-    public IActionResult RemoveWidget(Guid widgetId)
+    public async Task<IActionResult> RemoveWidget(Guid widgetId)
     {
-        _widgetService.RemoveWidget(widgetId, _userAccessor.UserId);
+        await _widgetService.RemoveWidget(widgetId, _userAccessor.UserId);
         return Ok();
     }
 }

@@ -1,8 +1,7 @@
-﻿using iHome.Devices.Contract.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace iHome.Core.Models;
+namespace iHome.Infrastructure.SQL.Models;
 
 [Table("WidgetsDevices", Schema = "maciejadmin")]
 public class WidgetDevice
