@@ -1,4 +1,4 @@
-﻿using iHome.Core.Models;
+﻿using iHome.Core.Exceptions.SqlExceptions;
 using iHome.Core.Services.Devices;
 using iHome.Infrastructure.SQL.Contexts;
 using iHome.Infrastructure.SQL.Models;
@@ -20,9 +20,9 @@ public class ScheduleService : IScheduleService
 
     public async Task AddOrUpdateDeviceSchedule(Guid scheduleId, Guid deviceId, string deviceData, string userId)
     {
-        if(!await _deviceService.DeviceExists(deviceId, userId))
+        if (!await _deviceService.DeviceExists(deviceId, userId))
         {
-            throw new Exception();
+            throw new DeviceNotFoundException();
         }
 
         ScheduleDevice? scheduleDevice;
@@ -31,7 +31,7 @@ public class ScheduleService : IScheduleService
         {
             scheduleDevice = await GetScheduleDevice(scheduleId, deviceId, userId);
         }
-        catch (Exception ex)
+        catch (DeviceNotFoundException ex)
         {
             scheduleDevice = (await _context.ScheduleDevices.AddAsync(
                 new ScheduleDevice
@@ -54,10 +54,24 @@ public class ScheduleService : IScheduleService
 
         if (schedule == null)
         {
-            throw new Exception();
+            throw new ScheduleNotFoundException();
         }
 
         return schedule;
+    }
+
+    public async Task<int> GetDevicesInScheduleCount(Guid scheduleId, string userId)
+    {
+        var schedule = (await GetSchedulesQueryAsync(scheduleId, userId))
+            .Include(s => s.ScheduleDevices)
+            .FirstOrDefault();
+
+        if (schedule == null)
+        {
+            throw new ScheduleNotFoundException();
+        }
+
+        return schedule.ScheduleDevices?.Count ?? 0;
     }
 
     private Task<IQueryable<Schedule>> GetSchedulesQueryAsync(Guid scheduleId, string userId)
@@ -72,11 +86,11 @@ public class ScheduleService : IScheduleService
             .Include(s => s.Device)
             .SingleOrDefaultAsync(s => s.ScheduleId == scheduleId && s.DeviceId == deviceId);
 
-        if (scheduleDevice == null || 
+        if (scheduleDevice == null ||
             scheduleDevice.Device == null ||
             !await _context.Schedules.AnyAsync(s => s.Id == scheduleId && s.UserId == userId))
         {
-            throw new Exception();
+            throw new DeviceNotFoundException();
         }
 
         return scheduleDevice;
@@ -116,7 +130,7 @@ public class ScheduleService : IScheduleService
             Name = scheduleName,
             UserId = userId,
             ActivationCron = CronHelper.CreateCronExpressions(day, hour, minute)
-    };
+        };
 
         await _context.Schedules.AddAsync(schedule);
         await _context.SaveChangesAsync();
@@ -129,6 +143,14 @@ public class ScheduleService : IScheduleService
 
         _context.ScheduleDevices.RemoveRange(scheduleDevices);
         _context.Schedules.Remove(scheduleToRemove);
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateScheduleTime(Guid scheduleId, int day, int hour, int minute, string userId)
+    {
+        var schedule = await GetSchedule(scheduleId, userId);
+        schedule.ActivationCron = CronHelper.CreateCronExpressions(day, hour, minute);
 
         await _context.SaveChangesAsync();
     }

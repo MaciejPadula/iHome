@@ -44,6 +44,31 @@ public class ScheduleController : ControllerBase
         return Ok(schedules);
     }
 
+    [HttpGet("GetSchedule/{id}")]
+    public async Task<IActionResult> GetSchedule(Guid id)
+    {
+        var schedule = await _scheduleService.GetSchedule(id, _userAccessor.UserId);
+
+        return Ok(new GetSchedulesSchedule(schedule));
+    }
+
+    [HttpGet("GetScheduleDevicesCount")]
+    public async Task<IActionResult> GetScheduleDevicesCount(Guid scheduleId)
+    {
+        return Ok(new
+        {
+            Count = await _scheduleService.GetDevicesInScheduleCount(scheduleId, _userAccessor.UserId)
+        });
+    }
+
+    [HttpPost("UpdateSchedule")]
+    public async Task<IActionResult> UpdateSchedule([FromBody] UpdateScheduleRequest request)
+    {
+        await _scheduleService.UpdateScheduleTime(request.ScheduleId, request.Day, request.Hour, request.Minute, _userAccessor.UserId);
+
+        return Ok();
+    }
+
     [HttpGet("GetScheduleDevices/{id}")]
     public async Task<IActionResult> GetScheduleDevices(Guid id)
     {

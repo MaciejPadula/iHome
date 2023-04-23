@@ -7,17 +7,15 @@ public class GetDevicesDevice
     public Guid Id { get; init; }
     public string Name { get; set; }
     public DeviceType Type { get; init; }
-    public string Data { get; set; }
     public Guid RoomId { get; set; }
     public string MacAddress { get; init; }
 
-    public GetDevicesDevice(Device device)
+    public GetDevicesDevice(Device? device)
     {
-        Id = device.Id;
-        Name = device.Name;
-        Type = device.Type;
-        Data = device.Data;
-        RoomId = device.RoomId;
-        MacAddress = device.MacAddress;
+        Id = device?.Id ?? Guid.Empty;
+        Name = device?.Name ?? string.Empty;
+        Type = device?.Type ?? DeviceType.Unknown;
+        RoomId = device?.RoomId ?? Guid.Empty;
+        MacAddress = device?.MacAddress ?? string.Empty;
     }
 }

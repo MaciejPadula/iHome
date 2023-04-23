@@ -10,7 +10,6 @@ public class Device
     public Guid Id { get; init; } = Guid.NewGuid();
     public required string Name { get; set; } = string.Empty;
     public required DeviceType Type { get; init; }
-    public required string Data { get; set; } = string.Empty;
     public required Guid RoomId { get; set; }
     public required string MacAddress { get; init; } = string.Empty;
 

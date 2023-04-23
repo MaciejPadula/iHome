@@ -1,3 +1,12 @@
-<div class="schedules-container w-full sm:w-4/5 m-auto">
-    <app-schedule class="w-full" *ngFor="let schedule of schedules$ | async" [schedule]="schedule"></app-schedule>
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
+
+<div *ngIf="schedules$ | async as schedules; else loading" class="schedules-container w-full sm:w-4/5 m-auto">
+  <mat-accordion class="w-full p-4" multi>
+    <app-schedule class="w-full" *ngFor="let schedule of schedules" [scheduleId]="schedule.id"></app-schedule>
+  </mat-accordion>
+  <button mat-icon-button color="accent" (click)="composeDialogAddSchedule()">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

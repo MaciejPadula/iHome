@@ -52,3 +52,4 @@ src/iHome.Infrastructure.Firebase/bin
 src/iHome.Infrastructure.SQL/bin
 src/iHome.Scheduler/bin
 src/iHome.Scheduler.Infrastructure/bin
+src/iHome/ClientApp/yarn.lock

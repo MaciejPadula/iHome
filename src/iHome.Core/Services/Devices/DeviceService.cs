@@ -1,4 +1,5 @@
 ﻿using iHome.Core.Exceptions;
+using iHome.Core.Exceptions.SqlExceptions;
 using iHome.Core.Services.Rooms;
 using iHome.Infrastructure.Firebase.Repositories;
 using iHome.Infrastructure.SQL.Contexts;
@@ -31,7 +32,6 @@ public class DeviceService : IDeviceService
         {
             Name = name,
             Type = type,
-            Data = "",
             RoomId = roomId,
             MacAddress = macAddress
         });

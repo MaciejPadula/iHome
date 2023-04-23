@@ -45,6 +45,11 @@ import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-di
 import { SchedulesComponent } from './pages/schedules/schedules.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ScheduleDeviceComponent } from './components/schedule-device/schedule-device.component';
+import { InputDialogComponent } from './components/input-dialog/input-dialog.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
+
 
 @NgModule({
   declarations: [
@@ -65,7 +70,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     RgbLampComponent,
     RgbLampDialogComponent,
     SchedulesComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    ScheduleDeviceComponent,
+    InputDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -114,7 +121,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatAutocompleteModule,
     ColorPickerModule,
     MatSlideToggleModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatExpansionModule,
+    MatDividerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }

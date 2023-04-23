@@ -1,22 +1,29 @@
-<div class="schedule">
-    <div class="schedule-row">
-        <div>{{schedule.name}}</div>
-        <div class="flex flex-row items-center justify-center">
-            <div>
-                {{ timeFormatPipe(schedule.hour, schedule.minute) }}
-            </div>
-            <button mat-icon-button (click)="toggleVisibility()">U</button>
-        </div>
-    </div>
-    <div *ngIf="showDevices">
-        <select [(ngModel)]="selectedDeviceId">
-            <option *ngFor="let device of devicesSubject$ | async" [value]="device.id">{{device.name}}</option>
-        </select>
-        <button mat-button (click)="addDeviceSnapshot()">Add Snapshot</button>
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
 
-        <div *ngFor="let device of scheduleDevices$ | async">
-            <div>{{device.id}}</div>
-            <div>{{device.deviceData}}</div>
-        </div>
+<ng-container *ngIf="schedule$ | async as schedule; else loading">
+  <mat-expansion-panel (opened)="showDevices = true" (closed)="showDevices = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{schedule.name}}
+      </mat-panel-title>
+      <mat-panel-description class="justify-end" (click)="$event.stopPropagation()">
+        <input type="time" (change)="hourChanged()" [(ngModel)]="scheduleHour">
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div *ngFor="let device of scheduleDevices$ | async" class="flex flex-row">
+      <app-schedule-device [scheduleId]="schedule.id" [scheduleDevice]="device"></app-schedule-device>
     </div>
-</div>
+    <mat-divider></mat-divider>
+    <div class="p-4 w-full"></div>
+    <div class="devices-for-scheduling-container">
+      <ng-container *ngIf="devices$ | async as devices; else loading">
+        <ng-container *ngFor="let device of devices">
+          <div>{{device.name}}</div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </mat-expansion-panel>
+</ng-container>
