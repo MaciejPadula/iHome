@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -42,9 +42,11 @@ import { RgbLampComponent } from './components/device/rgb-lamp/rgb-lamp.componen
 import { ColorPickerModule } from '@iplab/ngx-color-picker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-dialog/rgb-lamp-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { GlobalErrorHandler } from './errors/global-error-handler';
+import { ErrorDialogComponent } from './errors/error-dialog/error-dialog.component';
 import { SchedulesComponent } from './pages/schedules/schedules.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ScheduleDeviceComponent } from './components/schedule-device/schedule-device.component';
 import { InputDialogComponent } from './components/input-dialog/input-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -69,6 +71,7 @@ import { MatDividerModule } from '@angular/material/divider';
     ShareRoomDialogComponent,
     RgbLampComponent,
     RgbLampDialogComponent,
+    ErrorDialogComponent,
     SchedulesComponent,
     ScheduleComponent,
     ScheduleDeviceComponent,
@@ -126,7 +129,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDividerModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
   ],
   bootstrap: [AppComponent]
 })
