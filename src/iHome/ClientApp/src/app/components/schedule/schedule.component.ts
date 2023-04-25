@@ -1,11 +1,9 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { filter, Subject } from 'rxjs';
+import { filter, firstValueFrom, Subject } from 'rxjs';
 import { TimeHelper } from 'src/app/helpers/time.helper';
 import { Device } from 'src/app/models/device';
 import { Schedule } from 'src/app/models/schedule';
-import { ScheduleDevice } from 'src/app/models/schedule-device';
 import { DevicesService } from 'src/app/services/devices.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SchedulesService } from 'src/app/services/schedules.service';
@@ -15,34 +13,16 @@ import { SchedulesService } from 'src/app/services/schedules.service';
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('openClose', [
-      state('open', style({
-        height: '*',
-      })),
-      state('closed', style({
-        height: '0px',
-      })),
-      transition('open <=> closed', [
-        animate('0.2s')
-      ]),
-    ]),
-  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScheduleComponent implements OnInit {
   @Input() public scheduleId: string;
+  @Input() public devicesForScheduling: Device[] | null;
 
   public scheduleHour: string;
 
   public scheduleSubject$ = new Subject<Schedule>();
   public schedule$ = this.scheduleSubject$.asObservable();
-
-  public scheduleDevicesSubject$ = new Subject<ScheduleDevice[]>();
-  public scheduleDevices$ = this.scheduleDevicesSubject$.asObservable();
-
-  public devicesSubject$ = new Subject<Device[]>();
-  public devices$ = this.devicesSubject$.asObservable();
 
   public showDevices = false;
 
@@ -68,50 +48,27 @@ export class ScheduleComponent implements OnInit {
     this.reloadSchedule();
   }
 
-  private reloadSchedule(){
+  private reloadSchedule() {
     this._schedulesService.getSchedule(this.scheduleId)
       .subscribe(schedule => {
         this.scheduleHour = this._timeHelper.timeFormatPipe(schedule.hour, schedule.minute);
         this.scheduleSubject$.next(schedule);
       });
-
-    this._devicesService.getDevicesForScheduling()
-      .subscribe(d => this.devicesSubject$.next(d));
-
-    if(this.showDevices) this.loadDevices();
   }
 
-  public toggleVisibility(){
-    if(this.showDevices){
-      this.showDevices = !this.showDevices;
-      return;
-    }
+  public async addDeviceSnapshot(deviceId: string) {
+    const data = await firstValueFrom(this._devicesService.getDeviceData<string>(deviceId));
 
-    this._devicesService.getDevicesForScheduling()
-      .subscribe(d => {
-        this.devicesSubject$.next(d);
-        this.showDevices = !this.showDevices;
-        this._refreshService.refreshSchedule(this.scheduleId);
-      });
-
-    this.loadDevices();
-  }
-
-  private loadDevices(){
-    this._schedulesService.getScheduleDevices(this.scheduleId)
-      .subscribe(s => this.scheduleDevicesSubject$.next(s));
-  }
-
-  public async addDeviceSnapshot(deviceId: string, data: string) {
     this._schedulesService.addOrUpdateScheduleDevice(
       this.scheduleId,
       deviceId,
-      data
+      data ?? '{}'
     ).subscribe(() => this._refreshService.refreshSchedule(this.scheduleId));
   }
 
   public hourChanged() {
     const time = this.scheduleHour.split(':');
+    debugger;
     console.log(time);
     if(time.length < 2) return;
 

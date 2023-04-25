@@ -51,6 +51,7 @@ import { ScheduleDeviceComponent } from './components/schedule-device/schedule-d
 import { InputDialogComponent } from './components/input-dialog/input-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 
 @NgModule({
@@ -126,7 +127,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatSlideToggleModule,
     MatSnackBarModule,
     MatExpansionModule,
-    MatDividerModule
+    MatDividerModule,
+    NgxMatTimepickerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

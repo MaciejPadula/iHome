@@ -9,20 +9,31 @@
         {{schedule.name}}
       </mat-panel-title>
       <mat-panel-description class="justify-end" (click)="$event.stopPropagation()">
-        <input type="time" (change)="hourChanged()" [(ngModel)]="scheduleHour">
+        <mat-form-field>
+          <input matInput
+                 name="selected_time_B"
+                 [format]="24"
+                 [(ngModel)]="scheduleHour"
+                 [ngxMatTimepicker]="pickerB"
+                 placeholder="16:00"
+                 (timeChanged)="hourChanged()"
+                 readonly />
+          <mat-icon matSuffix
+                    (click)="pickerB.open()">
+              watch_later
+          </mat-icon>
+        </mat-form-field>
+        <ngx-mat-timepicker color="accent" #pickerB></ngx-mat-timepicker>
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <div *ngFor="let device of scheduleDevices$ | async" class="flex flex-row">
+    <div *ngFor="let device of schedule.devices" class="flex flex-row">
       <app-schedule-device [scheduleId]="schedule.id" [scheduleDevice]="device"></app-schedule-device>
     </div>
     <mat-divider></mat-divider>
-    <div class="p-4 w-full"></div>
     <div class="devices-for-scheduling-container">
-      <ng-container *ngIf="devices$ | async as devices; else loading">
-        <ng-container *ngFor="let device of devices">
-          <div>{{device.name}}</div>
-        </ng-container>
+      <ng-container *ngIf="devicesForScheduling as devices; else loading">
+        <button *ngFor="let device of devices" (click)="addDeviceSnapshot(device.id)">{{device.name}}</button>
       </ng-container>
     </div>
   </mat-expansion-panel>

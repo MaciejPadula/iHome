@@ -44,10 +44,18 @@ public class ScheduleController : ControllerBase
         return Ok(schedules);
     }
 
+    [HttpGet("GetScheduleIds")]
+    public async Task<IActionResult> GetScheduleIds()
+    {
+        var scheduleIds = await _scheduleService.GetScheduleIds(_userAccessor.UserId);
+
+        return Ok(scheduleIds);
+    }
+
     [HttpGet("GetSchedule/{id}")]
     public async Task<IActionResult> GetSchedule(Guid id)
     {
-        var schedule = await _scheduleService.GetSchedule(id, _userAccessor.UserId);
+        var schedule = await _scheduleService.GetScheduleWithDevices(id, _userAccessor.UserId);
 
         return Ok(new GetSchedulesSchedule(schedule));
     }

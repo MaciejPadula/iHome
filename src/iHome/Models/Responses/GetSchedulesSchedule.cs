@@ -9,6 +9,7 @@ public class GetSchedulesSchedule
     public string Name { get; set; }
     public int Hour { get; set; }
     public int Minute { get; set; }
+    public IEnumerable<GetScheduleDevicesDevice>? Devices { get; set; }
 
     public GetSchedulesSchedule(Schedule schedule)
     {
@@ -20,6 +21,11 @@ public class GetSchedulesSchedule
         {
             Hour = occurence.Value.Hour;
             Minute = occurence.Value.Minute;
+        }
+
+        if (schedule.ScheduleDevices?.Any() ?? false)
+        {
+            Devices = schedule.ScheduleDevices.Select(d => new GetScheduleDevicesDevice(d));
         }
     }
 }

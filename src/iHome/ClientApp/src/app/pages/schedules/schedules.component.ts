@@ -4,7 +4,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subject } from 'rxjs';
 import { InputDialogData } from 'src/app/components/input-dialog/input-dialog-data';
 import { InputDialogComponent } from 'src/app/components/input-dialog/input-dialog.component';
-import { Schedule } from 'src/app/models/schedule';
+import { Device } from 'src/app/models/device';
+import { DevicesService } from 'src/app/services/devices.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SchedulesService } from 'src/app/services/schedules.service';
 
@@ -16,12 +17,16 @@ import { SchedulesService } from 'src/app/services/schedules.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchedulesComponent implements OnInit {
-  public schedulesSubject$ = new Subject<Schedule[]>();
+  public schedulesSubject$ = new Subject<string[]>();
   public schedules$ = this.schedulesSubject$.asObservable();
+
+  public devicesForSchedulingSubject$ = new Subject<Device[]>();
+  public devicesForScheduling$ = this.devicesForSchedulingSubject$.asObservable();
 
   constructor(
     private _refreshService: RefreshService,
     private _schedulesService: SchedulesService,
+    private _devicesService: DevicesService,
     private _dialog: MatDialog
   ) { }
 
@@ -51,7 +56,13 @@ export class SchedulesComponent implements OnInit {
   }
 
   private getSchedules() {
-    this._schedulesService.getSchedules()
-      .subscribe(s => this.schedulesSubject$.next(s));
+    this._schedulesService.getScheduleIds()
+      .subscribe(s => {
+        this.schedulesSubject$.next(s);
+        this._devicesService.getDevicesForScheduling()
+          .subscribe(d => this.devicesForSchedulingSubject$.next(d));
+      });
+
+
   }
 }

@@ -6,6 +6,7 @@ import { SchedulesService } from 'src/app/services/schedules.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RgbLampDialogComponent } from '../device/rgb-lamp/rgb-lamp-dialog/rgb-lamp-dialog.component';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-schedule-device',
@@ -34,20 +35,25 @@ export class ScheduleDeviceComponent {
   }
 
   public composeDialog() {
-    if(this.scheduleDevice.device.type == DeviceType.RGBLamp) {
-      this._dialog.open(RgbLampDialogComponent, {
+    this.getDialogAfterClosed().subscribe(result => {
+      if(!result) return;
+
+      this.scheduleDevice.deviceData = JSON.stringify(result);
+      this.saveChanges();
+    });
+  }
+
+  private getDialogAfterClosed() {
+    if(this.scheduleDevice.device.type == DeviceType.RGBLamp){
+      return this._dialog.open(RgbLampDialogComponent, {
         data: {
           device: this.scheduleDevice.device,
           data: JSON.parse(this.scheduleDevice.deviceData)
         }
       })
-      .afterClosed()
-      .subscribe(result => {
-        if(!result) return;
-
-        this.scheduleDevice.deviceData = JSON.stringify(result);
-        this.saveChanges();
-      });
+      .afterClosed();
     }
+
+    return of(undefined);
   }
 }

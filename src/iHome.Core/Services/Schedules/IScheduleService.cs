@@ -6,7 +6,9 @@ namespace iHome.Core.Services.Schedules;
 public interface IScheduleService
 {
     Task<IEnumerable<Schedule>> GetSchedules(string userId);
+    Task<IEnumerable<Guid>> GetScheduleIds(string userId);
     Task<Schedule> GetSchedule(Guid scheduleId, string userId);
+    Task<Schedule> GetScheduleWithDevices(Guid scheduleId, string userId);
     Task<int> GetDevicesInScheduleCount(Guid scheduleId, string userId);
     Task AddSchedule(string scheduleName, int day, int hour, int minute, string userId);
     Task UpdateScheduleTime(Guid scheduleId, int day, int hour, int minute, string userId);

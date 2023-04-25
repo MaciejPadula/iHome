@@ -60,6 +60,21 @@ public class ScheduleService : IScheduleService
         return schedule;
     }
 
+    public async Task<Schedule> GetScheduleWithDevices(Guid scheduleId, string userId)
+    {
+        var schedule = await _context.Schedules
+            .Include(s => s.ScheduleDevices)
+            .ThenInclude(d => d.Device)
+            .FirstOrDefaultAsync(s => s.Id == scheduleId && s.UserId == userId);
+
+        if (schedule == null)
+        {
+            throw new ScheduleNotFoundException();
+        }
+
+        return schedule;
+    }
+
     public async Task<int> GetDevicesInScheduleCount(Guid scheduleId, string userId)
     {
         var schedule = (await GetSchedulesQueryAsync(scheduleId, userId))
@@ -111,6 +126,16 @@ public class ScheduleService : IScheduleService
     {
         var schedules = _context.Schedules
             .Where(s => s.UserId == userId)
+            .AsEnumerable();
+
+        return Task.FromResult(schedules);
+    }
+
+    public Task<IEnumerable<Guid>> GetScheduleIds(string userId)
+    {
+        var schedules = _context.Schedules
+            .Where(s => s.UserId == userId)
+            .Select(s => s.Id)
             .AsEnumerable();
 
         return Task.FromResult(schedules);

@@ -30,6 +30,10 @@ export class SchedulesService {
     return this._api.get<Schedule[]>(`${this._baseApiUrl}GetSchedules`);
   }
 
+  public getScheduleIds(): Observable<string[]> {
+    return this._api.get<string[]>(`${this._baseApiUrl}GetScheduleIds`);
+  }
+
   public getSchedule(scheduleId: string): Observable<Schedule> {
     return this._api.get<Schedule>(`${this._baseApiUrl}GetSchedule/${scheduleId}`);
   }
