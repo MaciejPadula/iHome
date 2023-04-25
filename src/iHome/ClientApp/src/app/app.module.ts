@@ -45,6 +45,14 @@ import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-di
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { GlobalErrorHandler } from './errors/global-error-handler';
 import { ErrorDialogComponent } from './errors/error-dialog/error-dialog.component';
+import { SchedulesComponent } from './pages/schedules/schedules.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
+import { ScheduleDeviceComponent } from './components/schedule-device/schedule-device.component';
+import { InputDialogComponent } from './components/input-dialog/input-dialog.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+
 
 @NgModule({
   declarations: [
@@ -64,7 +72,11 @@ import { ErrorDialogComponent } from './errors/error-dialog/error-dialog.compone
     ShareRoomDialogComponent,
     RgbLampComponent,
     RgbLampDialogComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    SchedulesComponent,
+    ScheduleComponent,
+    ScheduleDeviceComponent,
+    InputDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -113,7 +125,10 @@ import { ErrorDialogComponent } from './errors/error-dialog/error-dialog.compone
     MatAutocompleteModule,
     ColorPickerModule,
     MatSlideToggleModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatExpansionModule,
+    MatDividerModule,
+    NgxMatTimepickerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

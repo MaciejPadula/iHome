@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>{{inputText}}</mat-label>
+    <input matInput [formControl]="inputControl">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="flex !justify-end">
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-raised-button color="primary" (click)="saveChanges()" cdkFocusInitial>Create</button>
+</div>

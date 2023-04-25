@@ -54,3 +54,6 @@ terraform/.terraform
 terraform/.terraform.lock.hcl
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
+src/iHome.Scheduler/bin
+src/iHome.Scheduler.Infrastructure/bin
+src/iHome/ClientApp/yarn.lock

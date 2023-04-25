@@ -1,4 +1,5 @@
 ﻿using iHome.Core.Exceptions;
+using iHome.Core.Exceptions.SqlExceptions;
 using iHome.Core.Services.Rooms;
 using iHome.Infrastructure.Firebase.Repositories;
 using iHome.Infrastructure.SQL.Contexts;
@@ -31,7 +32,6 @@ public class DeviceService : IDeviceService
         {
             Name = name,
             Type = type,
-            Data = "",
             RoomId = roomId,
             MacAddress = macAddress
         });
@@ -64,6 +64,13 @@ public class DeviceService : IDeviceService
         return device;
     }
 
+    public Task<bool> DeviceExists(Guid deviceId, string userId)
+    {
+        return _sqlDataContext.Devices
+            .Include(d => d.Room)
+            .AnyAsync(d => d.Id == deviceId && d.Room != null && d.Room.UserId == userId);
+    }
+
     public async Task<IEnumerable<Device>> GetDevices(Guid roomId, string userId)
     {
         var userRooms = await _roomService.GetRoomsWithDevices(userId);
@@ -72,6 +79,20 @@ public class DeviceService : IDeviceService
         if (selectedRoom == null) throw new RoomNotFoundException();
 
         return selectedRoom.Devices ?? Enumerable.Empty<Device>();
+    }
+
+    public async Task<IEnumerable<Device>> GetDevices(string userId)
+    {
+        var rooms = await _roomService.GetRoomsWithDevices(userId);
+
+        var devices = new List<Device>();
+
+        foreach(var room in rooms)
+        {
+            devices.AddRange(room.Devices);
+        }
+
+        return devices;
     }
 
     public async Task RemoveDevice(Guid deviceId, string userId)

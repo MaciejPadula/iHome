@@ -1,0 +1,12 @@
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
+
+<div *ngIf="schedules$ | async as schedules; else loading" class="schedules-container w-full sm:w-4/5 m-auto">
+  <mat-accordion class="w-full p-4" multi *ngIf="devicesForScheduling$ | async as devicesForScheduling; else loading">
+    <app-schedule class="w-full" *ngFor="let scheduleId of schedules" [scheduleId]="scheduleId" [devicesForScheduling]="devicesForScheduling"></app-schedule>
+  </mat-accordion>
+  <button mat-icon-button color="accent" (click)="composeDialogAddSchedule()">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

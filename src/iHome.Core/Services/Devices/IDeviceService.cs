@@ -6,7 +6,9 @@ public interface IDeviceService
 {
     Task<Guid> AddDevice(string name, string macAddress, DeviceType type, Guid roomId, string userId);
     Task<Device> GetDevice(Guid deviceId, string userId);
+    Task<bool> DeviceExists(Guid deviceId, string userId);
     Task<IEnumerable<Device>> GetDevices(Guid roomId, string userId);
+    Task<IEnumerable<Device>> GetDevices(string userId);
     Task RemoveDevice(Guid deviceId, string userId);
     Task RenameDevice(Guid deviceId, string newName, string userId);
     Task ChangeDeviceRoom(Guid deviceId, Guid roomId, string userId);
