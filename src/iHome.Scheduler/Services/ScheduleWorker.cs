@@ -24,16 +24,21 @@ public class ScheduleWorker : IScheduleWorker
     {
         while (_context.IsRunning)
         {
-            var tasks = new List<Task>();
-            var schedules = await _schedulesProvider.GetSchedulesToRun(DateTime.UtcNow);
-            
-            foreach(var schedule in schedules )
-            {
-                tasks.Add(_schedulesUpdater.UpdateDevicesFromSchedule(schedule));
-            }
-
-            await Task.WhenAll(tasks);
+            await Working();
             await Task.Delay(100);
         }
+    }
+
+    public async Task Working()
+    {
+        var tasks = new List<Task>();
+        var schedules = await _schedulesProvider.GetSchedulesToRun(DateTime.UtcNow);
+
+        foreach (var schedule in schedules)
+        {
+            tasks.Add(_schedulesUpdater.UpdateDevicesFromSchedule(schedule));
+        }
+
+        await Task.WhenAll(tasks);
     }
 }
