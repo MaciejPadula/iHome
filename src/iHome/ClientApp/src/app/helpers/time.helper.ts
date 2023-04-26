@@ -14,7 +14,17 @@ export class TimeHelper {
       hour %= 24;
     }
 
-    return `${this.formatSegment(hour)}:${this.formatSegment(minute)}`
+    return `${this.formatSegment(hour)}:${this.formatSegment(minute)}`;
+  }
+
+  public getLocalDateFromUTC(hour: number, minute: number){
+    const localDate = new Date(Date.UTC(2023, 3, 27, hour, minute));
+
+    return this.timeFormatPipe(localDate.getHours(), localDate.getMinutes());
+  }
+
+  public getDateFromTime(hour: number, minute: number, second = 0) {
+    return new Date(2023, 3, 27, hour, minute, second);
   }
 
   private formatSegment(segment: number){

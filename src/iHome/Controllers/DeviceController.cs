@@ -1,4 +1,5 @@
-﻿using iHome.Core.Services.Devices;
+﻿using iHome.Core.Models;
+using iHome.Core.Services.Devices;
 using iHome.Devices.Contract.Interfaces;
 using iHome.Devices.Contract.Models.Requests;
 using iHome.Infrastructure.SQL.Models;
@@ -7,6 +8,7 @@ using iHome.Models.Requests;
 using iHome.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace iHome.Controllers;
 
@@ -55,7 +57,7 @@ public class DeviceController : ControllerBase, IDeviceDataService
     }
 
     [HttpPost("GetDevices")]
-    public async Task<IEnumerable<GetDevicesDevice>> GetDevices([FromBody] GetDevicesRequest request)
+    public async Task<IEnumerable<DeviceModel>> GetDevices([FromBody] GetDevicesRequest request)
     {
         var devices = new List<Device>();
         if(request.RoomId.HasValue)
@@ -67,7 +69,7 @@ public class DeviceController : ControllerBase, IDeviceDataService
             devices.AddRange(await _deviceService.GetDevices(_userAccessor.UserId));
         }
 
-        return devices.Select(d => new GetDevicesDevice(d));
+        return devices.Select(d => new DeviceModel(d));
     }
 
     private readonly List<DeviceType> _devicesForScheduling = new()
@@ -76,13 +78,16 @@ public class DeviceController : ControllerBase, IDeviceDataService
     };
 
     [HttpPost("GetDevicesForScheduling")]
-    public async Task<IEnumerable<GetDevicesDevice>> GetDevicesForScheduling()
+    public async Task<IEnumerable<DeviceModel>> GetDevicesForScheduling()
     {
         var devices = await _deviceService.GetDevices(_userAccessor.UserId);
 
         return devices
             .Where(d => _devicesForScheduling.Any(type => d.Type == type))
-            .Select(d => new GetDevicesDevice(d));
+            .Select(d => new DeviceModel(d)
+            {
+                Data = _deviceService.GetDeviceData(d.Id, _userAccessor.UserId).Result
+            });
     }
 
     [HttpPost("RemoveDevice")]

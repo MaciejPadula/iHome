@@ -25,6 +25,14 @@ export class RgbLampComponent implements OnInit {
   private dataSubject$ = new Subject<RgbLampData>();
   public data$: Observable<RgbLampData>;
 
+  private readonly defaultData: RgbLampData = {
+    red: 0,
+    green: 0,
+    blue: 0,
+    state: false,
+    mode: 0
+  }
+
   constructor(
     private _deviceService: DevicesService,
     private _dialog: MatDialog,
@@ -39,7 +47,7 @@ export class RgbLampComponent implements OnInit {
         filter(data => data == this.device.id)
       )
       .subscribe(() => this.getDeviceData());
-    
+
     this.data$ = this.dataSubject$.asObservable()
       .pipe(
         map(data => {
@@ -67,7 +75,7 @@ export class RgbLampComponent implements OnInit {
 
   private getDeviceData() {
     this._deviceService.getDeviceData<RgbLampData>(this.device.id)
-      .subscribe(data => this.dataSubject$.next(data));
+      .subscribe(data => this.dataSubject$.next(data ?? this.defaultData));
   }
 
   public composeDialog(data: RgbLampData){

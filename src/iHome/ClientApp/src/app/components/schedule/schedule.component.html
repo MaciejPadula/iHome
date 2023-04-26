@@ -3,38 +3,41 @@
 </ng-template>
 
 <ng-container *ngIf="schedule$ | async as schedule; else loading">
-  <mat-expansion-panel (opened)="showDevices = true" (closed)="showDevices = false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{schedule.name}}
-      </mat-panel-title>
-      <mat-panel-description class="justify-end" (click)="$event.stopPropagation()">
-        <mat-form-field>
-          <input matInput
-                 name="selected_time_B"
-                 [format]="24"
-                 [(ngModel)]="scheduleHour"
-                 [ngxMatTimepicker]="pickerB"
-                 placeholder="16:00"
-                 (timeChanged)="hourChanged()"
-                 readonly />
-          <mat-icon matSuffix
-                    (click)="pickerB.open()">
-              watch_later
-          </mat-icon>
-        </mat-form-field>
-        <ngx-mat-timepicker color="accent" #pickerB></ngx-mat-timepicker>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
 
-    <div *ngFor="let device of schedule.devices" class="flex flex-row">
-      <app-schedule-device [scheduleId]="schedule.id" [scheduleDevice]="device"></app-schedule-device>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="devices-for-scheduling-container">
-      <ng-container *ngIf="devicesForScheduling as devices; else loading">
-        <button *ngFor="let device of devices" (click)="addDeviceSnapshot(device.id)">{{device.name}}</button>
-      </ng-container>
-    </div>
-  </mat-expansion-panel>
+  <div class="flex flex-row items-center justify-between">
+    <mat-form-field>
+      <input matInput
+             name="selected_time_B"
+             [format]="24"
+             [(ngModel)]="scheduleHour"
+             [ngxMatTimepicker]="pickerB"
+             readonly />
+      <mat-icon matSuffix
+                (click)="pickerB.open()">
+          watch_later
+      </mat-icon>
+    </mat-form-field>
+    <ngx-mat-timepicker
+      color="accent"
+      (timeSet)="hourChanged($event)"
+      #pickerB></ngx-mat-timepicker>
+  </div>
+
+  <div *ngFor="let device of schedule.devices" class="flex flex-row">
+    <app-schedule-device [scheduleId]="schedule.id" [scheduleDevice]="device"></app-schedule-device>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="devices-for-scheduling-container">
+    <ng-container *ngIf="devicesForScheduling as devices; else loading">
+      <app-device-preview *ngFor="let device of devices"
+        (click)="addDeviceSnapshot(device.id, device.data)"
+        [deviceName]="device.name"
+        [deviceData]="device.data ?? '{}'"
+        [deviceType]="device.type">
+      </app-device-preview>
+    </ng-container>
+  </div>
+
 </ng-container>

@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DeviceType } from 'src/app/models/device-type';
 import { ScheduleDevice } from 'src/app/models/schedule-device';
-import { DevicesService } from 'src/app/services/devices.service';
 import { SchedulesService } from 'src/app/services/schedules.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,7 +21,6 @@ export class ScheduleDeviceComponent {
   constructor(
     private _refreshService: RefreshService,
     private _schedulesService: SchedulesService,
-    private _devicesService: DevicesService,
     private _dialog: MatDialog
   ) {}
 

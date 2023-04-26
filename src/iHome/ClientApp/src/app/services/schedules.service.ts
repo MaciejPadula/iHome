@@ -62,4 +62,8 @@ export class SchedulesService {
       minute
     });
   }
+
+  public removeSchedule(scheduleId: string): Observable<GenericResponse> {
+    return this._api.delete<GenericResponse>(`${this._baseApiUrl}RemoveSchedule/${scheduleId}`);
+  }
 }
