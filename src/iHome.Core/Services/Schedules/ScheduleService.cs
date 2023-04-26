@@ -1,4 +1,5 @@
 ﻿using iHome.Core.Exceptions.SqlExceptions;
+using iHome.Core.Models;
 using iHome.Core.Services.Devices;
 using iHome.Infrastructure.SQL.Contexts;
 using iHome.Infrastructure.SQL.Models;
@@ -29,9 +30,9 @@ public class ScheduleService : IScheduleService
 
         try
         {
-            scheduleDevice = await GetScheduleDevice(scheduleId, deviceId, userId);
+            scheduleDevice = await GetScheduleDeviceById(scheduleId, deviceId, userId);
         }
-        catch (DeviceNotFoundException ex)
+        catch (DeviceNotFoundException)
         {
             scheduleDevice = (await _context.ScheduleDevices.AddAsync(
                 new ScheduleDevice
@@ -48,94 +49,51 @@ public class ScheduleService : IScheduleService
 
     }
 
-    public async Task<Schedule> GetSchedule(Guid scheduleId, string userId)
+    public async Task<ScheduleModel> GetSchedule(Guid scheduleId, string userId)
     {
-        var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == scheduleId && s.UserId == userId);
+        var schedule = await GetScheduleById(scheduleId, userId);
 
-        if (schedule == null)
-        {
-            throw new ScheduleNotFoundException();
-        }
-
-        return schedule;
+        return new ScheduleModel(schedule);
     }
 
-    public async Task<Schedule> GetScheduleWithDevices(Guid scheduleId, string userId)
+    public async Task<ScheduleModel> GetScheduleWithDevices(Guid scheduleId, string userId)
     {
-        var schedule = await _context.Schedules
-            .Include(s => s.ScheduleDevices)
-            .ThenInclude(d => d.Device)
-            .FirstOrDefaultAsync(s => s.Id == scheduleId && s.UserId == userId);
+        var schedule = await GetScheduleByIdWithDevices(scheduleId, userId);
 
-        if (schedule == null)
-        {
-            throw new ScheduleNotFoundException();
-        }
-
-        return schedule;
+        return new ScheduleModel(schedule);
     }
 
     public async Task<int> GetDevicesInScheduleCount(Guid scheduleId, string userId)
     {
-        var schedule = (await GetSchedulesQueryAsync(scheduleId, userId))
-            .Include(s => s.ScheduleDevices)
-            .FirstOrDefault();
-
-        if (schedule == null)
-        {
-            throw new ScheduleNotFoundException();
-        }
+        var schedule = await GetScheduleByIdWithDevices(scheduleId, userId);
 
         return schedule.ScheduleDevices?.Count ?? 0;
     }
 
-    private Task<IQueryable<Schedule>> GetSchedulesQueryAsync(Guid scheduleId, string userId)
-    {
-        return Task.FromResult(_context.Schedules
-            .Where(s => s.Id == scheduleId && s.UserId == userId));
-    }
-
-    public async Task<ScheduleDevice> GetScheduleDevice(Guid scheduleId, Guid deviceId, string userId)
+    public async Task<ScheduleDeviceModel> GetScheduleDevice(Guid scheduleId, Guid deviceId, string userId)
     {
         var scheduleDevice = await _context.ScheduleDevices
             .Include(s => s.Device)
             .SingleOrDefaultAsync(s => s.ScheduleId == scheduleId && s.DeviceId == deviceId);
 
-        if (scheduleDevice == null ||
-            scheduleDevice.Device == null ||
-            !await _context.Schedules.AnyAsync(s => s.Id == scheduleId && s.UserId == userId))
-        {
-            throw new DeviceNotFoundException();
-        }
+        if (scheduleDevice == null) throw new DeviceNotFoundException();
 
-        return scheduleDevice;
+        return new ScheduleDeviceModel(scheduleDevice);
     }
 
-    public async Task<IEnumerable<ScheduleDevice>> GetScheduleDevices(Guid scheduleId, string userId)
+    public async Task<IEnumerable<ScheduleDeviceModel>> GetScheduleDevices(Guid scheduleId, string userId)
     {
-        var schedule = (await GetSchedulesQueryAsync(scheduleId, userId))
-            .Include(s => s.ScheduleDevices)
-            .ThenInclude(s => s.Device)
-            .SingleOrDefault();
+        var schedule = await GetScheduleByIdWithDevices(scheduleId, userId);
 
-        return schedule == null ? throw new Exception() : schedule.ScheduleDevices
-            .Where(s => s.Device != null);
+        return schedule.ScheduleDevices
+            .Select(s => new ScheduleDeviceModel(s));
     }
 
-    public Task<IEnumerable<Schedule>> GetSchedules(string userId)
+    public Task<IEnumerable<ScheduleModel>> GetSchedules(string userId)
     {
         var schedules = _context.Schedules
             .Where(s => s.UserId == userId)
-            .AsEnumerable();
-
-        return Task.FromResult(schedules);
-    }
-
-    public Task<IEnumerable<Guid>> GetScheduleIds(string userId)
-    {
-        var schedules = _context.Schedules
-            .Where(s => s.UserId == userId)
-            .Select(s => s.Id)
+            .Select(s => new ScheduleModel(s))
             .AsEnumerable();
 
         return Task.FromResult(schedules);
@@ -143,8 +101,9 @@ public class ScheduleService : IScheduleService
 
     public async Task RemoveDeviceSchedule(Guid scheduleId, Guid deviceId, string userId)
     {
-        var scheduleToRemove = await GetScheduleDevice(scheduleId, deviceId, userId) ?? throw new Exception();
-        _context.Remove(scheduleToRemove);
+        var scheduleToRemove = await GetScheduleDeviceById(scheduleId, deviceId, userId);
+
+        _context.ScheduleDevices.Remove(scheduleToRemove);
         await _context.SaveChangesAsync();
     }
 
@@ -163,10 +122,9 @@ public class ScheduleService : IScheduleService
 
     public async Task RemoveSchedule(Guid scheduleId, string userId)
     {
-        var scheduleToRemove = await GetSchedule(scheduleId, userId);
-        var scheduleDevices = await GetScheduleDevices(scheduleId, userId);
+        var scheduleToRemove = await GetScheduleByIdWithDevices(scheduleId, userId);
 
-        _context.ScheduleDevices.RemoveRange(scheduleDevices);
+        _context.ScheduleDevices.RemoveRange(scheduleToRemove.ScheduleDevices);
         _context.Schedules.Remove(scheduleToRemove);
 
         await _context.SaveChangesAsync();
@@ -174,9 +132,43 @@ public class ScheduleService : IScheduleService
 
     public async Task UpdateScheduleTime(Guid scheduleId, int day, int hour, int minute, string userId)
     {
-        var schedule = await GetSchedule(scheduleId, userId);
+        var schedule = await GetScheduleById(scheduleId, userId);
+
         schedule.ActivationCron = CronHelper.CreateCronExpressions(day, hour, minute);
 
         await _context.SaveChangesAsync();
+    }
+
+    private Task<IQueryable<Schedule>> GetSchedulesQueryAsync(Guid scheduleId, string userId)
+    {
+        return Task.FromResult(_context.Schedules
+            .Where(s => s.Id == scheduleId && s.UserId == userId));
+    }
+
+    private async Task<Schedule> GetScheduleById(Guid scheduleId, string userId)
+    {
+        var schedule = (await GetSchedulesQueryAsync(scheduleId, userId)).FirstOrDefault();
+
+        return schedule ?? throw new ScheduleNotFoundException();
+    }
+
+    private async Task<Schedule> GetScheduleByIdWithDevices(Guid scheduleId, string userId)
+    {
+        var schedule = (await GetSchedulesQueryAsync(scheduleId, userId))
+            .Include(s => s.ScheduleDevices)
+            .ThenInclude(d => d.Device)
+            .FirstOrDefault();
+
+        return schedule ?? throw new ScheduleNotFoundException();
+    }
+
+    private async Task<ScheduleDevice> GetScheduleDeviceById(Guid scheduleId, Guid deviceId, string userId)
+    {
+        var device = await _context.ScheduleDevices
+            .Include(d => d.Schedule)
+            .Where(d => d.ScheduleId == scheduleId && d.DeviceId == deviceId && d.Schedule != null && d.Schedule.UserId == userId)
+            .FirstOrDefaultAsync();
+
+        return device ?? throw new DeviceNotFoundException();
     }
 }

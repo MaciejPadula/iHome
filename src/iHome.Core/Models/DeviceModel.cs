@@ -1,16 +1,17 @@
 ﻿using iHome.Infrastructure.SQL.Models;
 
-namespace iHome.Models.Responses;
+namespace iHome.Core.Models;
 
-public class GetDevicesDevice
+public class DeviceModel
 {
     public Guid Id { get; init; }
     public string Name { get; set; }
     public DeviceType Type { get; init; }
     public Guid RoomId { get; set; }
     public string MacAddress { get; init; }
+    public string? Data { get; set; }
 
-    public GetDevicesDevice(Device? device)
+    public DeviceModel(Device? device)
     {
         Id = device?.Id ?? Guid.Empty;
         Name = device?.Name ?? string.Empty;

@@ -1,17 +1,18 @@
 ﻿using iHome.Infrastructure.SQL.Models;
 using iHome.Shared.Logic;
 
-namespace iHome.Models.Responses;
+namespace iHome.Core.Models;
 
-public class GetSchedulesSchedule
+public class ScheduleModel
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = new Guid();
     public string Name { get; set; }
     public int Hour { get; set; }
     public int Minute { get; set; }
-    public IEnumerable<GetScheduleDevicesDevice>? Devices { get; set; }
+    public bool Runned { get; set; }
+    public IEnumerable<ScheduleDeviceModel> Devices { get; set; }
 
-    public GetSchedulesSchedule(Schedule schedule)
+    public ScheduleModel(Schedule schedule)
     {
         Id = schedule.Id;
         Name = schedule.Name;
@@ -23,9 +24,9 @@ public class GetSchedulesSchedule
             Minute = occurence.Value.Minute;
         }
 
-        if (schedule.ScheduleDevices?.Any() ?? false)
-        {
-            Devices = schedule.ScheduleDevices.Select(d => new GetScheduleDevicesDevice(d));
-        }
+        Devices = schedule.ScheduleDevices?
+            .Select(d => new ScheduleDeviceModel(d)) ?? Enumerable.Empty<ScheduleDeviceModel>();
+
+        Runned = Random.Shared.NextDouble() >= 0.5;
     }
 }

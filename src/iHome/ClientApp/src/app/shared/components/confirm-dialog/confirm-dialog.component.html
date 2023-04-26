@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content>
+  {{additionalText}}
+</div>
+<div mat-dialog-actions class="flex !justify-end">
+  <button mat-button (click)="onNoClick()" cdkFocusInitial>Close</button>
+  <button mat-raised-button color="primary" (click)="OnConfirmClicked()">Confirm</button>
+</div>

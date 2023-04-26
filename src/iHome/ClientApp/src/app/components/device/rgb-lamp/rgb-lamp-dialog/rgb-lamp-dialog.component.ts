@@ -49,7 +49,14 @@ export class RgbLampDialogComponent implements OnInit {
   }
 
   public closeDialog() {
-    if(!this._changed) return;
+    this.dialogRef.close(null);
+  }
+
+  public saveChanges(){
+    if(!this._changed) {
+      this.closeDialog();
+      return;
+    }
 
     const data = this._deviceDataHelper
       .getRgbLampData(this.colorPickerControl.value, this.stateControl.value, null);

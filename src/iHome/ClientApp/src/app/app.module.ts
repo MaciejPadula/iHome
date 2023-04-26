@@ -48,10 +48,12 @@ import { ErrorDialogComponent } from './errors/error-dialog/error-dialog.compone
 import { SchedulesComponent } from './pages/schedules/schedules.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { ScheduleDeviceComponent } from './components/schedule-device/schedule-device.component';
-import { InputDialogComponent } from './components/input-dialog/input-dialog.component';
+import { InputDialogComponent } from './shared/components/input-dialog/input-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
+import { DevicePreviewComponent } from './components/device-preview/device-preview.component';
 
 
 @NgModule({
@@ -76,7 +78,9 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
     SchedulesComponent,
     ScheduleComponent,
     ScheduleDeviceComponent,
-    InputDialogComponent
+    InputDialogComponent,
+    ConfirmDialogComponent,
+    DevicePreviewComponent
   ],
   imports: [
     BrowserModule,

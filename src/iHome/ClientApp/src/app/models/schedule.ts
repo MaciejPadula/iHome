@@ -5,5 +5,6 @@ export interface Schedule {
     name: string;
     hour: number;
     minute: number;
+    runned: boolean;
     devices: ScheduleDevice[];
 }

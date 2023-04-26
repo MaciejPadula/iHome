@@ -4,6 +4,7 @@ using iHome.Core.Services.Schedules;
 using iHome.Logic;
 using iHome.Models.Requests.Schedules;
 using iHome.Models.Responses;
+using iHome.Models.Responses.Schedules;
 using iHome.Shared.Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,18 +39,9 @@ public class ScheduleController : ControllerBase
     [HttpGet("GetSchedules")]
     public async Task<IActionResult> GetSchedules()
     {
-        var schedules = (await _scheduleService.GetSchedules(_userAccessor.UserId))
-            .Select(s => new GetSchedulesSchedule(s));
+        var schedules = await _scheduleService.GetSchedules(_userAccessor.UserId);
 
         return Ok(schedules);
-    }
-
-    [HttpGet("GetScheduleIds")]
-    public async Task<IActionResult> GetScheduleIds()
-    {
-        var scheduleIds = await _scheduleService.GetScheduleIds(_userAccessor.UserId);
-
-        return Ok(scheduleIds);
     }
 
     [HttpGet("GetSchedule/{id}")]
@@ -57,13 +49,13 @@ public class ScheduleController : ControllerBase
     {
         var schedule = await _scheduleService.GetScheduleWithDevices(id, _userAccessor.UserId);
 
-        return Ok(new GetSchedulesSchedule(schedule));
+        return Ok(schedule);
     }
 
     [HttpGet("GetScheduleDevicesCount")]
     public async Task<IActionResult> GetScheduleDevicesCount(Guid scheduleId)
     {
-        return Ok(new
+        return Ok(new GetScheduleDevicesCountResponse
         {
             Count = await _scheduleService.GetDevicesInScheduleCount(scheduleId, _userAccessor.UserId)
         });
@@ -82,7 +74,7 @@ public class ScheduleController : ControllerBase
     {
         var scheduleDevices = await _scheduleService.GetScheduleDevices(id, _userAccessor.UserId);
 
-        return Ok(scheduleDevices.Select(s => new GetScheduleDevicesDevice(s)));
+        return Ok(scheduleDevices);
     }
 
     [HttpDelete("RemoveSchedule/{id}")]
