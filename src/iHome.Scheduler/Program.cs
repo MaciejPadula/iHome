@@ -4,8 +4,17 @@ using iHome.Scheduler.Contexts;
 using iHome.Scheduler.Infrastructure.Helpers;
 using iHome.Scheduler.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 var services = new ServiceCollection();
+
+services.AddLogging(builder =>
+{
+    builder
+        .AddConsole()
+        .AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Error)
+        .SetMinimumLevel(LogLevel.Information);
+});
 
 services.AddDataContexts("");
 services.AddFirebaseRepositories("", "");

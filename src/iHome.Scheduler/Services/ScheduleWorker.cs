@@ -1,4 +1,5 @@
 ﻿using iHome.Scheduler.Contexts;
+using Microsoft.Extensions.Logging;
 
 namespace iHome.Scheduler.Services;
 
@@ -9,12 +10,14 @@ public interface IScheduleWorker
 
 public class ScheduleWorker : IScheduleWorker
 {
+    private readonly ILogger<IScheduleWorker> _logger;
     private readonly WorkerContext _context;
     private readonly ISchedulesProvider _schedulesProvider;
     private readonly ISchedulesUpdater _schedulesUpdater;
 
-    public ScheduleWorker(WorkerContext context, ISchedulesProvider schedulesProvider, ISchedulesUpdater schedulesUpdater)
+    public ScheduleWorker(ILogger<IScheduleWorker> logger, WorkerContext context, ISchedulesProvider schedulesProvider, ISchedulesUpdater schedulesUpdater)
     {
+        _logger = logger;
         _context = context;
         _schedulesProvider = schedulesProvider;
         _schedulesUpdater = schedulesUpdater;
@@ -24,21 +27,39 @@ public class ScheduleWorker : IScheduleWorker
     {
         while (_context.IsRunning)
         {
-            await Working();
-            await Task.Delay(100);
+            _logger.LogInformation("===STARTING PROCESS===");
+            var schedulesProcessedCount = await Working();
+            _logger.LogInformation($"Schedules Processed: {schedulesProcessedCount}");
+
+            await Task.Delay(_context.JobDelay);
         }
     }
 
-    public async Task Working()
+    public async Task<int> Working()
     {
+        var runnedSchedules = 0;
         var tasks = new List<Task>();
-        var schedules = await _schedulesProvider.GetSchedulesToRun(DateTime.UtcNow);
+        var schedules = await _schedulesProvider.GetSchedulesToRun();
 
         foreach (var schedule in schedules)
         {
-            tasks.Add(_schedulesUpdater.UpdateDevicesFromSchedule(schedule));
+            tasks.Add(Task.FromResult(async () =>
+            {
+                try
+                {
+                    await _schedulesUpdater.UpdateDevicesFromSchedule(schedule);
+                    runnedSchedules += 1;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message);
+                }
+            }));
         }
 
         await Task.WhenAll(tasks);
+        await _schedulesProvider.AddToRunned(schedules);
+
+        return runnedSchedules;
     }
 }

@@ -4,7 +4,8 @@ namespace iHome.Scheduler.Infrastructure.Services;
 
 public interface ISchedulesService
 {
-    Task<IEnumerable<ScheduleDevice>> GetScheduleDevices(Guid scheduleId, string userId);
+    Task<IEnumerable<ScheduleDevice>> GetScheduleDevices(Guid scheduleId);
     Task<IEnumerable<Schedule>> GetAllSchedules();
-    Task<IEnumerable<Schedule>> GetToRunSchedules(Action<string> cronComparer);
+    Task<IEnumerable<Schedule>> GetToRunSchedules(Func<string, bool> cronComparer);
+    Task AddRunnedSchedules(IEnumerable<Guid> scheduleIds);
 }

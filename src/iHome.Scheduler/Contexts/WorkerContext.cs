@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace iHome.Scheduler.Contexts;
+﻿namespace iHome.Scheduler.Contexts;
 
 public class WorkerContext
 {
     public bool IsRunning { get; set; } = true;
+    public TimeSpan JobDelay { get; set; } = TimeSpan.FromSeconds(1);
 }
