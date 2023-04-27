@@ -1,5 +1,7 @@
 <button class="device-preview-box">
-  <div>Preview</div>
+  <div *ngIf="deviceType === type.RGBLamp"
+    class="h-20 w-full"
+    [style]="'background-color: rgb(' + lampData.red + ', ' + lampData.green + ', ' + lampData.blue + ');'">
+  </div>
   <div>{{deviceName}}</div>
-  <div>{{deviceData}}</div>
 </button>

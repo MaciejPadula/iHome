@@ -69,7 +69,10 @@ public class DeviceController : ControllerBase, IDeviceDataService
             devices.AddRange(await _deviceService.GetDevices(_userAccessor.UserId));
         }
 
-        return devices.Select(d => new DeviceModel(d));
+        return devices.Select(d => new DeviceModel(d)
+        {
+            Data = _deviceService.GetDeviceData(d.Id, _userAccessor.UserId).Result
+        });
     }
 
     private readonly List<DeviceType> _devicesForScheduling = new()
