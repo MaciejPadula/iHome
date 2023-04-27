@@ -15,4 +15,5 @@ public class Schedule
     public required string UserId { get; set; }
 
     public virtual ICollection<ScheduleDevice> ScheduleDevices { get; set; } = new List<ScheduleDevice>();
+    public virtual ICollection<ScheduleRunHistory> ScheduleRuns { get; set; } = new List<ScheduleRunHistory>();
 }

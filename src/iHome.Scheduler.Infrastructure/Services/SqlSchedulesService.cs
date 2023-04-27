@@ -77,7 +77,7 @@ public class SqlSchedulesService : ISchedulesService
             {
                 Id = Guid.NewGuid(),
                 ScheduleId = scheduleId,
-                RunDate = _dateTimeProvider.Now
+                RunDate = _dateTimeProvider.UtcNow
             });
         }
 

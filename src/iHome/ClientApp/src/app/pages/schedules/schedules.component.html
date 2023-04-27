@@ -6,11 +6,11 @@
     <mat-expansion-panel *ngFor="let schedule of schedules">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon *ngIf="schedule.runned" color="accent" class="rotate">
+          <mat-icon *ngIf="!schedule.runned" color="accent" class="rotate">
             loop
           </mat-icon>
 
-          <mat-icon *ngIf="!schedule.runned" color="primary">
+          <mat-icon *ngIf="schedule.runned" color="primary">
             check_circle
           </mat-icon>
 

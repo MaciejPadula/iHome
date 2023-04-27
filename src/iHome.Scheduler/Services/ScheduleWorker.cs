@@ -43,23 +43,12 @@ public class ScheduleWorker : IScheduleWorker
 
         foreach (var schedule in schedules)
         {
-            tasks.Add(Task.FromResult(async () =>
-            {
-                try
-                {
-                    await _schedulesUpdater.UpdateDevicesFromSchedule(schedule);
-                    runnedSchedules += 1;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex.Message);
-                }
-            }));
+            tasks.Add(_schedulesUpdater.UpdateDevicesFromSchedule(schedule));
         }
 
         await Task.WhenAll(tasks);
         await _schedulesProvider.AddToRunned(schedules);
 
-        return runnedSchedules;
+        return tasks.Count;
     }
 }
