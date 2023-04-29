@@ -76,6 +76,8 @@ jobs:
 
     - name: Change Dir To Terraform
       run: cd terraform
+    - name: test
+      run: pwd
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
