@@ -45,9 +45,6 @@
 name: 'Terraform'
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -57,6 +54,11 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
     environment: production
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
