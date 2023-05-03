@@ -13,6 +13,7 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
       TF_VAR_sql_login: ${{ secrets.SQL_LOGIN }}
       TF_VAR_sql_password: ${{ secrets.SQL_PASSWORD }}
+      TF_VAR_env: 'dev'
     runs-on: ubuntu-latest
     environment: dev
  
