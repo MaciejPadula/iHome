@@ -25,6 +25,14 @@ export class RgbLampComponent implements OnInit {
   private dataSubject$ = new Subject<RgbLampData>();
   public data$: Observable<RgbLampData>;
 
+  private readonly defaultData: RgbLampData = {
+    red: 0,
+    green: 0,
+    blue: 0,
+    state: false,
+    mode: 0
+  }
+
   constructor(
     private _deviceService: DevicesService,
     private _dialog: MatDialog,
@@ -39,7 +47,7 @@ export class RgbLampComponent implements OnInit {
         filter(data => data == this.device.id)
       )
       .subscribe(() => this.getDeviceData());
-    
+
     this.data$ = this.dataSubject$.asObservable()
       .pipe(
         map(data => {
@@ -55,7 +63,9 @@ export class RgbLampComponent implements OnInit {
     const data = this._deviceDataHelper
       .getRgbLampDataWithAndOverrideState(currentData, this.stateControl.value);
 
-    this._deviceService.setDeviceData(this.device.id, JSON.stringify(data))
+    const json = JSON.stringify(data);
+
+    this._deviceService.setDeviceData(this.device.id, json)
       .subscribe(() => this._refreshService.refreshDevice(this.device.id));
   }
 
@@ -65,7 +75,7 @@ export class RgbLampComponent implements OnInit {
 
   private getDeviceData() {
     this._deviceService.getDeviceData<RgbLampData>(this.device.id)
-      .subscribe(data => this.dataSubject$.next(data));
+      .subscribe(data => this.dataSubject$.next(data ?? this.defaultData));
   }
 
   public composeDialog(data: RgbLampData){
@@ -75,6 +85,12 @@ export class RgbLampComponent implements OnInit {
         device: this.device,
         data
       }
+    })
+    .afterClosed()
+    .subscribe(result => {
+      if(!result) return;
+
+      this.updateDeviceData(result)
     });
   }
 }

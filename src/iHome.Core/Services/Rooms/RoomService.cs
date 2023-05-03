@@ -1,4 +1,5 @@
 ﻿using iHome.Core.Exceptions;
+using iHome.Core.Exceptions.SqlExceptions;
 using iHome.Core.Models;
 using iHome.Core.Services.Users;
 using iHome.Infrastructure.SQL.Contexts;

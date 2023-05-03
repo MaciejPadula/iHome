@@ -1,12 +1,13 @@
 <button mat-button *ngIf="(isAuthenticated | async) === false" (click)="login()">Login</button>
 
 <div *ngIf="user | async as user">
-    <button mat-button class="w-20">
-        <img [src]="user.picture" [matMenuTriggerFor]="menu" class="rounded-full w-full h-full" />
+    <button mat-button class="w-2 aspect-square" [matMenuTriggerFor]="menu">
+        <img [src]="user.picture" class="rounded-full w-full" />
     </button>
-    
+
     <mat-menu #menu="matMenu">
         <button mat-menu-item [routerLink]="'/rooms'">Rooms</button>
+        <button mat-menu-item [routerLink]="'/schedules'">Schedules</button>
         <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
 </div>

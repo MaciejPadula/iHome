@@ -1,6 +1,6 @@
-﻿using iHome.Scheduler.Infrastructure.Models;
+﻿using iHome.Infrastructure.SQL.Models;
+using iHome.Scheduler.Infrastructure.Models;
 using iHome.Scheduler.Infrastructure.Services;
-using iHome.Scheduler.Repositories.Models;
 
 namespace iHome.Scheduler.Services;
 

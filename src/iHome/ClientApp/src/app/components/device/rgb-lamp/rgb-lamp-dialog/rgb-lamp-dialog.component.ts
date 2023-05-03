@@ -3,10 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ColorPickerControl } from '@iplab/ngx-color-picker';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { debounceTime } from 'rxjs';
 import { DeviceDataHelper } from 'src/app/helpers/device-data.helper';
-import { DevicesService } from 'src/app/services/devices.service';
-import { RefreshService } from 'src/app/services/refresh.service';
 import { RgbLampDialogData } from './rgb-lamp-dialog-data';
 
 @UntilDestroy()
@@ -23,12 +20,10 @@ export class RgbLampDialogComponent implements OnInit {
 
   public stateControl = new FormControl(false);
 
-  private readonly debounceTime = 300;
+  private _changed = false;
 
   constructor(
     public dialogRef: MatDialogRef<RgbLampDialogComponent>,
-    private _deviceService: DevicesService,
-    private _refreshService: RefreshService,
     private _deviceDataHelper: DeviceDataHelper,
     @Inject(MAT_DIALOG_DATA) public data: RgbLampDialogData
   ) {}
@@ -36,22 +31,36 @@ export class RgbLampDialogComponent implements OnInit {
   ngOnInit(): void {
     this.colorPickerControl.setValueFrom(
       this._deviceDataHelper.getColorFromRgbLampData(this.data.data));
-    
+
     this.stateControl.setValue(this.data.data.state);
 
     this.colorPickerControl.valueChanges
-      .pipe(
-        untilDestroyed(this),
-        debounceTime(this.debounceTime)
-      )
-      .subscribe(() => this.updateDeviceData());
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this._changed = true);
+
+    this.stateControl.valueChanges
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this._changed = true);
+
+    this.dialogRef
+      .backdropClick()
+      .pipe(untilDestroyed(this))
+      .subscribe(() => { this.closeDialog(); });
   }
 
-  public updateDeviceData(){
+  public closeDialog() {
+    this.dialogRef.close(null);
+  }
+
+  public saveChanges(){
+    if(!this._changed) {
+      this.closeDialog();
+      return;
+    }
+
     const data = this._deviceDataHelper
       .getRgbLampData(this.colorPickerControl.value, this.stateControl.value, null);
 
-    this._deviceService.setDeviceData(this.data.device.id, JSON.stringify(data))
-      .subscribe(() => this._refreshService.refreshDevice(this.data.device.id));
+    this.dialogRef.close(data);
   }
 }

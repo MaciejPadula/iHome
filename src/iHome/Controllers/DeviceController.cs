@@ -1,11 +1,14 @@
-﻿using iHome.Core.Services.Devices;
+﻿using iHome.Core.Models;
+using iHome.Core.Services.Devices;
 using iHome.Devices.Contract.Interfaces;
 using iHome.Devices.Contract.Models.Requests;
 using iHome.Infrastructure.SQL.Models;
 using iHome.Logic;
 using iHome.Models.Requests;
+using iHome.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace iHome.Controllers;
 
@@ -54,11 +57,40 @@ public class DeviceController : ControllerBase, IDeviceDataService
     }
 
     [HttpPost("GetDevices")]
-    public async Task<IEnumerable<Device>> GetDevices([FromBody] GetDevicesRequest request)
+    public async Task<IEnumerable<DeviceModel>> GetDevices([FromBody] GetDevicesRequest request)
     {
-        var devices = await _deviceService.GetDevices(request.RoomId, _userAccessor.UserId);
+        var devices = new List<Device>();
+        if(request.RoomId.HasValue)
+        {
+            devices.AddRange(await _deviceService.GetDevices(request.RoomId.Value, _userAccessor.UserId));
+        }
+        else
+        {
+            devices.AddRange(await _deviceService.GetDevices(_userAccessor.UserId));
+        }
 
-        return devices;
+        return devices.Select(d => new DeviceModel(d)
+        {
+            Data = _deviceService.GetDeviceData(d.Id, _userAccessor.UserId).Result
+        });
+    }
+
+    private readonly List<DeviceType> _devicesForScheduling = new()
+    {
+        DeviceType.RGBLamp
+    };
+
+    [HttpPost("GetDevicesForScheduling")]
+    public async Task<IEnumerable<DeviceModel>> GetDevicesForScheduling()
+    {
+        var devices = await _deviceService.GetDevices(_userAccessor.UserId);
+
+        return devices
+            .Where(d => _devicesForScheduling.Any(type => d.Type == type))
+            .Select(d => new DeviceModel(d)
+            {
+                Data = _deviceService.GetDeviceData(d.Id, _userAccessor.UserId).Result
+            });
     }
 
     [HttpPost("RemoveDevice")]

@@ -1,29 +1,3 @@
-<nav mat-tab-nav-bar mat-align-tabs="center" *ngIf="anyRoom">
-  <ng-template #loading>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  </ng-template>
-  <div *ngIf="rooms$ | async as rooms; else loading">
-    <a mat-tab-link *ngFor="let room of rooms" [routerLink]="'/rooms/' + room.id" [state]="room" routerLinkActive #rla="routerLinkActive"
-    [active]="rla.isActive">
-      <div>
-        {{room.name}}
-      </div>
-      <button mat-icon-button [matMenuTriggerFor]="actions" (click)="$event.stopPropagation();$event.preventDefault()">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #actions="matMenu">
-        <button mat-menu-item (click)="removeRoom(room.id)">
-          <mat-icon>delete</mat-icon>
-          Remove
-        </button>
-      </mat-menu>
-    </a>
-    <button mat-icon-button color="accent" (click)="composeAddRoomDialog()">
-        <mat-icon>add</mat-icon>
-    </button>
-  </div>
-</nav>
-
 <app-room *ngIf="anyRoom"></app-room>
 
 <div *ngIf="!anyRoom">
@@ -32,7 +6,7 @@
   </ng-template>
   <div *ngIf="rooms$ | async as rooms; else loading" class="flex flex-col justify-center items-center">
     <div *ngFor="let room of rooms" class="p-4 w-full flex flex-row justify-between">
-      <a class="flex flex-row items-center" [routerLink]="'/rooms/' + room.id">
+      <a class="flex flex-row items-center w-full" [routerLink]="'/rooms/' + room.id">
         <div class="w-14 h-14 m-4">
           <img class="rounded-full w-full h-full" src="https://www.thespruce.com/thmb/iMt63n8NGCojUETr6-T8oj-5-ns=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/PAinteriors-7-cafe9c2bd6be4823b9345e591e4f367f.jpg">
         </div>

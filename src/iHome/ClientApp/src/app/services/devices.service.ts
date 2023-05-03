@@ -19,6 +19,14 @@ export class DevicesService {
     });
   }
 
+  public getDevices(): Observable<Device[]> {
+    return this._api.post<Device[]>(this._baseApiUrl + 'GetDevices', {});
+  }
+
+  public getDevicesForScheduling(): Observable<Device[]> {
+    return this._api.post<Device[]>(this._baseApiUrl + 'GetDevicesForScheduling', {});
+  }
+
   public getDeviceData<T>(deviceId: string): Observable<T> {
     return this._api.post<T>(this._baseApiUrl + 'GetDeviceData', {
       deviceId

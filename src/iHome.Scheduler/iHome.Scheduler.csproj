@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\iHome.Scheduler.Infrastructure\iHome.Scheduler.Infrastructure.csproj" />
+    <ProjectReference Include="..\iHome.Shared\iHome.Shared.csproj" />
   </ItemGroup>
 
 </Project>

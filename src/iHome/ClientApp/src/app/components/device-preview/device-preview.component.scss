@@ -1,0 +1,16 @@
+.device-preview-box {
+  width: 8rem;
+  max-width: 10rem;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: solid #323232 1px;
+
+  aspect-ratio: 1/1;
+  border-radius: 10%;
+  padding: 0.5rem;
+}
