@@ -1,3 +1,5 @@
+IN REFACTOR
+
 # iHome
 iHome is platform based on Azure SQL Database that maintains control over ESP8266 based intelligent home devices such as RGB light bulbs and remote accessed electric sockets.
 # How is it working?
