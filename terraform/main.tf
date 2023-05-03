@@ -11,7 +11,7 @@ resource "azurerm_storage_account" "ihome-sa" {
   account_replication_type = "LRS"
 }
 
-resource "azurerm_storage_queue" "example" {
+resource "azurerm_storage_queue" "device-data-events" {
   name                     = "device-data-events"
   storage_account_name     = azurerm_storage_account.ihome-sa.name
 }
