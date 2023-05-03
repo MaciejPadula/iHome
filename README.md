@@ -1,4 +1,3 @@
-[![Build and deploy .NET Core app to iHomeWebApp](https://github.com/MaciejPadula/iHome/actions/workflows/iHomeWebApp.yml/badge.svg)](https://github.com/MaciejPadula/iHome/actions/workflows/iHomeWebApp.yml)
 # iHome
 iHome is platform based on Azure SQL Database that maintains control over ESP8266 based intelligent home devices such as RGB light bulbs and remote accessed electric sockets.
 # How is it working?

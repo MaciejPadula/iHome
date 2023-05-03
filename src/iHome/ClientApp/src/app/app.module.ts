@@ -54,6 +54,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { DevicePreviewComponent } from './components/device-preview/device-preview.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
 
 
 @NgModule({
@@ -80,7 +82,8 @@ import { DevicePreviewComponent } from './components/device-preview/device-previ
     ScheduleDeviceComponent,
     InputDialogComponent,
     ConfirmDialogComponent,
-    DevicePreviewComponent
+    DevicePreviewComponent,
+    AddScheduleComponent
   ],
   imports: [
     BrowserModule,
@@ -132,7 +135,8 @@ import { DevicePreviewComponent } from './components/device-preview/device-previ
     MatSnackBarModule,
     MatExpansionModule,
     MatDividerModule,
-    NgxMatTimepickerModule
+    NgxMatTimepickerModule,
+    MatStepperModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

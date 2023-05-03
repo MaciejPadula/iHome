@@ -13,11 +13,15 @@
     <mat-sidenav mode="side" class="example-sidenav" position="end"
         [fixedInViewport]="true" [(opened)]="opened">
         <div cdkDropList class="flex h-full flex-col">
-            <div *ngFor="let device of devices$ | async" cdkDrag [cdkDragData]="device" class="device-row">
-                {{device.name}}
-            </div>
+
+          <app-device-preview *ngFor="let device of devices$ | async" cdkDrag [cdkDragData]="device"
+            [deviceName]="device.name"
+            [deviceType]="device.type"
+            [deviceData]="device.data ?? '{}'"
+          >
+          </app-device-preview>
         </div>
-        
+
     </mat-sidenav>
     <mat-sidenav-content>
         <button mat-raised-button color="primary" (click)="toggle();">

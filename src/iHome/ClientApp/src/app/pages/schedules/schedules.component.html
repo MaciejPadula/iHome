@@ -1,6 +1,12 @@
 <ng-template #loading>
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </ng-template>
+<div class="flex justify-evenly p-4">
+  <button mat-raised-button color="primary" routerLink="/add-schedule">
+    Add new schedule
+    <mat-icon>add_to_home_screen</mat-icon>
+  </button>
+</div>
 <div *ngIf="schedules$ | async as schedules; else loading" class="schedules-container w-full sm:w-4/5 m-auto">
   <mat-accordion class="w-full p-4" multi *ngIf="devicesForScheduling$ | async as devicesForScheduling; else loading">
     <mat-expansion-panel *ngFor="let schedule of schedules">
@@ -18,7 +24,7 @@
             {{schedule.name}}
           </div>
         </mat-panel-title>
-        <mat-panel-description class="flex justify-end">
+        <mat-panel-description class="flex justify-end !flex-grow">
           <div>{{getTimeFormatted(schedule.hour, schedule.minute)}}</div>
           <button mat-icon-button (click)="$event.stopPropagation();composeDialogRemoveSchedule(schedule.id, schedule.name)">
             <mat-icon>delete</mat-icon>
@@ -29,7 +35,4 @@
       <app-schedule class="w-full" [scheduleId]="schedule.id" [devicesForScheduling]="devicesForScheduling"></app-schedule>
     </mat-expansion-panel>
   </mat-accordion>
-  <button mat-icon-button color="accent" (click)="composeDialogAddSchedule()">
-    <mat-icon>add</mat-icon>
-  </button>
 </div>

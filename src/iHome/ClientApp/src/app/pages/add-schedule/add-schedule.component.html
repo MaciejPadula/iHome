@@ -1,0 +1,55 @@
+<mat-vertical-stepper [linear]="true" #stepper>
+
+  <mat-step [stepControl]="addScheduleStepperFirstFormGroup" [editable]="true">
+    <form [formGroup]="addScheduleStepperFirstFormGroup">
+      <ng-template matStepLabel>Fill out schedule name</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Schedule name</mat-label>
+        <input matInput formControlName="scheduleName" placeholder="Turn on lamp on 7:00" required>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button matStepperNext [color]="addScheduleStepperFirstFormGroup.valid ? 'primary': ''">Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="addScheduleStepperSecondFormGroup" [editable]="true">
+    <form [formGroup]="addScheduleStepperSecondFormGroup">
+      <ng-template matStepLabel>Fill out schedule run hour</ng-template>
+      <mat-form-field>
+        <input matInput
+               formControlName="scheduleTime"
+               [format]="24"
+               [ngxMatTimepicker]="timePicker"
+               readonly />
+        <mat-icon matSuffix
+                  (click)="timePicker.open()">
+            watch_later
+        </mat-icon>
+      </mat-form-field>
+      <ngx-mat-timepicker color="accent" #timePicker></ngx-mat-timepicker>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-raised-button matStepperNext [color]="addScheduleStepperSecondFormGroup.valid ? 'primary': ''">Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [editable]="true">
+    <ng-template matStepLabel>Devices in schedule</ng-template>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-raised-button matStepperNext [color]="addScheduleStepperSecondFormGroup.valid ? 'primary': ''">Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" (click)="addSchedule()">Save</button>
+    </div>
+  </mat-step>
+
+</mat-vertical-stepper>

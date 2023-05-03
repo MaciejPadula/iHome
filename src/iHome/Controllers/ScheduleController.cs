@@ -41,7 +41,9 @@ public class ScheduleController : ControllerBase
     {
         var schedules = await _scheduleService.GetSchedules(_userAccessor.UserId);
 
-        return Ok(schedules);
+        return Ok(schedules
+            .OrderBy(s => s.Hour)
+            .ThenBy(s => s.Minute));
     }
 
     [HttpGet("GetSchedule/{id}")]
