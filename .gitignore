@@ -63,3 +63,12 @@ src/iHome.Infrastructure.Queue/bin
 src/iHome.EventsExecutor/bin
 src/iHome.EventsExecutor/obj
 src/iHome.EventsExecutor/appsettings.json
+deprecated/iHome/.vs
+deprecated/iHome/iHome.AzureFunctions/Properties
+deprecated/iHome/iHome.Backend/bin
+deprecated/iHome/iHome.Backend/obj
+deprecated/iHome/iHome.Backend/appsettings.json
+deprecated/iHome/iHome.Core/bin
+deprecated/iHome/iHome.Core/obj
+deprecated/iHome/iHome.WearOS/bin
+deprecated/iHome/iHome.WearOS/obj
