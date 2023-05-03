@@ -33,7 +33,7 @@ public static class DataUpdateDependencyInjectionExtensions
     {
         services.AddDataQueueReader(azureConnectionString);
         services.AddDataQueueWriter(azureConnectionString);
-        services.AddScoped<IDataUpdateQueue<DataUpdateModel>, DataUpdateQueue<DataUpdateModel>>();
+        services.AddScoped<IQueueFullAccess<DataUpdateModel>, QueueFullAccess<DataUpdateModel>>();
 
         return services;
     }
