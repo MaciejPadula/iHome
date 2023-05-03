@@ -12,6 +12,7 @@ public class SqlDataContext : DbContext
     public DbSet<WidgetDevice> WidgetsDevices => Set<WidgetDevice>();
     public DbSet<Schedule> Schedules => Set<Schedule>();
     public DbSet<ScheduleDevice> ScheduleDevices => Set<ScheduleDevice>();
+    public DbSet<ScheduleRunHistory> SchedulesRunHistory => Set<ScheduleRunHistory>();
 
     public SqlDataContext(DbContextOptions<SqlDataContext> options)
         : base(options)

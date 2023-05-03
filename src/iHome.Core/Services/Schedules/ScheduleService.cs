@@ -93,6 +93,7 @@ public class ScheduleService : IScheduleService
     {
         var schedules = _context.Schedules
             .Where(s => s.UserId == userId)
+            .Include(s => s.ScheduleRuns)
             .Select(s => new ScheduleModel(s))
             .AsEnumerable();
 
@@ -147,7 +148,8 @@ public class ScheduleService : IScheduleService
 
     private async Task<Schedule> GetScheduleById(Guid scheduleId, string userId)
     {
-        var schedule = (await GetSchedulesQueryAsync(scheduleId, userId)).FirstOrDefault();
+        var schedule = (await GetSchedulesQueryAsync(scheduleId, userId))
+            .FirstOrDefault();
 
         return schedule ?? throw new ScheduleNotFoundException();
     }

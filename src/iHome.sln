@@ -17,9 +17,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scheduler", "Scheduler", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Scheduler.Infrastructure", "iHome.Scheduler.Infrastructure\iHome.Scheduler.Infrastructure.csproj", "{DA9F57F3-DBDC-4847-9881-07CE42FF781E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Infrastructure.SQL", "iHome.Infrastructure.SQL\iHome.Infrastructure.SQL.csproj", "{58006680-F343-4B76-B00C-A06A404C35A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Infrastructure.SQL", "iHome.Infrastructure.SQL\iHome.Infrastructure.SQL.csproj", "{58006680-F343-4B76-B00C-A06A404C35A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Infrastructure.Firebase", "iHome.Infrastructure.Firebase\iHome.Infrastructure.Firebase.csproj", "{3F17BCC7-A1A8-4D24-B8D4-D1D701E17C01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Infrastructure.Firebase", "iHome.Infrastructure.Firebase\iHome.Infrastructure.Firebase.csproj", "{3F17BCC7-A1A8-4D24-B8D4-D1D701E17C01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Infrastructure.Queue", "iHome.Infrastructure.Queue\iHome.Infrastructure.Queue.csproj", "{2F6506EC-5A50-4E23-826C-2B2A6B6C970D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventsExecutor", "EventsExecutor", "{AF35775D-BD3E-42B5-B805-1FBBF99AE337}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.EventsExecutor", "iHome.EventsExecutor\iHome.EventsExecutor.csproj", "{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +65,14 @@ Global
 		{3F17BCC7-A1A8-4D24-B8D4-D1D701E17C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F17BCC7-A1A8-4D24-B8D4-D1D701E17C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F17BCC7-A1A8-4D24-B8D4-D1D701E17C01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F6506EC-5A50-4E23-826C-2B2A6B6C970D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F6506EC-5A50-4E23-826C-2B2A6B6C970D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F6506EC-5A50-4E23-826C-2B2A6B6C970D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F6506EC-5A50-4E23-826C-2B2A6B6C970D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +80,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B7F75556-937F-4827-8C69-E5CB7DC085BC} = {82B0E55D-B0E2-41ED-84AF-02223BBAAEC8}
 		{DA9F57F3-DBDC-4847-9881-07CE42FF781E} = {82B0E55D-B0E2-41ED-84AF-02223BBAAEC8}
+		{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6} = {AF35775D-BD3E-42B5-B805-1FBBF99AE337}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F49848F2-CCB8-493E-A966-BF779E2F2D29}

@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\iHome.Infrastructure.Firebase\iHome.Infrastructure.Firebase.csproj" />
     <ProjectReference Include="..\iHome.Infrastructure.SQL\iHome.Infrastructure.SQL.csproj" />
   </ItemGroup>
 

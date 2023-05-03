@@ -27,6 +27,7 @@ public class ScheduleModel
         Devices = schedule.ScheduleDevices?
             .Select(d => new ScheduleDeviceModel(d)) ?? Enumerable.Empty<ScheduleDeviceModel>();
 
-        Runned = Random.Shared.NextDouble() >= 0.5;
+        var lastRun = schedule.ScheduleRuns?.OrderByDescending(r => r.RunDate).FirstOrDefault();
+        Runned = DateTime.Compare(DateTime.UtcNow.Date, lastRun?.RunDate ?? DateTime.MinValue) < 0;
     }
 }
