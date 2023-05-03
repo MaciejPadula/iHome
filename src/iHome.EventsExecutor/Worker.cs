@@ -1,38 +1,38 @@
 ﻿using iHome.Infrastructure.Firebase.Repositories;
-using iHome.Infrastructure.Queue.DataUpdate.Read;
+using iHome.Infrastructure.Queue.Models;
+using iHome.Infrastructure.Queue.Service.Read;
 
-namespace iHome.EventsExecutor
+namespace iHome.EventsExecutor;
+
+public class Worker
 {
-    public class Worker
+    private readonly IQueueReader<DataUpdateModel> _queueReader;
+    private readonly IDeviceDataRepository _deviceDataRepository;
+    private readonly PeriodicTimer _timer;
+
+    public Worker(IQueueReader<DataUpdateModel> queueReader, IDeviceDataRepository deviceDataRepository)
     {
-        private readonly IDataUpdateQueueReader _queueReader;
-        private readonly IDeviceDataRepository _deviceDataRepository;
-        private readonly PeriodicTimer _timer;
+        _queueReader = queueReader;
+        _deviceDataRepository = deviceDataRepository;
 
-        public Worker(IDataUpdateQueueReader queueReader, IDeviceDataRepository deviceDataRepository)
+        _timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
+    }
+
+    public async Task Start()
+    {
+        while(await _timer.WaitForNextTickAsync())
         {
-            _queueReader = queueReader;
-            _deviceDataRepository = deviceDataRepository;
+            var tasks = new List<Task>();
 
-            _timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
-        }
-
-        public async Task Start()
-        {
-            while(await _timer.WaitForNextTickAsync())
+            while (await _queueReader.Peek() != null)
             {
-                var tasks = new List<Task>();
+                var device = await _queueReader.Pop();
+                if (device == null) continue;
 
-                while (await _queueReader.Peek() != null)
-                {
-                    var device = await _queueReader.Pop();
-                    if (device == null) continue;
-
-                    tasks.Add(_deviceDataRepository.SetData(device.MacAddress.ToString(), device.DeviceData));
-                }
-
-                await Task.WhenAll(tasks);
+                tasks.Add(_deviceDataRepository.SetData(device.MacAddress.ToString(), device.DeviceData));
             }
+
+            await Task.WhenAll(tasks);
         }
     }
 }

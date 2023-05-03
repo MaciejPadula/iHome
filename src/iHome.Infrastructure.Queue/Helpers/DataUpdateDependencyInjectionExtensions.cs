@@ -1,32 +1,47 @@
-﻿using iHome.Infrastructure.Queue.DataUpdate;
-using iHome.Infrastructure.Queue.DataUpdate.Read;
-using iHome.Infrastructure.Queue.DataUpdate.Write;
+﻿using Azure.Storage.Queues;
+using iHome.Infrastructure.Queue.Models;
+using iHome.Infrastructure.Queue.Service;
+using iHome.Infrastructure.Queue.Service.Read;
+using iHome.Infrastructure.Queue.Service.Write;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace iHome.Infrastructure.Queue.Helpers
+namespace iHome.Infrastructure.Queue.Helpers;
+
+public static class DataUpdateDependencyInjectionExtensions
 {
-    public static class DataUpdateDependencyInjectionExtensions
+    private const string QueueName = "device-data-events";
+    private static QueueClient? _queueClient;
+
+    public static IServiceCollection AddDataQueueReader(this IServiceCollection services, string? azureConnectionString)
     {
-        public static IServiceCollection AddDataQueueReader(this IServiceCollection services, string? azureConnectionString)
-        {
-            services.TryAddScoped<IDataUpdateQueueReader>(provider => new AzureDataQueueReader(azureConnectionString ?? string.Empty));
-            return services;
-        }
+        services.TryAddScoped<IQueueReader<DataUpdateModel>>(_ => 
+            new AzureQueueReader<DataUpdateModel>(CreateQueueClient(azureConnectionString)));
 
-        public static IServiceCollection AddDataQueueWriter(this IServiceCollection services, string? azureConnectionString)
-        {
-            services.TryAddScoped<IDataUpdateQueueWriter>(provider => new AzureDataUpdateQueueWriter(azureConnectionString ?? string.Empty));
-            return services;
-        }
+        return services;
+    }
 
-        public static IServiceCollection AddDataUpdateQueue(this IServiceCollection services, string? azureConnectionString)
-        {
-            services.AddDataQueueReader(azureConnectionString);
-            services.AddDataQueueWriter(azureConnectionString);
-            services.AddScoped<IDataUpdateQueue, DataUpdateQueue>();
+    public static IServiceCollection AddDataQueueWriter(this IServiceCollection services, string? azureConnectionString)
+    {
+        services.TryAddScoped<IQueueWriter<DataUpdateModel>>(_ =>
+            new AzureQueueWriter<DataUpdateModel>(CreateQueueClient(azureConnectionString)));
 
-            return services;
-        }
+        return services;
+    }
+
+    public static IServiceCollection AddDataUpdateQueue(this IServiceCollection services, string? azureConnectionString)
+    {
+        services.AddDataQueueReader(azureConnectionString);
+        services.AddDataQueueWriter(azureConnectionString);
+        services.AddScoped<IDataUpdateQueue<DataUpdateModel>, DataUpdateQueue<DataUpdateModel>>();
+
+        return services;
+    }
+
+    private static QueueClient CreateQueueClient(string? azureConnectionString)
+    {
+        _queueClient ??= new QueueClient(azureConnectionString, QueueName);
+
+        return _queueClient;
     }
 }

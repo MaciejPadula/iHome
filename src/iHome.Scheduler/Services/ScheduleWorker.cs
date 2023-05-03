@@ -1,5 +1,5 @@
-﻿using iHome.Infrastructure.Queue.DataUpdate.Write;
-using iHome.Infrastructure.Queue.Models;
+﻿using iHome.Infrastructure.Queue.Models;
+using iHome.Infrastructure.Queue.Service.Write;
 using iHome.Scheduler.Contexts;
 using Microsoft.Extensions.Logging;
 
@@ -15,10 +15,10 @@ public class ScheduleWorker : IScheduleWorker
     private readonly ILogger<IScheduleWorker> _logger;
     private readonly WorkerContext _context;
     private readonly ISchedulesProvider _schedulesProvider;
-    private readonly IDataUpdateQueueWriter _queueWriter;
+    private readonly IQueueWriter<DataUpdateModel> _queueWriter;
     private readonly PeriodicTimer _periodicTimer;
 
-    public ScheduleWorker(ILogger<IScheduleWorker> logger, WorkerContext context, ISchedulesProvider schedulesProvider, IDataUpdateQueueWriter queueWriter)
+    public ScheduleWorker(ILogger<IScheduleWorker> logger, WorkerContext context, ISchedulesProvider schedulesProvider, IQueueWriter<DataUpdateModel> queueWriter)
     {
         _logger = logger;
         _context = context;
