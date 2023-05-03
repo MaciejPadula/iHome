@@ -5,7 +5,7 @@ using iHome.Scheduler.Infrastructure.Helpers.DateTimeProvider;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 
-namespace iHome.Scheduler.Infrastructure.Services;
+namespace iHome.Scheduler.Infrastructure.Services.SchedulesService;
 
 public class SqlSchedulesService : ISchedulesService
 {
@@ -45,6 +45,7 @@ public class SqlSchedulesService : ISchedulesService
 
         var schedules = _context.Schedules
             .Include(s => s.ScheduleDevices)
+            .ThenInclude(s => s.Device)
             .Where(s => s.ScheduleDevices.Any())
             .Where(s => !todayRunnedSchedules.Any(id => id == s.Id));
 
@@ -71,7 +72,7 @@ public class SqlSchedulesService : ISchedulesService
 
     public async Task AddRunnedSchedules(IEnumerable<Guid> scheduleIds)
     {
-        foreach(var scheduleId in scheduleIds)
+        foreach (var scheduleId in scheduleIds)
         {
             _context.Add(new ScheduleRunHistory
             {

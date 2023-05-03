@@ -57,3 +57,9 @@ terraform/terraform.tfstate.backup
 src/iHome.Scheduler/bin
 src/iHome.Scheduler.Infrastructure/bin
 src/iHome/ClientApp/yarn.lock
+src/iHome.Infrastructure.Queue/obj
+src/iHome.Scheduler/appsettings.json
+src/iHome.Infrastructure.Queue/bin
+src/iHome.EventsExecutor/bin
+src/iHome.EventsExecutor/obj
+src/iHome.EventsExecutor/appsettings.json

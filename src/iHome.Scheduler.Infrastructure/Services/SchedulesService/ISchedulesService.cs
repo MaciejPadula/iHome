@@ -1,6 +1,6 @@
 ﻿using iHome.Infrastructure.SQL.Models;
 
-namespace iHome.Scheduler.Infrastructure.Services;
+namespace iHome.Scheduler.Infrastructure.Services.SchedulesService;
 
 public interface ISchedulesService
 {

@@ -2,7 +2,7 @@
 using iHome.Infrastructure.SQL.Models;
 using iHome.Scheduler.Infrastructure.Helpers;
 using iHome.Scheduler.Infrastructure.Helpers.DateTimeProvider;
-using iHome.Scheduler.Infrastructure.Services;
+using iHome.Scheduler.Infrastructure.Services.SchedulesService;
 
 namespace iHome.Scheduler.Services;
 

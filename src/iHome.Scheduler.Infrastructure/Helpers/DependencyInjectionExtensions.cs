@@ -1,5 +1,5 @@
 ﻿using iHome.Scheduler.Infrastructure.Helpers.DateTimeProvider;
-using iHome.Scheduler.Infrastructure.Services;
+using iHome.Scheduler.Infrastructure.Services.SchedulesService;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace iHome.Scheduler.Infrastructure.Helpers;
@@ -10,7 +10,6 @@ public static class DependencyInjectionExtensions
     {
         services.AddTransient<IDateTimeProvider, DefaultDateTimeProvider>();
         services.AddTransient<ISchedulesService, SqlSchedulesService>();
-        services.AddTransient<IDeviceDataService, FirebaseDeviceDataService>();
 
         return services;
     }

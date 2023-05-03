@@ -1,10 +1,16 @@
-﻿using iHome.Infrastructure.Firebase.Helpers;
+﻿using iHome.Infrastructure.Queue.Helpers;
 using iHome.Infrastructure.SQL.Helpers;
 using iHome.Scheduler.Contexts;
 using iHome.Scheduler.Infrastructure.Helpers;
 using iHome.Scheduler.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
+    .Build();
 
 var services = new ServiceCollection();
 
@@ -16,12 +22,11 @@ services.AddLogging(builder =>
         .SetMinimumLevel(LogLevel.Information);
 });
 
-services.AddDataContexts("");
-services.AddFirebaseRepositories("", "");
+services.AddDataContexts(configuration["ConnectionStrings:AzureSQL"]);
+services.AddDataQueueWriter(configuration["Azure:StorageConnectionString"]);
 services.AddSchedulesService();
 
 services.AddTransient<ISchedulesProvider, SchedulesProvider>();
-services.AddTransient<ISchedulesUpdater, SchedulesUpdater>();
 
 services.AddSingleton<WorkerContext>();
 services.AddSingleton<IScheduleWorker, ScheduleWorker>();
