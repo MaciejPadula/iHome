@@ -12,5 +12,6 @@ internal class ListQueueWriter<T> : IQueueWriter<T>
     public Task Push(T value)
     {
         _queue.Add(value);
+        return Task.CompletedTask;
     }
 }
