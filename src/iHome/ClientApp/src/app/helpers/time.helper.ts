@@ -27,6 +27,12 @@ export class TimeHelper {
     return new Date(2023, 3, 27, hour, minute, second);
   }
 
+  public getDateFromTimeString(timeString: string){
+    const date = timeString.split(':');
+
+    return this.getDateFromTime(parseInt(date[0]), parseInt(date[1]));
+  }
+
   private formatSegment(segment: number){
     const segmentString = segment.toFixed(0);
     return segmentString.length < 2 ? `0${segmentString}` : segmentString;

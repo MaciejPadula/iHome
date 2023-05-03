@@ -3,12 +3,34 @@ import { RouterModule, Routes } from '@angular/router';
 import { IndexComponent } from './pages/index/index.component';
 import { RoomsComponent } from './pages/rooms/rooms.component';
 import { SchedulesComponent } from './pages/schedules/schedules.component';
+import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
 
 const routes: Routes = [
-  { path: '', component: IndexComponent },
-  { path: 'rooms', component: RoomsComponent },
-  { path: 'rooms/:id', component: RoomsComponent },
-  { path: 'schedules', component: SchedulesComponent }
+  {
+    path: '',
+    component: IndexComponent,
+    data: { animation: 'HomePage' }
+  },
+  {
+    path: 'rooms',
+    component: RoomsComponent,
+    data: { animation: 'RoomsPage' }
+  },
+  {
+    path: 'rooms/:id',
+    component: RoomsComponent,
+    data: { animation: 'RoomPage' }
+  },
+  {
+    path: 'schedules',
+    component: SchedulesComponent,
+    data: { animation: 'SchedulesPage' }
+  },
+  {
+    path: 'add-schedule',
+    component: AddScheduleComponent,
+    data: { animation: 'AddSchedulePage' }
+  }
 ];
 
 @NgModule({

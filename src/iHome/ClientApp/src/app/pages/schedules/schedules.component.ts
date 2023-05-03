@@ -2,8 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subject } from 'rxjs';
-import { InputDialogData } from 'src/app/shared/components/input-dialog/input-dialog-data';
-import { InputDialogComponent } from 'src/app/shared/components/input-dialog/input-dialog.component';
 import { TimeHelper } from 'src/app/helpers/time.helper';
 import { Device } from 'src/app/models/device';
 import { Schedule } from 'src/app/models/schedule';
@@ -21,7 +19,6 @@ import { ConfirmDialogData } from 'src/app/shared/components/confirm-dialog/conf
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchedulesComponent implements OnInit {
-  public animState = false;
   public schedulesSubject$ = new Subject<Schedule[]>();
   public schedules$ = this.schedulesSubject$.asObservable();
 
@@ -42,24 +39,6 @@ export class SchedulesComponent implements OnInit {
       .subscribe(() => this.getSchedules());
 
     this._refreshService.refresh();
-  }
-
-  public composeDialogAddSchedule() {
-    this._dialog.open(InputDialogComponent, {
-      data: <InputDialogData> {
-        title: 'Add Schedule',
-        inputText: 'Schedule name'
-      }
-    })
-    .afterClosed()
-    .subscribe(result => {
-      if(!result) return;
-
-      const date = new Date();
-
-      this._schedulesService.addSchedule(result, date.getUTCHours(), date.getUTCMinutes())
-        .subscribe(() => this._refreshService.refresh());
-    });
   }
 
   public composeDialogRemoveSchedule(scheduleId: string, scheduleName: string) {
