@@ -4,6 +4,7 @@ import { IndexComponent } from './pages/index/index.component';
 import { RoomsComponent } from './pages/rooms/rooms.component';
 import { SchedulesComponent } from './pages/schedules/schedules.component';
 import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
+import { RoomComponent } from './components/room/room.component';
 
 const routes: Routes = [
   {
@@ -18,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'rooms/:id',
-    component: RoomsComponent,
+    component: RoomComponent,
     data: { animation: 'RoomPage' }
   },
   {
