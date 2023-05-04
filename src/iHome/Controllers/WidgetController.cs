@@ -1,7 +1,6 @@
 ﻿using iHome.Core.Services.Widgets;
 using iHome.Logic;
 using iHome.Models.Requests;
-using iHome.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,15 +44,7 @@ public class WidgetController : ControllerBase
     [HttpGet("GetWidgets/{roomId}")]
     public async Task<IActionResult> GetWidgets(Guid roomId)
     {
-        var widgets = (await _widgetService.GetWidgets(roomId, _userAccessor.UserId))
-            .Select(w => new GetWidgetsWidget
-            {
-                Id = w.Id,
-                RoomId = w.RoomId,
-                MaxNumberOfDevices = w.MaxNumberOfDevices,
-                WidgetType = w.WidgetType,
-                ShowBorder = w.ShowBorder
-            });
+        var widgets = await _widgetService.GetWidgets(roomId, _userAccessor.UserId);
 
         return Ok(widgets);
     }

@@ -1,12 +1,13 @@
-﻿using iHome.Core.Exceptions;
-using iHome.Core.Exceptions.SqlExceptions;
+﻿using iHome.Core.Exceptions.SqlExceptions;
 using iHome.Core.Models;
 using iHome.Core.Services.Users;
 using iHome.Infrastructure.SQL.Contexts;
-using iHome.Infrastructure.SQL.Models;
+using iHome.Infrastructure.SQL.Models.ConnectionTables;
+using iHome.Infrastructure.SQL.Models.RootTables;
 using Microsoft.EntityFrameworkCore;
 
 namespace iHome.Core.Services.Rooms;
+
 internal class RoomService : IRoomService
 {
     private readonly IUserService _userService;
@@ -25,7 +26,7 @@ internal class RoomService : IRoomService
         {
             throw new RoomAlreadyExistsException();
         }
-            
+
         await _sqlDataContext.Rooms.AddAsync(new Room
         {
             Name = roomName,
@@ -34,22 +35,27 @@ internal class RoomService : IRoomService
         await _sqlDataContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Room>> GetRooms(string userId)
+    public async Task<IEnumerable<RoomModel>> GetRooms(string userId)
     {
-        return await QueryRooms(userId).ToListAsync();
-    }
-
-    public async Task<IEnumerable<Room>> GetRoomsWithDevices(string userId)
-    {
-        return await QueryRooms(userId)
-            .Include(r => r.Devices)
+        var rooms = await QueryRooms(userId)
             .ToListAsync();
+
+        var roomModels = new List<RoomModel>();
+
+        foreach (var room in rooms)
+        {
+            roomModels.Add(new RoomModel(room)
+            {
+                User = await _userService.GetUserById(userId) ?? new User { Id = room.UserId, Name = string.Empty, Email = string.Empty }
+            });
+        }
+
+        return roomModels;
     }
 
     public async Task RemoveRoom(Guid roomId, string userId)
     {
-        var room = await _sqlDataContext.Rooms.FirstOrDefaultAsync(r => r.Id == roomId && r.UserId == userId);
-        if (room == null) throw new RoomNotFoundException();
+        var room = await _sqlDataContext.Rooms.FirstOrDefaultAsync(r => r.Id == roomId && r.UserId == userId) ?? throw new RoomNotFoundException();
 
         _sqlDataContext.Rooms.Remove(room);
         await _sqlDataContext.SaveChangesAsync();
@@ -79,20 +85,26 @@ internal class RoomService : IRoomService
         await _sqlDataContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<UserRoom>> GetRoomUsers(Guid roomId, string userId)
+    public async Task<IEnumerable<User>> GetRoomUsers(Guid roomId, string userId)
     {
-        var room = await QueryRoom(roomId, userId);
+        var room = await QueryRoom(roomId, userId) ?? throw new RoomNotFoundException();
 
-        if (room == null) throw new RoomNotFoundException();
+        var users = new List<User>();
 
-        return room.UsersRooms;
+        foreach (var userRoom in room.UsersRooms)
+        {
+            var response = await _userService.GetUserById(userRoom.UserId);
+            if (response == null) continue;
+
+            users.Add(response);
+        }
+
+        return users;
     }
 
     public async Task UnshareRoom(Guid roomId, string userId, string callerUserId)
     {
-        var room = await QueryRoom(roomId, callerUserId);
-
-        if (room == null) throw new RoomNotFoundException();
+        var room = await QueryRoom(roomId, callerUserId) ?? throw new RoomNotFoundException();
 
         var constraint = room.UsersRooms?
             .Where(c => c.UserId == userId && c.RoomId == roomId)

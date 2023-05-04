@@ -1,4 +1,4 @@
-﻿using iHome.Infrastructure.SQL.Models;
+﻿using iHome.Infrastructure.SQL.Models.RootTables;
 using iHome.Shared.Logic;
 
 namespace iHome.Core.Models;

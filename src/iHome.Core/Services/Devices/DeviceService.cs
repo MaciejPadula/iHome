@@ -1,9 +1,10 @@
-﻿using iHome.Core.Exceptions;
-using iHome.Core.Exceptions.SqlExceptions;
+﻿using iHome.Core.Exceptions.SqlExceptions;
+using iHome.Core.Models;
 using iHome.Core.Services.Rooms;
 using iHome.Infrastructure.Firebase.Repositories;
 using iHome.Infrastructure.SQL.Contexts;
-using iHome.Infrastructure.SQL.Models;
+using iHome.Infrastructure.SQL.Models.Enums;
+using iHome.Infrastructure.SQL.Models.RootTables;
 using Microsoft.EntityFrameworkCore;
 
 namespace iHome.Core.Services.Devices;
@@ -13,6 +14,11 @@ public class DeviceService : IDeviceService
     private readonly IRoomService _roomService;
     private readonly IDeviceDataRepository _deviceDataRepository;
     private readonly SqlDataContext _sqlDataContext;
+
+    private readonly List<DeviceType> _devicesForScheduling = new()
+    {
+        DeviceType.RGBLamp
+    };
 
     public DeviceService(IRoomService roomService, IDeviceDataRepository deviceDataRepository, SqlDataContext sqlDataContext)
     {
@@ -53,7 +59,7 @@ public class DeviceService : IDeviceService
         await _sqlDataContext.SaveChangesAsync();
     }
 
-    public async Task<Device> GetDevice(Guid deviceId, string userId)
+    public async Task<DeviceModel> GetDevice(Guid deviceId, string userId)
     {
         var device = await _sqlDataContext.Devices.FirstOrDefaultAsync(d => d.Id == deviceId);
         if (device == null || !await CanGetDevice(device, userId))
@@ -61,7 +67,7 @@ public class DeviceService : IDeviceService
             throw new DeviceNotFoundException();
         }
 
-        return device;
+        return new DeviceModel(device);
     }
 
     public Task<bool> DeviceExists(Guid deviceId, string userId)
@@ -71,25 +77,41 @@ public class DeviceService : IDeviceService
             .AnyAsync(d => d.Id == deviceId && d.Room != null && d.Room.UserId == userId);
     }
 
-    public async Task<IEnumerable<Device>> GetDevices(Guid roomId, string userId)
+    public async Task<IEnumerable<DeviceModel>> GetDevices(Guid roomId, string userId)
     {
-        var userRooms = await _roomService.GetRoomsWithDevices(userId);
 
-        var selectedRoom = userRooms.FirstOrDefault(room => room.Id == roomId);
-        if (selectedRoom == null) throw new RoomNotFoundException();
+        var selectedRoom = await _sqlDataContext.Rooms
+            .Where(room => room.Id == roomId && room.UserId == userId)
+            .Include(room => room.Devices)
+            .FirstOrDefaultAsync() ?? throw new RoomNotFoundException();
 
-        return selectedRoom.Devices ?? Enumerable.Empty<Device>();
+        return selectedRoom.Devices
+            .Select(d => new DeviceModel(d)) ?? Enumerable.Empty<DeviceModel>();
     }
 
-    public async Task<IEnumerable<Device>> GetDevices(string userId)
+    public async Task<IEnumerable<DeviceModel>> GetDevices(string userId)
     {
-        var rooms = await _roomService.GetRoomsWithDevices(userId);
+        var devices = await _sqlDataContext.Devices
+            .Include(d => d.Room)
+            .Where(d => d.Room != null && d.Room.UserId == userId)
+            .Select(d => new DeviceModel(d))
+            .ToListAsync();
 
-        var devices = new List<Device>();
+        return devices;
+    }
 
-        foreach(var room in rooms)
+    public async Task<IEnumerable<DeviceModel>> GetDevicesForScheduling(string userId)
+    {
+        var devices = await _sqlDataContext.Devices
+            .Where(d => _devicesForScheduling.Contains(d.Type))
+            .Include(d => d.Room)
+            .Where(d => d.Room != null && d.Room.UserId == userId)
+            .Select(d => new DeviceModel(d))
+            .ToListAsync();
+
+        foreach (var device in devices)
         {
-            devices.AddRange(room.Devices);
+            device.Data = await GetDeviceData(device.Id, userId);
         }
 
         return devices;
@@ -97,11 +119,7 @@ public class DeviceService : IDeviceService
 
     public async Task RemoveDevice(Guid deviceId, string userId)
     {
-        var device = await _sqlDataContext.Devices.FirstOrDefaultAsync(d => d.Id == deviceId);
-        if (device == null)
-        {
-            throw new DeviceNotFoundException();
-        }
+        var device = await _sqlDataContext.Devices.FirstOrDefaultAsync(d => d.Id == deviceId) ?? throw new DeviceNotFoundException();
 
         if (!await CanGetDevice(device, userId))
         {
