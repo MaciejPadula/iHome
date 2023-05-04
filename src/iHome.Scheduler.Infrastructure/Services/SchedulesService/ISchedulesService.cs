@@ -1,4 +1,5 @@
-﻿using iHome.Infrastructure.SQL.Models;
+﻿using iHome.Infrastructure.SQL.Models.ConnectionTables;
+using iHome.Infrastructure.SQL.Models.RootTables;
 
 namespace iHome.Scheduler.Infrastructure.Services.SchedulesService;
 

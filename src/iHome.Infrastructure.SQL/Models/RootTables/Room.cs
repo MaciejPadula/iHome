@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using iHome.Infrastructure.SQL.Models.ConnectionTables;
 
-namespace iHome.Infrastructure.SQL.Models;
+namespace iHome.Infrastructure.SQL.Models.RootTables;
 
 [Table("Rooms", Schema = "maciejadmin")]
 public class Room
