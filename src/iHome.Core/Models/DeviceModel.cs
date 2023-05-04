@@ -1,4 +1,5 @@
-﻿using iHome.Infrastructure.SQL.Models;
+﻿using iHome.Infrastructure.SQL.Models.Enums;
+using iHome.Infrastructure.SQL.Models.RootTables;
 
 namespace iHome.Core.Models;
 

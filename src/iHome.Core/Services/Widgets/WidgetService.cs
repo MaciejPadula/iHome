@@ -1,8 +1,10 @@
-﻿using iHome.Core.Exceptions;
-using iHome.Core.Exceptions.SqlExceptions;
+﻿using iHome.Core.Exceptions.SqlExceptions;
+using iHome.Core.Models;
 using iHome.Core.Services.Rooms;
 using iHome.Infrastructure.SQL.Contexts;
-using iHome.Infrastructure.SQL.Models;
+using iHome.Infrastructure.SQL.Models.ConnectionTables;
+using iHome.Infrastructure.SQL.Models.Enums;
+using iHome.Infrastructure.SQL.Models.RootTables;
 using Microsoft.EntityFrameworkCore;
 
 namespace iHome.Core.Services.Widgets;
@@ -31,33 +33,33 @@ public class WidgetService : IWidgetService
         await _sqlDataContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Device>> GetWidgetDevices(Guid widgetId, string userId)
+    public async Task<IEnumerable<DeviceModel>> GetWidgetDevices(Guid widgetId, string userId)
     {
         var widget = await _sqlDataContext.Widgets
             .Where(w => w.Id == widgetId)
             .Include(w => w.WidgetDevices)
             .ThenInclude(w => w.Device)
-            .FirstOrDefaultAsync();
-
-        if (widget == null) throw new Exception();
+            .FirstOrDefaultAsync() ?? throw new Exception();
 
         if (!await _roomService.UserCanAccessRoom(widget.RoomId, userId)) throw new RoomNotFoundException();
 
-        return widget.WidgetDevices.Select(w => w.Device).OfType<Device>() ?? Enumerable.Empty<Device>();
+        return widget.WidgetDevices
+            .Select(w => w.Device)
+            .OfType<Device>()
+            .Select(d => new DeviceModel(d)) ?? Enumerable.Empty<DeviceModel>();
     }
 
-    public async Task<IEnumerable<Widget>> GetWidgets(Guid roomId, string userId)
+    public async Task<IEnumerable<WidgetModel>> GetWidgets(Guid roomId, string userId)
     {
         if (!await _roomService.UserCanAccessRoom(roomId, userId)) throw new RoomNotFoundException();
 
         var roomWithWidgets = await _sqlDataContext.Rooms
             .Where(r => r.Id == roomId)
             .Include(context => context.Widgets)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync() ?? throw new Exception();
 
-        if (roomWithWidgets == null) throw new Exception();
-
-        return roomWithWidgets.Widgets ?? Enumerable.Empty<Widget>();
+        return roomWithWidgets.Widgets
+            .Select(w => new WidgetModel(w)) ?? Enumerable.Empty<WidgetModel>();
     }
 
     public async Task InsertDevice(Guid widgetId, Guid deviceId, string userId)
@@ -86,8 +88,7 @@ public class WidgetService : IWidgetService
         var device = await _sqlDataContext.Devices.FirstOrDefaultAsync(device => device.Id == deviceId);
         if (device == null || device.RoomId != widget.RoomId) throw new DeviceNotFoundException();
 
-        var widgetDevice = await _sqlDataContext.WidgetsDevices.FirstOrDefaultAsync(x => x.DeviceId == deviceId && x.WidgetId == widget.Id);
-        if (widgetDevice == null) throw new DeviceNotFoundException();
+        var widgetDevice = await _sqlDataContext.WidgetsDevices.FirstOrDefaultAsync(x => x.DeviceId == deviceId && x.WidgetId == widget.Id) ?? throw new DeviceNotFoundException();
 
         _sqlDataContext.WidgetsDevices.Remove(widgetDevice);
         await _sqlDataContext.SaveChangesAsync();
@@ -95,8 +96,7 @@ public class WidgetService : IWidgetService
 
     private async Task<Widget> GetWidget(Guid widgetId, string userId)
     {
-        var widget = await _sqlDataContext.Widgets.FirstOrDefaultAsync(widget => widget.Id == widgetId);
-        if (widget == null) throw new Exception();
+        var widget = await _sqlDataContext.Widgets.FirstOrDefaultAsync(widget => widget.Id == widgetId) ?? throw new Exception();
 
         if (!await _roomService.UserCanAccessRoom(widget.RoomId, userId)) throw new RoomNotFoundException();
 
@@ -105,8 +105,7 @@ public class WidgetService : IWidgetService
 
     public async Task RemoveWidget(Guid widgetId, string userId)
     {
-        var widget = await _sqlDataContext.Widgets.FirstOrDefaultAsync(widget => widget.Id == widgetId);
-        if (widget == null) throw new Exception();
+        var widget = await _sqlDataContext.Widgets.FirstOrDefaultAsync(widget => widget.Id == widgetId) ?? throw new Exception();
 
         if (!await _roomService.UserCanAccessRoom(widget.RoomId, userId)) throw new RoomNotFoundException();
 

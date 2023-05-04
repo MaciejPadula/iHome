@@ -1,4 +1,6 @@
-﻿using iHome.Infrastructure.SQL.Models;
+﻿using iHome.Infrastructure.SQL.Models.ChildrenTables;
+using iHome.Infrastructure.SQL.Models.ConnectionTables;
+using iHome.Infrastructure.SQL.Models.RootTables;
 using Microsoft.EntityFrameworkCore;
 
 namespace iHome.Infrastructure.SQL.Contexts;

@@ -1,11 +1,7 @@
-﻿using Cronos;
-using iHome.Core.Services.Devices;
-using iHome.Core.Services.Schedules;
+﻿using iHome.Core.Services.Schedules;
 using iHome.Logic;
 using iHome.Models.Requests.Schedules;
-using iHome.Models.Responses;
 using iHome.Models.Responses.Schedules;
-using iHome.Shared.Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +25,7 @@ public class ScheduleController : ControllerBase
     [HttpPost("AddSchedule")]
     public async Task<IActionResult> AddSchedule([FromBody] AddScheduleRequest request)
     {
-        await _scheduleService.AddSchedule(request.ScheduleName, 
+        await _scheduleService.AddSchedule(request.ScheduleName,
             request.Day, request.Hour, request.Minute,
             _userAccessor.UserId);
 
@@ -89,7 +85,7 @@ public class ScheduleController : ControllerBase
     [HttpPost("AddOrUpdateScheduleDevice")]
     public async Task<IActionResult> AddOrUpdateScheduleDevice(AddOrUpdateScheduleDeviceRequest request)
     {
-        await _scheduleService.AddOrUpdateDeviceSchedule(request.ScheduleId, 
+        await _scheduleService.AddOrUpdateDeviceSchedule(request.ScheduleId,
             request.DeviceId, request.DeviceData,
             _userAccessor.UserId);
         return Ok();

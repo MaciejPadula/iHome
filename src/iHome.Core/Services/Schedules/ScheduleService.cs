@@ -2,7 +2,8 @@
 using iHome.Core.Models;
 using iHome.Core.Services.Devices;
 using iHome.Infrastructure.SQL.Contexts;
-using iHome.Infrastructure.SQL.Models;
+using iHome.Infrastructure.SQL.Models.ConnectionTables;
+using iHome.Infrastructure.SQL.Models.RootTables;
 using iHome.Shared.Logic;
 using Microsoft.EntityFrameworkCore;
 

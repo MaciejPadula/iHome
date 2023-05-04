@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using iHome.Infrastructure.SQL.Models.Enums;
 
-namespace iHome.Infrastructure.SQL.Models;
+namespace iHome.Infrastructure.SQL.Models.RootTables;
 
 [Table("Devices", Schema = "maciejadmin")]
 public class Device

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace iHome.Infrastructure.SQL.Models;
+namespace iHome.Infrastructure.SQL.Models.ChildrenTables;
 
 [Table("SchedulesRunHistory", Schema = "maciejadmin")]
 public class ScheduleRunHistory

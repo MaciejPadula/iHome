@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using iHome.Infrastructure.SQL.Models.ConnectionTables;
+using iHome.Infrastructure.SQL.Models.Enums;
 
-namespace iHome.Infrastructure.SQL.Models;
+namespace iHome.Infrastructure.SQL.Models.RootTables;
 
 [Table("Widgets", Schema = "maciejadmin")]
 public class Widget
@@ -17,7 +19,7 @@ public class Widget
     [NotMapped]
     public int MaxNumberOfDevices => GetMaxNumberOfDevices(WidgetType);
 
-    private int GetMaxNumberOfDevices(WidgetType type) => type switch
+    private static int GetMaxNumberOfDevices(WidgetType type) => type switch
     {
         WidgetType.Unknown => 0,
         WidgetType.Small => 1,

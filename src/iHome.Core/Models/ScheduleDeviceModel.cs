@@ -1,4 +1,4 @@
-﻿using iHome.Infrastructure.SQL.Models;
+﻿using iHome.Infrastructure.SQL.Models.ConnectionTables;
 
 namespace iHome.Core.Models;
 

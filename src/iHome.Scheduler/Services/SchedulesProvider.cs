@@ -1,5 +1,5 @@
 ﻿using Cronos;
-using iHome.Infrastructure.SQL.Models;
+using iHome.Infrastructure.SQL.Models.RootTables;
 using iHome.Scheduler.Infrastructure.Helpers;
 using iHome.Scheduler.Infrastructure.Helpers.DateTimeProvider;
 using iHome.Scheduler.Infrastructure.Services.SchedulesService;
