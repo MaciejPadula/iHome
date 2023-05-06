@@ -71,7 +71,7 @@ public class WidgetService : IWidgetService
 
         if (await _sqlDataContext.WidgetsDevices
                 .AnyAsync(widgetDevice => widgetDevice.WidgetId == widgetId && widgetDevice.DeviceId == deviceId) ||
-           await _sqlDataContext.WidgetsDevices.CountAsync(widgetDevice => widgetDevice.WidgetId == widgetId) >= widget.MaxNumberOfDevices) throw new Exception();
+           await _sqlDataContext.WidgetsDevices.CountAsync(widgetDevice => widgetDevice.WidgetId == widgetId) >= widget.MaxNumberOfDevices) throw new MaxNumberOfDevicesReachedException();
 
         await _sqlDataContext.WidgetsDevices.AddAsync(new WidgetDevice
         {

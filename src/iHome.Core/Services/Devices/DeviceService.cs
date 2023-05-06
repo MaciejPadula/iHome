@@ -6,6 +6,7 @@ using iHome.Infrastructure.SQL.Contexts;
 using iHome.Infrastructure.SQL.Models.Enums;
 using iHome.Infrastructure.SQL.Models.RootTables;
 using Microsoft.EntityFrameworkCore;
+using iHome.Shared.Helpers;
 
 namespace iHome.Core.Services.Devices;
 
@@ -79,23 +80,32 @@ public class DeviceService : IDeviceService
 
     public async Task<IEnumerable<DeviceModel>> GetDevices(Guid roomId, string userId)
     {
+        var devices = await GetDevicesByFilter(userId, d => d.RoomId == roomId);
 
-        var selectedRoom = await _sqlDataContext.Rooms
-            .Where(room => room.Id == roomId && room.UserId == userId)
-            .Include(room => room.Devices)
-            .FirstOrDefaultAsync() ?? throw new RoomNotFoundException();
-
-        return selectedRoom.Devices
-            .Select(d => new DeviceModel(d)) ?? Enumerable.Empty<DeviceModel>();
+        return devices;
     }
 
     public async Task<IEnumerable<DeviceModel>> GetDevices(string userId)
     {
-        var devices = await _sqlDataContext.Devices
+        var devices = await GetDevicesByFilter(userId);
+
+        return devices;
+    }
+
+    private async Task<IEnumerable<DeviceModel>> GetDevicesByFilter(string userId, Func<Device, bool>? filteringMethod = null)
+    {
+        var devices = _sqlDataContext.Devices
             .Include(d => d.Room)
-            .Where(d => d.Room != null && d.Room.UserId == userId)
-            .Select(d => new DeviceModel(d))
-            .ToListAsync();
+            .ThenInclude(r => r.UsersRooms)
+            .Where(d => d.Room != null && (d.Room.UserId == userId || d.Room.UsersRooms.Any(r => r.UserId == userId)))
+            .SafeWhere(filteringMethod)
+            .SelectToList(d => new DeviceModel(d));
+            
+
+        foreach (var device in devices)
+        {
+            device.Data = await GetDeviceData(device.Id, userId);
+        }
 
         return devices;
     }

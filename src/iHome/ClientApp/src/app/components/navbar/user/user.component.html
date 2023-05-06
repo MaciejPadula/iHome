@@ -6,8 +6,17 @@
     </button>
 
     <mat-menu #menu="matMenu">
-        <button mat-menu-item [routerLink]="'/rooms'">Rooms</button>
-        <button mat-menu-item [routerLink]="'/schedules'">Schedules</button>
-        <button mat-menu-item (click)="logout()">Logout</button>
+        <button mat-menu-item [routerLink]="'/rooms'">
+            Rooms
+            <mat-icon>room</mat-icon>
+        </button>
+        <button mat-menu-item [routerLink]="'/schedules'">
+            Schedules
+            <mat-icon>schedule</mat-icon>
+        </button>
+        <button mat-menu-item (click)="logout()">
+            Logout
+            <mat-icon>exit_to_app</mat-icon>
+        </button>
     </mat-menu>
 </div>

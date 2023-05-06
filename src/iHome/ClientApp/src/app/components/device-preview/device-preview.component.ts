@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { DeviceType } from 'src/app/models/device-type';
 import { RgbLampData } from '../device/rgb-lamp/rgb-lamp-data';
+import { ThermometerData } from '../device/thermometer/thermometer-data';
+import { DeviceDataHelper } from 'src/app/helpers/device-data.helper';
+import { faThermometerFull } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-device-preview',
@@ -18,6 +21,11 @@ export class DevicePreviewComponent {
   public deviceType: DeviceType;
 
   type = DeviceType;
+  faThermometer = faThermometerFull;
+
+  constructor(
+    private _deviceDataHelper: DeviceDataHelper
+  ) {}
 
   public get lampData(): RgbLampData {
     const data = JSON.parse(this.deviceData) satisfies RgbLampData;
@@ -27,5 +35,17 @@ export class DevicePreviewComponent {
     data.green = 0;
     data.blue = 0;
     return data;
+  }
+
+  public get thermometerData(): ThermometerData {
+    return JSON.parse(this.deviceData) satisfies ThermometerData;
+  }
+
+  public formattedTemperature(temp: number): string {
+    return this._deviceDataHelper.formattedTemperature(temp);
+  }
+
+  public formattedPreassure(press: number): string {
+    return this._deviceDataHelper.formattedPreassure(press);
   }
 }
