@@ -1,6 +1,5 @@
-﻿namespace iHome.Core.Exceptions.SqlExceptions
+﻿namespace iHome.Core.Exceptions.SqlExceptions;
+
+public class MaxNumberOfDevicesReachedException : Exception
 {
-    public class MaxNumberOfDevicesReachedException : Exception
-    {
-    }
 }

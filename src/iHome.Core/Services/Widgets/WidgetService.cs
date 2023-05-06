@@ -69,9 +69,11 @@ public class WidgetService : IWidgetService
         var device = await _sqlDataContext.Devices.FirstOrDefaultAsync(device => device.Id == deviceId);
         if (device == null || device.RoomId != widget.RoomId) throw new DeviceNotFoundException();
 
-        if (await _sqlDataContext.WidgetsDevices
-                .AnyAsync(widgetDevice => widgetDevice.WidgetId == widgetId && widgetDevice.DeviceId == deviceId) ||
-           await _sqlDataContext.WidgetsDevices.CountAsync(widgetDevice => widgetDevice.WidgetId == widgetId) >= widget.MaxNumberOfDevices) throw new MaxNumberOfDevicesReachedException();
+        if (await _sqlDataContext.WidgetsDevices.AnyAsync(widgetDevice => widgetDevice.WidgetId == widgetId && widgetDevice.DeviceId == deviceId))
+            throw new DeviceDuplicateException();
+
+        if(await _sqlDataContext.WidgetsDevices.CountAsync(widgetDevice => widgetDevice.WidgetId == widgetId) >= widget.MaxNumberOfDevices)
+            throw new MaxNumberOfDevicesReachedException();
 
         await _sqlDataContext.WidgetsDevices.AddAsync(new WidgetDevice
         {
