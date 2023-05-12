@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\iHome.Infrastructure.Firebase\iHome.Infrastructure.Firebase.csproj" />
+    <ProjectReference Include="..\iHome.Infrastructure.OpenAI\iHome.Infrastructure.OpenAI.csproj" />
     <ProjectReference Include="..\iHome.Infrastructure.SQL\iHome.Infrastructure.SQL.csproj" />
     <ProjectReference Include="..\iHome.Shared\iHome.Shared.csproj" />
   </ItemGroup>

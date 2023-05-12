@@ -1,4 +1,4 @@
-<mat-vertical-stepper [linear]="true" #stepper>
+<mat-vertical-stepper [linear]="true" #stepper (selectionChange)="onTimeStep($event)">
 
   <mat-step [stepControl]="addScheduleStepperFirstFormGroup" [editable]="true">
     <form [formGroup]="addScheduleStepperFirstFormGroup">
@@ -16,16 +16,18 @@
   <mat-step [stepControl]="addScheduleStepperSecondFormGroup" [editable]="true">
     <form [formGroup]="addScheduleStepperSecondFormGroup">
       <ng-template matStepLabel>Fill out schedule run hour</ng-template>
-      <mat-form-field>
+      <mat-form-field [class.glow]="loadingSuggestions" class="mt-2">
         <input matInput
                formControlName="scheduleTime"
                [format]="24"
                [ngxMatTimepicker]="timePicker"
-               readonly />
+               readonly
+        />
         <mat-icon matSuffix
                   (click)="timePicker.open()">
             watch_later
         </mat-icon>
+        <mat-hint *ngIf="loadingSuggestions">Loading AI suggestions</mat-hint>
       </mat-form-field>
       <ngx-mat-timepicker color="accent" #timePicker></ngx-mat-timepicker>
       <div>
@@ -37,6 +39,23 @@
 
   <mat-step [editable]="true">
     <ng-template matStepLabel>Devices in schedule</ng-template>
+
+    <p>Your devices that could fit your schedule</p>
+    <div class="m-2 flex flex-row">
+      <ng-container *ngIf="devicesForScheduling$ | async as devices">
+        <ng-container *ngIf="suggestedDevices$ | async as suggestedDevices">
+          <app-device-preview *ngFor="let device of devices"
+            [deviceName]="device.name"
+            [deviceData]="device.data ?? '{}'"
+            [deviceType]="device.type"
+            [class.glow]="isSuggested(suggestedDevices, device.id)"
+            class="block w-32 rounded-lg m-1"
+          >
+          </app-device-preview>
+        </ng-container>
+      </ng-container>
+    </div>
+
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-raised-button matStepperNext [color]="addScheduleStepperSecondFormGroup.valid ? 'primary': ''">Next</button>

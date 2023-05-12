@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
+using iHome.Infrastructure.OpenAI.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddScoped<IUserAccessor, HttpContextUserAccessor>();
 builder.Services.AddDataContexts(builder.Configuration["ConnectionStrings:AzureSQL"]);
 builder.Services.AddFirebaseRepositories(builder.Configuration["Firebase:Url"], builder.Configuration["Firebase:AuthToken"]);
 builder.Services.AddUserService(builder.Configuration["Auth0:ApiToken"]);
+builder.Services.AddSuggestionService(builder.Configuration["OpenAI:ApiKey"]);
 
 builder.Services.AddCoreServices();
 

@@ -15,11 +15,6 @@ public class DeviceService : IDeviceService
     private readonly IDeviceDataRepository _deviceDataRepository;
     private readonly SqlDataContext _sqlDataContext;
 
-    private readonly List<DeviceType> _devicesForScheduling = new()
-    {
-        DeviceType.RGBLamp
-    };
-
     public DeviceService(IRoomService roomService, IDeviceDataRepository deviceDataRepository, SqlDataContext sqlDataContext)
     {
         _roomService = roomService;
@@ -96,23 +91,6 @@ public class DeviceService : IDeviceService
             .Where(d => d.Room != null && d.Room.UserId == userId)
             .Select(d => new DeviceModel(d))
             .ToListAsync();
-
-        return devices;
-    }
-
-    public async Task<IEnumerable<DeviceModel>> GetDevicesForScheduling(string userId)
-    {
-        var devices = await _sqlDataContext.Devices
-            .Where(d => _devicesForScheduling.Contains(d.Type))
-            .Include(d => d.Room)
-            .Where(d => d.Room != null && d.Room.UserId == userId)
-            .Select(d => new DeviceModel(d))
-            .ToListAsync();
-
-        foreach (var device in devices)
-        {
-            device.Data = await GetDeviceData(device.Id, userId);
-        }
 
         return devices;
     }

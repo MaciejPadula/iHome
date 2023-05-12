@@ -10,7 +10,6 @@ public interface IDeviceService
     Task<bool> DeviceExists(Guid deviceId, string userId);
     Task<IEnumerable<DeviceModel>> GetDevices(Guid roomId, string userId);
     Task<IEnumerable<DeviceModel>> GetDevices(string userId);
-    Task<IEnumerable<DeviceModel>> GetDevicesForScheduling(string userId);
     Task RemoveDevice(Guid deviceId, string userId);
     Task RenameDevice(Guid deviceId, string newName, string userId);
     Task ChangeDeviceRoom(Guid deviceId, Guid roomId, string userId);

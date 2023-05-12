@@ -15,11 +15,13 @@ namespace iHome.Controllers;
 public class DeviceController : ControllerBase, IDeviceDataService
 {
     private readonly IDeviceService _deviceService;
+    private readonly IDevicesForSchedulingAccessor _devicesForSchedulingAccessor;
     private readonly IUserAccessor _userAccessor;
 
-    public DeviceController(IDeviceService deviceService, IUserAccessor userAccessor)
+    public DeviceController(IDeviceService deviceService, IDevicesForSchedulingAccessor devicesForSchedulingAccessor, IUserAccessor userAccessor)
     {
         _deviceService = deviceService;
+        _devicesForSchedulingAccessor = devicesForSchedulingAccessor;
         _userAccessor = userAccessor;
     }
 
@@ -72,7 +74,7 @@ public class DeviceController : ControllerBase, IDeviceDataService
     [HttpPost("GetDevicesForScheduling")]
     public async Task<IEnumerable<DeviceModel>> GetDevicesForScheduling()
     {
-        var devices = await _deviceService.GetDevicesForScheduling(_userAccessor.UserId);
+        var devices = await _devicesForSchedulingAccessor.Get(_userAccessor.UserId);
 
         return devices;
     }

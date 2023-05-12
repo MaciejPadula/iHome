@@ -13,7 +13,10 @@ public static class DependencyInjectionExtensions
     {
         services.AddScoped<IScheduleService, ScheduleService>();
         services.AddScoped<IRoomService, RoomService>();
+
         services.AddScoped<IDeviceService, DeviceService>();
+        services.AddScoped<IDevicesForSchedulingAccessor, DevicesForSchedulingAccessor>();
+
         services.AddScoped<IWidgetService, WidgetService>();
 
         return services;

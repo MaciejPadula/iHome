@@ -1,0 +1,13 @@
+@keyframes anim-glow {
+	0% {
+		box-shadow: 0 0 rgba(#FF9900, 1);
+	}
+	100% {
+		box-shadow: 0 0 7px 10px transparent;
+	}
+}
+
+
+.glow {
+  animation: anim-glow 2s ease infinite;
+}
