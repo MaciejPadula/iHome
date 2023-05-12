@@ -72,3 +72,5 @@ deprecated/iHome/iHome.Core/bin
 deprecated/iHome/iHome.Core/obj
 deprecated/iHome/iHome.WearOS/bin
 deprecated/iHome/iHome.WearOS/obj
+src/iHome.Infrastructure.OpenAI/bin
+src/iHome.Infrastructure.OpenAI/obj
