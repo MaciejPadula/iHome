@@ -7,16 +7,20 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using iHome.Infrastructure.OpenAI.Helpers;
+using Web.Infrastructure.Microservices.Client.Extensions;
+using iHome.Microservices.RoomsManagement.Contract;
+using iHome.Microservices.UsersApi.Contract;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserAccessor, HttpContextUserAccessor>();
+builder.Services.AddMicroserviceClient<IRoomManagementService>("https://localhost:7019");
+builder.Services.AddMicroserviceClient<IUserManagementService>("https://localhost:7094");
 
 builder.Services.AddDataContexts(builder.Configuration["ConnectionStrings:AzureSQL"]);
 builder.Services.AddFirebaseRepositories(builder.Configuration["Firebase:Url"], builder.Configuration["Firebase:AuthToken"]);
-builder.Services.AddUserService(builder.Configuration["Auth0:ApiToken"]);
 builder.Services.AddSuggestionService(builder.Configuration["OpenAI:ApiKey"]);
 
 builder.Services.AddCoreServices();

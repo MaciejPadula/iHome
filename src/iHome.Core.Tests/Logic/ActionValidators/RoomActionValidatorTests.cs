@@ -2,7 +2,7 @@
 using iHome.Core.Exceptions.SqlExceptions;
 using iHome.Core.Logic.AccessGuards;
 using iHome.Core.Logic.ActionValidators;
-using iHome.Core.Services.Users;
+using iHome.Microservices.UsersApi.Contract;
 using NSubstitute;
 
 namespace iHome.Core.Tests.Logic.ActionValidators;
@@ -69,9 +69,9 @@ public class RoomActionValidatorTests
         ex.Should().BeNull();
     }
 
-    private static RoomActionValidator ConfigureSut(Action<IUserService, IRoomAccessGuard> config)
+    private static RoomActionValidator ConfigureSut(Action<IUserManagementService, IRoomAccessGuard> config)
     {
-        var userService = Substitute.For<IUserService>();
+        var userService = Substitute.For<IUserManagementService>();
         var accessGuard = Substitute.For<IRoomAccessGuard>();
 
         config.Invoke(userService, accessGuard);

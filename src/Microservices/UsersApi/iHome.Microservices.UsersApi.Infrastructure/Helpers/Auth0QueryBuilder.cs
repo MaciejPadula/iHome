@@ -1,12 +1,11 @@
-﻿using iHome.Core.Models;
-using System.Text;
+﻿using System.Text;
 
-namespace iHome.Core.Helpers
+namespace iHome.Microservices.UsersApi.Infrastructure.Helpers
 {
     public class Auth0QueryBuilder
     {
-        private StringBuilder _stringBuilder;
-        private Dictionary<string, string> _queryParameters = new Dictionary<string, string>();
+        private readonly StringBuilder _stringBuilder;
+        private readonly Dictionary<string, string> _queryParameters = new();
 
         public Auth0QueryBuilder(string baseUrl)
         {
@@ -26,7 +25,7 @@ namespace iHome.Core.Helpers
 
         public Auth0QueryBuilder WithEmail(string? email)
         {
-            if(!string.IsNullOrEmpty(email))
+            if (!string.IsNullOrEmpty(email))
             {
                 _queryParameters.Add("email", email);
             }

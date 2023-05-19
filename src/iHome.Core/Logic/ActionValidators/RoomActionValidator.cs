@@ -1,7 +1,7 @@
 ﻿using iHome.Core.Exceptions.SqlExceptions;
 using iHome.Core.Logic.AccessGuards;
-using iHome.Core.Models;
-using iHome.Core.Services.Users;
+using iHome.Microservices.UsersApi.Contract;
+using iHome.Microservices.UsersApi.Contract.Models;
 
 namespace iHome.Core.Logic.ActionValidators;
 
@@ -20,9 +20,9 @@ public interface IRoomActionValidator
 public class RoomActionValidator : IRoomActionValidator
 {
     private readonly IRoomAccessGuard _roomAccessGuard;
-    private readonly IUserService _userService;
+    private readonly IUserManagementService _userService;
 
-    public RoomActionValidator(IRoomAccessGuard roomAccessGuard, IUserService userService)
+    public RoomActionValidator(IRoomAccessGuard roomAccessGuard, IUserManagementService userService)
     {
         _roomAccessGuard = roomAccessGuard;
         _userService = userService;
@@ -48,7 +48,7 @@ public class RoomActionValidator : IRoomActionValidator
             ex = new Exception();
             return false;
         }
-        if (!_userService.UserExist(new UserFilter { Id = userId }).Result)
+        if (!_userService.UserExist(new() { Filter = new UserFilter { Id = userId } }).Result.Exists)
         {
             ex = new UserNotFoundException();
             return false;

@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="iHome.Microservices.RoomsManagement.Contract" Version="1.0.3" />
+    <PackageReference Include="iHome.Microservices.UsersApi.Contract" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
   </ItemGroup>
 
