@@ -1,4 +1,4 @@
-﻿using iHome.Core.Services.Rooms;
+﻿using iHome.Core.Services;
 using iHome.Core.Services.Users;
 using iHome.Logic;
 using iHome.Models.Requests;

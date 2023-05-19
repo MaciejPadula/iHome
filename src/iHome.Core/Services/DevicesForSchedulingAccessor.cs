@@ -4,7 +4,12 @@ using iHome.Infrastructure.SQL.Contexts;
 using iHome.Infrastructure.SQL.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace iHome.Core.Services.Devices;
+namespace iHome.Core.Services;
+
+public interface IDevicesForSchedulingAccessor
+{
+    Task<IEnumerable<DeviceModel>> Get(string userId);
+}
 
 public class DevicesForSchedulingAccessor : IDevicesForSchedulingAccessor
 {

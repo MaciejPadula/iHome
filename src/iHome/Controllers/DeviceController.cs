@@ -1,5 +1,5 @@
 ﻿using iHome.Core.Models;
-using iHome.Core.Services.Devices;
+using iHome.Core.Services;
 using iHome.Devices.Contract.Interfaces;
 using iHome.Devices.Contract.Models.Requests;
 using iHome.Logic;

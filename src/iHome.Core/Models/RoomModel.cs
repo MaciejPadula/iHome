@@ -12,5 +12,9 @@ public class RoomModel
     {
         Id = room.Id;
         Name = room.Name;
+        User = new User
+        {
+            Id = room.UserId
+        };
     }
 }

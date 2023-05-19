@@ -1,4 +1,4 @@
-﻿using iHome.Core.Services.Devices;
+﻿using iHome.Core.Services;
 using iHome.Infrastructure.OpenAI.Models;
 using iHome.Infrastructure.OpenAI.Services;
 using iHome.Infrastructure.OpenAI.Services.Suggestions;
