@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iHome.Microservices.OpenAI.Contract\iHome.Microservices.OpenAI.Contract.csproj" />
+    <ProjectReference Include="..\iHome.Microservices.OpenAI.Infrastructure\iHome.Microservices.OpenAI.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

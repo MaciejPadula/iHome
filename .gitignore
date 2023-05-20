@@ -108,3 +108,14 @@ src/Microservices/Widgets/iHome.Microservices.Widgets/Properties/launchSettings.
 src/Microservices/Widgets/iHome.Microservices.Widgets/appsettings.Development.json
 src/Microservices/Widgets/iHome.Microservices.Widgets/iHome.Microservices.Widgets.csproj.user
 src/Microservices/RoomsManagement/iHome.Microservices.RoomsManagement/iHome.Microservices.RoomsManagement.csproj.user
+src/Microservices/OpenAI/.vs
+src/Microservices/OpenAI/iHome.Microservices.OpenAI.Infrastructure/obj
+src/Microservices/OpenAI/iHome.Microservices.OpenAI.Infrastructure/bin
+src/Microservices/OpenAI/iHome.Microservices.OpenAI.Contract/obj
+src/Microservices/OpenAI/iHome.Microservices.OpenAI/obj
+src/Microservices/OpenAI/iHome.Microservices.OpenAI/bin
+src/Microservices/OpenAI/iHome.Microservices.OpenAI/.vs
+src/Microservices/OpenAI/iHome.Microservices.OpenAI/Properties/launchSettings.json
+src/Microservices/OpenAI/iHome.Microservices.OpenAI.Contract/bin
+src/Microservices/OpenAI/iHome.Microservices.OpenAI/iHome.Microservices.OpenAI.csproj.user
+src/Microservices/OpenAI/iHome.Microservices.OpenAI/appsettings.Development.json

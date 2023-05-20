@@ -1,8 +1,7 @@
 ﻿using iHome.Core.Services;
-using iHome.Infrastructure.OpenAI.Models;
-using iHome.Infrastructure.OpenAI.Services;
-using iHome.Infrastructure.OpenAI.Services.Suggestions;
 using iHome.Logic;
+using iHome.Microservices.OpenAI.Contract;
+using iHome.Microservices.OpenAI.Contract.Models;
 using iHome.Models.Requests.Suggestion;
 using iHome.Models.Responses.Suggestion;
 using Microsoft.AspNetCore.Authorization;
@@ -30,8 +29,11 @@ public class SuggestionController : ControllerBase
     [HttpPost("GetSuggestedHour")]
     public async Task<IActionResult> GetSuggestedHour(GetSuggestedHourRequest request)
     {
-        var response = await _suggestionsService.GetSuggestedTimeByScheduleName(request.ScheduleName);
-        var txt = response.Split(":");
+        var response = await _suggestionsService.GetSuggestedTimeByScheduleName(new()
+        {
+            ScheduleName = request.ScheduleName
+        });
+        var txt = response.Time.Split(":");
         if (txt.Length != 2) return Ok(null);
 
         return Ok(new GetSuggestedHourResponse
@@ -46,15 +48,20 @@ public class SuggestionController : ControllerBase
     {
         var devices = (await _devicesForSchedulingAccessor
             .Get(_userAccessor.UserId))
-            .Select(d => new OpenAIRequestDevice
+            .Select(d => new DeviceDetails
             {
                 Id = d.Id,
                 Name = d.Name,
                 Type = d.Type.ToString()
             });
 
-        var suggested = await _suggestionsService.GetDevicesThatCouldMatchSchedule(request.ScheduleName, request.ScheduleTime, devices);
+        var suggested = await _suggestionsService.GetDevicesThatCouldMatchSchedule(new()
+        {
+            ScheduleName = request.ScheduleName,
+            ScheduleTime = request.ScheduleTime,
+            Devices = devices
+        });
 
-        return Ok(suggested);
+        return Ok(suggested.DevicesIds);
     }
 }

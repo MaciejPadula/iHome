@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="iHome.Microservices.OpenAI.Contract" Version="1.0.0" />
     <PackageReference Include="iHome.Microservices.RoomsManagement.Contract" Version="1.0.4" />
     <PackageReference Include="iHome.Microservices.UsersApi.Contract" Version="1.0.0" />
     <PackageReference Include="iHome.Microservices.Widgets.Contract" Version="1.0.0" />
@@ -15,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\iHome.Infrastructure.Firebase\iHome.Infrastructure.Firebase.csproj" />
-    <ProjectReference Include="..\iHome.Infrastructure.OpenAI\iHome.Infrastructure.OpenAI.csproj" />
     <ProjectReference Include="..\iHome.Infrastructure.SQL\iHome.Infrastructure.SQL.csproj" />
     <ProjectReference Include="..\iHome.Shared\iHome.Shared.csproj" />
   </ItemGroup>

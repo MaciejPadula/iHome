@@ -2,15 +2,15 @@ using iHome.Core.Helpers;
 using iHome.Infrastructure.Firebase.Helpers;
 using iHome.Infrastructure.SQL.Helpers;
 using iHome.Logic;
+using iHome.Microservices.OpenAI.Contract;
+using iHome.Microservices.RoomsManagement.Contract;
+using iHome.Microservices.UsersApi.Contract;
+using iHome.Microservices.Widgets.Contract;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
-using iHome.Infrastructure.OpenAI.Helpers;
 using Web.Infrastructure.Microservices.Client.Extensions;
-using iHome.Microservices.RoomsManagement.Contract;
-using iHome.Microservices.UsersApi.Contract;
-using iHome.Microservices.Widgets.Contract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,10 +22,10 @@ builder.Services.AddMicroserviceClient<IRoomSharingService>("https://localhost:7
 builder.Services.AddMicroserviceClient<IUserManagementService>("https://localhost:7094");
 builder.Services.AddMicroserviceClient<IWidgetManagementService>("https://localhost:7206");
 builder.Services.AddMicroserviceClient<IWidgetDeviceManagementService>("https://localhost:7206");
+builder.Services.AddMicroserviceClient<ISuggestionsService>("https://localhost:7018");
 
 builder.Services.AddDataContexts(builder.Configuration["ConnectionStrings:AzureSQL"]);
 builder.Services.AddFirebaseRepositories(builder.Configuration["Firebase:Url"], builder.Configuration["Firebase:AuthToken"]);
-builder.Services.AddSuggestionService(builder.Configuration["OpenAI:ApiKey"]);
 
 builder.Services.AddCoreServices();
 
