@@ -1,4 +1,4 @@
-﻿using iHome.Infrastructure.SQL.Models.Enums;
+﻿using iHome.Microservices.Widgets.Contract.Models;
 
 namespace iHome.Models.Requests;
 

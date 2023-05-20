@@ -1,10 +1,8 @@
-﻿using iHome.Core.Models;
-
-namespace iHome.Core.Repositories.Widgets;
+﻿namespace iHome.Microservices.Widgets.Infrastructure.Repositories;
 
 public interface IWidgetDeviceRepository
 {
     Task Add(Guid widgetId, Guid deviceId);
-    Task<List<DeviceModel>> GetByWidgetId(Guid widgetId);
+    Task<IEnumerable<Guid>> GetDeviceIdsByWidgetId(Guid widgetId);
     Task Remove(Guid widgetId, Guid deviceId);
 }

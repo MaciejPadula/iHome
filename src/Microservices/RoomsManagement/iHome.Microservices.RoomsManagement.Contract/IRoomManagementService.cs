@@ -1,9 +1,6 @@
-﻿using iHome.Core.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
-using iHome.Microservices.RoomsManagement.Contract.Models.Request;
+﻿using iHome.Microservices.RoomsManagement.Contract.Models.Request;
 using iHome.Microservices.RoomsManagement.Contract.Models.Response;
+using System.Threading.Tasks;
 
 namespace iHome.Microservices.RoomsManagement.Contract
 {
@@ -12,6 +9,5 @@ namespace iHome.Microservices.RoomsManagement.Contract
         Task AddRoom(AddRoomRequest request);
         Task<GetRoomsResponse> GetRooms(GetRoomsRequest request);
         Task RemoveRoom(RemoveRoomRequest request);
-        Task<GetRoomUserIdsResponse> GetRoomUserIds(GetRoomUserIdsRequest request);
     }
 }

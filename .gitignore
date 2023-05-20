@@ -96,3 +96,15 @@ src/Microservices/UsersApi/iHome.Microservices.UsersApi/.vs
 src/Microservices/UsersApi/iHome.Microservices.UsersApi/appsettings.Development.json
 src/Microservices/UsersApi/iHome.Microservices.UsersApi/Properties/launchSettings.json
 src/Microservices/UsersApi/iHome.Microservices.UsersApi/iHome.Microservices.UsersApi.csproj.user
+src/Microservices/Widgets/.vs
+src/Microservices/Widgets/iHome.Microservices.Widgets.Infrastructure/obj
+src/Microservices/Widgets/iHome.Microservices.Widgets.Infrastructure/bin
+src/Microservices/Widgets/iHome.Microservices.Widgets.Contract/obj
+src/Microservices/Widgets/iHome.Microservices.Widgets.Contract/bin
+src/Microservices/Widgets/iHome.Microservices.Widgets/obj
+src/Microservices/Widgets/iHome.Microservices.Widgets/bin
+src/Microservices/Widgets/iHome.Microservices.Widgets/.vs
+src/Microservices/Widgets/iHome.Microservices.Widgets/Properties/launchSettings.json
+src/Microservices/Widgets/iHome.Microservices.Widgets/appsettings.Development.json
+src/Microservices/Widgets/iHome.Microservices.Widgets/iHome.Microservices.Widgets.csproj.user
+src/Microservices/RoomsManagement/iHome.Microservices.RoomsManagement/iHome.Microservices.RoomsManagement.csproj.user

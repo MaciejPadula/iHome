@@ -15,14 +15,16 @@ namespace iHome.Controllers;
 public class RoomController : ControllerBase
 {
     private readonly IRoomManagementService _roomManagementService;
+    private readonly IRoomSharingService _roomSharingService;
     private readonly IUserManagementService _userManagementService;
     private readonly IUserAccessor _userAccessor;
 
-    public RoomController(IRoomManagementService roomManagementService, IUserAccessor userAccessor, IUserManagementService userManagementService)
+    public RoomController(IRoomManagementService roomManagementService, IUserAccessor userAccessor, IUserManagementService userManagementService, IRoomSharingService roomSharingService)
     {
         _roomManagementService = roomManagementService;
         _userAccessor = userAccessor;
         _userManagementService = userManagementService;
+        _roomSharingService = roomSharingService;
     }
 
     [HttpPost("AddRoom")]
@@ -61,7 +63,7 @@ public class RoomController : ControllerBase
     [HttpGet("GetRoomUsers/{roomId}")]
     public async Task<IActionResult> GetRoomUsers(Guid roomId)
     {
-        var userIds = await _roomManagementService.GetRoomUserIds(new()
+        var userIds = await _roomSharingService.GetRoomUserIds(new()
         {
             RoomId = roomId,
             UserId = _userAccessor.UserId
@@ -85,14 +87,24 @@ public class RoomController : ControllerBase
     [HttpPost("ShareRoom")]
     public async Task<IActionResult> ShareRoom([FromBody] ShareRoomRequest request)
     {
-        //await _roomService.ShareRoom(request.RoomId, request.UserId, _userAccessor.UserId);
+        await _roomSharingService.ShareRoomToUser(new()
+        {
+            RoomId = request.RoomId,
+            CallerUserId = _userAccessor.UserId,
+            SubjectUserId = request.UserId
+        });
         return Ok();
     }
 
     [HttpPost("UnshareRoom")]
     public async Task<IActionResult> ShareRoom([FromBody] UnshareRoomRequest request)
     {
-        //await _roomService.UnshareRoom(request.RoomId, request.UserId, _userAccessor.UserId);
+        await _roomSharingService.UnshareRoomFromUser(new()
+        {
+            RoomId = request.RoomId,
+            CallerUserId = _userAccessor.UserId,
+            SubjectUserId = request.UserId
+        });
         return Ok();
     }
 

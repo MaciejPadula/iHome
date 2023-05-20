@@ -3,7 +3,6 @@ using iHome.Core.Logic.ActionValidators;
 using iHome.Core.Logic.Providers;
 using iHome.Core.Repositories.Devices;
 using iHome.Core.Repositories.Schedules;
-using iHome.Core.Repositories.Widgets;
 using iHome.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,8 +20,6 @@ public static class DependencyInjectionExtensions
 
         services.AddScoped<IDeviceService, DeviceService>();
         services.AddScoped<IDevicesForSchedulingAccessor, DevicesForSchedulingAccessor>();
-
-        services.AddScoped<IWidgetService, WidgetService>();
 
         return services;
     }
@@ -46,8 +43,6 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IDeviceRepository, EFDeviceRepository>();
         services.AddScoped<IScheduleRepository, EFScheduleRepository>();
         services.AddScoped<IScheduleDeviceRepository, EFScheduleDeviceRepository>();
-        services.AddScoped<IWidgetRepository, EFWidgetRepository>();
-        services.AddScoped<IWidgetDeviceRepository, EFWidgetDeviceRepository>();
         return services;
     }
 }

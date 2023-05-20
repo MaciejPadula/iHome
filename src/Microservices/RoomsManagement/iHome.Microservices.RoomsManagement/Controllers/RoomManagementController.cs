@@ -11,12 +11,10 @@ namespace iHome.Microservices.RoomsManagement.Controllers
     public class RoomManagementController : ControllerBase, IRoomManagementService
     {
         private readonly IRoomRepository _roomRepository;
-        private readonly IUserRoomRepository _userRoomRepository;
 
-        public RoomManagementController(IRoomRepository roomRepository, IUserRoomRepository userRoomRepository)
+        public RoomManagementController(IRoomRepository roomRepository)
         {
             _roomRepository = roomRepository;
-            _userRoomRepository = userRoomRepository;
         }
 
         public Task AddRoom(AddRoomRequest request)
@@ -32,16 +30,10 @@ namespace iHome.Microservices.RoomsManagement.Controllers
             };
         }
 
-        public async Task<GetRoomUserIdsResponse> GetRoomUserIds(GetRoomUserIdsRequest request)
-        {
-            return new()
-            {
-                UsersIds = await _userRoomRepository.GetRoomUsersIds(request.RoomId)
-            };
-        }
-
         public Task RemoveRoom(RemoveRoomRequest request)
         {
+            //validation
+
             return _roomRepository.Remove(request.RoomId);
         }
     }
