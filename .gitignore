@@ -137,3 +137,5 @@ src/Microservices/Devices/iHome.Microservices.Devices.Infrastructure/bin
 src/Microservices/Devices/iHome.Microservices.Devices.Infrastructure/obj
 src/Microservices/Devices/iHome.Microservices.Devices/iHome.Microservices.Devices.csproj.user
 src/Microservices/Devices/iHome.Microservices.Devices/appsettings.Development.json
+src/Microservices/Devices/.vs
+src/Microservices/Devices/iHome.Microservices.Devices/Properties/launchSettings.json

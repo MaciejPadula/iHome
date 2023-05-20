@@ -77,11 +77,11 @@ WHERE RoomId = @RoomId
 
         return await conn.QueryAsync<DeviceModel>(@$"
 SELECT
-    Id as {nameof(DeviceModel.Id)},
-    Name as {nameof(DeviceModel.Name)},
-    Type as {nameof(DeviceModel.Type)},
-    MacAddress as {nameof(DeviceModel.MacAddress)},
-    RoomId as {nameof(DeviceModel.RoomId)}
+    d.Id as {nameof(DeviceModel.Id)},
+    d.Name as {nameof(DeviceModel.Name)},
+    d.Type as {nameof(DeviceModel.Type)},
+    d.MacAddress as {nameof(DeviceModel.MacAddress)},
+    d.RoomId as {nameof(DeviceModel.RoomId)}
 FROM [maciejadmin].[Devices] d
 INNER JOIN [maciejadmin].[Rooms] r
 ON  d.RoomId = r.Id
