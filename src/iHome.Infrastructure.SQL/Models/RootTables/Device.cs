@@ -10,7 +10,7 @@ public class Device
     [Key]
     public Guid Id { get; init; } = Guid.NewGuid();
     public required string Name { get; set; } = string.Empty;
-    public required DeviceType Type { get; init; }
+    public required int Type { get; init; }
     public required Guid RoomId { get; set; }
     public required string MacAddress { get; init; } = string.Empty;
 

@@ -1,6 +1,8 @@
 ﻿using iHome.Core.Models;
 using iHome.Core.Services;
 using iHome.Logic;
+using iHome.Microservices.Devices.Contract;
+using iHome.Microservices.Devices.Contract.Models;
 using iHome.Microservices.Widgets.Contract;
 using iHome.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
@@ -15,16 +17,16 @@ public class WidgetController : ControllerBase
 {
     private readonly IWidgetManagementService _widgetManagementService;
     private readonly IWidgetDeviceManagementService _widgetDeviceManagementService;
-    private readonly IDeviceService _deviceService;
+    private readonly IDeviceManagementService _deviceManagementService;
 
     private readonly IUserAccessor _userAccessor;
 
-    public WidgetController(IWidgetManagementService widgetManagementService, IWidgetDeviceManagementService widgetDeviceManagementService, IUserAccessor userAccessor, IDeviceService deviceService)
+    public WidgetController(IWidgetManagementService widgetManagementService, IWidgetDeviceManagementService widgetDeviceManagementService, IDeviceManagementService deviceManagementService, IUserAccessor userAccessor)
     {
         _widgetManagementService = widgetManagementService;
         _widgetDeviceManagementService = widgetDeviceManagementService;
+        _deviceManagementService = deviceManagementService;
         _userAccessor = userAccessor;
-        _deviceService = deviceService;
     }
 
     [HttpPost("AddWidget")]
@@ -90,10 +92,14 @@ public class WidgetController : ControllerBase
 
         foreach (var deviceId in  deviceIds)
         {
-            var device = await _deviceService.GetDevice(deviceId, _userAccessor.UserId);
-            if (device == null) continue;
+            var device = await _deviceManagementService.GetDevice(new()
+            {
+                DeviceId = deviceId,
+                UserId = _userAccessor.UserId
+            });
+            if (device?.Device == null) continue;
 
-            devices.Add(device);
+            devices.Add(device.Device);
         }
 
 

@@ -1,4 +1,5 @@
-﻿using iHome.Microservices.OpenAI.Contract;
+﻿using iHome.Microservices.Devices.Contract;
+using iHome.Microservices.OpenAI.Contract;
 using iHome.Microservices.RoomsManagement.Contract;
 using iHome.Microservices.UsersApi.Contract;
 using iHome.Microservices.Widgets.Contract;
@@ -12,6 +13,9 @@ public static class DependencyInjectionExtensions
     {
         services.AddMicroserviceClient<IRoomManagementService>("https://localhost:7019");
         services.AddMicroserviceClient<IRoomSharingService>("https://localhost:7019");
+
+        services.AddMicroserviceClient<IDeviceManagementService>("https://localhost:7062");
+        services.AddMicroserviceClient<IDeviceDataService>("https://localhost:7062");
 
         services.AddMicroserviceClient<IWidgetManagementService>("https://localhost:7206");
         services.AddMicroserviceClient<IWidgetDeviceManagementService>("https://localhost:7206");

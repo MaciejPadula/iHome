@@ -119,3 +119,13 @@ src/Microservices/OpenAI/iHome.Microservices.OpenAI/Properties/launchSettings.js
 src/Microservices/OpenAI/iHome.Microservices.OpenAI.Contract/bin
 src/Microservices/OpenAI/iHome.Microservices.OpenAI/iHome.Microservices.OpenAI.csproj.user
 src/Microservices/OpenAI/iHome.Microservices.OpenAI/appsettings.Development.json
+src/Microservices/Devices/iHome.Microservices.Devices/.vs
+src/Microservices/Devices/iHome.Microservices.Devices/iHome.Microservices.Devices.Infrastructure/obj
+src/Microservices/Devices/iHome.Microservices.Devices/iHome.Microservices.Devices.Infrastructure/bin
+src/Microservices/Devices/iHome.Microservices.Devices/iHome.Microservices.Devices.Contract/obj
+src/Microservices/Devices/iHome.Microservices.Devices/iHome.Microservices.Devices.Contract/bin
+src/Microservices/Devices/iHome.Microservices.Devices/iHome.Microservices.Devices/obj
+src/Microservices/Devices/iHome.Microservices.Devices/iHome.Microservices.Devices/bin
+src/Microservices/Devices/iHome.Microservices.Devices/iHome.Microservices.Devices/appsettings.Development.json
+src/Microservices/Devices/iHome.Microservices.Devices/iHome.Microservices.Devices/iHome.Microservices.Devices.csproj.user
+src/Microservices/Devices/iHome.Microservices.Devices/iHome.Microservices.Devices/Properties/launchSettings.json

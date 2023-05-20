@@ -1,8 +1,5 @@
-﻿using iHome.Core.Models;
-using iHome.Infrastructure.Firebase.Repositories;
-using iHome.Infrastructure.SQL.Contexts;
-using iHome.Infrastructure.SQL.Models.Enums;
-using Microsoft.EntityFrameworkCore;
+﻿using iHome.Microservices.Devices.Contract;
+using iHome.Microservices.Devices.Contract.Models;
 
 namespace iHome.Core.Services;
 
@@ -13,8 +10,8 @@ public interface IDevicesForSchedulingAccessor
 
 public class DevicesForSchedulingAccessor : IDevicesForSchedulingAccessor
 {
-    private readonly IDeviceDataRepository _deviceDataRepository;
-    private readonly SqlDataContext _sqlDataContext;
+    private readonly IDeviceManagementService _deviceManagementService;
+    private readonly IDeviceDataService _deviceDataService;
 
     private readonly List<DeviceType> _devicesForScheduling = new()
     {
@@ -22,24 +19,27 @@ public class DevicesForSchedulingAccessor : IDevicesForSchedulingAccessor
         DeviceType.RobotVaccumCleaner
     };
 
-    public DevicesForSchedulingAccessor(IDeviceDataRepository deviceDataRepository, SqlDataContext sqlDataContext)
+    public DevicesForSchedulingAccessor(IDeviceManagementService deviceManagementService, IDeviceDataService deviceDataService)
     {
-        _deviceDataRepository = deviceDataRepository;
-        _sqlDataContext = sqlDataContext;
+        _deviceManagementService = deviceManagementService;
+        _deviceDataService = deviceDataService;
     }
 
     public async Task<IEnumerable<DeviceModel>> Get(string userId)
     {
-        var devices = await _sqlDataContext.Devices
+        var devices = (await _deviceManagementService.GetDevices(new()
+        {
+            UserId = userId
+        })).Devices
             .Where(d => _devicesForScheduling.Contains(d.Type))
-            .Include(d => d.Room)
-            .Where(d => d.Room != null && d.Room.UserId == userId)
-            .Select(d => new DeviceModel(d))
-            .ToListAsync();
+            .ToList();
 
         foreach (var device in devices)
         {
-            device.Data = await _deviceDataRepository.GetData(device.MacAddress);
+            device.Data = (await _deviceDataService.GetDeviceData(new()
+            {
+                DeviceId = device.Id
+            })).DeviceData;
         }
 
         return devices;

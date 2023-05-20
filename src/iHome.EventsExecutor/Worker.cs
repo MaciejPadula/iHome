@@ -1,26 +1,26 @@
-﻿using iHome.Infrastructure.Firebase.Repositories;
-using iHome.Infrastructure.Queue.Models;
+﻿using iHome.Infrastructure.Queue.Models;
 using iHome.Infrastructure.Queue.Service.Read;
+using iHome.Microservices.Devices.Contract;
 
 namespace iHome.EventsExecutor;
 
 public class Worker
 {
     private readonly IQueueReader<DataUpdateModel> _queueReader;
-    private readonly IDeviceDataRepository _deviceDataRepository;
+    private readonly IDeviceDataService _deviceDataService;
     private readonly PeriodicTimer _timer;
 
-    public Worker(IQueueReader<DataUpdateModel> queueReader, IDeviceDataRepository deviceDataRepository)
+    public Worker(IQueueReader<DataUpdateModel> queueReader, IDeviceDataService deviceDataService)
     {
         _queueReader = queueReader;
-        _deviceDataRepository = deviceDataRepository;
+        _deviceDataService = deviceDataService;
 
         _timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
     }
 
     public async Task Start()
     {
-        while(await _timer.WaitForNextTickAsync())
+        while (await _timer.WaitForNextTickAsync())
         {
             var tasks = new List<Task>();
 
@@ -29,7 +29,11 @@ public class Worker
                 var device = await _queueReader.Pop();
                 if (device == null) continue;
 
-                tasks.Add(_deviceDataRepository.SetData(device.MacAddress.ToString(), device.DeviceData));
+                tasks.Add(_deviceDataService.SetDeviceData(new()
+                {
+                    DeviceId = device.DeviceId,
+                    Data = device.DeviceData
+                }));
             }
 
             await Task.WhenAll(tasks);
