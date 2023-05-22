@@ -1,14 +1,13 @@
-﻿using iHome.Core.Models;
+﻿using iHome.Microservices.Schedules.Contract.Models;
 
-namespace iHome.Core.Repositories.Schedules;
+namespace iHome.Microservices.Schedules.Infrastructure.Repositories;
 
 public interface IScheduleRepository
 {
     Task Add(string scheduleName, int hour, int minute, string userId);
 
-    Task<List<ScheduleModel>> GetByUserId(string userId);
+    Task<IEnumerable<ScheduleModel>> GetByUserId(string userId);
     Task<ScheduleModel> GetById(Guid scheduleId);
-    Task<ScheduleModel> GetByIdWithDevices(Guid scheduleId);
 
     Task<int> CountByUserId(string userId);
     Task UpdateTime(Guid scheduleId, int hour, int minute);

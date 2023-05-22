@@ -9,7 +9,7 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IDeviceRepository, DapperDeviceRepository>();
-        services.AddScoped<IDeviceDataRepository, FirebaseDeviceRepository>();
+        services.AddScoped<IDeviceDataRepository, FirebaseDeviceDataRepository>();
         services.AddScoped<IDbConnectionFactory, SqlDbConnectionFactory>();
 
         return services;

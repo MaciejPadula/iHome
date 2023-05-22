@@ -25,7 +25,7 @@ namespace iHome.Microservices.Devices.Controllers
         {
             // validation
 
-            var device = await _deviceRepository.GetByDeviceId(request.DeviceId);
+            var device = await _deviceRepository.GetByDeviceId(request.DeviceId) ?? throw new Exception();
 
             return new() 
             {
@@ -38,7 +38,7 @@ namespace iHome.Microservices.Devices.Controllers
         {
             // validation
 
-            var device = await _deviceRepository.GetByDeviceId(request.DeviceId);
+            var device = await _deviceRepository.GetByDeviceId(request.DeviceId) ?? throw new Exception();
 
             await _deviceDataRepository.SetDeviceData(device.MacAddress, request.Data);
         }

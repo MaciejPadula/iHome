@@ -139,3 +139,13 @@ src/Microservices/Devices/iHome.Microservices.Devices/iHome.Microservices.Device
 src/Microservices/Devices/iHome.Microservices.Devices/appsettings.Development.json
 src/Microservices/Devices/.vs
 src/Microservices/Devices/iHome.Microservices.Devices/Properties/launchSettings.json
+src/Microservices/Schedules/.vs
+src/Microservices/Schedules/iHome.Microservices.Schedules.Infrastructure/obj
+src/Microservices/Schedules/iHome.Microservices.Schedules.Contract/obj
+src/Microservices/Schedules/iHome.Microservices.Schedules/obj
+src/Microservices/Schedules/iHome.Microservices.Schedules/.vs
+src/Microservices/Schedules/iHome.Microservices.Schedules/bin
+src/Microservices/Schedules/iHome.Microservices.Schedules.Contract/bin
+src/Microservices/Schedules/iHome.Microservices.Schedules.Infrastructure/bin
+src/Microservices/Schedules/iHome.Microservices.Schedules/Properties/launchSettings.json
+src/Microservices/Schedules/iHome.Microservices.Schedules/appsettings.Development.json

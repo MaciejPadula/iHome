@@ -1,10 +1,9 @@
-import { Device } from "./device";
+import { DeviceType } from "./device-type";
 
 export interface ScheduleDevice {
     id: string;
     name: string;
     deviceId: string;
     deviceData: string;
-
-    device: Device;
+    type: DeviceType
 }

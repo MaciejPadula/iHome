@@ -1,6 +1,7 @@
 ﻿using iHome.Microservices.Devices.Contract;
 using iHome.Microservices.OpenAI.Contract;
 using iHome.Microservices.RoomsManagement.Contract;
+using iHome.Microservices.Schedules.Contract;
 using iHome.Microservices.UsersApi.Contract;
 using iHome.Microservices.Widgets.Contract;
 using Web.Infrastructure.Microservices.Client.Extensions;
@@ -11,18 +12,23 @@ public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddMicroservices(this IServiceCollection services)
     {
-        services.AddMicroserviceClient<IRoomManagementService>("https://localhost:7019");
-        services.AddMicroserviceClient<IRoomSharingService>("https://localhost:7019");
+        services.AddMicroserviceClient<IDeviceManagementService>("http://192.168.8.2:5002");
+        services.AddMicroserviceClient<IDeviceDataService>("http://192.168.8.2:5002");
 
-        services.AddMicroserviceClient<IDeviceManagementService>("https://localhost:7062");
-        services.AddMicroserviceClient<IDeviceDataService>("https://localhost:7062");
+        services.AddMicroserviceClient<IUserManagementService>("http://192.168.8.2:5003");
 
-        services.AddMicroserviceClient<IWidgetManagementService>("https://localhost:7206");
-        services.AddMicroserviceClient<IWidgetDeviceManagementService>("https://localhost:7206");
+        services.AddMicroserviceClient<IRoomManagementService>("http://192.168.8.2:5004");
+        services.AddMicroserviceClient<IRoomSharingService>("http://192.168.8.2:5004");
 
-        services.AddMicroserviceClient<ISuggestionsService>("https://localhost:7018");
+        services.AddMicroserviceClient<ISuggestionsService>("http://192.168.8.2:5005");
 
-        services.AddMicroserviceClient<IUserManagementService>("https://localhost:7094");
+        services.AddMicroserviceClient<IWidgetManagementService>("http://192.168.8.2:5006");
+        services.AddMicroserviceClient<IWidgetDeviceManagementService>("http://192.168.8.2:5006");
+
+        services.AddMicroserviceClient<IScheduleDeviceManagementService>("http://192.168.8.2:5007");
+        services.AddMicroserviceClient<IScheduleManagementService>("http://192.168.8.2:5007");
+
+
 
         return services;
     }

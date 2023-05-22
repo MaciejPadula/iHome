@@ -39,11 +39,11 @@ WHERE Id = @Id
         ", new { Id = deviceId });
     }
 
-    public async Task<DeviceModel> GetByDeviceId(Guid deviceId)
+    public async Task<DeviceModel?> GetByDeviceId(Guid deviceId)
     {
         using var conn = _connectionFactory.GetConnection();
 
-        return await conn.QuerySingleAsync<DeviceModel>(@$"
+        return await conn.QuerySingleOrDefaultAsync<DeviceModel>(@$"
 SELECT
     Id as {nameof(DeviceModel.Id)},
     Name as {nameof(DeviceModel.Name)},

@@ -24,11 +24,11 @@ VALUES
         ", new { Id = Guid.NewGuid(), Name = name, UserId = userId });
     }
 
-    public async Task<RoomModel> GetRoomById(Guid roomId)
+    public async Task<RoomModel?> GetRoomById(Guid roomId)
     {
         using var conn = _connectionFactory.GetConnection();
 
-        return await conn.QuerySingleAsync<RoomModel>(@$"
+        return await conn.QuerySingleOrDefaultAsync<RoomModel>(@$"
 SELECT
     Id as {nameof(RoomModel.Id)},
     Name as {nameof(RoomModel.Name)},
@@ -38,11 +38,11 @@ WHERE Id = @Id
 ", new { Id = roomId });
     }
 
-    public async Task<RoomModel> GetRoomByRoomIdAndUserId(Guid roomId, string userId)
+    public async Task<RoomModel?> GetRoomByRoomIdAndUserId(Guid roomId, string userId)
     {
         using var conn = _connectionFactory.GetConnection();
 
-        return await conn.QuerySingleAsync<RoomModel>(@$"
+        return await conn.QuerySingleOrDefaultAsync<RoomModel>(@$"
 SELECT
     Id as {nameof(RoomModel.Id)},
     Name as {nameof(RoomModel.Name)},

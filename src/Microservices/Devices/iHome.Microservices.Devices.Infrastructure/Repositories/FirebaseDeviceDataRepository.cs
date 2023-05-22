@@ -4,11 +4,11 @@ using Microsoft.Extensions.Options;
 
 namespace iHome.Microservices.Devices.Infrastructure.Repositories;
 
-public class FirebaseDeviceRepository : IDeviceDataRepository
+public class FirebaseDeviceDataRepository : IDeviceDataRepository
 {
     private readonly FirebaseClient _client;
 
-    public FirebaseDeviceRepository(IOptions<FirebaseSettings> options)
+    public FirebaseDeviceDataRepository(IOptions<FirebaseSettings> options)
     {
         _client = new FirebaseClient(options.Value.Url);
     }

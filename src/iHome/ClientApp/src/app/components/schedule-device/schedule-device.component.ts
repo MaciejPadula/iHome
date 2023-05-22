@@ -42,10 +42,10 @@ export class ScheduleDeviceComponent {
   }
 
   private getDialogAfterClosed() {
-    if(this.scheduleDevice.device.type == DeviceType.RGBLamp){
+    if(this.scheduleDevice.type == DeviceType.RGBLamp){
       return this._dialog.open(RgbLampDialogComponent, {
         data: {
-          device: this.scheduleDevice.device,
+          name: this.scheduleDevice.name,
           data: JSON.parse(this.scheduleDevice.deviceData)
         }
       })
