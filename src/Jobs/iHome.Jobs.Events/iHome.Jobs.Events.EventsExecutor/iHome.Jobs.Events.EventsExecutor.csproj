@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="iHome.Microservices.Devices.Contract" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Web.Infrastructure.Microservices.Client" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iHome.Jobs.Events.Infrastructure\iHome.Jobs.Events.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

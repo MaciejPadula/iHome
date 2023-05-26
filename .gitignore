@@ -161,3 +161,6 @@ src/Jobs/iHome.EventsExecutor/obj
 src/Jobs/iHome.EventsExecutor/bin
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler/appsettings.json
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.EventsExecutor/appsettings.json
+src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.EventsExecutor/bin
+src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Infrastructure/bin
+src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler/bin

@@ -1,5 +1,6 @@
 using iHome.Infrastructure.Queue.Models;
 using iHome.Infrastructure.Queue.Service.Read;
+using iHome.Microservices.Devices.Contract;
 
 namespace iHome.Jobs.Events.EventsExecutor
 {
@@ -21,7 +22,7 @@ namespace iHome.Jobs.Events.EventsExecutor
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested && await _timer.WaitForNextTickAsync())
+            while (await _timer.WaitForNextTickAsync(stoppingToken))
             {
                 var tasks = new List<Task>();
 

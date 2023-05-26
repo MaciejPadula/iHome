@@ -1,23 +1,18 @@
-﻿using iHome.Infrastructure.SQL.Contexts;
-using iHome.Infrastructure.SQL.Models;
-using iHome.Infrastructure.SQL.Models.ChildrenTables;
-using iHome.Infrastructure.SQL.Models.ConnectionTables;
-using iHome.Infrastructure.SQL.Models.RootTables;
-using iHome.Scheduler.Infrastructure.Helpers;
-using iHome.Scheduler.Infrastructure.Helpers.DateTimeProvider;
+﻿using iHome.Jobs.Events.Infrastructure.Contexts;
+using iHome.Jobs.Events.Infrastructure.Helpers;
+using iHome.Jobs.Events.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
-namespace iHome.Scheduler.Infrastructure.Services.SchedulesService;
+namespace iHome.Jobs.Events.Infrastructure.Repositories;
 
-public class SqlSchedulesService : ISchedulesService
+public class EFScheduleRepository : IScheduleRepository
 {
     private readonly SqlDataContext _context;
     private readonly IDateTimeProvider _dateTimeProvider;
 
     private const int BatchSize = 10000;
 
-    public SqlSchedulesService(SqlDataContext context, IDateTimeProvider dateTimeProvider)
+    public EFScheduleRepository(SqlDataContext context, IDateTimeProvider dateTimeProvider)
     {
         _context = context;
         _dateTimeProvider = dateTimeProvider;
@@ -38,7 +33,7 @@ public class SqlSchedulesService : ISchedulesService
         return schedule?.ScheduleDevices ?? Enumerable.Empty<ScheduleDevice>();
     }
 
-    public Task<IEnumerable<Schedule>> GetToRunSchedules(Func<string, bool> cronComparer)
+    public Task<IEnumerable<Schedule>> GetToRunSchedules(Func<int, int, bool> cronComparer)
     {
         var numberOfBatch = 0;
 
@@ -48,7 +43,6 @@ public class SqlSchedulesService : ISchedulesService
 
         var schedules = _context.Schedules
             .Include(s => s.ScheduleDevices)
-            .ThenInclude(s => s.Device)
             .Where(s => s.ScheduleDevices.Any())
             .Where(s => !todayRunnedSchedules.Any(id => id == s.Id));
 
@@ -61,7 +55,7 @@ public class SqlSchedulesService : ISchedulesService
                 .Skip(numberOfBatch * BatchSize)
                 .Take(BatchSize)
                 .AsEnumerable()
-                .Where(s => cronComparer.Invoke(s.ActivationCron));
+                .Where(s => cronComparer.Invoke(s.Hour, s.Minute));
 
             if (!schedulesToTest.Any()) break;
 

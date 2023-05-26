@@ -27,7 +27,7 @@ namespace iHome.Jobs.Events.Scheduler.Services
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
 
-            while (!stoppingToken.IsCancellationRequested && _context.IsRunning && await _periodicTimer.WaitForNextTickAsync())
+            while (_context.IsRunning && await _periodicTimer.WaitForNextTickAsync(stoppingToken))
             {
                 _logger.LogInformation("{Date}===STARTING PROCESS===", DateTime.UtcNow.ToLongTimeString());
 

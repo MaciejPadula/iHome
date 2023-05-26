@@ -1,8 +1,6 @@
-﻿using Cronos;
-using iHome.Infrastructure.SQL.Models.RootTables;
-using iHome.Scheduler.Infrastructure.Helpers;
-using iHome.Scheduler.Infrastructure.Helpers.DateTimeProvider;
-using iHome.Scheduler.Infrastructure.Services.SchedulesService;
+﻿using iHome.Jobs.Events.Infrastructure.Helpers;
+using iHome.Jobs.Events.Infrastructure.Models;
+using iHome.Jobs.Events.Infrastructure.Repositories;
 
 namespace iHome.Jobs.Events.Services;
 
@@ -14,10 +12,10 @@ public interface ISchedulesProvider
 
 public class SchedulesProvider : ISchedulesProvider
 {
-    private readonly ISchedulesService _schedulesService;
+    private readonly IScheduleRepository _schedulesService;
     private readonly IDateTimeProvider _dateTimeProvider;
 
-    public SchedulesProvider(ISchedulesService schedulesService, IDateTimeProvider dateTimeProvider)
+    public SchedulesProvider(IScheduleRepository schedulesService, IDateTimeProvider dateTimeProvider)
     {
         _schedulesService = schedulesService;
         _dateTimeProvider = dateTimeProvider;
@@ -32,13 +30,10 @@ public class SchedulesProvider : ISchedulesProvider
     {
         var utcNow = _dateTimeProvider.UtcNow;
 
-        var schedules = await _schedulesService.GetToRunSchedules(cron =>
+        var schedules = await _schedulesService.GetToRunSchedules((hour, minute) =>
         {
-            var expression = CronExpression.Parse(cron);
-            var nextUtc = expression.GetOccurrences(utcNow.StartOfDay(), utcNow.EndOfDay(), true, true)
-                .FirstOrDefault();
-
-            return nextUtc.EarlierThan(utcNow);
+            var todayOccurence = new DateTime(utcNow.Year, utcNow.Month, utcNow.Day, hour, minute, 0);
+            return todayOccurence.EarlierThan(utcNow);
         });
 
         return schedules;
