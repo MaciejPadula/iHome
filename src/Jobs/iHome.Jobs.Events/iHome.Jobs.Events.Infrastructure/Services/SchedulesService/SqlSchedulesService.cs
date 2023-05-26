@@ -1,12 +1,4 @@
-﻿using iHome.Infrastructure.SQL.Contexts;
-using iHome.Infrastructure.SQL.Models;
-using iHome.Infrastructure.SQL.Models.ChildrenTables;
-using iHome.Infrastructure.SQL.Models.ConnectionTables;
-using iHome.Infrastructure.SQL.Models.RootTables;
-using iHome.Scheduler.Infrastructure.Helpers;
-using iHome.Scheduler.Infrastructure.Helpers.DateTimeProvider;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
+﻿using iHome.Jobs.Events.Infrastructure.Helpers.DateTimeProvider;
 
 namespace iHome.Jobs.Events.Infrastructure.Services.SchedulesService;
 
