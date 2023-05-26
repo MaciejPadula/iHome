@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.Schedules", "iHome.Microservices.Schedules\iHome.Microservices.Schedules.csproj", "{FC47A126-F27E-4D92-AEDB-8E3D1DDA1C06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Microservices.Schedules.Contract", "iHome.Microservices.Schedules.Contract\iHome.Microservices.Schedules.Contract.csproj", "{C184055C-24B4-4D34-AF8D-91CA16B46641}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Microservices.Schedules.Infrastructure", "iHome.Microservices.Schedules.Infrastructure\iHome.Microservices.Schedules.Infrastructure.csproj", "{430CADD7-B627-4B10-9C53-33A23D91B3A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC47A126-F27E-4D92-AEDB-8E3D1DDA1C06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC47A126-F27E-4D92-AEDB-8E3D1DDA1C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC47A126-F27E-4D92-AEDB-8E3D1DDA1C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC47A126-F27E-4D92-AEDB-8E3D1DDA1C06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C184055C-24B4-4D34-AF8D-91CA16B46641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C184055C-24B4-4D34-AF8D-91CA16B46641}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C184055C-24B4-4D34-AF8D-91CA16B46641}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C184055C-24B4-4D34-AF8D-91CA16B46641}.Release|Any CPU.Build.0 = Release|Any CPU
+		{430CADD7-B627-4B10-9C53-33A23D91B3A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{430CADD7-B627-4B10-9C53-33A23D91B3A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{430CADD7-B627-4B10-9C53-33A23D91B3A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{430CADD7-B627-4B10-9C53-33A23D91B3A8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9258795-E36C-4A59-A57F-9334618C1966}
+	EndGlobalSection
+EndGlobal

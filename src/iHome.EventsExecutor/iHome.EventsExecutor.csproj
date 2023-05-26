@@ -8,15 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="iHome.Microservices.Devices.Contract" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Web.Infrastructure.Microservices.Client" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\iHome.Infrastructure.Firebase\iHome.Infrastructure.Firebase.csproj" />
     <ProjectReference Include="..\iHome.Infrastructure.Queue\iHome.Infrastructure.Queue.csproj" />
   </ItemGroup>
 

@@ -23,7 +23,7 @@
       #pickerB></ngx-mat-timepicker>
   </div>
 
-  <div *ngFor="let device of schedule.devices" class="flex flex-row">
+  <div *ngFor="let device of scheduleDevices$ | async; else loading" class="flex flex-row">
     <app-schedule-device [scheduleId]="schedule.id" [scheduleDevice]="device"></app-schedule-device>
   </div>
 

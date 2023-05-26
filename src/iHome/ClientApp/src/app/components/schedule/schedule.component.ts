@@ -4,6 +4,7 @@ import { filter, Subject } from 'rxjs';
 import { TimeHelper } from 'src/app/helpers/time.helper';
 import { Device } from 'src/app/models/device';
 import { Schedule } from 'src/app/models/schedule';
+import { ScheduleDevice } from 'src/app/models/schedule-device';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SchedulesService } from 'src/app/services/schedules.service';
 
@@ -22,6 +23,9 @@ export class ScheduleComponent implements OnInit {
 
   public scheduleSubject$ = new Subject<Schedule>();
   public schedule$ = this.scheduleSubject$.asObservable();
+
+  public scheduleDevicesSubject$ = new Subject<ScheduleDevice[]>();
+  public scheduleDevices$ = this.scheduleDevicesSubject$.asObservable();
 
   constructor(
     private _refreshService: RefreshService,
@@ -45,6 +49,9 @@ export class ScheduleComponent implements OnInit {
       .subscribe(schedule => {
         this.scheduleHour = this._timeHelper.getLocalDateFromUTC(schedule.hour, schedule.minute);
         this.scheduleSubject$.next(schedule);
+
+        this._schedulesService.getScheduleDevices(schedule.id)
+          .subscribe(d => this.scheduleDevicesSubject$.next(d));
       });
   }
 

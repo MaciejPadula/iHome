@@ -82,7 +82,7 @@ export class RgbLampComponent implements OnInit {
     this._dialog.open(RgbLampDialogComponent, {
       width: '350px',
       data: {
-        device: this.device,
+        name: this.device.name,
         data
       }
     })
