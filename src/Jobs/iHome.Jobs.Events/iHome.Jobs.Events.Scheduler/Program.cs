@@ -1,9 +1,9 @@
-using iHome.Jobs.Events.Scheduler;
+using iHome.Jobs.Events.Scheduler.Services;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
-        services.AddHostedService<Worker>();
+        services.AddHostedService<ScheduleWorker>();
     })
     .Build();
 
