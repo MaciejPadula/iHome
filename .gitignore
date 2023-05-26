@@ -149,3 +149,13 @@ src/Microservices/Schedules/iHome.Microservices.Schedules.Contract/bin
 src/Microservices/Schedules/iHome.Microservices.Schedules.Infrastructure/bin
 src/Microservices/Schedules/iHome.Microservices.Schedules/Properties/launchSettings.json
 src/Microservices/Schedules/iHome.Microservices.Schedules/appsettings.Development.json
+src/Jobs/iHome.Scheduler.Infrastructure/obj
+src/Jobs/iHome.Scheduler.Infrastructure/bin
+src/Jobs/iHome.Scheduler/obj
+src/Jobs/iHome.Scheduler/bin
+src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler/obj
+src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Infrastructure/obj
+src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.EventsExecutor/obj
+src/Jobs/iHome.Jobs.Events/.vs
+src/Jobs/iHome.EventsExecutor/obj
+src/Jobs/iHome.EventsExecutor/bin
