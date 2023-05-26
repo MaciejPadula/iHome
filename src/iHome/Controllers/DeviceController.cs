@@ -1,9 +1,8 @@
-﻿using iHome.Core.Models;
-using iHome.Core.Services.Devices;
-using iHome.Devices.Contract.Interfaces;
-using iHome.Devices.Contract.Models.Requests;
+﻿using iHome.Core.Services;
 using iHome.Logic;
-using iHome.Models.Requests;
+using iHome.Microservices.Devices.Contract;
+using iHome.Microservices.Devices.Contract.Models;
+using iHome.Models.Requests.Device;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,80 +11,115 @@ namespace iHome.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class DeviceController : ControllerBase, IDeviceDataService
+public class DeviceController : ControllerBase
 {
-    private readonly IDeviceService _deviceService;
+    private readonly IDeviceManagementService _deviceManagementService;
+    private readonly IDeviceDataService _deviceDataService;
+    private readonly IDevicesForSchedulingAccessor _devicesForSchedulingAccessor;
     private readonly IUserAccessor _userAccessor;
 
-    public DeviceController(IDeviceService deviceService, IUserAccessor userAccessor)
+    public DeviceController(IDeviceManagementService deviceManagementService, IDeviceDataService deviceDataService, IDevicesForSchedulingAccessor devicesForSchedulingAccessor, IUserAccessor userAccessor)
     {
-        _deviceService = deviceService;
+        _deviceManagementService = deviceManagementService;
+        _deviceDataService = deviceDataService;
+        _devicesForSchedulingAccessor = devicesForSchedulingAccessor;
         _userAccessor = userAccessor;
     }
 
     [HttpPost("AddDevice")]
-    public async Task<Guid> AddDevice([FromBody] AddDeviceRequest request)
+    public async Task<IActionResult> AddDevice([FromBody] AddDeviceRequest request)
     {
-        var deviceId = await _deviceService.AddDevice(
-            request.Name, request.MacAddress, request.Type,
-            request.RoomId, _userAccessor.UserId);
+        var deviceId = await _deviceManagementService.AddDevice(new()
+        {
+            Name = request.Name,
+            MacAddress = request.MacAddress,
+            Type = request.Type,
+            RoomId = request.RoomId,
+            UserId = _userAccessor.UserId
+        });
 
-        return deviceId;
+        return Ok(deviceId.DeviceId);
     }
 
     [HttpPost("ChangeDeviceName")]
-    public async Task ChangeDeviceName([FromBody] ChangeDeviceNameRequest request)
+    public async Task<IActionResult> ChangeDeviceName([FromBody] ChangeDeviceNameRequest request)
     {
-        await _deviceService.RenameDevice(request.DeviceId, request.Name, _userAccessor.UserId);
+        await _deviceManagementService.RenameDevice(new()
+        {
+            DeviceId = request.DeviceId,
+            NewName = request.Name,
+            UserId = _userAccessor.UserId
+        });
+        return Ok();
     }
 
     [HttpPost("ChangeDeviceRoom")]
-    public async Task ChangeDeviceRoom([FromBody] ChangeDeviceRoomRequest request)
+    public async Task<IActionResult> ChangeDeviceRoom([FromBody] ChangeDeviceRoomRequest request)
     {
-        await _deviceService.ChangeDeviceRoom(request.DeviceId, request.RoomId, _userAccessor.UserId);
+        await _deviceManagementService.ChangeDeviceRoom(new()
+        {
+            DeviceId = request.DeviceId,
+            RoomId = request.RoomId,
+            UserId = _userAccessor.UserId
+        });
+        return Ok();
     }
 
-    [HttpPost("GetDeviceData")]
-    public async Task<string> GetDeviceData([FromBody] GetDeviceDataRequest request)
-    {
-        var data = await _deviceService.GetDeviceData(request.DeviceId, _userAccessor.UserId);
-
-        return data;
-    }
 
     [HttpPost("GetDevices")]
-    public async Task<IEnumerable<DeviceModel>> GetDevices([FromBody] GetDevicesRequest request)
+    public async Task<IActionResult> GetDevices([FromBody] GetDevicesRequest request)
     {
-        var devices = new List<DeviceModel>();
-        if (request.RoomId.HasValue)
+        var devices = await _deviceManagementService.GetDevices(new()
         {
-            devices.AddRange(await _deviceService.GetDevices(request.RoomId.Value, _userAccessor.UserId));
-        }
-        else
-        {
-            devices.AddRange(await _deviceService.GetDevices(_userAccessor.UserId));
-        }
+            RoomId = request.RoomId ?? default!,
+            UserId = _userAccessor.UserId
+        });
 
-        return devices;
+        return Ok(devices.Devices);
     }
 
     [HttpPost("GetDevicesForScheduling")]
-    public async Task<IEnumerable<DeviceModel>> GetDevicesForScheduling()
+    public async Task<IActionResult> GetDevicesForScheduling()
     {
-        var devices = await _deviceService.GetDevicesForScheduling(_userAccessor.UserId);
+        var devices = await _devicesForSchedulingAccessor.Get(_userAccessor.UserId);
 
-        return devices;
+        return Ok(devices);
     }
 
     [HttpPost("RemoveDevice")]
-    public async Task RemoveDevice([FromBody] RemoveDeviceRequest request)
+    public async Task<IActionResult> RemoveDevice([FromBody] RemoveDeviceRequest request)
     {
-        await _deviceService.RemoveDevice(request.DeviceId, _userAccessor.UserId);
+        await _deviceManagementService.RemoveDevice(new()
+        {
+            DeviceId = request.DeviceId,
+            UserId = _userAccessor.UserId
+        });
+
+        return Ok();
+    }
+
+    [HttpPost("GetDeviceData")]
+    public async Task<IActionResult> GetDeviceData([FromBody] GetDeviceDataRequest request)
+    {
+        var data = await _deviceDataService.GetDeviceData(new()
+        {
+            DeviceId = request.DeviceId,
+            UserId = _userAccessor.UserId
+        });
+
+        return Ok(data.DeviceData);
     }
 
     [HttpPost("SetDeviceData")]
-    public async Task SetDeviceData([FromBody] SetDeviceDataRequest request)
+    public async Task<IActionResult> SetDeviceData([FromBody] SetDeviceDataRequest request)
     {
-        await _deviceService.SetDeviceData(request.DeviceId, request.Data, _userAccessor.UserId);
+        await _deviceDataService.SetDeviceData(new()
+        {
+            DeviceId = request.DeviceId,
+            Data = request.Data,
+            UserId = _userAccessor.UserId
+        });
+
+        return Ok();
     }
 }

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iHome.Microservices.UsersApi.Contract\iHome.Microservices.UsersApi.Contract.csproj" />
+    <ProjectReference Include="..\iHome.Microservices.UsersApi.Infrastructure\iHome.Microservices.UsersApi.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

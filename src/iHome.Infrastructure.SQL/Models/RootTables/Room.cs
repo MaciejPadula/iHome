@@ -10,7 +10,7 @@ public class Room
 {
     [Key]
     public Guid Id { get; init; } = Guid.NewGuid();
-    public required string Name { get; init; }
+    public required string Name { get; set; }
     public required string UserId { get; init; }
 
     public virtual Collection<Widget> Widgets { get; init; } = new();

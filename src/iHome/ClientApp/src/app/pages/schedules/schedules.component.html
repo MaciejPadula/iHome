@@ -1,13 +1,13 @@
 <ng-template #loading>
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </ng-template>
-<div class="flex justify-evenly p-4">
-  <button mat-raised-button color="primary" routerLink="/add-schedule">
-    Add new schedule
-    <mat-icon>add_to_home_screen</mat-icon>
-  </button>
-</div>
 <div *ngIf="schedules$ | async as schedules; else loading" class="schedules-container w-full sm:w-4/5 m-auto">
+  <div class="flex justify-evenly p-4">
+    <button mat-raised-button color="primary" routerLink="/add-schedule">
+      Add new schedule
+      <mat-icon>add_to_home_screen</mat-icon>
+    </button>
+  </div>
   <mat-accordion class="w-full p-4" multi *ngIf="devicesForScheduling$ | async as devicesForScheduling; else loading">
     <mat-expansion-panel *ngFor="let schedule of schedules">
       <mat-expansion-panel-header>

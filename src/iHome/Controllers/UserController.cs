@@ -1,5 +1,5 @@
-﻿using iHome.Core.Models;
-using iHome.Core.Services.Users;
+﻿using iHome.Microservices.UsersApi.Contract;
+using iHome.Microservices.UsersApi.Contract.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +11,12 @@ namespace iHome.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IWebHostEnvironment _hostingEnv;
-    private readonly IUserService _userService;
+    private readonly IUserManagementService _userManagementService;
 
-    public UserController(IWebHostEnvironment hostingEnv, IUserService userService)
+    public UserController(IWebHostEnvironment hostingEnv, IUserManagementService userManagementService)
     {
         _hostingEnv = hostingEnv;
-        _userService = userService;
+        _userManagementService = userManagementService;
     }
 
     [HttpGet("GetUsers/{searchPhrase}")]
@@ -40,8 +40,8 @@ public class UserController : ControllerBase
             filter.Id = searchWildcard;
         }
 
-        var users = await _userService.GetUsers(filter);
+        var users = await _userManagementService.GetUsers(new() { Filter = filter });
 
-        return Ok(users);
+        return Ok(users.Users);
     }
 }

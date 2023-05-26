@@ -1,5 +1,5 @@
+using iHome;
 using iHome.Core.Helpers;
-using iHome.Infrastructure.Firebase.Helpers;
 using iHome.Infrastructure.SQL.Helpers;
 using iHome.Logic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,10 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserAccessor, HttpContextUserAccessor>();
+builder.Services.AddMicroservices();
 
 builder.Services.AddDataContexts(builder.Configuration["ConnectionStrings:AzureSQL"]);
-builder.Services.AddFirebaseRepositories(builder.Configuration["Firebase:Url"], builder.Configuration["Firebase:AuthToken"]);
-builder.Services.AddUserService(builder.Configuration["Auth0:ApiToken"]);
 
 builder.Services.AddCoreServices();
 

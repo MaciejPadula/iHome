@@ -32,12 +32,12 @@ public class ScheduleWorker : IScheduleWorker
     {
         while (_context.IsRunning && await _periodicTimer.WaitForNextTickAsync())
         {
-            _logger.LogInformation($"{DateTime.UtcNow.ToLongTimeString()}===STARTING PROCESS===");
+            _logger.LogInformation("{Date}===STARTING PROCESS===", DateTime.UtcNow.ToLongTimeString());
 
             var schedulesProcessedCount = await Working();
             if (schedulesProcessedCount == 0) continue;
 
-            _logger.LogInformation($"Schedules Processed: {schedulesProcessedCount}");
+            _logger.LogInformation("Schedules Processed: {count}", schedulesProcessedCount);
         }
     }
 
@@ -53,7 +53,7 @@ public class ScheduleWorker : IScheduleWorker
             {
                 tasks.Add(_queueWriter.Push(new DataUpdateModel
                 {
-                    MacAddress = device.Device?.MacAddress ?? string.Empty,
+                    DeviceId = device.DeviceId,
                     DeviceData = device.DeviceData
                 }));
             }

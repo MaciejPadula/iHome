@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="iHome.Microservices.Devices.Contract" Version="1.0.0" />
+    <PackageReference Include="iHome.Microservices.OpenAI.Contract" Version="1.0.0" />
+    <PackageReference Include="iHome.Microservices.RoomsManagement.Contract" Version="1.0.4" />
+    <PackageReference Include="iHome.Microservices.Schedules.Contract" Version="1.0.1" />
+    <PackageReference Include="iHome.Microservices.UsersApi.Contract" Version="1.0.0" />
+    <PackageReference Include="iHome.Microservices.Widgets.Contract" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\iHome.Infrastructure.Firebase\iHome.Infrastructure.Firebase.csproj" />
     <ProjectReference Include="..\iHome.Infrastructure.SQL\iHome.Infrastructure.SQL.csproj" />
     <ProjectReference Include="..\iHome.Shared\iHome.Shared.csproj" />
   </ItemGroup>

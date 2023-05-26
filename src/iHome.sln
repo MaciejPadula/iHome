@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome", "iHome\iHome.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Core", "iHome.Core\iHome.Core.csproj", "{11F549E4-78DB-493D-B3CB-C01862198A72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Devices.Contract", "iHome.Devices.Contract\iHome.Devices.Contract.csproj", "{C597DE64-7B8B-4756-A5CB-B221AA34F4E7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Shared", "iHome.Shared\iHome.Shared.csproj", "{41B63713-1D7E-4D79-AB09-9F221B75A18A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Scheduler", "iHome.Scheduler\iHome.Scheduler.csproj", "{B7F75556-937F-4827-8C69-E5CB7DC085BC}"
@@ -19,13 +17,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Scheduler.Infrastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Infrastructure.SQL", "iHome.Infrastructure.SQL\iHome.Infrastructure.SQL.csproj", "{58006680-F343-4B76-B00C-A06A404C35A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Infrastructure.Firebase", "iHome.Infrastructure.Firebase\iHome.Infrastructure.Firebase.csproj", "{3F17BCC7-A1A8-4D24-B8D4-D1D701E17C01}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Infrastructure.Queue", "iHome.Infrastructure.Queue\iHome.Infrastructure.Queue.csproj", "{2F6506EC-5A50-4E23-826C-2B2A6B6C970D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Infrastructure.Queue", "iHome.Infrastructure.Queue\iHome.Infrastructure.Queue.csproj", "{2F6506EC-5A50-4E23-826C-2B2A6B6C970D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventsExecutor", "EventsExecutor", "{AF35775D-BD3E-42B5-B805-1FBBF99AE337}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.EventsExecutor", "iHome.EventsExecutor\iHome.EventsExecutor.csproj", "{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.EventsExecutor", "iHome.EventsExecutor\iHome.EventsExecutor.csproj", "{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Core.Tests", "iHome.Core.Tests\iHome.Core.Tests.csproj", "{B9D68B85-3DC1-4D2E-9F24-5B0C6CC01E2C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0B584887-2761-4F20-A2BD-C84302111015}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,6 @@ Global
 		{11F549E4-78DB-493D-B3CB-C01862198A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11F549E4-78DB-493D-B3CB-C01862198A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11F549E4-78DB-493D-B3CB-C01862198A72}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C597DE64-7B8B-4756-A5CB-B221AA34F4E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C597DE64-7B8B-4756-A5CB-B221AA34F4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C597DE64-7B8B-4756-A5CB-B221AA34F4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C597DE64-7B8B-4756-A5CB-B221AA34F4E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{41B63713-1D7E-4D79-AB09-9F221B75A18A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{41B63713-1D7E-4D79-AB09-9F221B75A18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41B63713-1D7E-4D79-AB09-9F221B75A18A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,10 +57,6 @@ Global
 		{58006680-F343-4B76-B00C-A06A404C35A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58006680-F343-4B76-B00C-A06A404C35A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58006680-F343-4B76-B00C-A06A404C35A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F17BCC7-A1A8-4D24-B8D4-D1D701E17C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F17BCC7-A1A8-4D24-B8D4-D1D701E17C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F17BCC7-A1A8-4D24-B8D4-D1D701E17C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F17BCC7-A1A8-4D24-B8D4-D1D701E17C01}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F6506EC-5A50-4E23-826C-2B2A6B6C970D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F6506EC-5A50-4E23-826C-2B2A6B6C970D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F6506EC-5A50-4E23-826C-2B2A6B6C970D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -73,6 +65,10 @@ Global
 		{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9D68B85-3DC1-4D2E-9F24-5B0C6CC01E2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9D68B85-3DC1-4D2E-9F24-5B0C6CC01E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9D68B85-3DC1-4D2E-9F24-5B0C6CC01E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9D68B85-3DC1-4D2E-9F24-5B0C6CC01E2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +77,7 @@ Global
 		{B7F75556-937F-4827-8C69-E5CB7DC085BC} = {82B0E55D-B0E2-41ED-84AF-02223BBAAEC8}
 		{DA9F57F3-DBDC-4847-9881-07CE42FF781E} = {82B0E55D-B0E2-41ED-84AF-02223BBAAEC8}
 		{536749C8-19FA-4BF7-A67B-85D6EC3B4CC6} = {AF35775D-BD3E-42B5-B805-1FBBF99AE337}
+		{B9D68B85-3DC1-4D2E-9F24-5B0C6CC01E2C} = {0B584887-2761-4F20-A2BD-C84302111015}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F49848F2-CCB8-493E-A966-BF779E2F2D29}
