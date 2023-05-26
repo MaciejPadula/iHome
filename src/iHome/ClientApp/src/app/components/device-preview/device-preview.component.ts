@@ -42,10 +42,10 @@ export class DevicePreviewComponent {
   }
 
   public formattedTemperature(temp: number): string {
-    return this._deviceDataHelper.formattedTemperature(temp);
+    return this._deviceDataHelper.formattedTemperature(temp ?? 0);
   }
 
   public formattedPreassure(press: number): string {
-    return this._deviceDataHelper.formattedPreassure(press);
+    return this._deviceDataHelper.formattedPreassure(press ?? 0);
   }
 }
