@@ -1,6 +1,7 @@
 <ng-template #loading>
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </ng-template>
+
 <div *ngIf="schedules$ | async as schedules; else loading" class="schedules-container w-full sm:w-4/5 m-auto">
   <div class="flex justify-evenly p-4">
     <button mat-raised-button color="primary" routerLink="/add-schedule">
@@ -35,4 +36,16 @@
       <app-schedule class="w-full" [scheduleId]="schedule.id" [devicesForScheduling]="devicesForScheduling"></app-schedule>
     </mat-expansion-panel>
   </mat-accordion>
+</div>
+
+<div class="fixed bottom-0 w-full flex flex-row justify-between p-4">
+  <button class="action-button" mat-raised-button color="primary" routerLink="/rooms">
+      Rooms
+      <mat-icon>room</mat-icon>
+  </button>
+
+  <button class="action-button" mat-raised-button color="primary" routerLink="/add-schedule">
+      Add new schedule
+      <mat-icon>alarm_add</mat-icon>
+  </button>
 </div>

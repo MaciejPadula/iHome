@@ -1,7 +1,12 @@
 <button class="device-preview-box">
+  <div class="font-bold">{{deviceName}}</div>
+
   <div *ngIf="deviceType === type.RGBLamp"
     class="h-20 w-full"
     [style]="'background-color: rgb(' + lampData.red + ', ' + lampData.green + ', ' + lampData.blue + ');'">
   </div>
-  <div>{{deviceName}}</div>
+  <div *ngIf="deviceType === type.Thermometer" class="h-20 w-full flex flex-col items-center justify-center">
+    <p>{{formattedTemperature(thermometerData.temperature)}}</p>
+    <p>{{formattedPreassure(thermometerData.pressure)}}</p>
+  </div>
 </button>

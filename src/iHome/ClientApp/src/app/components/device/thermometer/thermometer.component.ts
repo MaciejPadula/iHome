@@ -6,6 +6,7 @@ import { Device } from 'src/app/models/device';
 import { DevicesService } from 'src/app/services/devices.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ThermometerData } from './thermometer-data';
+import { DeviceDataHelper } from 'src/app/helpers/device-data.helper';
 
 @UntilDestroy()
 @Component({
@@ -23,7 +24,8 @@ export class ThermometerComponent implements OnInit {
 
   constructor(
     private _deviceService: DevicesService,
-    private _refreshService: RefreshService
+    private _refreshService: RefreshService,
+    private _deviceDataHelper: DeviceDataHelper
   ) { }
 
   public ngOnInit(): void {
@@ -42,17 +44,11 @@ export class ThermometerComponent implements OnInit {
       .subscribe(data => this.dataSubject$.next(data));
   }
 
-  public formattedTemperature(temp: number): string{
-    ///celsius:
-    return this.valueWithUnit(temp.toFixed(2), '°C');
+  public formattedTemperature(temp: number): string {
+    return this._deviceDataHelper.formattedTemperature(temp);
   }
 
-  public formattedPreassure(press: number): string{
-    ///eu:
-    return this.valueWithUnit(press.toFixed(2), '°hPa');
-  }
-
-  private valueWithUnit(valueFormatted: string, unit: string): string{
-    return `${valueFormatted} [${unit}]`;
+  public formattedPreassure(press: number): string {
+    return this._deviceDataHelper.formattedPreassure(press);
   }
 }

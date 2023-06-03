@@ -149,6 +149,7 @@ src/Microservices/Schedules/iHome.Microservices.Schedules.Contract/bin
 src/Microservices/Schedules/iHome.Microservices.Schedules.Infrastructure/bin
 src/Microservices/Schedules/iHome.Microservices.Schedules/Properties/launchSettings.json
 src/Microservices/Schedules/iHome.Microservices.Schedules/appsettings.Development.json
+src/Microservices/Devices/iHome.Microservices.Devices/Properties/PublishProfiles/http___localhost_5000.pubxml.user
 src/Jobs/iHome.Scheduler.Infrastructure/obj
 src/Jobs/iHome.Scheduler.Infrastructure/bin
 src/Jobs/iHome.Scheduler/obj

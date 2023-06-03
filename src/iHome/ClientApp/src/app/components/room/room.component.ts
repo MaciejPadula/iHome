@@ -8,12 +8,26 @@ import { WidgetType } from 'src/app/models/widget-type';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { WidgetsService } from 'src/app/services/widgets.service';
 import { AddWidgetDialogComponent } from '../add-widget-dialog/add-widget-dialog.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @UntilDestroy()
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss'],
+  animations: [
+    trigger('openClose', [
+      state('open', style({
+        height: '*',
+      })),
+      state('closed', style({
+        height: '0',
+      })),
+      transition('* => *', [
+        animate('0.2s')
+      ])
+    ])
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoomComponent implements OnInit {
@@ -21,6 +35,7 @@ export class RoomComponent implements OnInit {
   public widgets$ = this.widgetsSubject$.asObservable();
 
   public id: string;
+  public showDevicesList = false;
 
   constructor(
     private _refreshService: RefreshService,
@@ -61,6 +76,10 @@ export class RoomComponent implements OnInit {
 
         this.addWidget(data.widgetType, data.showBorder);
       });
+  }
+
+  public toggleDevicesList(){
+    this.showDevicesList = !this.showDevicesList;
   }
 
   private addWidget(widgetType: WidgetType, showBorder: boolean){

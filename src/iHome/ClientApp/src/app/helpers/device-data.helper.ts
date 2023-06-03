@@ -35,4 +35,18 @@ export class DeviceDataHelper {
       .toHexString() :
       "#000000";
   }
+
+  public formattedTemperature(temp: number): string{
+    ///celsius:
+    return this.valueWithUnit(temp.toFixed(2), '°C');
+  }
+
+  public formattedPreassure(press: number): string{
+    ///eu:
+    return this.valueWithUnit(press.toFixed(2), '°hPa');
+  }
+
+  public valueWithUnit(valueFormatted: string, unit: string): string{
+    return `${valueFormatted} [${unit}]`;
+  }
 }
