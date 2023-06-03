@@ -175,3 +175,4 @@ src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.EventsExecutor/Properties/PublishPr
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler/iHome.Jobs.Events.Scheduler.csproj.user
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.EventsExecutor/iHome.Jobs.Events.EventsExecutor.csproj.user
+src/Jobs/iHome.Jobs.Events/Nuget
