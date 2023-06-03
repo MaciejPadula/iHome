@@ -29,7 +29,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { RenameRoomDialogComponent } from './components/rename-room-dialog/rename-room-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { environment } from 'src/environments/environment';
-import { DevicesSidenavComponent } from './components/devices-sidenav/devices-sidenav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ThermometerComponent } from './components/device/thermometer/thermometer.component';
@@ -56,6 +55,7 @@ import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confi
 import { DevicePreviewComponent } from './components/device-preview/device-preview.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
+import { DragDevicesListComponent } from './components/drag-devices-list/drag-devices-list.component';
 
 
 @NgModule({
@@ -71,7 +71,6 @@ import { AddScheduleComponent } from './pages/add-schedule/add-schedule.componen
     AddRoomDialogComponent,
     AddWidgetDialogComponent,
     RenameRoomDialogComponent,
-    DevicesSidenavComponent,
     ThermometerComponent,
     ShareRoomDialogComponent,
     RgbLampComponent,
@@ -83,7 +82,8 @@ import { AddScheduleComponent } from './pages/add-schedule/add-schedule.componen
     InputDialogComponent,
     ConfirmDialogComponent,
     DevicePreviewComponent,
-    AddScheduleComponent
+    AddScheduleComponent,
+    DragDevicesListComponent
   ],
   imports: [
     BrowserModule,

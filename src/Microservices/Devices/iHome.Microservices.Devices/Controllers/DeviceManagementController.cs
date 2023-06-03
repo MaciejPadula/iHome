@@ -1,7 +1,9 @@
 ﻿using iHome.Core.Repositories.Devices;
 using iHome.Microservices.Devices.Contract;
+using iHome.Microservices.Devices.Contract.Models;
 using iHome.Microservices.Devices.Contract.Models.Request;
 using iHome.Microservices.Devices.Contract.Models.Response;
+using iHome.Microservices.Devices.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.Devices.Controllers
@@ -11,10 +13,12 @@ namespace iHome.Microservices.Devices.Controllers
     public class DeviceManagementController : ControllerBase, IDeviceManagementService
     {
         private readonly IDeviceRepository _deviceRepository;
+        private readonly IDeviceDataRepository _deviceDataRepository;
 
-        public DeviceManagementController(IDeviceRepository deviceRepository)
+        public DeviceManagementController(IDeviceRepository deviceRepository, IDeviceDataRepository deviceDataRepository)
         {
             _deviceRepository = deviceRepository;
+            _deviceDataRepository = deviceDataRepository;
         }
 
         [HttpPost]
@@ -48,17 +52,26 @@ namespace iHome.Microservices.Devices.Controllers
         [HttpPost]
         public async Task<GetDevicesResponse> GetDevices(GetDevicesRequest request)
         {
+            List<DeviceModel> devices;
             if (request.RoomId == default!)
             {
-                return new()
-                {
-                    Devices = await _deviceRepository.GetByUserId(request.UserId)
-                };
+                devices = (await _deviceRepository.GetByUserId(request.UserId)).ToList();
+            }
+            else
+            {
+                devices = (await _deviceRepository.GetByRoomId(request.RoomId)).ToList();
+            }
+
+            devices = devices.ToList();
+
+            foreach(var d in devices)
+            {
+                d.Data = await _deviceDataRepository.GetDeviceData(d.MacAddress);
             }
 
             return new()
             {
-                Devices = await _deviceRepository.GetByRoomId(request.RoomId)
+                Devices = devices
             };
         }
 
