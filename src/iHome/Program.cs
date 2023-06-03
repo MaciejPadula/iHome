@@ -1,6 +1,5 @@
 using iHome;
 using iHome.Core.Helpers;
-using iHome.Infrastructure.SQL.Helpers;
 using iHome.Logic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -13,9 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserAccessor, HttpContextUserAccessor>();
 builder.Services.AddMicroservices();
-
-builder.Services.AddDataContexts(builder.Configuration["ConnectionStrings:AzureSQL"]);
-
 builder.Services.AddCoreServices();
 
 

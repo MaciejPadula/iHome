@@ -5,6 +5,7 @@ using iHome.Microservices.Schedules.Contract;
 using iHome.Microservices.UsersApi.Contract;
 using iHome.Microservices.Widgets.Contract;
 using Web.Infrastructure.Microservices.Client.Extensions;
+using Web.Infrastructure.Microservices.Client.Interfaces;
 
 namespace iHome;
 
@@ -12,23 +13,23 @@ public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddMicroservices(this IServiceCollection services)
     {
-        services.AddMicroserviceClient<IDeviceManagementService>("http://172.30.0.3:5002");
-        services.AddMicroserviceClient<IDeviceDataService>("http://172.30.0.3:5002");
+        services.AddScoped<IServiceLookup, ConfigurationServiceLookup>();
 
-        services.AddMicroserviceClient<IUserManagementService>("http://192.168.8.2:5003");
+        services.AddMicroserviceClient<IDeviceManagementService>();
+        services.AddMicroserviceClient<IDeviceDataService>();
 
-        services.AddMicroserviceClient<IRoomManagementService>("http://172.30.0.2:5004");
-        services.AddMicroserviceClient<IRoomSharingService>("http://172.30.0.2:5004");
+        services.AddMicroserviceClient<IUserManagementService>();
 
-        services.AddMicroserviceClient<ISuggestionsService>("http://172.30.0.4:5005");
+        services.AddMicroserviceClient<IRoomManagementService>();
+        services.AddMicroserviceClient<IRoomSharingService>();
 
-        services.AddMicroserviceClient<IWidgetManagementService>("http://192.168.8.2:5006");
-        services.AddMicroserviceClient<IWidgetDeviceManagementService>("http://192.168.8.2:5006");
+        services.AddMicroserviceClient<ISuggestionsService>();
 
-        services.AddMicroserviceClient<IScheduleDeviceManagementService>("http://192.168.8.2:5007");
-        services.AddMicroserviceClient<IScheduleManagementService>("http://192.168.8.2:5007");
+        services.AddMicroserviceClient<IWidgetManagementService>();
+        services.AddMicroserviceClient<IWidgetDeviceManagementService>();
 
-
+        services.AddMicroserviceClient<IScheduleDeviceManagementService>();
+        services.AddMicroserviceClient<IScheduleManagementService>();
 
         return services;
     }
