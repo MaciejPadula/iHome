@@ -164,3 +164,9 @@ src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.EventsExecutor/appsettings.json
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.EventsExecutor/bin
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Infrastructure/bin
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler/bin
+src/Microservices/Devices/iHome.Microservices.Devices/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
+src/Microservices/OpenAI/iHome.Microservices.OpenAI/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
+src/Microservices/RoomsManagement/iHome.Microservices.RoomsManagement/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
+src/Microservices/Schedules/iHome.Microservices.Schedules/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
+src/Microservices/UsersApi/iHome.Microservices.UsersApi/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
+src/Microservices/Widgets/iHome.Microservices.Widgets/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
