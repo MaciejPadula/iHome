@@ -171,3 +171,7 @@ src/Microservices/RoomsManagement/iHome.Microservices.RoomsManagement/Properties
 src/Microservices/Schedules/iHome.Microservices.Schedules/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
 src/Microservices/UsersApi/iHome.Microservices.UsersApi/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
 src/Microservices/Widgets/iHome.Microservices.Widgets/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
+src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.EventsExecutor/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
+src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler/Properties/PublishProfiles/http___192.168.8.2_5000.pubxml.user
+src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler/iHome.Jobs.Events.Scheduler.csproj.user
+src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.EventsExecutor/iHome.Jobs.Events.EventsExecutor.csproj.user

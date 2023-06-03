@@ -8,7 +8,6 @@ namespace iHome.Jobs.Events.EventsExecutor
     {
         private readonly IQueueReader<DataUpdateModel> _queueReader;
         private readonly IDeviceDataService _deviceDataService;
-        private readonly PeriodicTimer _timer;
         private readonly ILogger<Worker> _logger;
 
         public Worker(IQueueReader<DataUpdateModel> queueReader, IDeviceDataService deviceDataService, ILogger<Worker> logger)
@@ -16,30 +15,27 @@ namespace iHome.Jobs.Events.EventsExecutor
             _queueReader = queueReader;
             _deviceDataService = deviceDataService;
             _logger = logger;
-
-            _timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (await _timer.WaitForNextTickAsync(stoppingToken))
+            _logger.LogInformation("PROCESS STARTED");
+            var tasks = new List<Task>();
+
+            while (await _queueReader.Peek() != null)
             {
-                var tasks = new List<Task>();
+                var device = await _queueReader.Pop();
+                if (device == null) continue;
 
-                while (await _queueReader.Peek() != null)
+                tasks.Add(_deviceDataService.SetDeviceData(new()
                 {
-                    var device = await _queueReader.Pop();
-                    if (device == null) continue;
-
-                    tasks.Add(_deviceDataService.SetDeviceData(new()
-                    {
-                        DeviceId = device.DeviceId,
-                        Data = device.DeviceData
-                    }));
-                }
-
-                await Task.WhenAll(tasks);
+                    DeviceId = device.DeviceId,
+                    Data = device.DeviceData
+                }));
             }
+
+            await Task.WhenAll(tasks);
+            _logger.LogInformation("EVENTS EXECUTED: {events}", tasks.Count);
         }
     }
 }

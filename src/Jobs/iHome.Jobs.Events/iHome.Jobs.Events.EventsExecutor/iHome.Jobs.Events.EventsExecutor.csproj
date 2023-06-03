@@ -1,18 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk.Worker">
-
+<Project Sdk="Microsoft.NET.Sdk.Worker;Microsoft.NET.Sdk.Publish">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-iHome.Jobs.Events.EventsExecutor-94b439d1-eb15-4a37-a5c5-cd494a057bd0</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="iHome.Microservices.Devices.Contract" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
     <PackageReference Include="Web.Infrastructure.Microservices.Client" Version="1.0.2" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\iHome.Jobs.Events.Infrastructure\iHome.Jobs.Events.Infrastructure.csproj" />
   </ItemGroup>

@@ -33,7 +33,7 @@ public class EFScheduleRepository : IScheduleRepository
         return schedule?.ScheduleDevices ?? Enumerable.Empty<ScheduleDevice>();
     }
 
-    public Task<IEnumerable<Schedule>> GetToRunSchedules(Func<int, int, bool> cronComparer)
+    public Task<IEnumerable<Schedule>> GetToRunSchedules(Func<int, int, bool> hourComparer)
     {
         var numberOfBatch = 0;
 
@@ -55,7 +55,7 @@ public class EFScheduleRepository : IScheduleRepository
                 .Skip(numberOfBatch * BatchSize)
                 .Take(BatchSize)
                 .AsEnumerable()
-                .Where(s => cronComparer.Invoke(s.Hour, s.Minute));
+                .Where(s => hourComparer.Invoke(s.Hour, s.Minute));
 
             if (!schedulesToTest.Any()) break;
 

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Jobs.Events.Scheduler", "iHome.Jobs.Events.Scheduler\iHome.Jobs.Events.Scheduler.csproj", "{3860FFB4-4C27-439C-AFBB-D076A8DCF80A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Jobs.Events.Scheduler", "iHome.Jobs.Events.Scheduler\iHome.Jobs.Events.Scheduler.csproj", "{3860FFB4-4C27-439C-AFBB-D076A8DCF80A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Jobs.Events.EventsExecutor", "iHome.Jobs.Events.EventsExecutor\iHome.Jobs.Events.EventsExecutor.csproj", "{656CD878-C1F0-4E48-ACCF-C887E23BCB82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Jobs.Events.EventsExecutor", "iHome.Jobs.Events.EventsExecutor\iHome.Jobs.Events.EventsExecutor.csproj", "{656CD878-C1F0-4E48-ACCF-C887E23BCB82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Jobs.Events.Infrastructure", "iHome.Jobs.Events.Infrastructure\iHome.Jobs.Events.Infrastructure.csproj", "{38607E66-2030-4FB6-A2F4-074C6C0FBFD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Jobs.Events.Infrastructure", "iHome.Jobs.Events.Infrastructure\iHome.Jobs.Events.Infrastructure.csproj", "{38607E66-2030-4FB6-A2F4-074C6C0FBFD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
