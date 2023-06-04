@@ -12,6 +12,8 @@ namespace iHome.Jobs.Events.EventsExecutor
         private readonly IQueueReader<DataUpdateModel> _queueReader;
         private readonly IDeviceDataService _deviceDataService;
         private readonly ILogger<Worker> _logger;
+        private readonly PeriodicTimer _timer;
+        private readonly TimeSpan Delay = TimeSpan.FromSeconds(5);
 
         public Worker(IQueueReader<DataUpdateModel> queueReader, IDeviceDataService deviceDataService, ILogger<Worker> logger, IHostApplicationLifetime hostApplicationLifetime)
         {
@@ -19,17 +21,22 @@ namespace iHome.Jobs.Events.EventsExecutor
             _deviceDataService = deviceDataService;
             _logger = logger;
             _hostApplicationLifetime = hostApplicationLifetime;
+
+            _timer = new PeriodicTimer(Delay);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try
             {
-                _logger.LogInformation("PROCESS STARTED");
+                while(await _timer.WaitForNextTickAsync(stoppingToken))
+                {
+                    _logger.LogInformation("PROCESS STARTED");
 
-                var eventsCount = await Working();
+                    var eventsCount = await Working();
 
-                _logger.LogInformation("EVENTS EXECUTED: {events}", eventsCount);
+                    _logger.LogInformation("EVENTS EXECUTED: {events}", eventsCount);
+                }
             }
             catch (Exception ex)
             {
