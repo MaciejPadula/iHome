@@ -4,8 +4,8 @@ using iHome.Microservices.RoomsManagement.Contract;
 using iHome.Microservices.Schedules.Contract;
 using iHome.Microservices.UsersApi.Contract;
 using iHome.Microservices.Widgets.Contract;
+using Web.Infrastructure.Microservices.Client.Configuration.Extensions;
 using Web.Infrastructure.Microservices.Client.Extensions;
-using Web.Infrastructure.Microservices.Client.Interfaces;
 
 namespace iHome;
 
@@ -13,7 +13,7 @@ public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddMicroservices(this IServiceCollection services)
     {
-        services.AddScoped<IServiceLookup, ConfigurationServiceLookup>();
+        services.AddConfigurationServiceLookup("Microservices");
 
         services.AddMicroserviceClient<IDeviceManagementService>();
         services.AddMicroserviceClient<IDeviceDataService>();
