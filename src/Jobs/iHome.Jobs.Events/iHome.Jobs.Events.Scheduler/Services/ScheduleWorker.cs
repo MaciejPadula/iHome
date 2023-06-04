@@ -6,24 +6,37 @@ namespace iHome.Jobs.Events.Scheduler.Services
 {
     public class ScheduleWorker : BackgroundService
     {
+        private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private readonly ILogger<ScheduleWorker> _logger;
         private readonly ISchedulesProvider _schedulesProvider;
         private readonly IQueueWriter<DataUpdateModel> _queueWriter;
 
-        public ScheduleWorker(ILogger<ScheduleWorker> logger, ISchedulesProvider schedulesProvider, IQueueWriter<DataUpdateModel> queueWriter)
+        public ScheduleWorker(ILogger<ScheduleWorker> logger, ISchedulesProvider schedulesProvider, IQueueWriter<DataUpdateModel> queueWriter, IHostApplicationLifetime hostApplicationLifetime)
         {
             _logger = logger;
             _schedulesProvider = schedulesProvider;
             _queueWriter = queueWriter;
+            _hostApplicationLifetime = hostApplicationLifetime;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("===STARTING PROCESS===");
+            try
+            {
+                _logger.LogInformation("===STARTING PROCESS===");
 
-            var schedulesProcessedCount = await Working();
+                var schedulesProcessedCount = await Working();
 
-            _logger.LogInformation("Schedules Processed: {count}", schedulesProcessedCount);
+                _logger.LogInformation("Schedules Processed: {count}", schedulesProcessedCount);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, nameof(ex));
+            }
+            finally
+            {
+                _hostApplicationLifetime.StopApplication();
+            }
         }
 
         public async Task<int> Working()

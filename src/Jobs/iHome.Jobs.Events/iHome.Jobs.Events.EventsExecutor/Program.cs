@@ -11,10 +11,10 @@ var host = Host.CreateDefaultBuilder(args)
 
         services.AddDataQueueReader(config.GetValue<string>("Azure:StorageConnectionString"), ServiceLifetime.Singleton);
         services.AddConfigurationServiceLookup("Microservices");
-        services.AddMicroserviceClient<IDeviceDataService>();
+        services.AddMicroserviceClient<IDeviceDataService>(ServiceLifetime.Singleton);
 
         services.AddHostedService<Worker>();
     })
     .Build();
 
-host.Run();
+await host.RunAsync();
