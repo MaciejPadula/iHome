@@ -59,8 +59,7 @@ public class ScheduleController : ControllerBase
     {
         var schedule = await _scheduleManagementService.GetSchedule(new()
         {
-            ScheduleId = id,
-            UserId = _userAccessor.UserId
+            ScheduleId = id
         });
 
         return Ok(schedule.Schedule);
@@ -71,8 +70,7 @@ public class ScheduleController : ControllerBase
     {
         var response = await _scheduleDeviceManagementService.GetDevicesInScheduleCount(new()
         {
-            ScheduleId = scheduleId,
-            UserId = _userAccessor.UserId
+            ScheduleId = scheduleId
         });
 
         return Ok(new GetScheduleDevicesCountResponse
@@ -89,8 +87,7 @@ public class ScheduleController : ControllerBase
             ScheduleId = request.ScheduleId,
             Day = request.Day,
             Hour = request.Hour,
-            Minute = request.Minute,
-            UserId = _userAccessor.UserId
+            Minute = request.Minute
         });
 
         return Ok();
@@ -101,8 +98,7 @@ public class ScheduleController : ControllerBase
     {
         var scheduleDevices = await _scheduleDeviceManagementService.GetScheduleDevices(new()
         {
-            ScheduleId = id,
-            UserId = _userAccessor.UserId
+            ScheduleId = id
         });
 
         return Ok(scheduleDevices.ScheduleDevices);
@@ -113,8 +109,7 @@ public class ScheduleController : ControllerBase
     {
         await _scheduleManagementService.RemoveSchedule(new()
         {
-            ScheduleId = id,
-            UserId = _userAccessor.UserId
+            ScheduleId = id
         });
         return Ok();
     }
@@ -126,8 +121,7 @@ public class ScheduleController : ControllerBase
         {
             ScheduleId = request.ScheduleId,
             DeviceId = request.DeviceId,
-            DeviceData = request.DeviceData,
-            UserId = _userAccessor.UserId
+            DeviceData = request.DeviceData
         });
         return Ok();
     }

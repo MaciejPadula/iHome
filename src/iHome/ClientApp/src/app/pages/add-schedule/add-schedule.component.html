@@ -29,7 +29,7 @@
         </mat-icon>
         <mat-hint *ngIf="loadingSuggestions">Loading AI suggestions</mat-hint>
       </mat-form-field>
-      <ngx-mat-timepicker color="accent" #timePicker></ngx-mat-timepicker>
+      <ngx-mat-timepicker color="accent" [minutesGap]="5" #timePicker></ngx-mat-timepicker>
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-raised-button matStepperNext [color]="addScheduleStepperSecondFormGroup.valid ? 'primary': ''">Next</button>

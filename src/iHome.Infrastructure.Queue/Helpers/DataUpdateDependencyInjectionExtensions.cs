@@ -13,27 +13,34 @@ public static class DataUpdateDependencyInjectionExtensions
     private const string QueueName = "device-data-events";
     private static QueueClient? _queueClient;
 
-    public static IServiceCollection AddDataQueueReader(this IServiceCollection services, string? azureConnectionString)
+    public static IServiceCollection AddDataQueueReader(this IServiceCollection services, string? azureConnectionString, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
-        services.TryAddScoped<IQueueReader<DataUpdateModel>>(_ => 
-            new AzureQueueReader<DataUpdateModel>(CreateQueueClient(azureConnectionString)));
+        services.TryAdd(new ServiceDescriptor(
+            typeof(IQueueReader<DataUpdateModel>), 
+            _ => new AzureQueueReader<DataUpdateModel>(CreateQueueClient(azureConnectionString)),
+            serviceLifetime));
 
         return services;
     }
 
-    public static IServiceCollection AddDataQueueWriter(this IServiceCollection services, string? azureConnectionString)
+    public static IServiceCollection AddDataQueueWriter(this IServiceCollection services, string? azureConnectionString, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
-        services.TryAddScoped<IQueueWriter<DataUpdateModel>>(_ =>
-            new AzureQueueWriter<DataUpdateModel>(CreateQueueClient(azureConnectionString)));
+        services.TryAdd(new ServiceDescriptor(
+            typeof(IQueueWriter<DataUpdateModel>),
+            _ => new AzureQueueWriter<DataUpdateModel>(CreateQueueClient(azureConnectionString)),
+            serviceLifetime));
 
         return services;
     }
 
-    public static IServiceCollection AddDataUpdateQueue(this IServiceCollection services, string? azureConnectionString)
+    public static IServiceCollection AddDataUpdateQueue(this IServiceCollection services, string? azureConnectionString, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
         services.AddDataQueueReader(azureConnectionString);
         services.AddDataQueueWriter(azureConnectionString);
-        services.AddScoped<IQueueFullAccess<DataUpdateModel>, QueueFullAccess<DataUpdateModel>>();
+        services.TryAdd(new ServiceDescriptor(
+            typeof(IQueueFullAccess<DataUpdateModel>),
+            typeof(QueueFullAccess<DataUpdateModel>),
+            serviceLifetime));
 
         return services;
     }

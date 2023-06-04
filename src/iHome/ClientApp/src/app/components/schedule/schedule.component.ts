@@ -47,6 +47,8 @@ export class ScheduleComponent implements OnInit {
   private reloadSchedule() {
     this._schedulesService.getSchedule(this.scheduleId)
       .subscribe(schedule => {
+        schedule.minute = schedule.minute % 5 == 0 ? schedule.minute : schedule.minute * 5 % 60
+
         this.scheduleHour = this._timeHelper.getLocalDateFromUTC(schedule.hour, schedule.minute);
         this.scheduleSubject$.next(schedule);
 
