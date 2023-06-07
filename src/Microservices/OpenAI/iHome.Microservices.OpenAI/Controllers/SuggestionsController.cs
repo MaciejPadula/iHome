@@ -28,7 +28,6 @@ namespace iHome.Microservices.OpenAI.Controllers
 
         [HttpPost]
         public async Task<GetSuggestedTimeByScheduleNameResponse> GetSuggestedTimeByScheduleName(GetSuggestedTimeByScheduleNameRequest request)
-
         {
             return new GetSuggestedTimeByScheduleNameResponse
             {
