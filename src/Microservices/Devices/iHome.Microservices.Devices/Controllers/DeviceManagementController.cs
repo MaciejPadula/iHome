@@ -31,16 +31,12 @@ namespace iHome.Microservices.Devices.Controllers
         [HttpPost]
         public Task ChangeDeviceRoom(ChangeDeviceRoomRequest request)
         {
-            //validation
-
             return _deviceRepository.ChangeRoom(request.DeviceId, request.RoomId);
         }
 
         [HttpPost]
         public async Task<GetDeviceResponse> GetDevice(GetDeviceRequest request)
         {
-            //validation
-
             return new()
             {
                 Device = await _deviceRepository.GetByDeviceId(request.DeviceId)
@@ -76,16 +72,12 @@ namespace iHome.Microservices.Devices.Controllers
         [HttpPost]
         public Task RemoveDevice(RemoveDeviceRequest request)
         {
-            //validation
-
             return _deviceRepository.Remove(request.DeviceId);
         }
 
         [HttpPost]
         public Task RenameDevice(RenameDeviceRequest request)
         {
-            //validation
-
             return _deviceRepository.Rename(request.DeviceId, request.NewName);
         }
     }
