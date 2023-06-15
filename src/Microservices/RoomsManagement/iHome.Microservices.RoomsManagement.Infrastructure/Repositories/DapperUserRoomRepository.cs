@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using iHome.Core.Models;
+using iHome.Infrastructure.Sql.Factories;
 
 namespace iHome.Microservices.RoomsManagement.Infrastructure.Repositories
 {
@@ -14,7 +14,7 @@ namespace iHome.Microservices.RoomsManagement.Infrastructure.Repositories
 
         public async Task AddUserRoom(Guid roomId, string userId)
         {
-            using var conn = _connectionFactory.GetConnection();
+            using var conn = _connectionFactory.GetOpenConnection();
 
             await conn.ExecuteAsync(@"
 INSERT INTO [maciejadmin].[UsersRooms]
@@ -26,7 +26,7 @@ VALUES
 
         public async Task<IEnumerable<string>> GetRoomUsersIds(Guid roomId)
         {
-            using var conn = _connectionFactory.GetConnection();
+            using var conn = _connectionFactory.GetOpenConnection();
 
             return await conn.QueryAsync<string>(@"
 SELECT UserId
@@ -37,7 +37,7 @@ WHERE RoomId = @RoomId
 
         public async Task RemoveUserRoom(Guid roomId, string userId)
         {
-            using var conn = _connectionFactory.GetConnection();
+            using var conn = _connectionFactory.GetOpenConnection();
 
             await conn.ExecuteAsync(@"
 DELETE FROM [maciejadmin].[UsersRooms]

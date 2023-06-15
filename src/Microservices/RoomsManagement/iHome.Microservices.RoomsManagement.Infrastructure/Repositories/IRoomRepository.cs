@@ -1,4 +1,4 @@
-﻿using iHome.Core.Models;
+﻿using iHome.Microservices.RoomsManagement.Contract.Models;
 
 namespace iHome.Microservices.RoomsManagement.Infrastructure.Repositories;
 

@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.RoomsManagement.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class RoomManagementController : ControllerBase, IRoomManagementService
     {
         private readonly IRoomRepository _roomRepository;

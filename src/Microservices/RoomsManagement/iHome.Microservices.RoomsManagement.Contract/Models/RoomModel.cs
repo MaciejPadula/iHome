@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace iHome.Core.Models
+namespace iHome.Microservices.RoomsManagement.Contract.Models
 {
     public class RoomModel
     {

@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.RoomsManagement.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class RoomAccessController : ControllerBase, IRoomAccessService
     {
         public Task<bool> RoomAlreadyExists(string name, string userId)

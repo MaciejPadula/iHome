@@ -1,5 +1,6 @@
 ﻿using Dapper;
-using iHome.Core.Models;
+using iHome.Infrastructure.Sql.Factories;
+using iHome.Microservices.RoomsManagement.Contract.Models;
 
 namespace iHome.Microservices.RoomsManagement.Infrastructure.Repositories;
 
@@ -14,7 +15,7 @@ public class DapperRoomRepository : IRoomRepository
 
     public async Task Add(string name, string userId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         await conn.ExecuteAsync(@"
 INSERT INTO [maciejadmin].[Rooms]
@@ -26,7 +27,7 @@ VALUES
 
     public async Task<RoomModel?> GetRoomById(Guid roomId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         return await conn.QuerySingleOrDefaultAsync<RoomModel>(@$"
 SELECT
@@ -40,7 +41,7 @@ WHERE Id = @Id
 
     public async Task<RoomModel?> GetRoomByRoomIdAndUserId(Guid roomId, string userId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         return await conn.QuerySingleOrDefaultAsync<RoomModel>(@$"
 SELECT
@@ -54,7 +55,7 @@ WHERE Id = @Id AND UserId = @UserId
 
     public async Task<IEnumerable<RoomModel>> GetRoomsByUserId(string userId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         return await conn.QueryAsync<RoomModel>(@$"
 SELECT DISTINCT
@@ -71,7 +72,7 @@ ORDER BY r.Name
 
     public async Task Remove(Guid roomId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         await conn.ExecuteAsync(@"
 DELETE FROM [maciejadmin].[Rooms]
@@ -81,7 +82,7 @@ WHERE Id = @RoomId
 
     public async Task Update(Guid roomId, string name)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         await conn.ExecuteAsync(@"
 UPDATE [maciejadmin].[Rooms]
