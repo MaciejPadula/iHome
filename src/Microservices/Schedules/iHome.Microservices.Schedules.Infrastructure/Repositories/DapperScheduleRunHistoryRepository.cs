@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using iHome.Infrastructure.Sql.Factories;
 
 namespace iHome.Microservices.Schedules.Infrastructure.Repositories;
 
@@ -13,7 +14,7 @@ public class DapperScheduleRunHistoryRepository : IScheduleRunHistoryRepository
 
     public async Task<bool> ScheduleRunned(Guid scheduleId, DateTime startOfToday)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         return await conn.ExecuteScalarAsync<bool>(@"
 SELECT 1 

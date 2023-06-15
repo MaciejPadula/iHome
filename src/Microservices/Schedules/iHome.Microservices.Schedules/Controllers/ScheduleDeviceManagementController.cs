@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.Schedules.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class ScheduleDeviceManagementController : ControllerBase, IScheduleDeviceManagementService
     {
         private readonly IScheduleDeviceRepository _repository;

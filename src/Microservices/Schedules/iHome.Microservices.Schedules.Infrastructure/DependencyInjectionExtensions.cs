@@ -10,7 +10,6 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IScheduleRepository, DapperScheduleRepository>();
         services.AddScoped<IScheduleDeviceRepository, DapperScheduleDeviceRepository>();
         services.AddScoped<IScheduleRunHistoryRepository, DapperScheduleRunHistoryRepository>();
-        services.AddScoped<IDbConnectionFactory, SqlDbConnectionFactory>();
 
         return services;
     }
