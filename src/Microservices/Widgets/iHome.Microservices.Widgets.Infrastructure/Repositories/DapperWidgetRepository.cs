@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using iHome.Core.Repositories.Widgets;
+using iHome.Infrastructure.Sql.Factories;
 using iHome.Microservices.Widgets.Contract.Models;
 
 namespace iHome.Microservices.Widgets.Infrastructure.Repositories;
@@ -15,7 +16,7 @@ public class DapperWidgetRepository : IWidgetRepository
 
     public async Task Add(WidgetType type, Guid roomId, bool showBorder)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         await conn.ExecuteAsync(@"
 INSERT INTO [maciejadmin].[Widgets]
@@ -27,7 +28,7 @@ VALUES
 
     public async Task<IEnumerable<WidgetModel>> GetByRoomId(Guid roomId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         return await conn.QueryAsync<WidgetModel>(@$"
 SELECT 
@@ -42,7 +43,7 @@ WHERE RoomId = @RoomId
 
     public async Task Remove(Guid widgetId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         await conn.ExecuteAsync(@"
 DELETE FROM [maciejadmin].[Widgets]

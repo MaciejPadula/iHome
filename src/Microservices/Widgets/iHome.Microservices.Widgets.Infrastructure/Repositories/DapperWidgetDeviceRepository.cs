@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using iHome.Infrastructure.Sql.Factories;
 
 namespace iHome.Microservices.Widgets.Infrastructure.Repositories;
 
@@ -13,7 +14,7 @@ public class DapperWidgetDeviceRepository : IWidgetDeviceRepository
 
     public async Task Add(Guid widgetId, Guid deviceId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         await conn.ExecuteAsync(@"
 INSERT INTO [maciejadmin].[WidgetsDevices]
@@ -25,7 +26,7 @@ VALUES
 
     public async Task<IEnumerable<Guid>> GetDeviceIdsByWidgetId(Guid widgetId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         return await conn.QueryAsync<Guid>(@$"
 SELECT DeviceId
@@ -36,7 +37,7 @@ WHERE WidgetId = @WidgetId
 
     public async Task Remove(Guid widgetId, Guid deviceId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         await conn.ExecuteAsync(@"
 DELETE FROM [maciejadmin].[WidgetsDevices]

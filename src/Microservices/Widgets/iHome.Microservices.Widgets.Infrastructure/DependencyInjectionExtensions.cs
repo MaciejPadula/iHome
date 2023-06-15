@@ -10,7 +10,6 @@ public static class DependencyInjectionExtensions
     {
         services.AddScoped<IWidgetRepository, DapperWidgetRepository>();
         services.AddScoped<IWidgetDeviceRepository, DapperWidgetDeviceRepository>();
-        services.AddScoped<IDbConnectionFactory, SqlDbConnectionFactory>();
 
         return services;
     }

@@ -1,22 +1,22 @@
+using iHome.Infrastructure.Sql.Helpers;
+using iHome.Microservices.Widgets.Contract;
+using iHome.Microservices.Widgets.Controllers;
 using iHome.Microservices.Widgets.Infrastructure;
-using iHome.Microservices.Widgets.Infrastructure.Models;
+using Web.Infrastructure.Microservices.Server.Builders;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = new MicroserviceBuilder(args);
 
-// Add services to the container.
-
-builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
+builder.Services.AddDbConnectionFactory(builder.Configuration["ConnectionStrings:SqlConnectionString"] ?? string.Empty);
 builder.Services.AddRepositories();
-builder.Services.AddControllers();
+
+builder.RegisterMicroservice<IWidgetDeviceManagementService, WidgetDeviceManagementController>();
+builder.RegisterMicroservice<IWidgetManagementService, WidgetManagementController>();
+
+builder.ConfigureApp(app =>
+{
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+});
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
 app.Run();
