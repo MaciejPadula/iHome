@@ -1,20 +1,19 @@
+using iHome.Microservices.OpenAI.Contract;
+using iHome.Microservices.OpenAI.Controllers;
 using iHome.Microservices.OpenAI.Infrastructure;
+using Web.Infrastructure.Microservices.Server.Builders;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
+var builder = new MicroserviceBuilder(args);
 
 builder.Services.AddSuggestionService(builder.Configuration["OpenAI:ApiToken"]);
-builder.Services.AddControllers();
+
+builder.RegisterMicroservice<ISuggestionsService, SuggestionsController>();
+
+builder.ConfigureApp(app =>
+{
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+});
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
 app.Run();
