@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.UsersApi.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class UserManagementController : ControllerBase, IUserManagementService
     {
         private readonly IUserManagementService _userManagementService;
