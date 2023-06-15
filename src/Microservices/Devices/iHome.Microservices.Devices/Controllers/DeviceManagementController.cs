@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.Devices.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class DeviceManagementController : ControllerBase, IDeviceManagementService
     {
         private readonly IDeviceRepository _deviceRepository;

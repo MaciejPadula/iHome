@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using iHome.Core.Repositories.Devices;
+using iHome.Infrastructure.Sql.Factories;
 using iHome.Microservices.Devices.Contract.Models;
 
 namespace iHome.Microservices.Devices.Infrastructure.Repositories;
@@ -15,7 +16,7 @@ public class DapperDeviceRepository : IDeviceRepository
 
     public async Task<Guid> Add(string name, string macAddress, DeviceType type, Guid roomId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
         var id = Guid.NewGuid();
 
         await conn.ExecuteAsync(@"
@@ -30,7 +31,7 @@ VALUES
 
     public async Task ChangeRoom(Guid deviceId, Guid roomId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         await conn.ExecuteAsync(@"
 UPDATE [maciejadmin].[Devices]
@@ -41,7 +42,7 @@ WHERE Id = @Id
 
     public async Task<DeviceModel?> GetByDeviceId(Guid deviceId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         return await conn.QuerySingleOrDefaultAsync<DeviceModel>(@$"
 SELECT
@@ -57,7 +58,7 @@ WHERE Id = @Id
 
     public async Task<IEnumerable<DeviceModel>> GetByRoomId(Guid roomId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         return await conn.QueryAsync<DeviceModel>(@$"
 SELECT
@@ -73,7 +74,7 @@ WHERE RoomId = @RoomId
 
     public async Task<IEnumerable<DeviceModel>> GetByUserId(string userId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         return await conn.QueryAsync<DeviceModel>(@$"
 SELECT
@@ -91,7 +92,7 @@ WHERE r.UserId = @UserId
 
     public async Task Remove(Guid deviceId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         await conn.ExecuteAsync(@"
 DELETE FROM [maciejadmin].[Devices]
@@ -101,7 +102,7 @@ WHERE Id = @Id
 
     public async Task Rename(Guid deviceId, string name)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = _connectionFactory.GetOpenConnection();
 
         await conn.ExecuteAsync(@"
 UPDATE [maciejadmin].[Devices]

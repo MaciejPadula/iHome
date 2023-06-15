@@ -14,8 +14,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="Web.Infrastructure.Microservices.Client" Version="1.0.3" />
-    <PackageReference Include="Web.Infrastructure.Microservices.Client.Configuration" Version="1.0.3" />
+    <PackageReference Include="Web.Infrastructure.Microservices.Client" Version="1.0.5" />
+    <PackageReference Include="Web.Infrastructure.Microservices.Client.Configuration" Version="1.0.5" />
   </ItemGroup>
 
   <ItemGroup>

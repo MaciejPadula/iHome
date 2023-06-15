@@ -1,23 +1,25 @@
+using iHome.Infrastructure.Sql.Helpers;
+using iHome.Microservices.Devices.Contract;
+using iHome.Microservices.Devices.Controllers;
 using iHome.Microservices.Devices.Infrastructure;
 using iHome.Microservices.Devices.Infrastructure.Models;
+using Web.Infrastructure.Microservices.Server.Builders;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = new MicroserviceBuilder(args);
 
-// Add services to the container.
-
-builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
+builder.Services.AddDbConnectionFactory(builder.Configuration["ConnectionStrings:SqlConnectionString"] ?? string.Empty);
 builder.Services.Configure<FirebaseSettings>(builder.Configuration.GetSection("Firebase"));
 builder.Services.AddRepositories();
-builder.Services.AddControllers();
+
+builder.RegisterMicroservice<IDeviceDataService, DeviceDataController>();
+builder.RegisterMicroservice<IDeviceManagementService, DeviceManagementController>();
+
+builder.ConfigureApp(app =>
+{
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+});
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();
