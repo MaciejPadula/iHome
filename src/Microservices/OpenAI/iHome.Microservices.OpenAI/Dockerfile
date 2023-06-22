@@ -7,6 +7,8 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
+COPY ["iHome.Microservices.OpenAI/NuGet.config", "iHome.Microservices.OpenAI/"]
+COPY ["iHome.Microservices.OpenAI/NuGet.config", "iHome.Microservices.OpenAI.Infrastructure/"]
 COPY ["iHome.Microservices.OpenAI/iHome.Microservices.OpenAI.csproj", "iHome.Microservices.OpenAI/"]
 COPY ["iHome.Microservices.OpenAI.Contract/iHome.Microservices.OpenAI.Contract.csproj", "iHome.Microservices.OpenAI.Contract/"]
 COPY ["iHome.Microservices.OpenAI.Infrastructure/iHome.Microservices.OpenAI.Infrastructure.csproj", "iHome.Microservices.OpenAI.Infrastructure/"]

@@ -7,6 +7,8 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
+COPY ["iHome.Microservices.Widgets/NuGet.config", "iHome.Microservices.Widgets/"]
+COPY ["iHome.Microservices.Widgets/NuGet.config", "iHome.Microservices.Widgets.Infrastructure/"]
 COPY ["iHome.Microservices.Widgets/iHome.Microservices.Widgets.csproj", "iHome.Microservices.Widgets/"]
 COPY ["iHome.Microservices.Widgets.Contract/iHome.Microservices.Widgets.Contract.csproj", "iHome.Microservices.Widgets.Contract/"]
 COPY ["iHome.Microservices.Widgets.Infrastructure/iHome.Microservices.Widgets.Infrastructure.csproj", "iHome.Microservices.Widgets.Infrastructure/"]
