@@ -1,21 +1,20 @@
 ﻿using Dapper;
 using iHome.Infrastructure.Sql.Factories;
+using iHome.Infrastructure.Sql.Repositories;
 using iHome.Microservices.Schedules.Contract.Models;
 
 namespace iHome.Microservices.Schedules.Infrastructure.Repositories;
 
-public class DapperScheduleDeviceRepository : IScheduleDeviceRepository
+public class DapperScheduleDeviceRepository : RepositoryBase, IScheduleDeviceRepository
 {
-    private readonly IDbConnectionFactory _connectionFactory;
-
     public DapperScheduleDeviceRepository(IDbConnectionFactory connectionFactory)
+        : base(connectionFactory)
     {
-        _connectionFactory = connectionFactory;
     }
 
     public async Task Add(Guid scheduleId, Guid deviceId, string deviceData)
     {
-        using var conn = _connectionFactory.GetOpenConnection();
+        using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
 INSERT INTO [maciejadmin].[SchedulesDevices]
@@ -33,7 +32,7 @@ VALUES
 
     public async Task<int> CountByScheduleId(Guid scheduleId)
     {
-        using var conn = _connectionFactory.GetOpenConnection();
+        using var conn = GetDbConnection();
 
         return await conn.ExecuteScalarAsync<int>(@"
 SELECT Count(Id)
@@ -44,7 +43,7 @@ WHERE ScheduleId = @ScheduleId
 
     public async Task<ScheduleDeviceModel?> GetByIdAndScheduleId(Guid deviceId, Guid scheduleId)
     {
-        using var conn = _connectionFactory.GetOpenConnection();
+        using var conn = GetDbConnection();
 
         return await conn.QuerySingleOrDefaultAsync<ScheduleDeviceModel?>(@$"
 SELECT
@@ -62,7 +61,7 @@ WHERE d.Id = @DeviceId AND sd.ScheduleId = @ScheduleId
 
     public async Task<IEnumerable<ScheduleDeviceModel>> GetByScheduleId(Guid scheduleId)
     {
-        using var conn = _connectionFactory.GetOpenConnection();
+        using var conn = GetDbConnection();
 
         return await conn.QueryAsync<ScheduleDeviceModel>(@$"
 SELECT
@@ -81,7 +80,7 @@ WHERE sd.ScheduleId = @ScheduleId
 
     public async Task Remove(Guid scheduleId, Guid deviceId)
     {
-        using var conn = _connectionFactory.GetOpenConnection();
+        using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
 DELETE FROM [maciejadmin].[SchedulesDevices]
@@ -91,7 +90,7 @@ WHERE ScheduleId = @ScheduleId AND DeviceId = @DeviceId
 
     public async Task Update(Guid scheduleId, Guid deviceId, string deviceData)
     {
-        using var conn = _connectionFactory.GetOpenConnection();
+        using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
 UPDATE [maciejadmin].[SchedulesDevices]

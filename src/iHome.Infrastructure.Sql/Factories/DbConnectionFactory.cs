@@ -6,7 +6,6 @@ namespace iHome.Infrastructure.Sql.Factories;
 public interface IDbConnectionFactory
 {
     IDbConnection GetConnection();
-    IDbConnection GetOpenConnection();
 }
 
 internal class DbConnectionFactory : IDbConnectionFactory
@@ -15,19 +14,16 @@ internal class DbConnectionFactory : IDbConnectionFactory
 
     public DbConnectionFactory(string connectionString)
     {
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            throw new ArgumentNullException(nameof(connectionString));
+        }
+
         _connectionString = connectionString;
     }
 
     public IDbConnection GetConnection()
     {
         return new SqlConnection(_connectionString);
-    }
-
-    public IDbConnection GetOpenConnection()
-    {
-        using var conn = GetConnection();
-        conn.Open();
-
-        return conn;
     }
 }

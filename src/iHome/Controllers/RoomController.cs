@@ -41,10 +41,12 @@ public class RoomController : ControllerBase
     [HttpGet("GetRooms")]
     public async Task<IActionResult> GetRooms()
     {
-        var rooms = (await _roomManagementService.GetRooms(new()
+        var response = (await _roomManagementService.GetRooms(new()
         {
             UserId = _userAccessor.UserId
-        })).Rooms.Select(r => new RoomDTO(r)).ToList();
+        }));
+
+        var rooms = response?.Rooms?.Select(r => new RoomDTO(r))?.ToList() ?? Enumerable.Empty<RoomDTO>();
 
         foreach (var room in rooms)
         {

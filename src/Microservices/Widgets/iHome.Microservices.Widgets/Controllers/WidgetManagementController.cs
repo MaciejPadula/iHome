@@ -12,13 +12,13 @@ namespace iHome.Microservices.Widgets.Controllers
     {
         private readonly IWidgetRepository _widgetRepository;
 
-        public WidgetManagementController(IWidgetRepository widgetRepository)
+        public WidgetManagementController([FromBody] IWidgetRepository widgetRepository)
         {
             _widgetRepository = widgetRepository;
         }
 
         [HttpPost]
-        public Task AddWidget(AddWidgetRequest request)
+        public Task AddWidget([FromBody] AddWidgetRequest request)
         {
             //validation
 
@@ -26,7 +26,7 @@ namespace iHome.Microservices.Widgets.Controllers
         }
 
         [HttpPost]
-        public async Task<GetWidgetsResponse> GetWidgets(GetWidgetsRequest request)
+        public async Task<GetWidgetsResponse> GetWidgets([FromBody] GetWidgetsRequest request)
         {
             //validation
 
@@ -37,7 +37,7 @@ namespace iHome.Microservices.Widgets.Controllers
         }
 
         [HttpPost]
-        public Task RemoveWidget(RemoveWidgetRequest request)
+        public Task RemoveWidget([FromBody] RemoveWidgetRequest request)
         {
             // validation
 

@@ -8,7 +8,7 @@ public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddDbConnectionFactory(this IServiceCollection services, string connectionString)
     {
-        services.TryAddSingleton<IDbConnectionFactory, DbConnectionFactory>();
+        services.TryAddSingleton<IDbConnectionFactory>(p => new DbConnectionFactory(connectionString));
         return services;
     }
 }

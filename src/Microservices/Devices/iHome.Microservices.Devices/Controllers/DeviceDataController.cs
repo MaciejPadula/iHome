@@ -19,7 +19,7 @@ namespace iHome.Microservices.Devices.Controllers
         }
 
         [HttpPost]
-        public async Task<GetDeviceDataResponse> GetDeviceData(GetDeviceDataRequest request)
+        public async Task<GetDeviceDataResponse> GetDeviceData([FromBody] GetDeviceDataRequest request)
         {
             var device = await _deviceRepository.GetByDeviceId(request.DeviceId) ?? throw new Exception();
 
@@ -30,7 +30,7 @@ namespace iHome.Microservices.Devices.Controllers
         }
 
         [HttpPost]
-        public async Task SetDeviceData(SetDeviceDataRequest request)
+        public async Task SetDeviceData([FromBody] SetDeviceDataRequest request)
         {
             var device = await _deviceRepository.GetByDeviceId(request.DeviceId) ?? throw new Exception();
 

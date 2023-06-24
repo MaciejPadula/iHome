@@ -20,7 +20,7 @@ namespace iHome.Microservices.Devices.Controllers
         }
 
         [HttpPost]
-        public async Task<AddDeviceResponse> AddDevice(AddDeviceRequest request)
+        public async Task<AddDeviceResponse> AddDevice([FromBody] AddDeviceRequest request)
         {
             return new()
             {
@@ -29,13 +29,13 @@ namespace iHome.Microservices.Devices.Controllers
         }
 
         [HttpPost]
-        public Task ChangeDeviceRoom(ChangeDeviceRoomRequest request)
+        public Task ChangeDeviceRoom([FromBody] ChangeDeviceRoomRequest request)
         {
             return _deviceRepository.ChangeRoom(request.DeviceId, request.RoomId);
         }
 
         [HttpPost]
-        public async Task<GetDeviceResponse> GetDevice(GetDeviceRequest request)
+        public async Task<GetDeviceResponse> GetDevice([FromBody] GetDeviceRequest request)
         {
             return new()
             {
@@ -44,7 +44,7 @@ namespace iHome.Microservices.Devices.Controllers
         }
 
         [HttpPost]
-        public async Task<GetDevicesResponse> GetDevices(GetDevicesRequest request)
+        public async Task<GetDevicesResponse> GetDevices([FromBody] GetDevicesRequest request)
         {
             List<DeviceModel> devices;
             if (request.RoomId == default!)
@@ -70,13 +70,13 @@ namespace iHome.Microservices.Devices.Controllers
         }
 
         [HttpPost]
-        public Task RemoveDevice(RemoveDeviceRequest request)
+        public Task RemoveDevice([FromBody] RemoveDeviceRequest request)
         {
             return _deviceRepository.Remove(request.DeviceId);
         }
 
         [HttpPost]
-        public Task RenameDevice(RenameDeviceRequest request)
+        public Task RenameDevice([FromBody] RenameDeviceRequest request)
         {
             return _deviceRepository.Rename(request.DeviceId, request.NewName);
         }
