@@ -1,37 +1,40 @@
 using iHome.Infrastructure.Queue.Models;
 using iHome.Infrastructure.Queue.Service.Write;
 using iHome.Jobs.Events.Services;
+using Microsoft.ApplicationInsights;
+using Microsoft.IdentityModel.Abstractions;
 
 namespace iHome.Jobs.Events.Scheduler.Services
 {
     public class ScheduleWorker : BackgroundService
     {
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
-        private readonly ILogger<ScheduleWorker> _logger;
         private readonly ISchedulesProvider _schedulesProvider;
         private readonly IQueueWriter<DataUpdateModel> _queueWriter;
+        private readonly TelemetryClient _telemetryClient;
 
-        public ScheduleWorker(ILogger<ScheduleWorker> logger, ISchedulesProvider schedulesProvider, IQueueWriter<DataUpdateModel> queueWriter, IHostApplicationLifetime hostApplicationLifetime)
+        public ScheduleWorker(ISchedulesProvider schedulesProvider, IQueueWriter<DataUpdateModel> queueWriter, IHostApplicationLifetime hostApplicationLifetime, TelemetryClient telemetryClient)
         {
-            _logger = logger;
             _schedulesProvider = schedulesProvider;
             _queueWriter = queueWriter;
             _hostApplicationLifetime = hostApplicationLifetime;
+            _telemetryClient = telemetryClient;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try
             {
-                _logger.LogInformation("===STARTING PROCESS===");
-
                 var schedulesProcessedCount = await Working();
 
-                _logger.LogInformation("Schedules Processed: {count}", schedulesProcessedCount);
+                if(schedulesProcessedCount != 0)
+                {
+                    _telemetryClient.TrackEvent("Results", new Dictionary<string, string> { { "SchedulesProcessed", schedulesProcessedCount.ToString() } });
+                }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, nameof(ex));
+                _telemetryClient.TrackException(ex);
             }
             finally
             {
@@ -42,8 +45,7 @@ namespace iHome.Jobs.Events.Scheduler.Services
         public async Task<int> Working()
         {
             var tasks = new List<Task>();
-            var schedules = await _schedulesProvider.GetSchedulesToRun();
-            var numberOfTasks = 0;
+            var schedules = (await _schedulesProvider.GetSchedulesToRun()).ToList();
 
             foreach (var schedule in schedules)
             {
@@ -55,13 +57,12 @@ namespace iHome.Jobs.Events.Scheduler.Services
                         DeviceData = device.DeviceData
                     }));
                 }
-                ++numberOfTasks;
             }
 
             await Task.WhenAll(tasks);
             await _schedulesProvider.AddToRunned(schedules);
 
-            return numberOfTasks;
+            return schedules.Count;
         }
     }
 }

@@ -1,26 +1,27 @@
 using iHome.Infrastructure.Queue.Models;
-using iHome.Infrastructure.Queue.Service;
 using iHome.Infrastructure.Queue.Service.Read;
 using iHome.Microservices.Devices.Contract;
-using Microsoft.Extensions.Hosting;
+using Microsoft.ApplicationInsights;
 
 namespace iHome.Jobs.Events.EventsExecutor
 {
     public class Worker : BackgroundService
     {
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
-        private readonly IQueueReader<DataUpdateModel> _queueReader;
-        private readonly IDeviceDataService _deviceDataService;
-        private readonly ILogger<Worker> _logger;
+
+        private readonly TelemetryClient _telemetryClient;
         private readonly PeriodicTimer _timer;
         private readonly TimeSpan Delay = TimeSpan.FromSeconds(5);
 
-        public Worker(IQueueReader<DataUpdateModel> queueReader, IDeviceDataService deviceDataService, ILogger<Worker> logger, IHostApplicationLifetime hostApplicationLifetime)
+        private IQueueReader<DataUpdateModel>? _queueReader;
+        private IDeviceDataService? _deviceDataService;
+
+        public Worker(IHostApplicationLifetime hostApplicationLifetime, IServiceScopeFactory serviceScopeFactory, TelemetryClient telemetryClient)
         {
-            _queueReader = queueReader;
-            _deviceDataService = deviceDataService;
-            _logger = logger;
             _hostApplicationLifetime = hostApplicationLifetime;
+            _serviceScopeFactory = serviceScopeFactory;
+            _telemetryClient = telemetryClient;
 
             _timer = new PeriodicTimer(Delay);
         }
@@ -29,18 +30,18 @@ namespace iHome.Jobs.Events.EventsExecutor
         {
             try
             {
-                while(await _timer.WaitForNextTickAsync(stoppingToken))
+                (_deviceDataService, _queueReader) = InitializeScope();
+                while (await _timer.WaitForNextTickAsync(stoppingToken))
                 {
-                    _logger.LogInformation("PROCESS STARTED");
-
                     var eventsCount = await Working();
 
-                    _logger.LogInformation("EVENTS EXECUTED: {events}", eventsCount);
+                    if (eventsCount == 0) continue;
+                    _telemetryClient.TrackEvent("Results", new Dictionary<string, string> { { "Events executed", eventsCount.ToString() } });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, nameof(ex));
+                _telemetryClient.TrackException(ex);
             }
             finally
             {
@@ -48,14 +49,24 @@ namespace iHome.Jobs.Events.EventsExecutor
             }
         }
 
+        public (IDeviceDataService, IQueueReader<DataUpdateModel>) InitializeScope()
+        {
+            var scope = _serviceScopeFactory.CreateScope();
+            return (
+                scope.ServiceProvider.GetRequiredService<IDeviceDataService>(),
+                scope.ServiceProvider.GetRequiredService<IQueueReader<DataUpdateModel>>()
+            );
+        }
+
         public async Task<int> Working()
         {
+            if (_queueReader is null || _deviceDataService is null) return 0;
             var tasks = new List<Task>();
 
-            while (await _queueReader.Peek() != null)
+            while (await _queueReader.Peek() is not null)
             {
                 var device = await _queueReader.Pop();
-                if (device == null) continue;
+                if (device is null) continue;
 
                 tasks.Add(_deviceDataService.SetDeviceData(new()
                 {

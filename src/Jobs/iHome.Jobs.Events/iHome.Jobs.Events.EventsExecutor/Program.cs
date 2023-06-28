@@ -8,10 +8,11 @@ var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
         var config = context.Configuration;
+        services.AddApplicationInsightsTelemetryWorkerService(config);
 
-        services.AddDataQueueReader(config.GetValue<string>("Azure:StorageConnectionString"), ServiceLifetime.Singleton);
+        services.AddDataQueueReader(config.GetValue<string>("Azure:StorageConnectionString"));
         services.AddConfigurationServiceLookup("Microservices");
-        services.AddMicroserviceClient<IDeviceDataService>(ServiceLifetime.Singleton);
+        services.AddMicroserviceClient<IDeviceDataService>();
 
         services.AddHostedService<Worker>();
     })
