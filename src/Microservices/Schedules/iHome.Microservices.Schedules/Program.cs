@@ -1,22 +1,22 @@
+using iHome.Infrastructure.Sql.Helpers;
+using iHome.Microservices.Schedules.Contract;
+using iHome.Microservices.Schedules.Controllers;
 using iHome.Microservices.Schedules.Infrastructure;
-using iHome.Microservices.Schedules.Infrastructure.Models;
+using Web.Infrastructure.Microservices.Server.Builders;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = new MicroserviceBuilder(args);
 
-// Add services to the container.
-
-builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
+builder.Services.AddDbConnectionFactory(builder.Configuration["ConnectionStrings:SqlConnectionString"] ?? string.Empty);
 builder.Services.AddRepositories();
-builder.Services.AddControllers();
+
+builder.RegisterMicroservice<IScheduleDeviceManagementService, ScheduleDeviceManagementController>();
+builder.RegisterMicroservice<IScheduleManagementService, ScheduleManagementController>();
+
+builder.ConfigureApp(app =>
+{
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+});
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
 app.Run();

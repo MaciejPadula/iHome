@@ -1,20 +1,20 @@
 ﻿using Dapper;
+using iHome.Infrastructure.Sql.Factories;
+using iHome.Infrastructure.Sql.Repositories;
 using iHome.Microservices.Schedules.Contract.Models;
 
 namespace iHome.Microservices.Schedules.Infrastructure.Repositories;
 
-public class DapperScheduleRepository : IScheduleRepository
+public class DapperScheduleRepository : RepositoryBase, IScheduleRepository
 {
-    private readonly IDbConnectionFactory _connectionFactory;
-
-    public DapperScheduleRepository(IDbConnectionFactory connectionFactory)
+    public DapperScheduleRepository(IDbConnectionFactory connectionFactory) 
+        : base(connectionFactory)
     {
-        _connectionFactory = connectionFactory;
     }
 
     public async Task Add(string scheduleName, int hour, int minute, string userId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
 INSERT INTO [maciejadmin].[Schedules]
@@ -34,7 +34,7 @@ VALUES
 
     public async Task<int> CountByUserId(string userId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         return await conn.ExecuteScalarAsync<int>(@"
 SELECT Count(Id)
@@ -45,7 +45,7 @@ WHERE UserId = @UserId
 
     public async Task<ScheduleModel> GetById(Guid scheduleId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         return await conn.QuerySingleAsync<ScheduleModel>(@$"
 SELECT
@@ -61,7 +61,7 @@ WHERE Id = @Id
 
     public async Task<IEnumerable<ScheduleModel>> GetByUserId(string userId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         return await conn.QueryAsync<ScheduleModel>(@$"
 SELECT
@@ -77,7 +77,7 @@ WHERE UserId = @UserId
 
     public async Task Remove(Guid scheduleId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
 DELETE FROM [maciejadmin].[Schedules]
@@ -87,7 +87,7 @@ WHERE Id = @ScheduleId
 
     public async Task UpdateTime(Guid scheduleId, int hour, int minute)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
 UPDATE [maciejadmin].[Schedules]

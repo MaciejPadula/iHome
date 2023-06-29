@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.RoomsManagement.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class RoomSharingController : ControllerBase, IRoomSharingService
     {
         private readonly IUserRoomRepository _userRoomRepository;
@@ -18,7 +16,7 @@ namespace iHome.Microservices.RoomsManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<GetRoomUserIdsResponse> GetRoomUserIds(GetRoomUserIdsRequest request)
+        public async Task<GetRoomUserIdsResponse> GetRoomUserIds([FromBody] GetRoomUserIdsRequest request)
         {
             //validation
 
@@ -29,7 +27,7 @@ namespace iHome.Microservices.RoomsManagement.Controllers
         }
 
         [HttpPost]
-        public Task ShareRoomToUser(ShareRoomToUserRequest request)
+        public Task ShareRoomToUser([FromBody] ShareRoomToUserRequest request)
         {
             //validation
 
@@ -37,7 +35,7 @@ namespace iHome.Microservices.RoomsManagement.Controllers
         }
 
         [HttpPost]
-        public Task UnshareRoomFromUser(UnshareRoomFromUserRequest request)
+        public Task UnshareRoomFromUser([FromBody] UnshareRoomFromUserRequest request)
         {
             //validation
 

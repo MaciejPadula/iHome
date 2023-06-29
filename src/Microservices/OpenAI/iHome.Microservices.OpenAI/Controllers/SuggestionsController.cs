@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.OpenAI.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class SuggestionsController : ControllerBase, ISuggestionsService
     {
         private readonly IScheduleSuggestionsService _scheduleSuggestionsService;

@@ -176,3 +176,4 @@ src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler/Properties/PublishProfile
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler/iHome.Jobs.Events.Scheduler.csproj.user
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.EventsExecutor/iHome.Jobs.Events.EventsExecutor.csproj.user
 src/Jobs/iHome.Jobs.Events/Nuget
+*.user

@@ -1,20 +1,19 @@
 ﻿using Dapper;
-using iHome.Core.Models;
+using iHome.Infrastructure.Sql.Factories;
+using iHome.Infrastructure.Sql.Repositories;
+using iHome.Microservices.RoomsManagement.Contract.Models;
 
 namespace iHome.Microservices.RoomsManagement.Infrastructure.Repositories;
 
-public class DapperRoomRepository : IRoomRepository
+public class DapperRoomRepository : RepositoryBase, IRoomRepository
 {
-    private readonly IDbConnectionFactory _connectionFactory;
-
-    public DapperRoomRepository(IDbConnectionFactory connectionFactory)
+    public DapperRoomRepository(IDbConnectionFactory connectionFactory) : base(connectionFactory)
     {
-        _connectionFactory = connectionFactory;
     }
 
     public async Task Add(string name, string userId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
 INSERT INTO [maciejadmin].[Rooms]
@@ -26,7 +25,7 @@ VALUES
 
     public async Task<RoomModel?> GetRoomById(Guid roomId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         return await conn.QuerySingleOrDefaultAsync<RoomModel>(@$"
 SELECT
@@ -40,7 +39,7 @@ WHERE Id = @Id
 
     public async Task<RoomModel?> GetRoomByRoomIdAndUserId(Guid roomId, string userId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         return await conn.QuerySingleOrDefaultAsync<RoomModel>(@$"
 SELECT
@@ -54,7 +53,7 @@ WHERE Id = @Id AND UserId = @UserId
 
     public async Task<IEnumerable<RoomModel>> GetRoomsByUserId(string userId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         return await conn.QueryAsync<RoomModel>(@$"
 SELECT DISTINCT
@@ -71,7 +70,7 @@ ORDER BY r.Name
 
     public async Task Remove(Guid roomId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
 DELETE FROM [maciejadmin].[Rooms]
@@ -81,7 +80,7 @@ WHERE Id = @RoomId
 
     public async Task Update(Guid roomId, string name)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
 UPDATE [maciejadmin].[Rooms]

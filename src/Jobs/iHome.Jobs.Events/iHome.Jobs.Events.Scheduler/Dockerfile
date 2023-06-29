@@ -6,9 +6,8 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-COPY ["Nuget", "/Nuget"]
-RUN	 ["dotnet", "nuget", "add", "source", "/Nuget", "-n", "local"]
-
+COPY ["iHome.Jobs.Events.Scheduler/NuGet.config", "iHome.Jobs.Events.Scheduler/"]
+COPY ["iHome.Jobs.Events.Scheduler/NuGet.config", "iHome.Jobs.Events.Infrastructure/"]
 COPY ["iHome.Jobs.Events.Scheduler/iHome.Jobs.Events.Scheduler.csproj", "iHome.Jobs.Events.Scheduler/"]
 COPY ["iHome.Jobs.Events.Infrastructure/iHome.Jobs.Events.Infrastructure.csproj", "iHome.Jobs.Events.Infrastructure/"]
 RUN dotnet restore "iHome.Jobs.Events.Scheduler/iHome.Jobs.Events.Scheduler.csproj"

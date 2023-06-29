@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.Schedules.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class ScheduleManagementController : ControllerBase, IScheduleManagementService
     {
         private readonly IScheduleRepository _scheduleRepository;
@@ -21,13 +19,13 @@ namespace iHome.Microservices.Schedules.Controllers
         }
 
         [HttpPost]
-        public Task AddSchedule(AddScheduleRequest request)
+        public Task AddSchedule([FromBody] AddScheduleRequest request)
         {
             return _scheduleRepository.Add(request.ScheduleName, request.Hour, request.Minute, request.UserId);
         }
 
         [HttpPost]
-        public async Task<GetScheduleResponse> GetSchedule(GetScheduleRequest request)
+        public async Task<GetScheduleResponse> GetSchedule([FromBody] GetScheduleRequest request)
         {
             var schedule = await _scheduleRepository.GetById(request.ScheduleId);
 
@@ -40,7 +38,7 @@ namespace iHome.Microservices.Schedules.Controllers
         }
 
         [HttpPost]
-        public async Task<GetSchedulesResponse> GetSchedules(GetSchedulesRequest request)
+        public async Task<GetSchedulesResponse> GetSchedules([FromBody] GetSchedulesRequest request)
         {
             var utcNow = DateTime.UtcNow.StartOfDay();
             var schedules = await _scheduleRepository.GetByUserId(request.UserId);
@@ -57,13 +55,13 @@ namespace iHome.Microservices.Schedules.Controllers
         }
 
         [HttpPost]
-        public Task RemoveSchedule(RemoveScheduleRequest request)
+        public Task RemoveSchedule([FromBody] RemoveScheduleRequest request)
         {
             return _scheduleRepository.Remove(request.ScheduleId);
         }
 
         [HttpPost]
-        public Task UpdateScheduleTime(UpdateScheduleTimeRequest request)
+        public Task UpdateScheduleTime([FromBody] UpdateScheduleTimeRequest request)
         {
             if (request.Minute % 5 != 0)
             {

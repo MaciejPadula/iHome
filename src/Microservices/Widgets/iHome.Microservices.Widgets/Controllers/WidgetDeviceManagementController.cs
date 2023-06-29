@@ -18,7 +18,7 @@ namespace iHome.Microservices.Widgets.Controllers
         }
 
         [HttpPost]
-        public async Task<GetWidgetDevicesIdsResponse> GetWidgetDevicesIds(GetWidgetDevicesIdsRequest request)
+        public async Task<GetWidgetDevicesIdsResponse> GetWidgetDevicesIds([FromBody] GetWidgetDevicesIdsRequest request)
         {
             //validation
 
@@ -29,7 +29,7 @@ namespace iHome.Microservices.Widgets.Controllers
         }
 
         [HttpPost]
-        public Task InsertDevice(InsertDeviceRequest request)
+        public Task InsertDevice([FromBody] InsertDeviceRequest request)
         {
             //validation
 
@@ -37,7 +37,7 @@ namespace iHome.Microservices.Widgets.Controllers
         }
 
         [HttpPost]
-        public Task RemoveDevice(RemoveDeviceRequest request)
+        public Task RemoveDevice([FromBody] RemoveDeviceRequest request)
         {
             //validation
 

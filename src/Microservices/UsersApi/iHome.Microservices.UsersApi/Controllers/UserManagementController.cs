@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.UsersApi.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class UserManagementController : ControllerBase, IUserManagementService
     {
         private readonly IUserManagementService _userManagementService;
@@ -17,19 +15,19 @@ namespace iHome.Microservices.UsersApi.Controllers
         }
 
         [HttpPost]
-        public Task<GetUserByIdResponse> GetUserById(GetUserByIdRequest request)
+        public Task<GetUserByIdResponse> GetUserById([FromBody] GetUserByIdRequest request)
         {
             return _userManagementService.GetUserById(request);
         }
 
         [HttpPost]
-        public Task<GetUsersResponse> GetUsers(GetUsersRequest request)
+        public Task<GetUsersResponse> GetUsers([FromBody] GetUsersRequest request)
         {
             return _userManagementService.GetUsers(request);
         }
 
         [HttpPost]
-        public Task<UserExistResponse> UserExist(UserExistRequest request)
+        public Task<UserExistResponse> UserExist([FromBody] UserExistRequest request)
         {
             return _userManagementService.UserExist(request);
         }

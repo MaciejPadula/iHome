@@ -1,23 +1,22 @@
+using iHome.Infrastructure.Sql.Helpers;
+using iHome.Microservices.RoomsManagement.Contract;
+using iHome.Microservices.RoomsManagement.Controllers;
 using iHome.Microservices.RoomsManagement.Infrastructure;
-using iHome.Microservices.RoomsManagement.Infrastructure.Models;
+using Web.Infrastructure.Microservices.Server.Builders;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = new MicroserviceBuilder(args);
 
-// Add services to the container.
-
-builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
+builder.Services.AddDbConnectionFactory(builder.Configuration["ConnectionStrings:SqlConnectionString"] ?? string.Empty);
 builder.Services.AddRepositories();
 
-builder.Services.AddControllers();
+builder.RegisterMicroservice<IRoomManagementService, RoomManagementController>();
+builder.RegisterMicroservice<IRoomSharingService, RoomSharingController>();
+
+builder.ConfigureApp(app =>
+{
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+});
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
 app.Run();

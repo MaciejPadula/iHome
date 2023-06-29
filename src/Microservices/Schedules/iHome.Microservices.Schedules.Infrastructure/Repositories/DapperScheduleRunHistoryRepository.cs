@@ -1,19 +1,19 @@
 ﻿using Dapper;
+using iHome.Infrastructure.Sql.Factories;
+using iHome.Infrastructure.Sql.Repositories;
 
 namespace iHome.Microservices.Schedules.Infrastructure.Repositories;
 
-public class DapperScheduleRunHistoryRepository : IScheduleRunHistoryRepository
+public class DapperScheduleRunHistoryRepository : RepositoryBase, IScheduleRunHistoryRepository
 {
-    private readonly IDbConnectionFactory _connectionFactory;
-
     public DapperScheduleRunHistoryRepository(IDbConnectionFactory connectionFactory)
+        : base(connectionFactory)
     {
-        _connectionFactory = connectionFactory;
     }
 
     public async Task<bool> ScheduleRunned(Guid scheduleId, DateTime startOfToday)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         return await conn.ExecuteScalarAsync<bool>(@"
 SELECT 1 

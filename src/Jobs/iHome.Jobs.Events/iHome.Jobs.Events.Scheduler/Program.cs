@@ -10,6 +10,7 @@ var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
         var config = context.Configuration;
+        services.AddApplicationInsightsTelemetryWorkerService(config);
 
         services.AddDataQueueWriter(config.GetValue<string>("Azure:StorageConnectionString"), ServiceLifetime.Singleton);
         services.AddDbContext<SqlDataContext>(o => o.UseSqlServer(config.GetValue<string>("ConnectionStrings:AzureSQL")), ServiceLifetime.Singleton);

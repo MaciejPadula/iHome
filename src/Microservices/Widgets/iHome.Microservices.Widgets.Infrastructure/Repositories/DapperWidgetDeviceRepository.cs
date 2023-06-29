@@ -1,19 +1,19 @@
 ﻿using Dapper;
+using iHome.Infrastructure.Sql.Factories;
+using iHome.Infrastructure.Sql.Repositories;
 
 namespace iHome.Microservices.Widgets.Infrastructure.Repositories;
 
-public class DapperWidgetDeviceRepository : IWidgetDeviceRepository
+public class DapperWidgetDeviceRepository : RepositoryBase, IWidgetDeviceRepository
 {
-    private readonly IDbConnectionFactory _connectionFactory;
-
     public DapperWidgetDeviceRepository(IDbConnectionFactory connectionFactory)
+        : base(connectionFactory)
     {
-        _connectionFactory = connectionFactory;
     }
 
     public async Task Add(Guid widgetId, Guid deviceId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
 INSERT INTO [maciejadmin].[WidgetsDevices]
@@ -25,7 +25,7 @@ VALUES
 
     public async Task<IEnumerable<Guid>> GetDeviceIdsByWidgetId(Guid widgetId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         return await conn.QueryAsync<Guid>(@$"
 SELECT DeviceId
@@ -36,7 +36,7 @@ WHERE WidgetId = @WidgetId
 
     public async Task Remove(Guid widgetId, Guid deviceId)
     {
-        using var conn = _connectionFactory.GetConnection();
+        using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
 DELETE FROM [maciejadmin].[WidgetsDevices]

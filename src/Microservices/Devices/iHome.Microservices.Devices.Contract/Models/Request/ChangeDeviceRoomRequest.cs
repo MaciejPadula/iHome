@@ -6,6 +6,5 @@ namespace iHome.Microservices.Devices.Contract.Models.Request
     {
         public Guid DeviceId { get; set; }
         public Guid RoomId { get; set; }
-        public string UserId { get; set; }
     }
 }

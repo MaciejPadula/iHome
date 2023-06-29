@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.Devices.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class DeviceDataController : ControllerBase, IDeviceDataService
     {
         private readonly IDeviceRepository _deviceRepository;
@@ -21,10 +19,8 @@ namespace iHome.Microservices.Devices.Controllers
         }
 
         [HttpPost]
-        public async Task<GetDeviceDataResponse> GetDeviceData(GetDeviceDataRequest request)
+        public async Task<GetDeviceDataResponse> GetDeviceData([FromBody] GetDeviceDataRequest request)
         {
-            // validation
-
             var device = await _deviceRepository.GetByDeviceId(request.DeviceId) ?? throw new Exception();
 
             return new() 
@@ -34,10 +30,8 @@ namespace iHome.Microservices.Devices.Controllers
         }
 
         [HttpPost]
-        public async Task SetDeviceData(SetDeviceDataRequest request)
+        public async Task SetDeviceData([FromBody] SetDeviceDataRequest request)
         {
-            // validation
-
             var device = await _deviceRepository.GetByDeviceId(request.DeviceId) ?? throw new Exception();
 
             await _deviceDataRepository.SetDeviceData(device.MacAddress, request.Data);

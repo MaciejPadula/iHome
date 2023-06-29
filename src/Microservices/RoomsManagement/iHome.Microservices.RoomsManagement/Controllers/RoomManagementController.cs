@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.RoomsManagement.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class RoomManagementController : ControllerBase, IRoomManagementService
     {
         private readonly IRoomRepository _roomRepository;
@@ -17,12 +15,12 @@ namespace iHome.Microservices.RoomsManagement.Controllers
             _roomRepository = roomRepository;
         }
 
-        public Task AddRoom(AddRoomRequest request)
+        public Task AddRoom([FromBody] AddRoomRequest request)
         {
             return _roomRepository.Add(request.RoomName, request.UserId);
         }
 
-        public async Task<GetRoomsResponse> GetRooms(GetRoomsRequest request)
+        public async Task<GetRoomsResponse> GetRooms([FromBody] GetRoomsRequest request)
         {
             return new()
             {
@@ -30,7 +28,7 @@ namespace iHome.Microservices.RoomsManagement.Controllers
             };
         }
 
-        public Task RemoveRoom(RemoveRoomRequest request)
+        public Task RemoveRoom([FromBody] RemoveRoomRequest request)
         {
             //validation
 

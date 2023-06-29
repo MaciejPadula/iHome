@@ -9,7 +9,6 @@ public static class DependencyInjectionExtensions
     {
         services.AddScoped<IRoomRepository, DapperRoomRepository>();
         services.AddScoped<IUserRoomRepository, DapperUserRoomRepository>();
-        services.AddScoped<IDbConnectionFactory, SqlDbConnectionFactory>();
 
         return services;
     }

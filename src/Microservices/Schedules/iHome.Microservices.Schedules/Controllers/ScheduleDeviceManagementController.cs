@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.Schedules.Controllers
 {
-    [Route("[controller]/[action]")]
-    [ApiController]
     public class ScheduleDeviceManagementController : ControllerBase, IScheduleDeviceManagementService
     {
         private readonly IScheduleDeviceRepository _repository;
@@ -18,7 +16,7 @@ namespace iHome.Microservices.Schedules.Controllers
         }
 
         [HttpPost]
-        public async Task AddOrUpdateDeviceSchedule(AddOrUpdateDeviceScheduleRequest request)
+        public async Task AddOrUpdateDeviceSchedule([FromBody] AddOrUpdateDeviceScheduleRequest request)
         {
             //validation
 
@@ -34,7 +32,7 @@ namespace iHome.Microservices.Schedules.Controllers
         }
 
         [HttpPost]
-        public async Task<GetDevicesInScheduleCountResponse> GetDevicesInScheduleCount(GetDevicesInScheduleCountRequest request)
+        public async Task<GetDevicesInScheduleCountResponse> GetDevicesInScheduleCount([FromBody] GetDevicesInScheduleCountRequest request)
         {
             return new()
             {
@@ -43,7 +41,7 @@ namespace iHome.Microservices.Schedules.Controllers
         }
 
         [HttpPost]
-        public async Task<GetScheduleDeviceResponse> GetScheduleDevice(GetScheduleDeviceRequest request)
+        public async Task<GetScheduleDeviceResponse> GetScheduleDevice([FromBody] GetScheduleDeviceRequest request)
         {
             //validation
 
@@ -54,7 +52,7 @@ namespace iHome.Microservices.Schedules.Controllers
         }
 
         [HttpPost]
-        public async Task<GetScheduleDevicesResponse> GetScheduleDevices(GetScheduleDevicesRequest request)
+        public async Task<GetScheduleDevicesResponse> GetScheduleDevices([FromBody] GetScheduleDevicesRequest request)
         {
             //validation
 
@@ -65,7 +63,7 @@ namespace iHome.Microservices.Schedules.Controllers
         }
 
         [HttpPost]
-        public Task RemoveDeviceSchedule(RemoveDeviceScheduleRequest request)
+        public Task RemoveDeviceSchedule([FromBody] RemoveDeviceScheduleRequest request)
         {
             //validation
 
