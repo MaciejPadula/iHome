@@ -19,11 +19,13 @@ import { ConfirmDialogData } from 'src/app/shared/components/confirm-dialog/conf
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchedulesComponent implements OnInit {
-  public schedulesSubject$ = new Subject<Schedule[]>();
+  public schedulesSubject$ = new Subject<Schedule[] | null>();
   public schedules$ = this.schedulesSubject$.asObservable();
 
   public devicesForSchedulingSubject$ = new Subject<Device[]>();
   public devicesForScheduling$ = this.devicesForSchedulingSubject$.asObservable();
+
+  public isLoaded = false;
 
   constructor(
     private _refreshService: RefreshService,
@@ -52,15 +54,19 @@ export class SchedulesComponent implements OnInit {
     .subscribe(result => {
       if(!result) return;
 
+      this.isLoaded = false;
+
       this._schedulesService.removeSchedule(scheduleId)
         .subscribe(() => this._refreshService.refresh());
-    })
+    });
   }
 
   private getSchedules() {
+    this.isLoaded = false;
     this._schedulesService.getSchedules()
       .subscribe(s => {
         this.schedulesSubject$.next(s);
+        this.isLoaded = true;
         this._devicesService.getDevicesForScheduling()
           .subscribe(d => this.devicesForSchedulingSubject$.next(d));
       });

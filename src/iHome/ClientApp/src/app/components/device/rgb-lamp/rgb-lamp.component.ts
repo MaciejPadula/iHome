@@ -60,10 +60,7 @@ export class RgbLampComponent implements OnInit {
   }
 
   public updateDeviceData(currentData: RgbLampData){
-    const data = this._deviceDataHelper
-      .getRgbLampDataWithAndOverrideState(currentData, this.stateControl.value);
-
-    const json = JSON.stringify(data);
+    const json = JSON.stringify(currentData);
 
     this._deviceService.setDeviceData(this.device.id, json)
       .subscribe(() => this._refreshService.refreshDevice(this.device.id));
