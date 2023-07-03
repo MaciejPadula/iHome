@@ -16,7 +16,7 @@ namespace iHome.Microservices.OpenAI.Controllers
         }
 
         [HttpPost]
-        public async Task<GetDevicesThatCouldMatchScheduleResponse> GetDevicesThatCouldMatchSchedule(GetDevicesThatCouldMatchScheduleRequest request)
+        public async Task<GetDevicesThatCouldMatchScheduleResponse> GetDevicesThatCouldMatchSchedule([FromBody] GetDevicesThatCouldMatchScheduleRequest request)
         {
             return new GetDevicesThatCouldMatchScheduleResponse 
             {
@@ -25,7 +25,7 @@ namespace iHome.Microservices.OpenAI.Controllers
         }
 
         [HttpPost]
-        public async Task<GetSuggestedTimeByScheduleNameResponse> GetSuggestedTimeByScheduleName(GetSuggestedTimeByScheduleNameRequest request)
+        public async Task<GetSuggestedTimeByScheduleNameResponse> GetSuggestedTimeByScheduleName([FromBody] GetSuggestedTimeByScheduleNameRequest request)
         {
             return new GetSuggestedTimeByScheduleNameResponse
             {
