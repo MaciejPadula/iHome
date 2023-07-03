@@ -94,8 +94,7 @@ public class WidgetController : ControllerBase
         {
             var device = await _deviceManagementService.GetDevice(new()
             {
-                DeviceId = deviceId,
-                UserId = _userAccessor.UserId
+                DeviceId = deviceId
             });
             if (device?.Device == null) continue;
 

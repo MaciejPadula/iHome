@@ -2,6 +2,7 @@
 using iHome.Microservices.Schedules.Contract.Models.Request;
 using iHome.Microservices.Schedules.Contract.Models.Response;
 using iHome.Microservices.Schedules.Infrastructure.Repositories;
+using iHome.Microservices.Schedules.Providers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.Schedules.Controllers
@@ -9,17 +10,19 @@ namespace iHome.Microservices.Schedules.Controllers
     public class ScheduleDeviceManagementController : ControllerBase, IScheduleDeviceManagementService
     {
         private readonly IScheduleDeviceRepository _repository;
+        private readonly IDeviceRepository _deviceRepository;
+        private readonly IDeviceForSchedulingTypesProvider _typesProvider;
 
-        public ScheduleDeviceManagementController(IScheduleDeviceRepository repository)
+        public ScheduleDeviceManagementController(IScheduleDeviceRepository repository, IDeviceRepository deviceRepository, IDeviceForSchedulingTypesProvider typesProvider)
         {
             _repository = repository;
+            _deviceRepository = deviceRepository;
+            _typesProvider = typesProvider;
         }
 
         [HttpPost]
         public async Task AddOrUpdateDeviceSchedule([FromBody] AddOrUpdateDeviceScheduleRequest request)
         {
-            //validation
-
             var existingDevice = await _repository.GetByIdAndScheduleId(request.DeviceId, request.ScheduleId);
 
             if (existingDevice == null)
@@ -29,6 +32,14 @@ namespace iHome.Microservices.Schedules.Controllers
             }
 
             await _repository.Update(request.ScheduleId, request.DeviceId, request.DeviceData);
+        }
+
+        public async Task<GetDevicesForSchedulingResponse> GetDevicesForScheduling([FromBody] GetDevicesForSchedulingRequest request)
+        {
+            return new()
+            {
+                DeviceIds = await _deviceRepository.GetDevicesForUserByTypes(request.UserId, _typesProvider.Provide())
+            };
         }
 
         [HttpPost]
@@ -43,8 +54,6 @@ namespace iHome.Microservices.Schedules.Controllers
         [HttpPost]
         public async Task<GetScheduleDeviceResponse> GetScheduleDevice([FromBody] GetScheduleDeviceRequest request)
         {
-            //validation
-
             return new()
             {
                 ScheduleDevice = await _repository.GetByIdAndScheduleId(request.DeviceId, request.ScheduleId)
@@ -54,8 +63,6 @@ namespace iHome.Microservices.Schedules.Controllers
         [HttpPost]
         public async Task<GetScheduleDevicesResponse> GetScheduleDevices([FromBody] GetScheduleDevicesRequest request)
         {
-            //validation
-
             return new()
             {
                 ScheduleDevices = await _repository.GetByScheduleId(request.ScheduleId)
@@ -65,8 +72,6 @@ namespace iHome.Microservices.Schedules.Controllers
         [HttpPost]
         public Task RemoveDeviceSchedule([FromBody] RemoveDeviceScheduleRequest request)
         {
-            //validation
-
             return _repository.Remove(request.ScheduleId, request.DeviceId);
         }
     }

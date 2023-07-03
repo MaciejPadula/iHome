@@ -89,6 +89,29 @@ WHERE r.UserId = @UserId
 ", new { UserId = userId });
     }
 
+    public async Task<IEnumerable<DeviceModel>> GetByUserIdAndDeviceIds(string userId, IEnumerable<Guid> deviceIds)
+    {
+        using var conn = GetDbConnection();
+
+        if(!deviceIds.Any())
+        {
+            return Enumerable.Empty<DeviceModel>();
+        }
+
+        return await conn.QueryAsync<DeviceModel>(@$"
+SELECT
+    d.Id as {nameof(DeviceModel.Id)},
+    d.Name as {nameof(DeviceModel.Name)},
+    d.Type as {nameof(DeviceModel.Type)},
+    d.MacAddress as {nameof(DeviceModel.MacAddress)},
+    d.RoomId as {nameof(DeviceModel.RoomId)}
+FROM [maciejadmin].[Devices] d
+INNER JOIN [maciejadmin].[Rooms] r
+ON  d.RoomId = r.Id
+WHERE r.UserId = @UserId AND d.Id IN @DeviceIds
+", new { UserId = userId, DeviceIds = deviceIds }) ?? Enumerable.Empty<DeviceModel>();
+    }
+
     public async Task Remove(Guid deviceId)
     {
         using var conn = GetDbConnection();

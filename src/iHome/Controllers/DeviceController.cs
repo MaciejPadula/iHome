@@ -34,8 +34,7 @@ public class DeviceController : ControllerBase
             Name = request.Name,
             MacAddress = request.MacAddress,
             Type = request.Type,
-            RoomId = request.RoomId,
-            UserId = _userAccessor.UserId
+            RoomId = request.RoomId
         });
 
         return Ok(deviceId.DeviceId);
@@ -47,8 +46,7 @@ public class DeviceController : ControllerBase
         await _deviceManagementService.RenameDevice(new()
         {
             DeviceId = request.DeviceId,
-            NewName = request.Name,
-            UserId = _userAccessor.UserId
+            NewName = request.Name
         });
         return Ok();
     }
@@ -59,8 +57,7 @@ public class DeviceController : ControllerBase
         await _deviceManagementService.ChangeDeviceRoom(new()
         {
             DeviceId = request.DeviceId,
-            RoomId = request.RoomId,
-            UserId = _userAccessor.UserId
+            RoomId = request.RoomId
         });
         return Ok();
     }
@@ -91,8 +88,7 @@ public class DeviceController : ControllerBase
     {
         await _deviceManagementService.RemoveDevice(new()
         {
-            DeviceId = request.DeviceId,
-            UserId = _userAccessor.UserId
+            DeviceId = request.DeviceId
         });
 
         return Ok();
@@ -103,8 +99,7 @@ public class DeviceController : ControllerBase
     {
         var data = await _deviceDataService.GetDeviceData(new()
         {
-            DeviceId = request.DeviceId,
-            UserId = _userAccessor.UserId
+            DeviceId = request.DeviceId
         });
 
         return Ok(data.DeviceData);
@@ -116,8 +111,7 @@ public class DeviceController : ControllerBase
         await _deviceDataService.SetDeviceData(new()
         {
             DeviceId = request.DeviceId,
-            Data = request.Data,
-            UserId = _userAccessor.UserId
+            Data = request.Data
         });
 
         return Ok();
