@@ -56,6 +56,7 @@ import { DevicePreviewComponent } from './components/device-preview/device-previ
 import { MatStepperModule } from '@angular/material/stepper';
 import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
 import { DragDevicesListComponent } from './components/drag-devices-list/drag-devices-list.component';
+import { Auth0AccessGuard } from './guards/auth0-access.guard';
 
 
 @NgModule({
@@ -140,7 +141,8 @@ import { DragDevicesListComponent } from './components/drag-devices-list/drag-de
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    Auth0AccessGuard
   ],
   bootstrap: [AppComponent]
 })

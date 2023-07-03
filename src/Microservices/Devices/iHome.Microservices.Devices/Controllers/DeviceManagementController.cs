@@ -69,6 +69,14 @@ namespace iHome.Microservices.Devices.Controllers
             };
         }
 
+        public async Task<GetDevicesResponse> GetDevicesByIds([FromBody] GetDevicesByIdsRequest request)
+        {
+            return new() 
+            {
+                Devices = await _deviceRepository.GetByUserIdAndDeviceIds(request.UserId, request.DeviceIds)
+            };
+        }
+
         [HttpPost]
         public Task RemoveDevice([FromBody] RemoveDeviceRequest request)
         {

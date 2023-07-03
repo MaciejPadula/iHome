@@ -1,5 +1,6 @@
 ﻿using iHome.Microservices.Devices.Contract;
 using iHome.Microservices.Devices.Contract.Models;
+using iHome.Microservices.Schedules.Contract;
 
 namespace iHome.Core.Services;
 
@@ -11,30 +12,40 @@ public interface IDevicesForSchedulingAccessor
 public class DevicesForSchedulingAccessor : IDevicesForSchedulingAccessor
 {
     private readonly IDeviceManagementService _deviceManagementService;
+    private readonly IScheduleDeviceManagementService _scheduleDeviceManagementService;
     private readonly IDeviceDataService _deviceDataService;
 
-    private readonly List<DeviceType> _devicesForScheduling = new()
-    {
-        DeviceType.RGBLamp,
-        DeviceType.RobotVaccumCleaner
-    };
-
-    public DevicesForSchedulingAccessor(IDeviceManagementService deviceManagementService, IDeviceDataService deviceDataService)
+    public DevicesForSchedulingAccessor(IDeviceManagementService deviceManagementService, IDeviceDataService deviceDataService, IScheduleDeviceManagementService scheduleDeviceManagementService)
     {
         _deviceManagementService = deviceManagementService;
         _deviceDataService = deviceDataService;
+        _scheduleDeviceManagementService = scheduleDeviceManagementService;
     }
 
     public async Task<IEnumerable<DeviceModel>> Get(string userId)
     {
-        var devices = (await _deviceManagementService.GetDevices(new()
+        var deviceIdsForScheduling = await _scheduleDeviceManagementService.GetDevicesForScheduling(new()
         {
             UserId = userId
-        })).Devices
-            .Where(d => _devicesForScheduling.Contains(d.Type))
-            .ToList();
+        });
 
-        foreach (var device in devices)
+        if(deviceIdsForScheduling is null)
+        {
+            return Enumerable.Empty<DeviceModel>();
+        }
+
+        var devices = await _deviceManagementService.GetDevicesByIds(new()
+        {
+            UserId = userId,
+            DeviceIds = deviceIdsForScheduling.DeviceIds
+        });
+
+        if (devices?.Devices is null)
+        {
+            return Enumerable.Empty<DeviceModel>();
+        }
+
+        foreach (var device in devices.Devices)
         {
             device.Data = (await _deviceDataService.GetDeviceData(new()
             {
@@ -42,6 +53,6 @@ public class DevicesForSchedulingAccessor : IDevicesForSchedulingAccessor
             })).DeviceData;
         }
 
-        return devices;
+        return devices.Devices;
     }
 }
