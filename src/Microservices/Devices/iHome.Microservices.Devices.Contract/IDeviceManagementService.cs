@@ -13,6 +13,7 @@ namespace iHome.Microservices.Devices.Contract
 
         Task<GetDeviceResponse> GetDevice(GetDeviceRequest request);
         Task<GetDevicesResponse> GetDevices(GetDevicesRequest request);
+        Task<GetDevicesResponse> GetDevicesByIds(GetDevicesByIdsRequest request);
 
         Task RemoveDevice(RemoveDeviceRequest request);
 
