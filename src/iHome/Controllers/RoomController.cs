@@ -50,7 +50,7 @@ public class RoomController : ControllerBase
     [HttpGet("GetRoomUsers/{roomId}")]
     public async Task<IActionResult> GetRoomUsers(Guid roomId)
     {
-        return Ok(await _roomService.GetRoomUsers(roomId, _userAccessor.UserId);
+        return Ok(await _roomService.GetRoomUsers(roomId, _userAccessor.UserId));
     }
 
     [HttpPost("ShareRoom")]
