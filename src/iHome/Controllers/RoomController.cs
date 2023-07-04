@@ -1,4 +1,5 @@
 ﻿using iHome.Core.Models;
+using iHome.Core.Services;
 using iHome.Logic;
 using iHome.Microservices.RoomsManagement.Contract;
 using iHome.Microservices.UsersApi.Contract;
@@ -17,14 +18,16 @@ public class RoomController : ControllerBase
     private readonly IRoomManagementService _roomManagementService;
     private readonly IRoomSharingService _roomSharingService;
     private readonly IUserManagementService _userManagementService;
+    private readonly IRoomService _roomService;
     private readonly IUserAccessor _userAccessor;
 
-    public RoomController(IRoomManagementService roomManagementService, IUserAccessor userAccessor, IUserManagementService userManagementService, IRoomSharingService roomSharingService)
+    public RoomController(IRoomManagementService roomManagementService, IUserAccessor userAccessor, IUserManagementService userManagementService, IRoomSharingService roomSharingService, IRoomService roomService)
     {
         _roomManagementService = roomManagementService;
         _userAccessor = userAccessor;
         _userManagementService = userManagementService;
         _roomSharingService = roomSharingService;
+        _roomService = roomService;
     }
 
     [HttpPost("AddRoom")]
@@ -41,49 +44,13 @@ public class RoomController : ControllerBase
     [HttpGet("GetRooms")]
     public async Task<IActionResult> GetRooms()
     {
-        var response = (await _roomManagementService.GetRooms(new()
-        {
-            UserId = _userAccessor.UserId
-        }));
-
-        var rooms = response?.Rooms?.Select(r => new RoomDTO(r))?.ToList() ?? Enumerable.Empty<RoomDTO>();
-
-        foreach (var room in rooms)
-        {
-            var usr = await _userManagementService.GetUserById(new() { UserId = room.User.Id });
-            if (usr?.User == null)
-            {
-                continue;
-            }
-
-            room.User = usr.User;
-        }
-
-        return Ok(rooms);
+        return Ok(await _roomService.GetRooms(_userAccessor.UserId));
     }
 
     [HttpGet("GetRoomUsers/{roomId}")]
     public async Task<IActionResult> GetRoomUsers(Guid roomId)
     {
-        var userIds = await _roomSharingService.GetRoomUserIds(new()
-        {
-            RoomId = roomId,
-            UserId = _userAccessor.UserId
-        });
-
-        var users = new List<User>();
-
-        foreach (var uid in userIds.UsersIds)
-        {
-            var usr = await _userManagementService.GetUserById(new() { UserId = uid });
-            if (usr?.User == null)
-            {
-                continue;
-            }
-            users.Add(usr.User);
-        }
-
-        return Ok(users.OrderBy(u => u.Name));
+        return Ok(await _roomService.GetRoomUsers(roomId, _userAccessor.UserId);
     }
 
     [HttpPost("ShareRoom")]
