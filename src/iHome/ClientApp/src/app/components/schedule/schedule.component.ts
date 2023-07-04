@@ -5,6 +5,7 @@ import { TimeHelper } from 'src/app/helpers/time.helper';
 import { Device } from 'src/app/models/device';
 import { Schedule } from 'src/app/models/schedule';
 import { ScheduleDevice } from 'src/app/models/schedule-device';
+import { SchedulesBehaviourService } from 'src/app/pages/schedules/service/schedules-behaviour.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SchedulesService } from 'src/app/services/schedules.service';
 
@@ -30,6 +31,7 @@ export class ScheduleComponent implements OnInit {
   constructor(
     private _refreshService: RefreshService,
     private _schedulesService: SchedulesService,
+    private _schedulesBehaviour: SchedulesBehaviourService,
     private _timeHelper: TimeHelper
   ) {}
 
@@ -70,10 +72,6 @@ export class ScheduleComponent implements OnInit {
     const date = this._timeHelper.getDateFromTime(parseInt(time[0]), parseInt(time[1]));
 
     this._schedulesService.updateSchedule(this.scheduleId, date.getUTCHours(), date.getUTCMinutes())
-      .subscribe(() => this._refreshService.refresh());
+      .subscribe(() => this._schedulesBehaviour.getSchedules());
   }
-
-  // onNotify($event: any) {
-  //   console.log($event);
-  // }
 }
