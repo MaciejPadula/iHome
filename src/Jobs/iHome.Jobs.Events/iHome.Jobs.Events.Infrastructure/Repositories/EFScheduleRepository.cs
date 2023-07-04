@@ -8,14 +8,10 @@ namespace iHome.Jobs.Events.Infrastructure.Repositories;
 public class EFScheduleRepository : IScheduleRepository
 {
     private readonly SqlDataContext _context;
-    private readonly IDateTimeProvider _dateTimeProvider;
 
-    private const int BatchSize = 10000;
-
-    public EFScheduleRepository(SqlDataContext context, IDateTimeProvider dateTimeProvider)
+    public EFScheduleRepository(SqlDataContext context)
     {
         _context = context;
-        _dateTimeProvider = dateTimeProvider;
     }
 
     public async Task<IEnumerable<Schedule>> GetAllSchedules()
@@ -33,41 +29,22 @@ public class EFScheduleRepository : IScheduleRepository
         return schedule?.ScheduleDevices ?? Enumerable.Empty<ScheduleDevice>();
     }
 
-    public Task<IEnumerable<Schedule>> GetToRunSchedules(Func<int, int, bool> hourComparer)
+    public IEnumerable<Guid> GetTodayRunnedSchedules(DateTime utcNow)
     {
-        var numberOfBatch = 0;
-
-        var todayRunnedSchedules = _context.SchedulesRunHistory
-            .Where(s => DateTime.Compare(_dateTimeProvider.Now.Date, s.RunDate) < 0)
+        return _context.SchedulesRunHistory
+            .Where(s => DateTime.Compare(utcNow, s.RunDate) < 0)
             .Select(s => s.ScheduleId);
-
-        var schedules = _context.Schedules
-            .Include(s => s.ScheduleDevices)
-            .Where(s => s.ScheduleDevices.Any())
-            .Where(s => !todayRunnedSchedules.Any(id => id == s.Id));
-
-        var schedulesToRun = new List<Schedule>();
-
-        while (true)
-        {
-            var schedulesToTest = schedules
-                .OrderBy(s => s.Modified)
-                .Skip(numberOfBatch * BatchSize)
-                .Take(BatchSize)
-                .AsEnumerable()
-                .Where(s => hourComparer.Invoke(s.Hour, s.Minute));
-
-            if (!schedulesToTest.Any()) break;
-
-            schedulesToRun.AddRange(schedulesToTest);
-            numberOfBatch += 1;
-        }
-
-
-        return Task.FromResult(schedulesToRun.AsEnumerable());
     }
 
-    public async Task AddRunnedSchedules(IEnumerable<Guid> scheduleIds)
+    public IEnumerable<Schedule> GetNotRunnedSchedules(IEnumerable<Guid> schedulesToSkip)
+    {
+        return _context.Schedules
+            .Include(s => s.ScheduleDevices)
+            .Where(s => s.ScheduleDevices.Any())
+            .Where(s => !schedulesToSkip.Any(id => id == s.Id));
+    }
+
+    public async Task AddRunnedSchedules(IEnumerable<Guid> scheduleIds, DateTime runDate)
     {
         foreach (var scheduleId in scheduleIds)
         {
@@ -75,7 +52,7 @@ public class EFScheduleRepository : IScheduleRepository
             {
                 Id = Guid.NewGuid(),
                 ScheduleId = scheduleId,
-                RunDate = _dateTimeProvider.UtcNow
+                RunDate = runDate
             });
         }
 

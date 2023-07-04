@@ -45,7 +45,7 @@ namespace iHome.Jobs.Events.Scheduler.Services
         public async Task<int> Working()
         {
             var tasks = new List<Task>();
-            var schedules = (await _schedulesProvider.GetSchedulesToRun()).ToList();
+            var schedules = _schedulesProvider.GetSchedulesToRun().ToList();
 
             foreach (var schedule in schedules)
             {

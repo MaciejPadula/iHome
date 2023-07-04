@@ -1,41 +1,65 @@
 ﻿using iHome.Jobs.Events.Infrastructure.Helpers;
 using iHome.Jobs.Events.Infrastructure.Models;
 using iHome.Jobs.Events.Infrastructure.Repositories;
+using iHome.Jobs.Events.Scheduler.Logic;
 
 namespace iHome.Jobs.Events.Services;
 
 public interface ISchedulesProvider
 {
-    Task<IEnumerable<Schedule>> GetSchedulesToRun();
+    IEnumerable<Schedule> GetSchedulesToRun();
     Task AddToRunned(IEnumerable<Schedule> schedules);
 }
 
 public class SchedulesProvider : ISchedulesProvider
 {
-    private readonly IScheduleRepository _schedulesService;
+    private readonly IScheduleRepository _scheduleRepository;
+    private readonly IScheduleHistoryRepository _historyService;
+    private readonly IScheduleRunningConditionChecker _scheduleRunningConditionChecker;
     private readonly IDateTimeProvider _dateTimeProvider;
 
-    public SchedulesProvider(IScheduleRepository schedulesService, IDateTimeProvider dateTimeProvider)
+    private const int BatchSize = 1000;
+
+    public SchedulesProvider(IScheduleRepository scheduleRepository, IScheduleHistoryRepository historyService, IDateTimeProvider dateTimeProvider, IScheduleRunningConditionChecker scheduleRunningConditionChecker)
     {
-        _schedulesService = schedulesService;
+        _scheduleRepository = scheduleRepository;
+        _historyService = historyService;
         _dateTimeProvider = dateTimeProvider;
+        _scheduleRunningConditionChecker = scheduleRunningConditionChecker;
     }
 
     public Task AddToRunned(IEnumerable<Schedule> schedules)
     {
-        return _schedulesService.AddRunnedSchedules(schedules.Select(s => s.Id));
+        return _historyService.AddRunnedSchedules(schedules.Select(s => s.Id), _dateTimeProvider.UtcNow);
     }
 
-    public async Task<IEnumerable<Schedule>> GetSchedulesToRun()
+    public IEnumerable<Schedule> GetSchedulesToRun()
     {
-        var utcNow = _dateTimeProvider.UtcNow;
+        var numberOfBatch = 0;
 
-        var schedules = await _schedulesService.GetToRunSchedules((hour, minute) =>
+        var todayRunnedSchedules = _scheduleRepository.GetTodayRunnedSchedules(_dateTimeProvider.UtcNow);
+        var schedules = _scheduleRepository.GetNotRunnedSchedules(todayRunnedSchedules);
+
+        var schedulesToRun = new List<Schedule>();
+
+        while (true)
         {
-            var todayOccurence = new DateTime(utcNow.Year, utcNow.Month, utcNow.Day, hour, minute, 0);
-            return todayOccurence.EarlierThan(utcNow);
-        });
+            var schedulesInMemory = schedules
+                .OrderBy(s => s.Modified)
+                .Skip(numberOfBatch * BatchSize)
+                .Take(BatchSize)
+                .ToList();
 
-        return schedules;
+            var schedulesBatch = schedulesInMemory
+                .Where(s => _scheduleRunningConditionChecker.CheckScheduleRunCondition(s.Hour, s.Minute))
+                .ToList();
+
+            if (!schedulesBatch.Any()) break;
+
+            schedulesToRun.AddRange(schedulesBatch);
+            numberOfBatch += 1;
+        }
+
+        return schedulesToRun;
     }
 }
