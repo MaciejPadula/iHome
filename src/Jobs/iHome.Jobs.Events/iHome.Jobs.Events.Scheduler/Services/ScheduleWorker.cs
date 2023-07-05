@@ -1,35 +1,54 @@
 using iHome.Infrastructure.Queue.Models;
+using iHome.Infrastructure.Queue.Service.Read;
 using iHome.Infrastructure.Queue.Service.Write;
+using iHome.Jobs.Events.Infrastructure.Models;
 using iHome.Jobs.Events.Services;
 using Microsoft.ApplicationInsights;
-using Microsoft.IdentityModel.Abstractions;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace iHome.Jobs.Events.Scheduler.Services
 {
     public class ScheduleWorker : BackgroundService
     {
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
-        private readonly ISchedulesProvider _schedulesProvider;
-        private readonly IQueueWriter<DataUpdateModel> _queueWriter;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly TelemetryClient _telemetryClient;
 
-        public ScheduleWorker(ISchedulesProvider schedulesProvider, IQueueWriter<DataUpdateModel> queueWriter, IHostApplicationLifetime hostApplicationLifetime, TelemetryClient telemetryClient)
+        private ISchedulesProvider _schedulesProvider = default!;
+        private IQueueWriter<DataUpdateModel> _queueWriter = default!;
+
+        private const int ChunkSize = 1000;
+
+        public ScheduleWorker(IHostApplicationLifetime hostApplicationLifetime, TelemetryClient telemetryClient, IServiceScopeFactory serviceScopeFactory)
         {
-            _schedulesProvider = schedulesProvider;
-            _queueWriter = queueWriter;
             _hostApplicationLifetime = hostApplicationLifetime;
             _telemetryClient = telemetryClient;
+            _serviceScopeFactory = serviceScopeFactory;
+        }
+
+        public void InitializeScope()
+        {
+            var scope = _serviceScopeFactory.CreateScope();
+            _schedulesProvider = scope.ServiceProvider.GetRequiredService<ISchedulesProvider>();
+            _queueWriter = scope.ServiceProvider.GetRequiredService<IQueueWriter<DataUpdateModel>>();
+
+
+            if (_schedulesProvider is null || _queueWriter is null)
+            {
+                throw new ArgumentNullException();
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try
             {
+                InitializeScope();
                 var schedulesProcessedCount = await Working();
 
-                if(schedulesProcessedCount != 0)
+                if (schedulesProcessedCount != 0)
                 {
-                    _telemetryClient.TrackEvent("Results", new Dictionary<string, string> { { "SchedulesProcessed", schedulesProcessedCount.ToString() } });
+                    _telemetryClient.TrackEvent(typeof(ScheduleWorker).FullName, new Dictionary<string, string> { { "SchedulesProcessed", schedulesProcessedCount.ToString() } });
                 }
             }
             catch (Exception ex)
@@ -49,20 +68,29 @@ namespace iHome.Jobs.Events.Scheduler.Services
 
             foreach (var schedule in schedules)
             {
-                foreach (var device in schedule.ScheduleDevices)
-                {
-                    tasks.Add(_queueWriter.Push(new DataUpdateModel
-                    {
-                        DeviceId = device.DeviceId,
-                        DeviceData = device.DeviceData
-                    }));
-                }
+                tasks.Add(ProcessSchedule(schedule));
             }
 
-            await Task.WhenAll(tasks);
-            await _schedulesProvider.AddToRunned(schedules);
+            foreach (var tasksChunk in tasks.Chunk(ChunkSize))
+            {
+                await Task.WhenAll(tasksChunk);
+            }
 
             return schedules.Count;
+        }
+
+        private async Task ProcessSchedule(Schedule schedule)
+        {
+            foreach (var device in schedule.ScheduleDevices)
+            {
+                await _queueWriter.Push(new DataUpdateModel
+                {
+                    DeviceId = device.DeviceId,
+                    DeviceData = device.DeviceData
+                });
+            }
+
+            await _schedulesProvider.AddToRunned(schedule);
         }
     }
 }

@@ -32,7 +32,7 @@ public class EFScheduleRepository : IScheduleRepository
     public IEnumerable<Guid> GetTodayRunnedSchedules(DateTime utcNow)
     {
         return _context.SchedulesRunHistory
-            .Where(s => DateTime.Compare(utcNow, s.RunDate) < 0)
+            .Where(s => DateTime.Compare(utcNow.StartOfDay(), s.RunDate) < 0)
             .Select(s => s.ScheduleId);
     }
 

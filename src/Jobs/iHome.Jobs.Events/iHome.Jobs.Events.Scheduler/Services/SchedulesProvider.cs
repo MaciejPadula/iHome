@@ -9,6 +9,7 @@ public interface ISchedulesProvider
 {
     IEnumerable<Schedule> GetSchedulesToRun();
     Task AddToRunned(IEnumerable<Schedule> schedules);
+    Task AddToRunned(Schedule schedule);
 }
 
 public class SchedulesProvider : ISchedulesProvider
@@ -31,6 +32,11 @@ public class SchedulesProvider : ISchedulesProvider
     public Task AddToRunned(IEnumerable<Schedule> schedules)
     {
         return _historyService.AddRunnedSchedules(schedules.Select(s => s.Id), _dateTimeProvider.UtcNow);
+    }
+
+    public Task AddToRunned(Schedule schedule)
+    {
+        return _historyService.AddRunnedSchedules(new List<Guid>() { schedule.Id }, _dateTimeProvider.UtcNow);
     }
 
     public IEnumerable<Schedule> GetSchedulesToRun()
