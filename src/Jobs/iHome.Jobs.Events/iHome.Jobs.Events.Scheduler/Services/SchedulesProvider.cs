@@ -15,36 +15,36 @@ public interface ISchedulesProvider
 public class SchedulesProvider : ISchedulesProvider
 {
     private readonly IScheduleRepository _scheduleRepository;
-    private readonly IScheduleHistoryRepository _historyService;
+    private readonly IScheduleHistoryRepository _historyRepository;
     private readonly IScheduleRunningConditionChecker _scheduleRunningConditionChecker;
     private readonly IDateTimeProvider _dateTimeProvider;
 
     private const int BatchSize = 1000;
 
-    public SchedulesProvider(IScheduleRepository scheduleRepository, IScheduleHistoryRepository historyService, IDateTimeProvider dateTimeProvider, IScheduleRunningConditionChecker scheduleRunningConditionChecker)
+    public SchedulesProvider(IScheduleRepository scheduleRepository, IScheduleHistoryRepository historyRepository, IDateTimeProvider dateTimeProvider, IScheduleRunningConditionChecker scheduleRunningConditionChecker)
     {
         _scheduleRepository = scheduleRepository;
-        _historyService = historyService;
+        _historyRepository = historyRepository;
         _dateTimeProvider = dateTimeProvider;
         _scheduleRunningConditionChecker = scheduleRunningConditionChecker;
     }
 
     public Task AddToRunned(IEnumerable<Schedule> schedules)
     {
-        return _historyService.AddRunnedSchedules(schedules.Select(s => s.Id), _dateTimeProvider.UtcNow);
+        return _historyRepository.AddRunnedSchedules(schedules.Select(s => s.Id), _dateTimeProvider.UtcNow);
     }
 
     public Task AddToRunned(Schedule schedule)
     {
-        return _historyService.AddRunnedSchedules(new List<Guid>() { schedule.Id }, _dateTimeProvider.UtcNow);
+        return _historyRepository.AddRunnedSchedules(new List<Guid>() { schedule.Id }, _dateTimeProvider.UtcNow);
     }
 
     public IEnumerable<Schedule> GetSchedulesToRun()
     {
         var numberOfBatch = 0;
 
-        var todayRunnedSchedules = _scheduleRepository.GetTodayRunnedSchedules(_dateTimeProvider.UtcNow);
-        var schedules = _scheduleRepository.GetNotRunnedSchedules(todayRunnedSchedules);
+        var todayRunnedSchedules = _historyRepository.GetTodayRunnedSchedules(_dateTimeProvider.UtcNow);
+        var schedules = _scheduleRepository.GetSchedulesWithDevicesExcluding(todayRunnedSchedules);
 
         var schedulesToRun = new List<Schedule>();
 

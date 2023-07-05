@@ -1,4 +1,5 @@
 ﻿using iHome.Jobs.Events.Infrastructure.Contexts;
+using iHome.Jobs.Events.Infrastructure.Helpers;
 using iHome.Jobs.Events.Infrastructure.Models;
 
 namespace iHome.Jobs.Events.Infrastructure.Repositories;
@@ -16,7 +17,7 @@ public class EFScheduleHistoryRepository : IScheduleHistoryRepository
     {
         foreach (var scheduleId in scheduleIds)
         {
-            _context.Add(new ScheduleRunHistory
+            await _context.SchedulesRunHistory.AddAsync(new ScheduleRunHistory
             {
                 Id = Guid.NewGuid(),
                 ScheduleId = scheduleId,
@@ -25,5 +26,12 @@ public class EFScheduleHistoryRepository : IScheduleHistoryRepository
         }
 
         await _context.SaveChangesAsync();
+    }
+
+    public IEnumerable<Guid> GetTodayRunnedSchedules(DateTime utcNow)
+    {
+        return _context.SchedulesRunHistory
+            .Where(s => DateTime.Compare(utcNow.StartOfDay(), s.RunDate) < 0)
+            .Select(s => s.ScheduleId);
     }
 }

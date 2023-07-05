@@ -2,5 +2,6 @@
 
 public interface IScheduleHistoryRepository
 {
+    IEnumerable<Guid> GetTodayRunnedSchedules(DateTime utcNow);
     Task AddRunnedSchedules(IEnumerable<Guid> scheduleIds, DateTime runDate);
 }

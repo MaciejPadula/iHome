@@ -29,10 +29,10 @@ public class SchedulesProviderTests
     }
 
     [Test]
-    public void GetSchedulesToRun_WhenExecuted_ShouldReturnExpectedSchedulesToRun()
+    public void GetSchedulesWithDevicesExcluding_WhenExecuted_ShouldReturnExpectedSchedulesToRun()
     {
         //Arrange
-        _repository.GetNotRunnedSchedules(default!).ReturnsForAnyArgs(new List<Schedule>
+        _repository.GetSchedulesWithDevicesExcluding(default!).ReturnsForAnyArgs(new List<Schedule>
         {
             new Schedule
             {
