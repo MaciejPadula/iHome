@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using iHome.Infrastructure.Sql.Models;
+using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace iHome.Infrastructure.Sql.Factories;
@@ -10,20 +11,25 @@ public interface IDbConnectionFactory
 
 internal class DbConnectionFactory : IDbConnectionFactory
 {
-    private readonly string _connectionString;
+    private readonly DbConnectionFactoryOptions _options;
 
-    public DbConnectionFactory(string connectionString)
+    public DbConnectionFactory(DbConnectionFactoryOptions options)
     {
-        if (string.IsNullOrEmpty(connectionString))
+        if (options is null)
         {
-            throw new ArgumentNullException(nameof(connectionString));
+            throw new ArgumentNullException(nameof(options));
         }
 
-        _connectionString = connectionString;
+        _options = options;
     }
 
     public IDbConnection GetConnection()
     {
-        return new SqlConnection(_connectionString);
+        if (string.IsNullOrEmpty(_options.ConnectionString))
+        {
+            throw new ArgumentNullException(nameof(_options.ConnectionString));
+        }
+
+        return new SqlConnection(_options.ConnectionString);
     }
 }

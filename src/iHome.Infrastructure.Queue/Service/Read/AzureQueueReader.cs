@@ -1,5 +1,6 @@
 ﻿using Azure.Storage.Queues;
-using iHome.Infrastructure.Queue.Models;
+using iHome.Infrastructure.Queue.Exceptions;
+using iHome.Infrastructure.Queue.Wrappers;
 
 namespace iHome.Infrastructure.Queue.Service.Read;
 
@@ -7,9 +8,9 @@ internal class AzureQueueReader<T> : IQueueReader<T>
 {
     private readonly QueueClient _client;
 
-    public AzureQueueReader(QueueClient client)
+    public AzureQueueReader(IQueueClientWrapper<T> queueClientWrapper)
     {
-        _client = client;
+        _client = queueClientWrapper.Client;
     }
 
     public async Task<T?> Peek()
