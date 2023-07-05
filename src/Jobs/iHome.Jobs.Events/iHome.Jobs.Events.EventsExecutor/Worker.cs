@@ -1,5 +1,7 @@
 using iHome.Infrastructure.Queue.Models;
 using iHome.Infrastructure.Queue.Service.Read;
+using iHome.Infrastructure.Queue.Service.Write;
+using iHome.Jobs.Events.EventsExecutor.Services;
 using iHome.Microservices.Devices.Contract;
 using Microsoft.ApplicationInsights;
 
@@ -13,9 +15,10 @@ namespace iHome.Jobs.Events.EventsExecutor
         private readonly TelemetryClient _telemetryClient;
         private readonly PeriodicTimer _timer;
         private readonly TimeSpan Delay = TimeSpan.FromSeconds(5);
+        private const int BatchSize = 1000;
 
-        private IQueueReader<DataUpdateModel>? _queueReader;
-        private IDeviceDataService? _deviceDataService;
+        private IScheduleDevicesProvider _provider = default!;
+        private IScheduleDevicesProcessor _processor = default!;
 
         public Worker(IHostApplicationLifetime hostApplicationLifetime, IServiceScopeFactory serviceScopeFactory, TelemetryClient telemetryClient)
         {
@@ -30,13 +33,21 @@ namespace iHome.Jobs.Events.EventsExecutor
         {
             try
             {
-                (_deviceDataService, _queueReader) = InitializeScope();
+                InitializeScope();
                 while (await _timer.WaitForNextTickAsync(stoppingToken))
                 {
-                    var eventsCount = await Working();
+                    var devices = await _provider.Provide();
+                    
+                    var tasks = devices.Chunk(BatchSize)
+                        .Select(_processor.Process)
+                        .ToArray();
+
+                    await Task.WhenAll(tasks);
+
+                    var eventsCount = tasks.Select(t => t.Result).Sum();
 
                     if (eventsCount == 0) continue;
-                    _telemetryClient.TrackEvent("Results", new Dictionary<string, string> { { "Events executed", eventsCount.ToString() } });
+                    _telemetryClient.TrackEvent(typeof(Worker).FullName, new Dictionary<string, string> { { "Events executed", eventsCount.ToString() } });
                 }
             }
             catch (Exception ex)
@@ -49,34 +60,16 @@ namespace iHome.Jobs.Events.EventsExecutor
             }
         }
 
-        public (IDeviceDataService, IQueueReader<DataUpdateModel>) InitializeScope()
+        public void InitializeScope()
         {
             var scope = _serviceScopeFactory.CreateScope();
-            return (
-                scope.ServiceProvider.GetRequiredService<IDeviceDataService>(),
-                scope.ServiceProvider.GetRequiredService<IQueueReader<DataUpdateModel>>()
-            );
-        }
+            _provider = scope.ServiceProvider.GetRequiredService<IScheduleDevicesProvider>();
+            _processor = scope.ServiceProvider.GetRequiredService<IScheduleDevicesProcessor>();
 
-        public async Task<int> Working()
-        {
-            if (_queueReader is null || _deviceDataService is null) return 0;
-            var tasks = new List<Task>();
-
-            while (await _queueReader.Peek() is not null)
+            if (_provider is null || _processor is null)
             {
-                var device = await _queueReader.Pop();
-                if (device is null) continue;
-
-                tasks.Add(_deviceDataService.SetDeviceData(new()
-                {
-                    DeviceId = device.DeviceId,
-                    Data = device.DeviceData
-                }));
+                throw new ArgumentNullException();
             }
-
-            await Task.WhenAll(tasks);
-            return tasks.Count;
         }
     }
 }

@@ -4,8 +4,6 @@ namespace iHome.Jobs.Events.Infrastructure.Repositories;
 
 public interface IScheduleRepository
 {
+    IEnumerable<Schedule> GetSchedulesWithDevicesExcluding(IEnumerable<Guid> schedulesToExclude);
     Task<IEnumerable<ScheduleDevice>> GetScheduleDevices(Guid scheduleId);
-    Task<IEnumerable<Schedule>> GetAllSchedules();
-    Task<IEnumerable<Schedule>> GetToRunSchedules(Func<int, int, bool> hourComparer);
-    Task AddRunnedSchedules(IEnumerable<Guid> scheduleIds);
 }
