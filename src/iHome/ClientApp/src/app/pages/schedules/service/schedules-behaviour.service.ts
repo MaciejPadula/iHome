@@ -21,7 +21,9 @@ export class SchedulesBehaviourService {
   constructor(
     private _devicesService: DevicesService,
     private _schedulesService: SchedulesService
-  ) { }
+  ) {
+    this.isLoadingSubject$.next(true);
+  }
 
   public removeSchedule(scheduleId: string) {
     this.isLoadingSubject$.next(true);
