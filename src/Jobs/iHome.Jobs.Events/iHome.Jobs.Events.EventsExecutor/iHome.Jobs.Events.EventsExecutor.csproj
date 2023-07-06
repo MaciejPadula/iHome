@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Worker;Microsoft.NET.Sdk.Publish">
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker;Microsoft.NET.Sdk.Publish">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -8,10 +8,10 @@
 	<DockerfileTag>ihome-jobs-events-executor</DockerfileTag>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="iHome.Microservices.Devices.Contract" Version="1.0.0" />
+    <PackageReference Include="iHome.Microservices.Devices.Contract" Version="1.0.2" />
     <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.21.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
     <PackageReference Include="Web.Infrastructure.Microservices.Client" Version="1.0.7" />
     <PackageReference Include="Web.Infrastructure.Microservices.Client.Configuration" Version="1.0.7" />
   </ItemGroup>

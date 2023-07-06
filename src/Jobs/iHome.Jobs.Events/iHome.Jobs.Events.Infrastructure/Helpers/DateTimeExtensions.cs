@@ -16,4 +16,14 @@ public static class DateTimeExtensions
     {
         return DateTime.Compare(earlierDate, LaterDate) < 0;
     }
+
+    public static bool EarlierThanOrEqual(this DateTime earlierDate, DateTime LaterDate)
+    {
+        return DateTime.Compare(earlierDate, LaterDate) <= 0;
+    }
+
+    public static DateTime TodaysOccurence(DateTime now, int hour, int minute)
+    {
+        return new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
+    }
 }

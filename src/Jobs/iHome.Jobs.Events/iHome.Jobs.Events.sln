@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Jobs.Events.EventsExe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Jobs.Events.Infrastructure", "iHome.Jobs.Events.Infrastructure\iHome.Jobs.Events.Infrastructure.csproj", "{38607E66-2030-4FB6-A2F4-074C6C0FBFD6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Jobs.Events.Scheduler.Tests", "iHome.Jobs.Events.Scheduler.Tests\iHome.Jobs.Events.Scheduler.Tests.csproj", "{54ACE892-08B4-4A2F-BC82-9C981C72F0FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8B61F769-4CD8-46AB-A254-6E213459B464}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +31,16 @@ Global
 		{38607E66-2030-4FB6-A2F4-074C6C0FBFD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38607E66-2030-4FB6-A2F4-074C6C0FBFD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38607E66-2030-4FB6-A2F4-074C6C0FBFD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54ACE892-08B4-4A2F-BC82-9C981C72F0FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54ACE892-08B4-4A2F-BC82-9C981C72F0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54ACE892-08B4-4A2F-BC82-9C981C72F0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54ACE892-08B4-4A2F-BC82-9C981C72F0FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{54ACE892-08B4-4A2F-BC82-9C981C72F0FA} = {8B61F769-4CD8-46AB-A254-6E213459B464}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6D0AF733-9747-478E-90AC-F5B6B6E90260}
