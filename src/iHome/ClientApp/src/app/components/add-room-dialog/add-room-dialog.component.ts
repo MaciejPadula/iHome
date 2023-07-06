@@ -14,7 +14,7 @@ export class AddRoomDialogComponent {
   ) {}
 
   public confirm(): void{
-    if(this.roomName.length <= 3) {
+    if(this.roomName?.length <= 3) {
       this.onNoClick();
       return;
     }

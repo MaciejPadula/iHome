@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Room } from 'src/app/models/room';
-import { RefreshService } from 'src/app/services/refresh.service';
 import { RoomsService } from 'src/app/services/rooms.service';
 
 @Injectable({
@@ -16,9 +15,7 @@ export class RoomsBehaviourService {
 
   constructor(
     private _roomsService: RoomsService
-  ) {
-    this.isLoadingSubject$.next(true);
-  }
+  ) { }
   
   public addRoom(roomName: string) {
     if(roomName.length <= 3) return;

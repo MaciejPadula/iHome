@@ -5,23 +5,29 @@
 </ng-template>
 
 <div cdkDropListGroup>
-    <div class="flex flex-col sm:flex-row sm:justify-between p-4">
-        <button class="action-button" mat-raised-button color="primary" (click)="composeAddWidgetDialog()">
-            Add widget
-            <mat-icon>widgets</mat-icon>
-        </button>
-        <button class="action-button" mat-raised-button color="primary" (click)="toggleDevicesList()">
-            Devices List
-            <mat-icon>devices</mat-icon>
-        </button>
-        <button class="action-button" mat-raised-button color="primary">
-            Configure device
-            <mat-icon>settings</mat-icon>
-        </button>
+    <div class="grid grid-cols-1 sm:grid-cols-3">
+        <div class="text-center sm:text-left">
+            <button class="w-4/5 sm:w-auto action-button" mat-raised-button color="primary" (click)="composeAddWidgetDialog()">
+                Add widget
+                <mat-icon>widgets</mat-icon>
+            </button>
+        </div>
+        <div class="text-center">
+            <button class="w-4/5 sm:w-auto action-button" mat-raised-button color="primary" (click)="toggleDevicesList()">
+                Devices List
+                <mat-icon>devices</mat-icon>
+            </button>
+        </div>
+        <div class="text-center sm:text-right">
+            <button class="w-4/5 sm:w-auto action-button" mat-raised-button color="primary">
+                Configure device
+                <mat-icon>settings</mat-icon>
+            </button>
+        </div>
     </div>
 
     <app-drag-devices-list class="block overflow-hidden m-4" [roomId]="id" [@openClose]="showDevicesList ? 'open' : 'closed'"></app-drag-devices-list>
-    
+
     <div *ngIf="widgets$ | async as widgets; else loading" class="w-full flex flex-row flex-wrap items-center justify-center">
         <app-widget *ngFor="let widget of widgets" [widget]="widget"></app-widget>
     </div>

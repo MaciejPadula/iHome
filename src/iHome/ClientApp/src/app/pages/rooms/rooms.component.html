@@ -1,4 +1,4 @@
-<mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="(isLoading$ | async) || (rooms$ | async) === null"></mat-progress-bar>
 
 <div *ngIf="rooms$ | async as rooms" class="flex flex-col justify-center items-center">
   <div *ngFor="let room of rooms" class="p-4 w-full flex flex-row justify-between">
