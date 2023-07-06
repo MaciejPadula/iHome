@@ -1,10 +1,6 @@
-﻿using iHome.Core.Models;
-using iHome.Core.Services;
+﻿using iHome.Core.Services;
 using iHome.Logic;
-using iHome.Microservices.RoomsManagement.Contract;
-using iHome.Microservices.UsersApi.Contract;
-using iHome.Microservices.UsersApi.Contract.Models;
-using iHome.Models.Requests;
+using iHome.Models.Requests.Rooms;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,76 +11,54 @@ namespace iHome.Controllers;
 [ApiController]
 public class RoomController : ControllerBase
 {
-    private readonly IRoomManagementService _roomManagementService;
-    private readonly IRoomSharingService _roomSharingService;
-    private readonly IUserManagementService _userManagementService;
     private readonly IRoomService _roomService;
     private readonly IUserAccessor _userAccessor;
 
-    public RoomController(IRoomManagementService roomManagementService, IUserAccessor userAccessor, IUserManagementService userManagementService, IRoomSharingService roomSharingService, IRoomService roomService)
+    public RoomController(IUserAccessor userAccessor, IRoomService roomService)
     {
-        _roomManagementService = roomManagementService;
         _userAccessor = userAccessor;
-        _userManagementService = userManagementService;
-        _roomSharingService = roomSharingService;
         _roomService = roomService;
     }
 
     [HttpPost("AddRoom")]
     public async Task<IActionResult> AddRoom([FromBody] AddRoomRequest request)
     {
-        await _roomManagementService.AddRoom(new()
-        {
-            RoomName = request.RoomName,
-            UserId = _userAccessor.UserId
-        });
+        await _roomService.AddRoom(request.RoomName, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpGet("GetRooms")]
     public async Task<IActionResult> GetRooms()
     {
-        return Ok(await _roomService.GetRooms(_userAccessor.UserId));
+        var rooms = await _roomService.GetRooms(_userAccessor.UserId);
+        return Ok(rooms);
     }
 
     [HttpGet("GetRoomUsers/{roomId}")]
     public async Task<IActionResult> GetRoomUsers(Guid roomId)
     {
-        return Ok(await _roomService.GetRoomUsers(roomId, _userAccessor.UserId));
+        var users = await _roomService.GetRoomUsers(roomId, _userAccessor.UserId);
+        return Ok(users);
     }
 
     [HttpPost("ShareRoom")]
     public async Task<IActionResult> ShareRoom([FromBody] ShareRoomRequest request)
     {
-        await _roomSharingService.ShareRoomToUser(new()
-        {
-            RoomId = request.RoomId,
-            CallerUserId = _userAccessor.UserId,
-            SubjectUserId = request.UserId
-        });
+        await _roomService.ShareRoom(request.RoomId, request.UserId, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpPost("UnshareRoom")]
-    public async Task<IActionResult> ShareRoom([FromBody] UnshareRoomRequest request)
+    public async Task<IActionResult> UnshareRoom([FromBody] UnshareRoomRequest request)
     {
-        await _roomSharingService.UnshareRoomFromUser(new()
-        {
-            RoomId = request.RoomId,
-            CallerUserId = _userAccessor.UserId,
-            SubjectUserId = request.UserId
-        });
+        await _roomService.UnshareRoom(request.RoomId, request.UserId, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpDelete("RemoveRoom/{roomId}")]
     public async Task<IActionResult> RemoveRoom(Guid roomId)
     {
-        await _roomManagementService.RemoveRoom(new()
-        {
-            RoomId = roomId,
-            UserId = _userAccessor.UserId
-        });
+        await _roomService.RemoveRoom(roomId, _userAccessor.UserId);
         return Ok();
     }
 }

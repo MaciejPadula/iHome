@@ -1,6 +1,6 @@
-﻿using iHome.Core.Services;
-using iHome.Logic;
+﻿using iHome.Logic;
 using iHome.Microservices.Schedules.Contract;
+using iHome.Microservices.Schedules.Contract.Models;
 using iHome.Models.Requests.Schedules;
 using iHome.Models.Responses.Schedules;
 using Microsoft.AspNetCore.Authorization;
@@ -48,10 +48,10 @@ public class ScheduleController : ControllerBase
             UserId = _userAccessor.UserId
         });
 
-        return Ok(schedules
-            .Schedules
-            .OrderBy(s => s.Hour)
-            .ThenBy(s => s.Minute));
+        return Ok(schedules?
+            .Schedules?
+            .OrderBy(s => s.Hour)?
+            .ThenBy(s => s.Minute) ?? Enumerable.Empty<ScheduleModel>());
     }
 
     [HttpGet("GetSchedule/{id}")]

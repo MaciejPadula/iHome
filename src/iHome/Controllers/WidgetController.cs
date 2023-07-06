@@ -1,10 +1,6 @@
-﻿using iHome.Core.Models;
-using iHome.Core.Services;
+﻿using iHome.Core.Services;
 using iHome.Logic;
-using iHome.Microservices.Devices.Contract;
-using iHome.Microservices.Devices.Contract.Models;
-using iHome.Microservices.Widgets.Contract;
-using iHome.Models.Requests;
+using iHome.Models.Requests.Widgets;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,104 +11,57 @@ namespace iHome.Controllers;
 [ApiController]
 public class WidgetController : ControllerBase
 {
-    private readonly IWidgetManagementService _widgetManagementService;
-    private readonly IWidgetDeviceManagementService _widgetDeviceManagementService;
-    private readonly IDeviceManagementService _deviceManagementService;
-
+    private readonly IWidgetService _widgetService;
     private readonly IUserAccessor _userAccessor;
 
-    public WidgetController(IWidgetManagementService widgetManagementService, IWidgetDeviceManagementService widgetDeviceManagementService, IDeviceManagementService deviceManagementService, IUserAccessor userAccessor)
+    public WidgetController(IWidgetService widgetService, IUserAccessor userAccessor)
     {
-        _widgetManagementService = widgetManagementService;
-        _widgetDeviceManagementService = widgetDeviceManagementService;
-        _deviceManagementService = deviceManagementService;
         _userAccessor = userAccessor;
+        _widgetService = widgetService;
     }
 
     [HttpPost("AddWidget")]
     public async Task<IActionResult> AddWidget([FromBody] AddWidgetRequest request)
     {
-        await _widgetManagementService.AddWidget(new()
-        {
-            Type = request.WidgetType,
-            RoomId = request.RoomId,
-            ShowBorder = request.ShowBorder,
-            UserId = _userAccessor.UserId
-        });
+        await _widgetService.AddWidget(
+            request.RoomId, request.WidgetType, request.ShowBorder, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpPost("InsertDevice")]
     public async Task<IActionResult> InsertDevice([FromBody] InsertDeviceRequest request)
     {
-        await _widgetDeviceManagementService.InsertDevice(new()
-        {
-            DeviceId = request.DeviceId,
-            WidgetId = request.WidgetId,
-            UserId = _userAccessor.UserId
-        });
+        await _widgetService.InsertDevice(
+            request.DeviceId, request.WidgetId, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpPost("RemoveDevice")]
     public async Task<IActionResult> RemoveDevice([FromBody] RemoveWidgetDeviceRequest request)
     {
-        await _widgetDeviceManagementService.RemoveDevice(new()
-        {
-            DeviceId = request.DeviceId,
-            WidgetId = request.WidgetId,
-            UserId = _userAccessor.UserId
-        });
+        await _widgetService.RemoveDevice(
+            request.DeviceId, request.WidgetId, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpGet("GetWidgets/{roomId}")]
     public async Task<IActionResult> GetWidgets(Guid roomId)
     {
-        var response = await _widgetManagementService.GetWidgets(new()
-        {
-            RoomId = roomId,
-            UserId = _userAccessor.UserId
-        });
-
-        return Ok(response.Widgets);
+        var widgets = await _widgetService.GetWidgets(roomId, _userAccessor.UserId);
+        return Ok(widgets);
     }
 
     [HttpGet("GetWidgetDevices/{widgetId}")]
     public async Task<IActionResult> GetWidgetDevices(Guid widgetId)
     {
-        var response = await _widgetDeviceManagementService.GetWidgetDevicesIds(new()
-        {
-            WidgetId = widgetId,
-            UserId = _userAccessor.UserId
-        });
-
-        var deviceIds = response.DevicesIds.ToList();
-        var devices = new List<DeviceModel>();
-
-        foreach (var deviceId in  deviceIds)
-        {
-            var device = await _deviceManagementService.GetDevice(new()
-            {
-                DeviceId = deviceId
-            });
-            if (device?.Device == null) continue;
-
-            devices.Add(device.Device);
-        }
-
-
+        var devices = await _widgetService.GetWidgetDevices(widgetId, _userAccessor.UserId);
         return Ok(devices);
     }
 
     [HttpDelete("RemoveWidget/{widgetId}")]
     public async Task<IActionResult> RemoveWidget(Guid widgetId)
     {
-        await _widgetManagementService.RemoveWidget(new()
-        {
-            WidgetId = widgetId,
-            UserId = _userAccessor.UserId
-        });
+        await _widgetService.Remove(widgetId, _userAccessor.UserId);
         return Ok();
     }
 }
