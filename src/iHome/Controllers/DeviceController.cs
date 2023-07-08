@@ -1,7 +1,6 @@
 ﻿using iHome.Core.Services;
 using iHome.Logic;
 using iHome.Microservices.Devices.Contract;
-using iHome.Microservices.Devices.Contract.Models;
 using iHome.Models.Requests.Device;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
