@@ -1,7 +1,11 @@
-﻿using iHome.Microservices.Devices.Contract;
+﻿using iHome.Core.Helpers;
+using iHome.Core.Models;
+using iHome.Core.Services.Validation;
+using iHome.Microservices.Devices.Contract;
 using iHome.Microservices.Devices.Contract.Models;
 using iHome.Microservices.Widgets.Contract;
 using iHome.Microservices.Widgets.Contract.Models;
+using iHome.Microservices.Widgets.Contract.Models.Request;
 
 namespace iHome.Core.Services;
 
@@ -21,86 +25,96 @@ public class WidgetService : IWidgetService
     private readonly IWidgetDeviceManagementService _widgetDeviceManagementService;
     private readonly IDeviceManagementService _deviceManagementService;
 
-    public WidgetService(IWidgetDeviceManagementService widgetDeviceManagementService, IDeviceManagementService deviceManagementService, IWidgetManagementService widgetManagementService)
+    private readonly IValidationService _validationService;
+
+    public WidgetService(IWidgetDeviceManagementService widgetDeviceManagementService,
+        IDeviceManagementService deviceManagementService,
+        IWidgetManagementService widgetManagementService,
+        IValidationService validationService)
     {
         _widgetDeviceManagementService = widgetDeviceManagementService;
         _deviceManagementService = deviceManagementService;
         _widgetManagementService = widgetManagementService;
+        _validationService = validationService;
     }
 
     public async Task AddWidget(Guid roomId, WidgetType type, bool showBorders, string userId)
     {
-        await _widgetManagementService.AddWidget(new()
+        var request = new AddWidgetRequest
         {
             Type = type,
             RoomId = roomId,
             ShowBorder = showBorders,
             UserId = userId
-        });
+        };
+
+        await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, _widgetManagementService.AddWidget(request));
     }
 
     public async Task<List<DeviceModel>> GetWidgetDevices(Guid widgetId, string userId)
     {
-        var response = await _widgetDeviceManagementService.GetWidgetDevicesIds(new()
+        var request = new GetWidgetDevicesIdsRequest
         {
             WidgetId = widgetId,
             UserId = userId
+        };
+
+        var response = await _validationService.Validate(widgetId, userId, ValidatorType.WidgetRead, _widgetDeviceManagementService.GetWidgetDevicesIds(request));
+
+        var devices = await _deviceManagementService.GetDevicesByIds(new()
+        {
+            DeviceIds = response.DevicesIds.ToList(),
+            UserId = userId
         });
 
-        var deviceIds = response.DevicesIds.ToList();
-        var devices = new List<DeviceModel>();
-
-        foreach (var deviceId in deviceIds)
-        {
-            var device = await _deviceManagementService.GetDevice(new()
-            {
-                DeviceId = deviceId
-            });
-            if (device?.Device == null) continue;
-
-            devices.Add(device.Device);
-        }
-
-        return devices;
+        return devices?.Devices?.ToList() ?? ListUtils.Empty<DeviceModel>();
     }
 
     public async Task<List<WidgetModel>> GetWidgets(Guid roomId, string userId)
     {
-        var widgets = await _widgetManagementService.GetWidgets(new()
+        var request = new GetWidgetsRequest
         {
             RoomId = roomId,
             UserId = userId
-        });
+        };
+
+        var widgets = await _validationService.Validate(roomId, userId, ValidatorType.RoomRead, _widgetManagementService.GetWidgets(request));
 
         return widgets?.Widgets?.ToList() ?? Enumerable.Empty<WidgetModel>().ToList();
     }
 
     public async Task InsertDevice(Guid deviceId, Guid widgetId, string userId)
     {
-        await _widgetDeviceManagementService.InsertDevice(new()
+        var request = new InsertDeviceRequest
         {
             DeviceId = deviceId,
             WidgetId = widgetId,
             UserId = userId
-        });
+        };
+
+        await _validationService.Validate(widgetId, userId, ValidatorType.WidgetWrite, _widgetDeviceManagementService.InsertDevice(request));
     }
 
     public async Task Remove(Guid widgetId, string userId)
     {
-        await _widgetManagementService.RemoveWidget(new()
+        var request = new RemoveWidgetRequest
         {
             WidgetId = widgetId,
             UserId = userId
-        });
+        };
+
+        await _validationService.Validate(widgetId, userId, ValidatorType.WidgetWrite, _widgetManagementService.RemoveWidget(request));
     }
 
     public async Task RemoveDevice(Guid deviceId, Guid widgetId, string userId)
     {
-        await _widgetDeviceManagementService.RemoveDevice(new()
+        var request = new RemoveDeviceRequest
         {
             DeviceId = deviceId,
             WidgetId = widgetId,
             UserId = userId
-        });
+        };
+
+        await _validationService.Validate(widgetId, userId, ValidatorType.WidgetWrite, _widgetDeviceManagementService.RemoveDevice(request));
     }
 }

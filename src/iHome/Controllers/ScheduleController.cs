@@ -1,4 +1,5 @@
-﻿using iHome.Logic;
+﻿using iHome.Core.Services;
+using iHome.Logic;
 using iHome.Microservices.Schedules.Contract;
 using iHome.Microservices.Schedules.Contract.Models;
 using iHome.Models.Requests.Schedules;
@@ -13,116 +14,64 @@ namespace iHome.Controllers;
 [ApiController]
 public class ScheduleController : ControllerBase
 {
-    private readonly IScheduleDeviceManagementService _scheduleDeviceManagementService;
-    private readonly IScheduleManagementService _scheduleManagementService;
-
+    private readonly IScheduleService _scheduleService;
     private readonly IUserAccessor _userAccessor;
 
-    public ScheduleController(IScheduleDeviceManagementService scheduleDeviceManagementService, IScheduleManagementService scheduleManagementService, IUserAccessor userAccessor)
+    public ScheduleController(IScheduleService scheduleService, IUserAccessor userAccessor)
     {
-        _scheduleDeviceManagementService = scheduleDeviceManagementService;
-        _scheduleManagementService = scheduleManagementService;
+        _scheduleService = scheduleService;
         _userAccessor = userAccessor;
     }
 
     [HttpPost("AddSchedule")]
     public async Task<IActionResult> AddSchedule([FromBody] AddScheduleRequest request)
     {
-        await _scheduleManagementService.AddSchedule(new()
-        {
-            ScheduleName = request.ScheduleName,
-            Day = request.Day,
-            Hour = request.Hour,
-            Minute = request.Minute,
-            UserId = _userAccessor.UserId
-        });
-
+        await _scheduleService.AddSchedule(
+            request.ScheduleName, request.Day, request.ScheduleTime, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpGet("GetSchedules")]
     public async Task<IActionResult> GetSchedules()
     {
-        var schedules = await _scheduleManagementService.GetSchedules(new()
-        {
-            UserId = _userAccessor.UserId
-        });
-
-        return Ok(schedules?
-            .Schedules?
-            .OrderBy(s => s.Hour)?
-            .ThenBy(s => s.Minute) ?? Enumerable.Empty<ScheduleModel>());
+        var schedules = await _scheduleService.GetSchedulesOrdered(_userAccessor.UserId);
+        return Ok(schedules);
     }
 
     [HttpGet("GetSchedule/{id}")]
     public async Task<IActionResult> GetSchedule(Guid id)
     {
-        var schedule = await _scheduleManagementService.GetSchedule(new()
-        {
-            ScheduleId = id
-        });
-
-        return Ok(schedule.Schedule);
-    }
-
-    [HttpGet("GetScheduleDevicesCount")]
-    public async Task<IActionResult> GetScheduleDevicesCount(Guid scheduleId)
-    {
-        var response = await _scheduleDeviceManagementService.GetDevicesInScheduleCount(new()
-        {
-            ScheduleId = scheduleId
-        });
-
-        return Ok(new GetScheduleDevicesCountResponse
-        {
-            Count = response.NumberOfDevices
-        });
+        var schedule = await _scheduleService.GetSchedule(id, _userAccessor.UserId);
+        return Ok(schedule);
     }
 
     [HttpPost("UpdateSchedule")]
     public async Task<IActionResult> UpdateSchedule([FromBody] UpdateScheduleRequest request)
     {
-        await _scheduleManagementService.UpdateScheduleTime(new()
-        {
-            ScheduleId = request.ScheduleId,
-            Day = request.Day,
-            Hour = request.Hour,
-            Minute = request.Minute
-        });
-
+        await _scheduleService.UpdateScheduleTime(
+            request.ScheduleId, request.Day, request.ScheduleTime, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpGet("GetScheduleDevices/{id}")]
     public async Task<IActionResult> GetScheduleDevices(Guid id)
     {
-        var scheduleDevices = await _scheduleDeviceManagementService.GetScheduleDevices(new()
-        {
-            ScheduleId = id
-        });
-
-        return Ok(scheduleDevices.ScheduleDevices);
+        var devices = await _scheduleService.GetScheduleDevices(id, _userAccessor.UserId);
+        return Ok(devices);
     }
 
     [HttpDelete("RemoveSchedule/{id}")]
     public async Task<IActionResult> RemoveSchedule(Guid id)
     {
-        await _scheduleManagementService.RemoveSchedule(new()
-        {
-            ScheduleId = id
-        });
+        await _scheduleService.RemoveSchedule(id, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpPost("AddOrUpdateScheduleDevice")]
-    public async Task<IActionResult> AddOrUpdateScheduleDevice(AddOrUpdateScheduleDeviceRequest request)
+    public async Task<IActionResult> AddOrUpdateScheduleDevice([FromBody] AddOrUpdateScheduleDeviceRequest request)
     {
-        await _scheduleDeviceManagementService.AddOrUpdateDeviceSchedule(new()
-        {
-            ScheduleId = request.ScheduleId,
-            DeviceId = request.DeviceId,
-            DeviceData = request.DeviceData
-        });
+        await _scheduleService.AddOrUpdateScheduleDevice(
+            request.ScheduleId, request.DeviceId, request.DeviceData, _userAccessor.UserId);
         return Ok();
     }
 }

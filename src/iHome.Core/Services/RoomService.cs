@@ -1,5 +1,7 @@
 ﻿using iHome.Core.Models;
+using iHome.Core.Services.Validation;
 using iHome.Microservices.RoomsManagement.Contract;
+using iHome.Microservices.RoomsManagement.Contract.Models.Request;
 using iHome.Microservices.UsersApi.Contract;
 using iHome.Microservices.UsersApi.Contract.Models;
 
@@ -22,11 +24,17 @@ public class RoomService : IRoomService
     private readonly IRoomSharingService _roomSharingService;
     private readonly IUserManagementService _userManagementService;
 
-    public RoomService(IRoomManagementService roomManagementService, IRoomSharingService roomSharingService, IUserManagementService userManagementService)
+    private readonly IValidationService _validationService;
+
+    public RoomService(IRoomManagementService roomManagementService,
+        IRoomSharingService roomSharingService,
+        IUserManagementService userManagementService,
+        IValidationService validationService)
     {
         _roomManagementService = roomManagementService;
         _roomSharingService = roomSharingService;
         _userManagementService = userManagementService;
+        _validationService = validationService;
     }
 
     public async Task AddRoom(string roomName, string userId)
@@ -60,11 +68,13 @@ public class RoomService : IRoomService
 
     public async Task<List<User>> GetRoomUsers(Guid roomId, string userId)
     {
-        var userIds = await _roomSharingService.GetRoomUserIds(new()
+        var request = new GetRoomUserIdsRequest
         {
             RoomId = roomId,
             UserId = userId
-        });
+        };
+
+        var userIds = await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, _roomSharingService.GetRoomUserIds(request));
 
         var users = new List<User>();
 
@@ -83,30 +93,36 @@ public class RoomService : IRoomService
 
     public async Task RemoveRoom(Guid roomId, string userId)
     {
-        await _roomManagementService.RemoveRoom(new()
+        var request = new RemoveRoomRequest
         {
             RoomId = roomId,
             UserId = userId
-        });
+        };
+
+        await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, _roomManagementService.RemoveRoom(request));
     }
 
     public async Task ShareRoom(Guid roomId, string userId, string callerId)
     {
-        await _roomSharingService.ShareRoomToUser(new()
+        var request = new ShareRoomToUserRequest
         {
             RoomId = roomId,
             CallerUserId = callerId,
             SubjectUserId = userId
-        });
+        };
+
+        await _validationService.Validate(roomId, callerId, ValidatorType.RoomWrite, _roomSharingService.ShareRoomToUser(request));
     }
 
     public async Task UnshareRoom(Guid roomId, string userId, string callerId)
     {
-        await _roomSharingService.UnshareRoomFromUser(new()
+        var request = new UnshareRoomFromUserRequest
         {
             RoomId = roomId,
             CallerUserId = callerId,
             SubjectUserId = userId
-        });
+        };
+
+        await _validationService.Validate(roomId, callerId, ValidatorType.RoomWrite, _roomSharingService.UnshareRoomFromUser(request));
     }
 }

@@ -55,9 +55,7 @@ export class AddScheduleComponent {
 
     if(!name || !dateString) return;
 
-    const date = this._timeHelper.getDateFromTimeString(dateString);
-
-    this._schedulesService.addSchedule(name, date.getUTCHours(), date.getUTCMinutes())
+    this._schedulesService.addSchedule(name, dateString)
         .subscribe(() => this._router.navigate(['/schedules']));
   }
 
