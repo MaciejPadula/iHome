@@ -17,12 +17,11 @@ export class SchedulesService {
     private _api: HttpClient
   ) { }
 
-  public addSchedule(scheduleName: string, hour: number, minute: number): Observable<GenericResponse> {
+  public addSchedule(scheduleName: string, scheduleTime: string): Observable<GenericResponse> {
     return this._api.post<GenericResponse>(`${this._baseApiUrl}AddSchedule`, {
       scheduleName,
       day: 0,
-      hour,
-      minute
+      scheduleTime
     });
   }
 
@@ -50,16 +49,11 @@ export class SchedulesService {
     });
   }
 
-  public getScheduleDevicesCount(scheduleId: string): Observable<ScheduleDevicesCountResponse> {
-    return this._api.get<ScheduleDevicesCountResponse>(`${this._baseApiUrl}GetScheduleDevicesCount/${scheduleId}`);
-  }
-
-  public updateSchedule(scheduleId: string, hour: number, minute: number): Observable<GenericResponse>{
+  public updateSchedule(scheduleId: string, scheduleTime: string): Observable<GenericResponse>{
     return this._api.post<GenericResponse>(`${this._baseApiUrl}UpdateSchedule`, {
       scheduleId,
       day: 0,
-      hour,
-      minute
+      scheduleTime
     });
   }
 

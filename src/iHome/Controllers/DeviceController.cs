@@ -1,6 +1,5 @@
 ﻿using iHome.Core.Services;
 using iHome.Logic;
-using iHome.Microservices.Devices.Contract;
 using iHome.Models.Requests.Device;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,52 +11,35 @@ namespace iHome.Controllers;
 [ApiController]
 public class DeviceController : ControllerBase
 {
-    private readonly IDeviceManagementService _deviceManagementService;
-    private readonly IDeviceDataService _deviceDataService;
-    private readonly IDevicesForSchedulingAccessor _devicesForSchedulingAccessor;
+    private readonly IDeviceService _deviceService;
     private readonly IUserAccessor _userAccessor;
 
-    public DeviceController(IDeviceManagementService deviceManagementService, IDeviceDataService deviceDataService, IDevicesForSchedulingAccessor devicesForSchedulingAccessor, IUserAccessor userAccessor)
+    public DeviceController(IDeviceService deviceService, IUserAccessor userAccessor)
     {
-        _deviceManagementService = deviceManagementService;
-        _deviceDataService = deviceDataService;
-        _devicesForSchedulingAccessor = devicesForSchedulingAccessor;
+        _deviceService = deviceService;
         _userAccessor = userAccessor;
     }
 
     [HttpPost("AddDevice")]
     public async Task<IActionResult> AddDevice([FromBody] AddDeviceRequest request)
     {
-        var deviceId = await _deviceManagementService.AddDevice(new()
-        {
-            Name = request.Name,
-            MacAddress = request.MacAddress,
-            Type = request.Type,
-            RoomId = request.RoomId
-        });
+        await _deviceService.AddDevice(
+            request.Name, request.MacAddress, request.Type, _userAccessor.UserId, request.RoomId);
 
-        return Ok(deviceId.DeviceId);
+        return Ok();
     }
 
     [HttpPost("ChangeDeviceName")]
     public async Task<IActionResult> ChangeDeviceName([FromBody] ChangeDeviceNameRequest request)
     {
-        await _deviceManagementService.RenameDevice(new()
-        {
-            DeviceId = request.DeviceId,
-            NewName = request.Name
-        });
+        await _deviceService.ChangeDeviceName(request.DeviceId, request.Name, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpPost("ChangeDeviceRoom")]
     public async Task<IActionResult> ChangeDeviceRoom([FromBody] ChangeDeviceRoomRequest request)
     {
-        await _deviceManagementService.ChangeDeviceRoom(new()
-        {
-            DeviceId = request.DeviceId,
-            RoomId = request.RoomId
-        });
+        await _deviceService.ChangeDeviceRoom(request.DeviceId, request.RoomId, _userAccessor.UserId);
         return Ok();
     }
 
@@ -65,54 +47,35 @@ public class DeviceController : ControllerBase
     [HttpPost("GetDevices")]
     public async Task<IActionResult> GetDevices([FromBody] GetDevicesRequest request)
     {
-        var devices = await _deviceManagementService.GetDevices(new()
-        {
-            RoomId = request.RoomId ?? default!,
-            UserId = _userAccessor.UserId
-        });
-
-        return Ok(devices.Devices);
+        var devices = await _deviceService.GetDevices(request.RoomId, _userAccessor.UserId);
+        return Ok(devices);
     }
 
     [HttpPost("GetDevicesForScheduling")]
     public async Task<IActionResult> GetDevicesForScheduling()
     {
-        var devices = await _devicesForSchedulingAccessor.Get(_userAccessor.UserId);
-
+        var devices = await _deviceService.GetDevicesForScheduling(_userAccessor.UserId);
         return Ok(devices);
     }
 
     [HttpPost("RemoveDevice")]
     public async Task<IActionResult> RemoveDevice([FromBody] RemoveDeviceRequest request)
     {
-        await _deviceManagementService.RemoveDevice(new()
-        {
-            DeviceId = request.DeviceId
-        });
-
+        await _deviceService.RemoveDevice(request.DeviceId, _userAccessor.UserId);
         return Ok();
     }
 
     [HttpPost("GetDeviceData")]
     public async Task<IActionResult> GetDeviceData([FromBody] GetDeviceDataRequest request)
     {
-        var data = await _deviceDataService.GetDeviceData(new()
-        {
-            DeviceId = request.DeviceId
-        });
-
-        return Ok(data.DeviceData);
+        var data = await _deviceService.GetDeviceData(request.DeviceId, _userAccessor.UserId);
+        return Ok(data);
     }
 
     [HttpPost("SetDeviceData")]
     public async Task<IActionResult> SetDeviceData([FromBody] SetDeviceDataRequest request)
     {
-        await _deviceDataService.SetDeviceData(new()
-        {
-            DeviceId = request.DeviceId,
-            Data = request.Data
-        });
-
+        await _deviceService.SetDeviceData(request.DeviceId, request.Data, _userAccessor.UserId);
         return Ok();
     }
 }

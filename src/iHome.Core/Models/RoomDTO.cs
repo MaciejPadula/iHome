@@ -8,14 +8,11 @@ namespace iHome.Core.Models
         public string Name { get; set; }
         public User User { get; set; }
 
-        public RoomDTO(RoomModel room)
+        public RoomDTO(RoomModel room, User user)
         {
             Id = room.Id;
             Name = room.Name;
-            User = new User
-            {
-                Id = room.UserId
-            };
+            User = user;
         }
     }
 }

@@ -33,6 +33,12 @@ export class TimeHelper {
     return this.getDateFromTime(parseInt(date[0]), parseInt(date[1]));
   }
 
+  public getUtcDateStringFromLocalTimeString(timeString: string) {
+    const date = this.getDateFromTimeString(timeString);
+
+    return this.timeFormatPipe(date.getUTCHours(), date.getUTCMinutes());
+  }
+
   private formatSegment(segment: number){
     const segmentString = segment.toFixed(0);
     return segmentString.length < 2 ? `0${segmentString}` : segmentString;

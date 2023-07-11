@@ -7,7 +7,7 @@ public interface IQueueFullAccess<T> : IQueueReader<T>, IQueueWriter<T>
 {
 }
 
-public class QueueFullAccess<T> : IQueueFullAccess<T>
+internal class QueueFullAccess<T> : IQueueFullAccess<T>
 {
     private readonly IQueueReader<T> _reader;
     private readonly IQueueWriter<T> _writer;
