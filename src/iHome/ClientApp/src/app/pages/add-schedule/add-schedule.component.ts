@@ -51,7 +51,9 @@ export class AddScheduleComponent {
 
   public addSchedule() {
     const name = this.addScheduleStepperFirstFormGroup.value.scheduleName;
-    const dateString = this.addScheduleStepperSecondFormGroup.value.scheduleTime;
+    const dateString = this._timeHelper.getUtcDateStringFromLocalTimeString(
+      this.addScheduleStepperSecondFormGroup.value.scheduleTime ?? '0:0'
+    );
 
     if(!name || !dateString) return;
 

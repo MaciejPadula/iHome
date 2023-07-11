@@ -66,7 +66,9 @@ export class ScheduleComponent implements OnInit {
   }
 
   public hourChanged(event: string) {
-    this._schedulesService.updateSchedule(this.scheduleId, event)
+    const dateString = this._timeHelper.getUtcDateStringFromLocalTimeString(event);
+
+    this._schedulesService.updateSchedule(this.scheduleId, dateString)
       .subscribe(() => this._refreshService.refresh());
   }
 
