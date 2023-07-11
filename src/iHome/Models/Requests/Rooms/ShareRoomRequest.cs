@@ -1,4 +1,4 @@
-﻿namespace iHome.Models.Requests;
+﻿namespace iHome.Models.Requests.Rooms;
 
 public class ShareRoomRequest
 {

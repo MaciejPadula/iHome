@@ -51,13 +51,13 @@ export class AddScheduleComponent {
 
   public addSchedule() {
     const name = this.addScheduleStepperFirstFormGroup.value.scheduleName;
-    const dateString = this.addScheduleStepperSecondFormGroup.value.scheduleTime;
+    const dateString = this._timeHelper.getUtcDateStringFromLocalTimeString(
+      this.addScheduleStepperSecondFormGroup.value.scheduleTime ?? '0:0'
+    );
 
     if(!name || !dateString) return;
 
-    const date = this._timeHelper.getDateFromTimeString(dateString);
-
-    this._schedulesService.addSchedule(name, date.getUTCHours(), date.getUTCMinutes())
+    this._schedulesService.addSchedule(name, dateString)
         .subscribe(() => this._router.navigate(['/schedules']));
   }
 

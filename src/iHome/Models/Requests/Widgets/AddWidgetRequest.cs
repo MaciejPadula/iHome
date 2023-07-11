@@ -1,6 +1,6 @@
 ﻿using iHome.Microservices.Widgets.Contract.Models;
 
-namespace iHome.Models.Requests;
+namespace iHome.Models.Requests.Widgets;
 
 public class AddWidgetRequest
 {

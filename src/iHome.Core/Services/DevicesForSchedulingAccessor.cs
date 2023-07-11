@@ -15,7 +15,9 @@ public class DevicesForSchedulingAccessor : IDevicesForSchedulingAccessor
     private readonly IScheduleDeviceManagementService _scheduleDeviceManagementService;
     private readonly IDeviceDataService _deviceDataService;
 
-    public DevicesForSchedulingAccessor(IDeviceManagementService deviceManagementService, IDeviceDataService deviceDataService, IScheduleDeviceManagementService scheduleDeviceManagementService)
+    public DevicesForSchedulingAccessor(IDeviceManagementService deviceManagementService,
+        IDeviceDataService deviceDataService,
+        IScheduleDeviceManagementService scheduleDeviceManagementService)
     {
         _deviceManagementService = deviceManagementService;
         _deviceDataService = deviceDataService;
