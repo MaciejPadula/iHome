@@ -1,6 +1,7 @@
 using iHome;
 using iHome.Core.Helpers;
 using iHome.Logic;
+using iHome.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -57,6 +58,8 @@ builder.Services
 
 
 var app = builder.Build();
+
+app.UseMiddleware<UnauthorizedMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

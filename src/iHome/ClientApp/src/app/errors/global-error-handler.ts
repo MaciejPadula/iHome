@@ -18,7 +18,11 @@ export class GlobalErrorHandler implements ErrorHandler {
       error = error.rejection;
     }
     this._zone.run(() => {
-      // this._snackBar.open(error?.message || 'Undefined client error');
+      if(error?.status == 401) {
+        this._snackBar.open(error?.error || 'Undefined unauthorized error');
+        return;
+      }
+
       this._dialog.open(ErrorDialogComponent, {
         data: {
           message: error?.message ?? 'Undefined client error',

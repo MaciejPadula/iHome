@@ -1,4 +1,5 @@
-﻿using iHome.Microservices.Devices.Contract;
+﻿using iHome.Microservices.Authorization.Contract;
+using iHome.Microservices.Devices.Contract;
 using iHome.Microservices.OpenAI.Contract;
 using iHome.Microservices.RoomsManagement.Contract;
 using iHome.Microservices.Schedules.Contract;
@@ -30,6 +31,11 @@ public static class DependencyInjectionExtensions
 
         services.AddMicroserviceClient<IScheduleDeviceManagementService>();
         services.AddMicroserviceClient<IScheduleManagementService>();
+
+        services.AddMicroserviceClient<IRoomAuthService>();
+        services.AddMicroserviceClient<IDeviceAuthService>();
+        services.AddMicroserviceClient<IWidgetAuthService>();
+        services.AddMicroserviceClient<IScheduleAuthService>();
 
         return services;
     }

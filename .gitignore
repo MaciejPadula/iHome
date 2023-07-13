@@ -179,3 +179,13 @@ src/Jobs/iHome.Jobs.Events/Nuget
 *.user
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler.Tests/bin
 src/Jobs/iHome.Jobs.Events/iHome.Jobs.Events.Scheduler.Tests/obj
+src/Microservices/Authorization/.vs
+src/Microservices/Authorization/iHome.Microservices.Authorization.Infrastructure/obj
+src/Microservices/Authorization/iHome.Microservices.Authorization.Infrastructure/bin
+src/Microservices/Authorization/iHome.Microservices.Authorization.Contract/obj
+src/Microservices/Authorization/iHome.Microservices.Authorization.Contract/bin
+src/Microservices/Authorization/iHome.Microservices.Authorization/obj
+src/Microservices/Authorization/iHome.Microservices.Authorization/.vs
+src/Microservices/Authorization/iHome.Microservices.Authorization/Properties
+src/Microservices/Authorization/iHome.Microservices.Authorization/appsettings.Development.json
+src/Microservices/Authorization/iHome.Microservices.Authorization/bin
