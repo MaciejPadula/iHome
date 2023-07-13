@@ -27,13 +27,11 @@ VALUES
     {
         using var conn = GetDbConnection();
 
-        var result = await conn.QueryAsync<Guid>(@$"
+        return await conn.QueryAsync<Guid>(@$"
 SELECT DeviceId
 FROM [maciejadmin].[WidgetsDevices]
 WHERE WidgetId = @WidgetId
 ", new { WidgetId = widgetId });
-
-        return result;
     }
 
     public async Task Remove(Guid widgetId, Guid deviceId)
