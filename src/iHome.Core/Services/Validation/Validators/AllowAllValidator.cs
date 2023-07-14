@@ -6,8 +6,8 @@ namespace iHome.Core.Services.Validation.Validators
     {
         public bool IsMatched(ValidatorType type) => false;
 
-        public Task Validate(Guid id, string userId, Task action) => action;
+        public Task Validate(Guid id, string userId, Func<Task> action) => action();
 
-        public Task<T> Validate<T>(Guid id, string userId, Task<T> action) => action;
+        public Task<T> Validate<T>(Guid id, string userId, Func<Task<T>> action) => action();
     }
 }

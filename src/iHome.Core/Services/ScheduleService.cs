@@ -48,7 +48,7 @@ public class ScheduleService : IScheduleService
             DeviceData = deviceData
         };
 
-        await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, _scheduleDeviceManagementService.AddOrUpdateDeviceSchedule(request));
+        await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, () => _scheduleDeviceManagementService.AddOrUpdateDeviceSchedule(request));
     }
 
     public async Task AddSchedule(string scheduleName, int scheduleDay, string scheduleTime, string userId)
@@ -72,7 +72,7 @@ public class ScheduleService : IScheduleService
             ScheduleId = scheduleId
         };
 
-        var schedule = await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, _scheduleManagementService.GetSchedule(request));
+        var schedule = await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, () => _scheduleManagementService.GetSchedule(request));
 
         return schedule?
             .Schedule ?? throw new Exception();
@@ -85,7 +85,7 @@ public class ScheduleService : IScheduleService
             ScheduleId = scheduleId
         };
 
-        var scheduleDevices = await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, _scheduleDeviceManagementService.GetScheduleDevices(request));
+        var scheduleDevices = await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, () => _scheduleDeviceManagementService.GetScheduleDevices(request));
 
         return scheduleDevices?
             .ScheduleDevices?
@@ -113,7 +113,7 @@ public class ScheduleService : IScheduleService
             ScheduleId = scheduleId
         };
 
-        await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, _scheduleManagementService.RemoveSchedule(request));
+        await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, () => _scheduleManagementService.RemoveSchedule(request));
     }
 
     public async Task UpdateScheduleTime(Guid scheduleId, int scheduleDay, string scheduleTime, string userId)
@@ -131,6 +131,6 @@ public class ScheduleService : IScheduleService
             });
         });
 
-        await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, task);
+        await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, () => task);
     }
 }

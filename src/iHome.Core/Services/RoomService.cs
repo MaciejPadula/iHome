@@ -74,7 +74,7 @@ public class RoomService : IRoomService
             UserId = userId
         };
 
-        var userIds = await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, _roomSharingService.GetRoomUserIds(request));
+        var userIds = await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, () => _roomSharingService.GetRoomUserIds(request));
 
         var users = new List<User>();
 
@@ -99,7 +99,7 @@ public class RoomService : IRoomService
             UserId = userId
         };
 
-        await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, _roomManagementService.RemoveRoom(request));
+        await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, () => _roomManagementService.RemoveRoom(request));
     }
 
     public async Task ShareRoom(Guid roomId, string userId, string callerId)
@@ -111,7 +111,7 @@ public class RoomService : IRoomService
             SubjectUserId = userId
         };
 
-        await _validationService.Validate(roomId, callerId, ValidatorType.RoomWrite, _roomSharingService.ShareRoomToUser(request));
+        await _validationService.Validate(roomId, callerId, ValidatorType.RoomWrite, () => _roomSharingService.ShareRoomToUser(request));
     }
 
     public async Task UnshareRoom(Guid roomId, string userId, string callerId)
@@ -123,6 +123,6 @@ public class RoomService : IRoomService
             SubjectUserId = userId
         };
 
-        await _validationService.Validate(roomId, callerId, ValidatorType.RoomWrite, _roomSharingService.UnshareRoomFromUser(request));
+        await _validationService.Validate(roomId, callerId, ValidatorType.RoomWrite, () => _roomSharingService.UnshareRoomFromUser(request));
     }
 }

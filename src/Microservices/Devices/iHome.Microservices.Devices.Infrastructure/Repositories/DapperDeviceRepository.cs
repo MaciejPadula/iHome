@@ -105,10 +105,10 @@ SELECT
     d.Type as {nameof(DeviceModel.Type)},
     d.MacAddress as {nameof(DeviceModel.MacAddress)},
     d.RoomId as {nameof(DeviceModel.RoomId)}
-FROM [maciejadmin].[Devices] d
-INNER JOIN [maciejadmin].[Rooms] r
-ON  d.RoomId = r.Id
-WHERE r.UserId = @UserId AND d.Id IN @DeviceIds
+FROM ([maciejadmin].[Devices] d
+INNER JOIN [maciejadmin].[Rooms] r ON  d.RoomId = r.Id)
+INNER JOIN [maciejadmin].[UsersRooms] ur ON r.Id = ur.RoomId
+WHERE (r.UserId = @UserId or ur.UserId = @UserId) AND d.Id IN @DeviceIds
 ", new { UserId = userId, DeviceIds = deviceIds }) ?? Enumerable.Empty<DeviceModel>();
     }
 
