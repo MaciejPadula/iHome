@@ -59,7 +59,14 @@ export class RgbLampComponent implements OnInit {
     this._refreshService.refreshDevice(this.device.id);
   }
 
-  public updateDeviceData(currentData: RgbLampData){
+  public toggleLamp(currentData: RgbLampData) {
+    this.updateDeviceData({
+      ...currentData,
+      state: this.stateControl.value ?? false
+    });
+  }
+
+  private updateDeviceData(currentData: RgbLampData){
     const json = JSON.stringify(currentData);
 
     this._deviceService.setDeviceData(this.device.id, json)
