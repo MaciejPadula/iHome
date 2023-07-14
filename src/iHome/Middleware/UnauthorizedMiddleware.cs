@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace iHome.Middleware;
+﻿namespace iHome.Middleware;
 
 public class UnauthorizedMiddleware
 {
