@@ -5,8 +5,8 @@ namespace iHome.Core.Services.Validation;
 
 public interface IValidationService
 {
-    Task<T> Validate<T>(Guid id, string userId, ValidatorType validatorType, Task<T> action);
-    Task Validate(Guid id, string userId, ValidatorType validatorType, Task action);
+    Task<T> Validate<T>(Guid id, string userId, ValidatorType validatorType, Func<Task<T>> action);
+    Task Validate(Guid id, string userId, ValidatorType validatorType, Func<Task> action);
 }
 
 public class ValidationService : IValidationService
@@ -20,13 +20,13 @@ public class ValidationService : IValidationService
         _allowAllValidator = new AllowAllValidator();
     }
 
-    public Task<T> Validate<T>(Guid id, string userId, ValidatorType validatorType, Task<T> action)
+    public Task<T> Validate<T>(Guid id, string userId, ValidatorType validatorType, Func<Task<T>> action)
     {
         var validator = TryGetValidator(validatorType);
         return validator.Validate(id, userId, action);
     }
 
-    public Task Validate(Guid id, string userId, ValidatorType validatorType, Task action)
+    public Task Validate(Guid id, string userId, ValidatorType validatorType, Func<Task> action)
     {
         var validator = TryGetValidator(validatorType);
         return validator.Validate(id, userId, action);

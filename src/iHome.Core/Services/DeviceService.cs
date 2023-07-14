@@ -48,7 +48,7 @@ public class DeviceService : IDeviceService
             RoomId = roomId
         };
 
-        await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, _deviceManagementService.AddDevice(request));
+        await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, () => _deviceManagementService.AddDevice(request));
     }
 
     public async Task ChangeDeviceName(Guid deviceId, string name, string userId)
@@ -59,7 +59,7 @@ public class DeviceService : IDeviceService
             NewName = name
         };
 
-        await _validationService.Validate(deviceId, userId, ValidatorType.DeviceWrite, _deviceManagementService.RenameDevice(request));
+        await _validationService.Validate(deviceId, userId, ValidatorType.DeviceWrite, () => _deviceManagementService.RenameDevice(request));
     }
 
     public async Task ChangeDeviceRoom(Guid deviceId, Guid roomId, string userId)
@@ -70,7 +70,7 @@ public class DeviceService : IDeviceService
             DeviceId = deviceId
         };
 
-        await _validationService.Validate(deviceId, userId, ValidatorType.DeviceWrite, _deviceManagementService.ChangeDeviceRoom(request));
+        await _validationService.Validate(deviceId, userId, ValidatorType.DeviceWrite, () => _deviceManagementService.ChangeDeviceRoom(request));
     }
 
     public async Task<string> GetDeviceData(Guid deviceId, string userId)
@@ -80,7 +80,7 @@ public class DeviceService : IDeviceService
             DeviceId = deviceId
         };
 
-        var data = await _validationService.Validate(deviceId, userId, ValidatorType.DeviceRead, _deviceDataService.GetDeviceData(request));
+        var data = await _validationService.Validate(deviceId, userId, ValidatorType.DeviceRead, () => _deviceDataService.GetDeviceData(request));
 
         return data?.DeviceData ?? "{}"; 
     }
@@ -89,7 +89,7 @@ public class DeviceService : IDeviceService
     {
         if (roomId.HasValue)
         {
-            await _validationService.Validate(roomId.Value, userId, ValidatorType.RoomRead, Task.CompletedTask);
+            await _validationService.Validate(roomId.Value, userId, ValidatorType.RoomRead, () => Task.CompletedTask);
         }
 
         var request = new GetDevicesRequest
@@ -116,7 +116,7 @@ public class DeviceService : IDeviceService
             DeviceId = deviceId
         };
 
-        await _validationService.Validate(deviceId, userId, ValidatorType.DeviceWrite, _deviceManagementService.RemoveDevice(request));
+        await _validationService.Validate(deviceId, userId, ValidatorType.DeviceWrite, () => _deviceManagementService.RemoveDevice(request));
     }
 
     public async Task SetDeviceData(Guid deviceId, string deviceData, string userId)
@@ -127,6 +127,6 @@ public class DeviceService : IDeviceService
             Data = deviceData
         };
 
-        await _validationService.Validate(deviceId, userId, ValidatorType.DeviceWrite, _deviceDataService.SetDeviceData(request));
+        await _validationService.Validate(deviceId, userId, ValidatorType.DeviceWrite, () => _deviceDataService.SetDeviceData(request));
     }
 }

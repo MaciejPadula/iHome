@@ -48,7 +48,7 @@ public class WidgetService : IWidgetService
             UserId = userId
         };
 
-        await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, _widgetManagementService.AddWidget(request));
+        await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, () => _widgetManagementService.AddWidget(request));
     }
 
     public async Task<List<DeviceModel>> GetWidgetDevices(Guid widgetId, string userId)
@@ -59,7 +59,7 @@ public class WidgetService : IWidgetService
             UserId = userId
         };
 
-        var response = await _validationService.Validate(widgetId, userId, ValidatorType.WidgetRead, _widgetDeviceManagementService.GetWidgetDevicesIds(request));
+        var response = await _validationService.Validate(widgetId, userId, ValidatorType.WidgetRead, () => _widgetDeviceManagementService.GetWidgetDevicesIds(request));
 
         var devices = await _deviceManagementService.GetDevicesByIds(new()
         {
@@ -78,7 +78,7 @@ public class WidgetService : IWidgetService
             UserId = userId
         };
 
-        var widgets = await _validationService.Validate(roomId, userId, ValidatorType.RoomRead, _widgetManagementService.GetWidgets(request));
+        var widgets = await _validationService.Validate(roomId, userId, ValidatorType.RoomRead, () => _widgetManagementService.GetWidgets(request));
 
         return widgets?.Widgets?.ToList() ?? Enumerable.Empty<WidgetModel>().ToList();
     }
@@ -92,7 +92,7 @@ public class WidgetService : IWidgetService
             UserId = userId
         };
 
-        await _validationService.Validate(widgetId, userId, ValidatorType.WidgetWrite, _widgetDeviceManagementService.InsertDevice(request));
+        await _validationService.Validate(widgetId, userId, ValidatorType.WidgetWrite, () => _widgetDeviceManagementService.InsertDevice(request));
     }
 
     public async Task Remove(Guid widgetId, string userId)
@@ -103,7 +103,7 @@ public class WidgetService : IWidgetService
             UserId = userId
         };
 
-        await _validationService.Validate(widgetId, userId, ValidatorType.WidgetWrite, _widgetManagementService.RemoveWidget(request));
+        await _validationService.Validate(widgetId, userId, ValidatorType.WidgetWrite, () => _widgetManagementService.RemoveWidget(request));
     }
 
     public async Task RemoveDevice(Guid deviceId, Guid widgetId, string userId)
@@ -115,6 +115,6 @@ public class WidgetService : IWidgetService
             UserId = userId
         };
 
-        await _validationService.Validate(widgetId, userId, ValidatorType.WidgetWrite, _widgetDeviceManagementService.RemoveDevice(request));
+        await _validationService.Validate(widgetId, userId, ValidatorType.WidgetWrite, () => _widgetDeviceManagementService.RemoveDevice(request));
     }
 }
