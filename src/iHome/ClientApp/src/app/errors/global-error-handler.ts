@@ -14,6 +14,8 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   handleError(error: any) {
     // Check if it's an error from an HTTP response
+    if(!error) return;
+
     if (!(error instanceof HttpErrorResponse)) {
       error = error.rejection;
     }

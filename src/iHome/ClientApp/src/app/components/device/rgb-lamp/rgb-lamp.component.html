@@ -1,7 +1,7 @@
 <div class="flex flex-col items-center justify-center w-full">
     <div class="flex flex-col items-center justify-center w-full" *ngIf="data$ | async as rgbData; else loading">
         <button class="w-10 aspect-square" mat-button [style]="'background-color:' + getColorHex(rgbData)" (click)="composeDialog(rgbData)"></button>
-        <mat-slide-toggle [formControl]="stateControl" (change)="updateDeviceData(rgbData)">{{stateControl.value ? 'Enabled' : 'Disabled'}}</mat-slide-toggle>
+        <mat-slide-toggle [formControl]="stateControl" (change)="toggleLamp(rgbData)">{{stateControl.value ? 'Enabled' : 'Disabled'}}</mat-slide-toggle>
     </div>
     <ng-template #loading>
         <mat-spinner mode="indeterminate" diameter="50"></mat-spinner>
