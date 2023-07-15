@@ -10,6 +10,8 @@ public static class DependencyInjectionExtensions
     {
         services.AddScoped<IDeviceRepository, DapperDeviceRepository>();
         services.AddScoped<IDeviceDataRepository, FirebaseDeviceDataRepository>();
+        services.AddScoped<FirebaseDeviceDataRepository>();
+        services.AddScoped<IDeviceDataRepository, FirestoreDeviceDataRepository>();
 
         return services;
     }

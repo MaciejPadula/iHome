@@ -1,40 +1,30 @@
-﻿using iHome.Core.Repositories.Devices;
-using iHome.Microservices.Devices.Contract;
+﻿using iHome.Microservices.Devices.Contract;
 using iHome.Microservices.Devices.Contract.Models.Request;
 using iHome.Microservices.Devices.Contract.Models.Response;
-using iHome.Microservices.Devices.Infrastructure.Repositories;
+using iHome.Microservices.Devices.Handlers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.Devices.Controllers
 {
     public class DeviceDataController : ControllerBase, IDeviceDataService
     {
-        private readonly IDeviceRepository _deviceRepository;
-        private readonly IDeviceDataRepository _deviceDataRepository;
+        private readonly IDeviceDataHandler _deviceDataHandler;
 
-        public DeviceDataController(IDeviceRepository deviceRepository, IDeviceDataRepository deviceDataRepository)
+        public DeviceDataController(IDeviceDataHandler deviceDataHandler)
         {
-            _deviceRepository = deviceRepository;
-            _deviceDataRepository = deviceDataRepository;
+            _deviceDataHandler = deviceDataHandler;
         }
 
         [HttpPost]
         public async Task<GetDeviceDataResponse> GetDeviceData([FromBody] GetDeviceDataRequest request)
         {
-            var device = await _deviceRepository.GetByDeviceId(request.DeviceId) ?? throw new Exception();
-
-            return new() 
-            {
-                DeviceData = await _deviceDataRepository.GetDeviceData(device.MacAddress)
-            };
+            return await _deviceDataHandler.GetDeviceData(request);
         }
 
         [HttpPost]
         public async Task SetDeviceData([FromBody] SetDeviceDataRequest request)
         {
-            var device = await _deviceRepository.GetByDeviceId(request.DeviceId) ?? throw new Exception();
-
-            await _deviceDataRepository.SetDeviceData(device.MacAddress, request.Data);
+            await _deviceDataHandler.SetDeviceData(request);
         }
     }
 }
