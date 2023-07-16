@@ -1,4 +1,6 @@
 ﻿using iHome.Core.Repositories.Devices;
+using iHome.Infrastructure.Firestore.Serializers;
+using iHome.Microservices.Devices.Infrastructure.Models;
 using iHome.Microservices.Devices.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +12,6 @@ public static class DependencyInjectionExtensions
     {
         services.AddScoped<IDeviceRepository, DapperDeviceRepository>();
         services.AddScoped<IDeviceDataRepository, FirebaseDeviceDataRepository>();
-        services.AddScoped<FirebaseDeviceDataRepository>();
         services.AddScoped<IDeviceDataRepository, FirestoreDeviceDataRepository>();
 
         return services;

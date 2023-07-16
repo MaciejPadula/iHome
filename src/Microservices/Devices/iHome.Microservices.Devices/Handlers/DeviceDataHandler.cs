@@ -8,14 +8,12 @@ namespace iHome.Microservices.Devices.Handlers;
 public class DeviceDataHandler : IDeviceDataHandler
 {
     private readonly IDeviceRepository _deviceRepository;
-    private readonly FirebaseDeviceDataRepository _firebaseDeviceDataRepository;
     private readonly IEnumerable<IDeviceDataRepository> _deviceDataRepositories;
 
-    public DeviceDataHandler(IEnumerable<IDeviceDataRepository> deviceDataRepositories, IDeviceRepository deviceRepository, FirebaseDeviceDataRepository firebaseDeviceDataRepository)
+    public DeviceDataHandler(IEnumerable<IDeviceDataRepository> deviceDataRepositories, IDeviceRepository deviceRepository)
     {
         _deviceDataRepositories = deviceDataRepositories;
         _deviceRepository = deviceRepository;
-        _firebaseDeviceDataRepository = firebaseDeviceDataRepository;
     }
 
     public async Task<GetDeviceDataResponse> GetDeviceData(GetDeviceDataRequest request)
@@ -23,10 +21,18 @@ public class DeviceDataHandler : IDeviceDataHandler
         var device = await _deviceRepository.GetByDeviceId(request.DeviceId)
             ?? throw new Exception();
 
+        var tasks = _deviceDataRepositories.Select(repo => repo.GetDeviceData(device.MacAddress)).ToList();
+
+        await Task.WhenAll(tasks);
+
+        var result = tasks
+            .Select(t => t.Result)
+            .Where(r => !string.IsNullOrEmpty(r))
+            .First();
+
         return new()
         {
-            DeviceData = await _firebaseDeviceDataRepository.GetDeviceData(
-                device.MacAddress)
+            DeviceData = result
         };
     }
 
