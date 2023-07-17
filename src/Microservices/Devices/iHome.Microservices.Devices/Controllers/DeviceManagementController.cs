@@ -3,6 +3,7 @@ using iHome.Microservices.Devices.Contract;
 using iHome.Microservices.Devices.Contract.Models;
 using iHome.Microservices.Devices.Contract.Models.Request;
 using iHome.Microservices.Devices.Contract.Models.Response;
+using iHome.Microservices.Devices.Handlers;
 using iHome.Microservices.Devices.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,12 @@ namespace iHome.Microservices.Devices.Controllers
     public class DeviceManagementController : ControllerBase, IDeviceManagementService
     {
         private readonly IDeviceRepository _deviceRepository;
-        private readonly IDeviceDataRepository _deviceDataRepository;
+        private readonly IDeviceDataHandler _deviceDataHandler;
 
-        public DeviceManagementController(IDeviceRepository deviceRepository, IDeviceDataRepository deviceDataRepository)
+        public DeviceManagementController(IDeviceRepository deviceRepository, IDeviceDataHandler deviceDataHandler)
         {
             _deviceRepository = deviceRepository;
-            _deviceDataRepository = deviceDataRepository;
+            _deviceDataHandler = deviceDataHandler;
         }
 
         [HttpPost]
@@ -60,7 +61,8 @@ namespace iHome.Microservices.Devices.Controllers
 
             foreach(var d in devices)
             {
-                d.Data = await _deviceDataRepository.GetDeviceData(d.MacAddress);
+                var data = await _deviceDataHandler.GetDeviceData(new() { DeviceId = d.Id });
+                d.Data = data.DeviceData;
             }
 
             return new()

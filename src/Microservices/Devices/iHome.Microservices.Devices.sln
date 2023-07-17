@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Microservices.Devices", "iHome.Microservices.Devices\iHome.Microservices.Devices.csproj", "{A8C28ABC-AECB-414A-8ADF-4FF82FAAA98A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.Devices", "iHome.Microservices.Devices\iHome.Microservices.Devices.csproj", "{A8C28ABC-AECB-414A-8ADF-4FF82FAAA98A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Microservices.Devices.Contract", "iHome.Microservices.Devices.Contract\iHome.Microservices.Devices.Contract.csproj", "{FFDBC816-FE6B-4393-85A2-4157E550710B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.Devices.Contract", "iHome.Microservices.Devices.Contract\iHome.Microservices.Devices.Contract.csproj", "{FFDBC816-FE6B-4393-85A2-4157E550710B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Microservices.Devices.Infrastructure", "iHome.Microservices.Devices.Infrastructure\iHome.Microservices.Devices.Infrastructure.csproj", "{48EAE901-33B6-48FA-807F-8D1EF243F900}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.Devices.Infrastructure", "iHome.Microservices.Devices.Infrastructure\iHome.Microservices.Devices.Infrastructure.csproj", "{48EAE901-33B6-48FA-807F-8D1EF243F900}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

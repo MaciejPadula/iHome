@@ -189,3 +189,7 @@ src/Microservices/Authorization/iHome.Microservices.Authorization/.vs
 src/Microservices/Authorization/iHome.Microservices.Authorization/Properties
 src/Microservices/Authorization/iHome.Microservices.Authorization/appsettings.Development.json
 src/Microservices/Authorization/iHome.Microservices.Authorization/bin
+src/Microservices/Devices/iHome.Infrastructure.Firestore/bin
+src/Microservices/Devices/iHome.Infrastructure.Firestore/obj
+src/iHome.Infrastructure.Firestore/bin
+src/iHome.Infrastructure.Firestore/obj
