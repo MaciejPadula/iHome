@@ -1,19 +1,16 @@
-﻿using iHome.Infrastructure.Firestore.Serializers;
-using iHome.Microservices.Devices.Infrastructure.Logic;
+﻿using iHome.Microservices.Devices.Infrastructure.Logic;
 
 namespace iHome.Microservices.Devices.Infrastructure.Repositories;
 
 public class FirestoreDeviceDataRepository : IDeviceDataRepository
 {
     private readonly IFirestoreConnectionFactory _connectionFactory;
-    private readonly IMessageSerializer _messageSerializer;
 
     private const string CollectionPath = "devices";
 
-    public FirestoreDeviceDataRepository(IFirestoreConnectionFactory connectionFactory, IMessageSerializer messageSerializer)
+    public FirestoreDeviceDataRepository(IFirestoreConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
-        _messageSerializer = messageSerializer;
     }
 
     public async Task<string> GetDeviceData(string macAddess)
