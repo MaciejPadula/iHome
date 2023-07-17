@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.Devices
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.Devices.Infrastructure", "iHome.Microservices.Devices.Infrastructure\iHome.Microservices.Devices.Infrastructure.csproj", "{48EAE901-33B6-48FA-807F-8D1EF243F900}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Infrastructure.Firestore", "iHome.Infrastructure.Firestore\iHome.Infrastructure.Firestore.csproj", "{D639E0E4-76A8-4391-8D12-045A71A78FDF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{48EAE901-33B6-48FA-807F-8D1EF243F900}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48EAE901-33B6-48FA-807F-8D1EF243F900}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48EAE901-33B6-48FA-807F-8D1EF243F900}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D639E0E4-76A8-4391-8D12-045A71A78FDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D639E0E4-76A8-4391-8D12-045A71A78FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D639E0E4-76A8-4391-8D12-045A71A78FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D639E0E4-76A8-4391-8D12-045A71A78FDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
