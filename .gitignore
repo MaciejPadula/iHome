@@ -193,3 +193,4 @@ src/Microservices/Devices/iHome.Infrastructure.Firestore/bin
 src/Microservices/Devices/iHome.Infrastructure.Firestore/obj
 src/iHome.Infrastructure.Firestore/bin
 src/iHome.Infrastructure.Firestore/obj
+src/iHome/SvelteClient/src/data-access/auth-config.ts
