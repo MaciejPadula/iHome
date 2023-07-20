@@ -20,7 +20,6 @@ import { DeviceComponent } from './components/device/device.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { IndexComponent } from './pages/index/index.component';
 import { WidgetComponent } from './components/widget/widget.component';
-import { AddRoomDialogComponent } from './components/add-room-dialog/add-room-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule }from '@angular/material/input';
@@ -57,6 +56,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
 import { DragDevicesListComponent } from './components/drag-devices-list/drag-devices-list.component';
 import { Auth0AccessGuard } from './guards/auth0-access.guard';
+import { AddRoomComponent } from './pages/add-room/add-room.component';
 
 
 @NgModule({
@@ -69,7 +69,6 @@ import { Auth0AccessGuard } from './guards/auth0-access.guard';
     DeviceComponent,
     IndexComponent,
     WidgetComponent,
-    AddRoomDialogComponent,
     AddWidgetDialogComponent,
     RenameRoomDialogComponent,
     ThermometerComponent,
@@ -84,7 +83,8 @@ import { Auth0AccessGuard } from './guards/auth0-access.guard';
     ConfirmDialogComponent,
     DevicePreviewComponent,
     AddScheduleComponent,
-    DragDevicesListComponent
+    DragDevicesListComponent,
+    AddRoomComponent
   ],
   imports: [
     BrowserModule,

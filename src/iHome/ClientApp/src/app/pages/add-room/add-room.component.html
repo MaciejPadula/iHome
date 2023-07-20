@@ -1,0 +1,25 @@
+<mat-vertical-stepper [linear]="true" #stepper>
+
+  <mat-step [stepControl]="addRoomStepperFirstFormGroup" [editable]="true">
+    <form [formGroup]="addRoomStepperFirstFormGroup">
+      <ng-template matStepLabel>Fill out room name</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Room name</mat-label>
+        <input matInput formControlName="roomName" placeholder="Apartment's kitchen" required>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button matStepperNext [color]="addRoomStepperFirstFormGroup.valid ? 'primary': ''">Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" (click)="addRoom()">Save</button>
+    </div>
+  </mat-step>
+
+</mat-vertical-stepper>

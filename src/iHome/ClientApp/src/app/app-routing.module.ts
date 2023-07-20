@@ -6,6 +6,7 @@ import { SchedulesComponent } from './pages/schedules/schedules.component';
 import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
 import { RoomComponent } from './components/room/room.component';
 import { Auth0AccessGuard } from './guards/auth0-access.guard';
+import { AddRoomComponent } from './pages/add-room/add-room.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,12 @@ const routes: Routes = [
     component: RoomComponent,
     canActivate: [Auth0AccessGuard],
     data: { animation: 'RoomPage' }
+  },
+  {
+    path: 'add-room',
+    component: AddRoomComponent,
+    canActivate: [Auth0AccessGuard],
+    data: { animation: 'AddRoomPage' }
   },
   {
     path: 'schedules',
