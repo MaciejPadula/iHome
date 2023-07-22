@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { Button } from "flowbite-svelte";
-  import { Card } from "flowbite-svelte";
-  import type { Room } from "../models/room";
+  import { Button, Chevron, Dropdown, DropdownItem } from "flowbite-svelte";
+    import type { RoomModel } from "../models/room";
 
-  export let room: Room;
-  export let urlGenerator: VoidFunction<string>;
+  export let room: RoomModel;
+  export let urlGenerator: Function;
 </script>
 
 <div class="p-4 w-full flex flex-row justify-between text-black dark:text-white">
@@ -18,9 +17,13 @@
     </div>
   </a>
   
-  <Button class="!p-2">
-    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-    </svg>
+  <Button id="room-{room.id}-menu">
+    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"/>
+  </svg>
   </Button>
+  <Dropdown triggeredBy="#room-{room.id}-menu">
+    <DropdownItem>Share</DropdownItem>
+    <DropdownItem>Remove</DropdownItem>
+  </Dropdown>
 </div>

@@ -1,18 +1,4 @@
-<script lang="ts">
-  import { onMount } from "svelte";
-  import auth from "../data-access/auth-service";
-  import { user } from "../data-access/store";
-
-	onMount(async () => {
-		await auth.loadUser();
-	});
-
-	async function login() {
-		await auth.loginWithRedirect();
-		await auth.loadUser();
-	}
-
-	user.subscribe(us => console.log(us));
+<script lang="ts">	
 </script>
 
 <svelte:head>
@@ -21,7 +7,7 @@
 </svelte:head>
 
 <section>
-	<button on:click={login}>Login</button>
+	
 </section>
 
 <style>

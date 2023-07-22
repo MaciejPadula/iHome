@@ -1,50 +1,51 @@
-import { Auth0Client, createAuth0Client, type Auth0ClientOptions } from "@auth0/auth0-spa-js";
-import AuthConfig from "./auth-config";
+import { createAuth0Client, Auth0Client } from "@auth0/auth0-spa-js";
 import { isAuthenticated, user } from "./store";
+// import { AuthConfig } from "./auth-config";
 
 async function createClient() {
-  const options: Auth0ClientOptions = {
-    domain: AuthConfig.domain,
-    clientId: AuthConfig.clientId,
+  return await createAuth0Client({
+    domain: 'dev-e7eyj4xg.eu.auth0.com',
+    clientId: 'eFHpoMFFdC7GXIfi9xe6VrZ5Z07xKl11',
     authorizationParams: {
-      audience: AuthConfig.audience,
-      scope: AuthConfig.scope,
+      audience: 'https://localhost:32678/api',
+      scope: 'openid profile email read:rooms write:rooms',
       redirect_uri: window.location.origin
     }
-  };
-
-  return await createAuth0Client(options);
+  });
 }
 
-async function loginWithRedirect() {
+async function login() {
   const client = await createClient();
-  await client.loginWithRedirect();
+  await client.loginWithPopup();
+
+  isAuthenticated.set(await client.isAuthenticated());
+  user.set(await client.getUser());
 }
 
-async function loadUser() {
+async function logout() {
   const client = await createClient();
+  await client.logout();
+}
 
-  await client.getTokenSilently();
-
-  const loggedUser = await client.getUser();
-  if(!loggedUser) {
-    isAuthenticated.set(false);
-    return;
+async function middleware(func: Function) {
+  try {
+    await func();
   }
-
-  isAuthenticated.set(true);
-  user.set(loggedUser);
+  catch(error) {
+    console.log(error);
+  }
 }
 
-function logout(client: Auth0Client) {
-  return client.logout();
+async function getToken() {
+  const client = await createClient();
+  return await client.getTokenSilently();
 }
 
 const auth = {
   createClient,
-  loginWithRedirect,
-  loadUser,
-  logout
+  login: () => middleware(login),
+  logout: () => middleware(logout),
+  getToken
 };
 
 export default auth;
