@@ -1,4 +1,5 @@
 ﻿using iHome.Core.Logic;
+using iHome.Core.Logic.RoomDtoList;
 using iHome.Core.Services;
 using iHome.Core.Services.Validation;
 using iHome.Core.Services.Validation.Validators.SimpleValidators;
@@ -11,6 +12,8 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddCoreServices(this IServiceCollection services)
     {
         // logic
+        services.AddTransient<IRoomDtoBuilder, RoomDtoBuilder>();
+        services.AddTransient<IRoomDtoListBuilder, RoomDtoListBuilder>();
         services.AddTransient<ITimeModelParser, TimeModelParser>();
 
         // validation
