@@ -1,35 +1,42 @@
 ﻿using iHome.Microservices.UsersApi.Contract;
 using iHome.Microservices.UsersApi.Contract.Models.Request;
 using iHome.Microservices.UsersApi.Contract.Models.Response;
+using iHome.Microservices.UsersApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.UsersApi.Controllers
 {
     public class UserManagementController : ControllerBase, IUserManagementService
     {
-        private readonly IUserManagementService _userManagementService;
+        private readonly IUserService _userService;
 
-        public UserManagementController(IUserManagementService userManagementService)
+        public UserManagementController(IUserService userService)
         {
-            _userManagementService = userManagementService;
+            _userService = userService;
         }
 
         [HttpPost]
         public Task<GetUserByIdResponse> GetUserById([FromBody] GetUserByIdRequest request)
         {
-            return _userManagementService.GetUserById(request);
+            return _userService.GetUserById(request);
         }
 
         [HttpPost]
         public Task<GetUsersResponse> GetUsers([FromBody] GetUsersRequest request)
         {
-            return _userManagementService.GetUsers(request);
+            return _userService.GetFilteredUsers(request);
+        }
+
+        [HttpPost]
+        public Task<GetUsersByIdsResponse> GetUsersByIds([FromBody] GetUsersByIdsRequest request)
+        {
+            return _userService.GetUsersByIds(request);
         }
 
         [HttpPost]
         public Task<UserExistResponse> UserExist([FromBody] UserExistRequest request)
         {
-            return _userManagementService.UserExist(request);
+            return _userService.UserExist(request);
         }
     }
 }
