@@ -9,5 +9,6 @@ namespace iHome.Microservices.UsersApi.Contract
         Task<GetUsersResponse> GetUsers(GetUsersRequest request);
         Task<GetUserByIdResponse> GetUserById(GetUserByIdRequest request);
         Task<UserExistResponse> UserExist(UserExistRequest request);
+        Task<GetUsersByIdsResponse> GetUsersByIds(GetUsersByIdsRequest request);
     }
 }

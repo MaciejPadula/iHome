@@ -4,5 +4,6 @@ public class Auth0ApiConfiguration
 {
     public const string Key = "Auth0";
 
-    public required string ApiToken { get; set; }
+    public string ApiToken { get; set; }
+    public string ApiUrl { get; set; }
 }

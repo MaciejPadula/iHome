@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using iHome.Microservices.UsersApi.Contract.Models;
+using System.Text;
 
 namespace iHome.Microservices.UsersApi.Infrastructure.Helpers
 {
     public class Auth0QueryBuilder
     {
         private readonly StringBuilder _stringBuilder;
-        private readonly Dictionary<string, string> _queryParameters = new();
+        private readonly List<KeyValuePair<string, string>> _queryParameters = new();
 
         public Auth0QueryBuilder(string baseUrl)
         {
@@ -17,7 +18,7 @@ namespace iHome.Microservices.UsersApi.Infrastructure.Helpers
         {
             if (!string.IsNullOrEmpty(userId))
             {
-                _queryParameters.Add("user_id", userId);
+                _queryParameters.Add(new KeyValuePair<string, string>("user_id", userId));
             }
 
             return this;
@@ -27,7 +28,7 @@ namespace iHome.Microservices.UsersApi.Infrastructure.Helpers
         {
             if (!string.IsNullOrEmpty(email))
             {
-                _queryParameters.Add("email", email);
+                _queryParameters.Add(new KeyValuePair<string, string>("user_id", email));
             }
 
             return this;
@@ -37,7 +38,7 @@ namespace iHome.Microservices.UsersApi.Infrastructure.Helpers
         {
             if (!string.IsNullOrEmpty(name))
             {
-                _queryParameters.Add("name", name);
+                _queryParameters.Add(new KeyValuePair<string, string>("user_id", name));
             }
 
             return this;
