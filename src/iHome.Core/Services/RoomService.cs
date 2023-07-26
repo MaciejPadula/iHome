@@ -1,4 +1,6 @@
-﻿using iHome.Core.Models;
+﻿using iHome.Core.Helpers;
+using iHome.Core.Logic.RoomDtoList;
+using iHome.Core.Models;
 using iHome.Core.Services.Validation;
 using iHome.Microservices.RoomsManagement.Contract;
 using iHome.Microservices.RoomsManagement.Contract.Models.Request;
@@ -10,7 +12,7 @@ namespace iHome.Core.Services;
 public interface IRoomService
 {
     Task AddRoom(string roomName, string userId);
-    Task<List<RoomDTO>> GetRooms(string userId);
+    Task<List<RoomDto>> GetRooms(string userId);
     Task<List<User>> GetRoomUsers(Guid roomId, string userId);
     Task RemoveRoom(Guid roomId, string userId);
 
@@ -25,16 +27,19 @@ public class RoomService : IRoomService
     private readonly IUserManagementService _userManagementService;
 
     private readonly IValidationService _validationService;
+    private readonly IRoomDtoListBuilder _roomDtoListBuilder;
 
     public RoomService(IRoomManagementService roomManagementService,
         IRoomSharingService roomSharingService,
         IUserManagementService userManagementService,
-        IValidationService validationService)
+        IValidationService validationService,
+        IRoomDtoListBuilder roomDtoListBuilder)
     {
         _roomManagementService = roomManagementService;
         _roomSharingService = roomSharingService;
         _userManagementService = userManagementService;
         _validationService = validationService;
+        _roomDtoListBuilder = roomDtoListBuilder;
     }
 
     public async Task AddRoom(string roomName, string userId)
@@ -46,24 +51,22 @@ public class RoomService : IRoomService
         });
     }
 
-    public async Task<List<RoomDTO>> GetRooms(string userId)
+    public async Task<List<RoomDto>> GetRooms(string userId)
     {
         var response = await _roomManagementService.GetRooms(new()
         {
             UserId = userId
         });
 
-        var responseRooms = response?.Rooms?.ToList() ?? Enumerable.Empty<RoomModel>().ToList();
+        var rooms = response?.Rooms?.ToList() ?? Enumerable.Empty<RoomModel>().ToList();
 
-        var rooms = new List<RoomDTO>();
-
-        foreach (var room in responseRooms)
+        var users = await _userManagementService.GetUsersByIds(new()
         {
-            var usr = await _userManagementService.GetUserById(new() { UserId = room.UserId });
-            rooms.Add(new RoomDTO(room, usr?.User ?? new User { Id = room.UserId }));
-        }
+            Ids = rooms.Select(r => r.UserId)
+        });
 
-        return rooms;
+        return await _roomDtoListBuilder.Build(
+            rooms, users?.Users ?? new());
     }
 
     public async Task<List<User>> GetRoomUsers(Guid roomId, string userId)
