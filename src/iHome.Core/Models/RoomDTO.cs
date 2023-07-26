@@ -2,13 +2,16 @@
 
 namespace iHome.Core.Models
 {
-    public class RoomDTO
+    public class RoomDto
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public User User { get; set; }
+        public string? Name { get; set; }
+        public User? User { get; set; }
 
-        public RoomDTO(RoomModel room, User user)
+        public RoomDto()
+        {}
+
+        public RoomDto(RoomModel room, User user)
         {
             Id = room.Id;
             Name = room.Name;
