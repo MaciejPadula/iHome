@@ -79,19 +79,16 @@ public class RoomService : IRoomService
 
         var userIds = await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, () => _roomSharingService.GetRoomUserIds(request));
 
-        var users = new List<User>();
-
-        foreach (var uid in userIds.UsersIds)
+        var users = await _userManagementService.GetUsersByIds(new()
         {
-            var usr = await _userManagementService.GetUserById(new() { UserId = uid });
-            if (usr?.User == null)
-            {
-                continue;
-            }
-            users.Add(usr.User);
-        }
+            Ids = userIds?.UsersIds ?? Enumerable.Empty<string>()
+        });
 
-        return users.OrderBy(u => u.Name).ToList();
+        return users?.Users?
+            .Select(kv => kv.Value)?
+            .OrderBy(u => u.Name)?
+            .ThenBy(u => u.Email)?
+            .ToList() ?? ListUtils.Empty<User>();
     }
 
     public async Task RemoveRoom(Guid roomId, string userId)
