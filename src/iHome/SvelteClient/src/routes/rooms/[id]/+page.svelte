@@ -1,26 +1,32 @@
 <script lang="ts">
-  import { isAuthenticated, loading } from '../../../data-access/store';
   import { getRoomWidgets } from '../../../data-access/api/widgets-service.js';
   import Widget from '../../../components/Widget.svelte';
   import WaitingComponent from '../../../components/WaitingComponent.svelte';
-  import { widgets } from '../rooms-store';
+  import { rooms, widgets } from '../rooms-store';
   import GuardComponent from '../../../components/GuardComponent.svelte';
+  import { executeWithLoadingAsync } from '../../../data-access/loading-service';
+  import auth from '../../../data-access/auth-service';
+  import type { RoomModel } from '../../../models/room';
   
   export let data;
-  
-  isAuthenticated.subscribe(async authed => {
-    if(!authed) return;
+  let room: RoomModel;
 
-    await loadWidgets();
-  });
+  auth.subscribeWhenLogged(() => loadWidgets());
 
   async function loadWidgets() {
-    loading.set(true);
-    var result = await getRoomWidgets(data.id);
-    widgets.set(result);
-    loading.set(false);
+    await executeWithLoadingAsync(async () => {
+      room = $rooms.filter(r => r.id == data.id)[0];
+
+      var result = await getRoomWidgets(data.id);
+      widgets.set(result);
+    });
   }
 </script>
+
+<svelte:head>
+	<title>iHome - {room.name}</title>
+	<meta name="description" content="iHome" />
+</svelte:head>
 
 <GuardComponent>
   <div class="w-full flex flex-row flex-wrap items-center justify-center">

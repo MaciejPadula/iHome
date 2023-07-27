@@ -4,11 +4,7 @@
   import { onMount } from "svelte";
 
   onMount(async () => {
-    isAuthenticated.subscribe(authed => {
-      if(authed) return;
-
-      auth.login();
-    });
+    auth.subscribeWhenNotLogged(() => auth.login());
   });  
 </script>
 

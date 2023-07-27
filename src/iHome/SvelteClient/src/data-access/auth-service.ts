@@ -41,10 +41,32 @@ async function getToken() {
   return await client.getTokenSilently();
 }
 
+function subscribeWhenLogged(logged: Function) {
+  subscribe(logged, () => {});
+}
+
+function subscribeWhenNotLogged(notLogged: Function) {
+  subscribe(() => {}, notLogged);
+}
+
+function subscribe(logged: Function, notLogged: Function) {
+  isAuthenticated.subscribe(async authed => {
+    if (authed) {
+      await logged();
+      return;
+    }
+
+    await notLogged();
+  });
+}
+
 const auth = {
   createClient,
   login: () => middleware(login),
   logout: () => middleware(logout),
+  subscribeWhenLogged,
+  subscribeWhenNotLogged,
+  subscribe,
   getToken
 };
 
