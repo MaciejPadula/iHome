@@ -13,6 +13,7 @@ namespace iHome.Microservices.Schedules.Contract
 
         Task<GetSchedulesResponse> GetSchedules(GetSchedulesRequest request);
         Task<GetScheduleResponse> GetSchedule(GetScheduleRequest request);
+        Task<GetSchedulesResponse> GetSchedulesWithDevices(GetSchedulesWithDevicesRequest request);
 
         Task UpdateScheduleTime(UpdateScheduleTimeRequest request);
 

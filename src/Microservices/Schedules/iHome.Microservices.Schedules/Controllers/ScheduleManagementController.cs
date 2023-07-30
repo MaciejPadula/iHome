@@ -3,6 +3,7 @@ using iHome.Microservices.Schedules.Contract.Models.Request;
 using iHome.Microservices.Schedules.Contract.Models.Response;
 using iHome.Microservices.Schedules.Helpers;
 using iHome.Microservices.Schedules.Infrastructure.Repositories;
+using iHome.Microservices.Schedules.Managers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.Schedules.Controllers
@@ -11,11 +12,13 @@ namespace iHome.Microservices.Schedules.Controllers
     {
         private readonly IScheduleRepository _scheduleRepository;
         private readonly IScheduleRunHistoryRepository _scheduleRunHistoryRepository;
+        private readonly IScheduleManager _scheduleManager;
 
-        public ScheduleManagementController(IScheduleRepository scheduleRepository, IScheduleRunHistoryRepository schedulesRunHistoryRepository)
+        public ScheduleManagementController(IScheduleRepository scheduleRepository, IScheduleRunHistoryRepository schedulesRunHistoryRepository, IScheduleManager scheduleManager)
         {
             _scheduleRepository = scheduleRepository;
             _scheduleRunHistoryRepository = schedulesRunHistoryRepository;
+            _scheduleManager = scheduleManager;
         }
 
         [HttpPost]
@@ -52,6 +55,11 @@ namespace iHome.Microservices.Schedules.Controllers
             {
                 Schedules = schedules
             };
+        }
+
+        public Task<GetSchedulesResponse> GetSchedulesWithDevices(GetSchedulesWithDevicesRequest request)
+        {
+            return _scheduleManager.GetByDeviceIds(request);
         }
 
         [HttpPost]
