@@ -1,8 +1,12 @@
-﻿using iHome.Core.Models;
+﻿using iHome.Core.Helpers;
+using iHome.Core.Models;
 using iHome.Core.Services.Validation;
 using iHome.Microservices.Devices.Contract;
 using iHome.Microservices.Devices.Contract.Models;
 using iHome.Microservices.Devices.Contract.Models.Request;
+using iHome.Microservices.Schedules.Contract;
+using iHome.Microservices.Schedules.Contract.Models;
+using iHome.Microservices.Schedules.Contract.Models.Request;
 
 namespace iHome.Core.Services;
 
@@ -13,6 +17,7 @@ public interface IDeviceService
     Task ChangeDeviceRoom(Guid deviceId, Guid roomId, string userId);
     Task<List<DeviceModel>> GetDevices(Guid? roomId, string userId);
     Task<List<DeviceModel>> GetDevicesForScheduling(string userId);
+    Task<List<ScheduleModel>> GetDeviceSchedules(Guid deviceId, string userId);
     Task RemoveDevice(Guid deviceId, string userId);
 
     Task<string> GetDeviceData(Guid deviceId, string userId);
@@ -24,18 +29,21 @@ public class DeviceService : IDeviceService
     private readonly IDeviceManagementService _deviceManagementService;
     private readonly IDeviceDataService _deviceDataService;
     private readonly IDevicesForSchedulingAccessor _devicesForSchedulingAccessor;
+    private readonly IScheduleManagementService _scheduleManagementService;
 
     private readonly IValidationService _validationService;
 
     public DeviceService(IDeviceManagementService deviceManagementService,
         IDeviceDataService deviceDataService,
         IDevicesForSchedulingAccessor devicesForSchedulingAccessor,
-        IValidationService validationService)
+        IValidationService validationService,
+        IScheduleManagementService scheduleManagementService)
     {
         _deviceManagementService = deviceManagementService;
         _deviceDataService = deviceDataService;
         _devicesForSchedulingAccessor = devicesForSchedulingAccessor;
         _validationService = validationService;
+        _scheduleManagementService = scheduleManagementService;
     }
 
     public async Task AddDevice(string name, string macAddress, DeviceType type, string userId, Guid roomId)
@@ -101,6 +109,22 @@ public class DeviceService : IDeviceService
         var devices = await _deviceManagementService.GetDevices(request);
 
         return devices?.Devices?.ToList() ?? Enumerable.Empty<DeviceModel>().ToList();
+    }
+
+    public async Task<List<ScheduleModel>> GetDeviceSchedules(Guid deviceId, string userId)
+    {
+        var request = new GetSchedulesWithDevicesRequest
+        {
+            DeviceIds = new List<Guid> { deviceId }
+        };
+
+        var response = await _validationService.Validate(deviceId, userId, ValidatorType.DeviceRead, () =>
+            _scheduleManagementService.GetSchedulesWithDevices(request));
+
+        return response?.Schedules?
+            .OrderBy(s => s.Hour)?
+            .ThenBy(s => s.Minute)?
+            .ToList() ?? ListUtils.Empty<ScheduleModel>();
     }
 
     public async Task<List<DeviceModel>> GetDevicesForScheduling(string userId)

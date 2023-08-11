@@ -193,3 +193,7 @@ src/Microservices/Devices/iHome.Infrastructure.Firestore/bin
 src/Microservices/Devices/iHome.Infrastructure.Firestore/obj
 src/iHome.Infrastructure.Firestore/bin
 src/iHome.Infrastructure.Firestore/obj
+src/Microservices/Schedules/iHome.Microservices.Schedules.Logic/bin
+src/Microservices/Schedules/iHome.Microservices.Schedules.Logic/obj
+src/Microservices/Schedules/iHome.Microservices.Schedules.Tests/bin
+src/Microservices/Schedules/iHome.Microservices.Schedules.Tests/obj

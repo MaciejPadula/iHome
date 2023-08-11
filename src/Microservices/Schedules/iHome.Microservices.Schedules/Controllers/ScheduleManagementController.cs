@@ -1,8 +1,8 @@
 ﻿using iHome.Microservices.Schedules.Contract;
 using iHome.Microservices.Schedules.Contract.Models.Request;
 using iHome.Microservices.Schedules.Contract.Models.Response;
-using iHome.Microservices.Schedules.Helpers;
 using iHome.Microservices.Schedules.Infrastructure.Repositories;
+using iHome.Microservices.Schedules.Logic.Helpers;
 using iHome.Microservices.Schedules.Managers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,23 +41,13 @@ namespace iHome.Microservices.Schedules.Controllers
         }
 
         [HttpPost]
-        public async Task<GetSchedulesResponse> GetSchedules([FromBody] GetSchedulesRequest request)
+        public Task<GetSchedulesResponse> GetSchedules([FromBody] GetSchedulesRequest request)
         {
-            var utcNow = DateTime.UtcNow.StartOfDay();
-            var schedules = await _scheduleRepository.GetByUserId(request.UserId);
-
-            foreach(var schedule in schedules)
-            {
-                schedule.Runned = await _scheduleRunHistoryRepository.ScheduleRunned(schedule.Id, utcNow);
-            }
-
-            return new()
-            {
-                Schedules = schedules
-            };
+            return _scheduleManager.GetSchedules(request);
         }
 
-        public Task<GetSchedulesResponse> GetSchedulesWithDevices(GetSchedulesWithDevicesRequest request)
+        [HttpPost]
+        public Task<GetSchedulesResponse> GetSchedulesWithDevices([FromBody] GetSchedulesWithDevicesRequest request)
         {
             return _scheduleManager.GetByDeviceIds(request);
         }

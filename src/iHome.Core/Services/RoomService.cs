@@ -62,7 +62,7 @@ public class RoomService : IRoomService
 
         var users = await _userManagementService.GetUsersByIds(new()
         {
-            Ids = rooms.Select(r => r.UserId)
+            Ids = rooms.Select(r => r.UserId).Distinct()
         });
 
         return await _roomDtoListBuilder.Build(

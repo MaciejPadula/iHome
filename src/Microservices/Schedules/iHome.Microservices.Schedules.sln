@@ -5,9 +5,15 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.Schedules", "iHome.Microservices.Schedules\iHome.Microservices.Schedules.csproj", "{FC47A126-F27E-4D92-AEDB-8E3D1DDA1C06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Microservices.Schedules.Contract", "iHome.Microservices.Schedules.Contract\iHome.Microservices.Schedules.Contract.csproj", "{C184055C-24B4-4D34-AF8D-91CA16B46641}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.Schedules.Contract", "iHome.Microservices.Schedules.Contract\iHome.Microservices.Schedules.Contract.csproj", "{C184055C-24B4-4D34-AF8D-91CA16B46641}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Microservices.Schedules.Infrastructure", "iHome.Microservices.Schedules.Infrastructure\iHome.Microservices.Schedules.Infrastructure.csproj", "{430CADD7-B627-4B10-9C53-33A23D91B3A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.Schedules.Infrastructure", "iHome.Microservices.Schedules.Infrastructure\iHome.Microservices.Schedules.Infrastructure.csproj", "{430CADD7-B627-4B10-9C53-33A23D91B3A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Microservices.Schedules.Logic", "iHome.Microservices.Schedules.Logic\iHome.Microservices.Schedules.Logic.csproj", "{87032E69-A786-49B0-B3D8-3B454515C707}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Microservices.Schedules.Tests", "iHome.Microservices.Schedules.Tests\iHome.Microservices.Schedules.Tests.csproj", "{E2C9FFE6-C6CD-4FA1-8ED0-F38557752E9B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8DAF82FA-43E3-4AE3-A8AC-F10372E7885F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +33,20 @@ Global
 		{430CADD7-B627-4B10-9C53-33A23D91B3A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{430CADD7-B627-4B10-9C53-33A23D91B3A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{430CADD7-B627-4B10-9C53-33A23D91B3A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87032E69-A786-49B0-B3D8-3B454515C707}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87032E69-A786-49B0-B3D8-3B454515C707}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87032E69-A786-49B0-B3D8-3B454515C707}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87032E69-A786-49B0-B3D8-3B454515C707}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2C9FFE6-C6CD-4FA1-8ED0-F38557752E9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2C9FFE6-C6CD-4FA1-8ED0-F38557752E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2C9FFE6-C6CD-4FA1-8ED0-F38557752E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2C9FFE6-C6CD-4FA1-8ED0-F38557752E9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E2C9FFE6-C6CD-4FA1-8ED0-F38557752E9B} = {8DAF82FA-43E3-4AE3-A8AC-F10372E7885F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9258795-E36C-4A59-A57F-9334618C1966}

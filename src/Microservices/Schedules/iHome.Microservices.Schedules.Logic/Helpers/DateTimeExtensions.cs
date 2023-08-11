@@ -1,4 +1,4 @@
-﻿namespace iHome.Microservices.Schedules.Helpers;
+﻿namespace iHome.Microservices.Schedules.Logic.Helpers;
 
 public static class DateTimeExtensions
 {

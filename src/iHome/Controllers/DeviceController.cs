@@ -78,4 +78,11 @@ public class DeviceController : ControllerBase
         await _deviceService.SetDeviceData(request.DeviceId, request.Data, _userAccessor.UserId);
         return Ok();
     }
+
+    [HttpGet("GetSchedules/{deviceId}")]
+    public async Task<IActionResult> GetSchedules(Guid deviceId)
+    {
+        var schedules = await _deviceService.GetDeviceSchedules(deviceId, _userAccessor.UserId);
+        return Ok(schedules);
+    }
 }

@@ -42,9 +42,16 @@ public class UserService : IUserService
 
     public async Task<GetUsersByIdsResponse> GetUsersByIds(GetUsersByIdsRequest request)
     {
+        var ids = request.Ids.ToList();
+
+        if (!ids.Any()) 
+        {
+            return new() { Users = new Dictionary<string, User>() };
+        }
+
         return new()
         {
-            Users = await _userRepository.GetUsersByIds(request.Ids)
+            Users = await _userRepository.GetUsersByIds(ids)
         };
     }
 

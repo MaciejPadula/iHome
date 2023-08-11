@@ -49,14 +49,13 @@ WHERE UserId = @UserId
 
         return await conn.QueryAsync<ScheduleModel>(@$"
 SELECT
-    Id as {nameof(ScheduleModel.Id)},
-    Name as {nameof(ScheduleModel.Name)},
-    Hour as {nameof(ScheduleModel.Hour)},
-    Minute as {nameof(ScheduleModel.Minute)},
-    UserId as {nameof(ScheduleModel.UserId)}
+    s.Id as {nameof(ScheduleModel.Id)},
+    s.Name as {nameof(ScheduleModel.Name)},
+    s.Hour as {nameof(ScheduleModel.Hour)},
+    s.Minute as {nameof(ScheduleModel.Minute)},
+    s.UserId as {nameof(ScheduleModel.UserId)}
 FROM [maciejadmin].[SchedulesDevices] sd
-INNER JOIN [maciejadmin].[Devices] d
-ON sd.DeviceId = d.Id
+INNER JOIN [maciejadmin].[Schedules] s ON sd.ScheduleId = s.Id
 WHERE sd.DeviceId IN @DeviceIds
 ", new { DeviceIds = deviceIds });
     }
