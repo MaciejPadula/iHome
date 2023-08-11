@@ -1,7 +1,5 @@
-﻿using iHome.Microservices.Schedules.Contract.Models;
-using iHome.Microservices.Schedules.Contract.Models.Request;
+﻿using iHome.Microservices.Schedules.Contract.Models.Request;
 using iHome.Microservices.Schedules.Contract.Models.Response;
-using iHome.Microservices.Schedules.Helpers;
 using iHome.Microservices.Schedules.Infrastructure.Repositories;
 using iHome.Microservices.Schedules.Providers;
 
