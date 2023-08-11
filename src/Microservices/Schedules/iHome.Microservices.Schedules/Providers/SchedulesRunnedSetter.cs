@@ -27,7 +27,8 @@ public class SchedulesRunnedSetter : ISchedulesRunnedSetter
 
         foreach (var schedule in schedules)
         {
-            schedule.Runned = await _scheduleRunHistoryRepository.ScheduleRunned(schedule.Id, utcNow);
+            var runned = await _scheduleRunHistoryRepository.ScheduleRunned(schedule.Id, utcNow);
+            schedule.Runned = runned;
             result.Add(schedule);
         }
 
