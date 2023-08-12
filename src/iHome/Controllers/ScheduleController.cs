@@ -1,9 +1,6 @@
 ﻿using iHome.Core.Services;
 using iHome.Logic;
-using iHome.Microservices.Schedules.Contract;
-using iHome.Microservices.Schedules.Contract.Models;
 using iHome.Models.Requests.Schedules;
-using iHome.Models.Responses.Schedules;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,15 +9,14 @@ namespace iHome.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class ScheduleController : ControllerBase
+public class ScheduleController : BaseApiController
 {
     private readonly IScheduleService _scheduleService;
-    private readonly IUserAccessor _userAccessor;
 
     public ScheduleController(IScheduleService scheduleService, IUserAccessor userAccessor)
+        : base(userAccessor)
     {
         _scheduleService = scheduleService;
-        _userAccessor = userAccessor;
     }
 
     [HttpPost("AddSchedule")]

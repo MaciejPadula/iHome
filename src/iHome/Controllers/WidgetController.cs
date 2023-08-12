@@ -9,14 +9,13 @@ namespace iHome.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class WidgetController : ControllerBase
+public class WidgetController : BaseApiController
 {
     private readonly IWidgetService _widgetService;
-    private readonly IUserAccessor _userAccessor;
 
     public WidgetController(IWidgetService widgetService, IUserAccessor userAccessor)
+        : base(userAccessor)
     {
-        _userAccessor = userAccessor;
         _widgetService = widgetService;
     }
 
