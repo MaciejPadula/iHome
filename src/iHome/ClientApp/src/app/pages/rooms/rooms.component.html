@@ -30,13 +30,15 @@
 </div>
 
 <div class="fixed bottom-0 w-full flex flex-row justify-between p-4">
-  <button class="action-button" mat-raised-button color="primary" routerLink="/schedules">
-      Schedules
-      <mat-icon>schedule</mat-icon>
-  </button>
-
-  <button class="action-button" mat-raised-button color="primary" (click)="composeAddRoomDialog()">
-    Add Room
-    <mat-icon>add_location</mat-icon>
-  </button>
+  
 </div>
+
+<button class="!fixed bottom-2 left-2 action-button" mat-raised-button color="primary" routerLink="/schedules">
+  Schedules
+  <mat-icon>schedule</mat-icon>
+</button>
+
+<button class="!fixed bottom-2 right-2 action-button" mat-raised-button color="primary" (click)="composeAddRoomDialog()">
+Add Room
+<mat-icon>add_location</mat-icon>
+</button>

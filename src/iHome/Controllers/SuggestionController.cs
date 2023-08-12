@@ -10,15 +10,14 @@ namespace iHome.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class SuggestionController : ControllerBase
+public class SuggestionController : BaseApiController
 {
     private readonly ISuggestionService _suggestionService;
-    private readonly IUserAccessor _userAccessor;
 
     public SuggestionController(ISuggestionService suggestionService, IUserAccessor userAccessor)
+        : base(userAccessor)
     {
         _suggestionService = suggestionService;
-        _userAccessor = userAccessor;
     }
 
     [HttpPost("GetSuggestedHour")]

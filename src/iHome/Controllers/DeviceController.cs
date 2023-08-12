@@ -9,15 +9,14 @@ namespace iHome.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class DeviceController : ControllerBase
+public class DeviceController : BaseApiController
 {
     private readonly IDeviceService _deviceService;
-    private readonly IUserAccessor _userAccessor;
 
     public DeviceController(IDeviceService deviceService, IUserAccessor userAccessor)
+        : base(userAccessor)
     {
         _deviceService = deviceService;
-        _userAccessor = userAccessor;
     }
 
     [HttpPost("AddDevice")]

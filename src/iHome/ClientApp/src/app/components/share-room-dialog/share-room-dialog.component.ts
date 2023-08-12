@@ -6,7 +6,7 @@ import { debounceTime, filter, Subject } from 'rxjs';
 import { Room } from 'src/app/models/room';
 import { User } from 'src/app/models/user';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { RoomsService } from 'src/app/services/rooms.service';
+import { SharingService } from 'src/app/services/sharing.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @UntilDestroy()
@@ -30,7 +30,7 @@ export class ShareRoomDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ShareRoomDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public room: Room,
-    private _roomsService: RoomsService,
+    private _sharingService: SharingService,
     private _usersService: UsersService,
     private _refreshService: RefreshService
   ) {}
@@ -67,12 +67,12 @@ export class ShareRoomDialogComponent implements OnInit {
     if(!this.selectedUser) return;
     this.searchPhrase.setValue('');
 
-    this._roomsService.shareRoom(this.room.id, this.selectedUser.id)
+    this._sharingService.shareRoom(this.room.id, this.selectedUser.id)
       .subscribe(() => this._refreshService.refreshRoomUsers(this.room.id));
   }
 
   public unshare(user: User){
-    this._roomsService.unshareRoom(this.room.id, user.id)
+    this._sharingService.unshareRoom(this.room.id, user.id)
       .subscribe(() => this._refreshService.refreshRoomUsers(this.room.id));
   }
 
@@ -85,7 +85,7 @@ export class ShareRoomDialogComponent implements OnInit {
   };
 
   private updateUsers(){
-    this._roomsService.getRoomUsers(this.room.id)
+    this._usersService.getRoomUsers(this.room.id)
       .subscribe(users => this.usersSubject$.next(users));
   }
 }

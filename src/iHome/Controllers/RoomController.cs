@@ -9,14 +9,13 @@ namespace iHome.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class RoomController : ControllerBase
+public class RoomController : BaseApiController
 {
     private readonly IRoomService _roomService;
-    private readonly IUserAccessor _userAccessor;
 
     public RoomController(IUserAccessor userAccessor, IRoomService roomService)
+        : base(userAccessor)
     {
-        _userAccessor = userAccessor;
         _roomService = roomService;
     }
 
@@ -32,27 +31,6 @@ public class RoomController : ControllerBase
     {
         var rooms = await _roomService.GetRooms(_userAccessor.UserId);
         return Ok(rooms);
-    }
-
-    [HttpGet("GetRoomUsers/{roomId}")]
-    public async Task<IActionResult> GetRoomUsers(Guid roomId)
-    {
-        var users = await _roomService.GetRoomUsers(roomId, _userAccessor.UserId);
-        return Ok(users);
-    }
-
-    [HttpPost("ShareRoom")]
-    public async Task<IActionResult> ShareRoom([FromBody] ShareRoomRequest request)
-    {
-        await _roomService.ShareRoom(request.RoomId, request.UserId, _userAccessor.UserId);
-        return Ok();
-    }
-
-    [HttpPost("UnshareRoom")]
-    public async Task<IActionResult> UnshareRoom([FromBody] UnshareRoomRequest request)
-    {
-        await _roomService.UnshareRoom(request.RoomId, request.UserId, _userAccessor.UserId);
-        return Ok();
     }
 
     [HttpDelete("RemoveRoom/{roomId}")]
