@@ -39,6 +39,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IScheduleService, ScheduleService>();
         services.AddScoped<ISuggestionService, SuggestionService>();
+        services.AddScoped<ISharingService, SharingService>();
 
         return services;
     }
