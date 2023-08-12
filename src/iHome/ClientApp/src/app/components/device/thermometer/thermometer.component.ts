@@ -1,54 +1,38 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { faThermometerFull } from '@fortawesome/free-solid-svg-icons';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { filter, Subject } from 'rxjs';
-import { Device } from 'src/app/models/device';
 import { DevicesService } from 'src/app/services/devices.service';
-import { RefreshService } from 'src/app/services/refresh.service';
 import { ThermometerData } from './thermometer-data';
 import { DeviceDataHelper } from 'src/app/helpers/device-data.helper';
+import { DeviceBaseComponent } from '../device-base.component';
 
-@UntilDestroy()
 @Component({
   selector: 'app-thermometer',
   templateUrl: './thermometer.component.html',
   styleUrls: ['./thermometer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ThermometerComponent implements OnInit {
-  @Input() public device: Device;
+export class ThermometerComponent extends DeviceBaseComponent<ThermometerData> {
   public faThermometer = faThermometerFull;
 
-  private dataSubject$ = new Subject<ThermometerData>();
-  public data$ = this.dataSubject$.asObservable();
-
   constructor(
-    private _deviceService: DevicesService,
-    private _refreshService: RefreshService,
-    private _deviceDataHelper: DeviceDataHelper
-  ) { }
-
-  public ngOnInit(): void {
-    this._refreshService.refreshDevice$
-      .pipe(
-        untilDestroyed(this),
-        filter(data => data == this.device.id)
-      )
-      .subscribe(() => this.getDeviceData());
-    
-    this._refreshService.refreshDevice(this.device.id);
+    private _deviceDataHelper: DeviceDataHelper,
+    deviceService: DevicesService
+  ) {
+    super(deviceService);
   }
 
-  private getDeviceData() {
-    this._deviceService.getDeviceData<ThermometerData>(this.device.id)
-      .subscribe(data => this.dataSubject$.next(data));
+  public formattedTemperature(data: ThermometerData): string {
+    return this._deviceDataHelper.formattedTemperature(data.temperature);
   }
 
-  public formattedTemperature(temp: number): string {
-    return this._deviceDataHelper.formattedTemperature(temp);
+  public formattedPreassure(data: ThermometerData): string {
+    return this._deviceDataHelper.formattedPreassure(data.pressure);
   }
 
-  public formattedPreassure(press: number): string {
-    return this._deviceDataHelper.formattedPreassure(press);
+  protected override get defaultData(): ThermometerData {
+    return {
+      temperature: 0,
+      pressure: 0
+    }
   }
 }

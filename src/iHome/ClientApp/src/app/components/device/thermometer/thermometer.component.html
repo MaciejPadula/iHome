@@ -1,11 +1,11 @@
 <div class="flex flex-col items-center justify-center">
-    <div class="flex flex-col items-center" *ngIf="data$ | async as thermometerData; else loading">
+    <div class="flex flex-col items-center" *ngIf="data$ | async as data; else loading">
         <div class="flex flex-row">
-            <p class="value-field">{{formattedTemperature(thermometerData.temperature)}}</p> 
+            <p class="value-field">{{formattedTemperature(data)}}</p> 
             <fa-icon size="sm" [icon]="faThermometer"></fa-icon>
         </div>
         <div class="flex flex-row">
-            <p class="value-field">{{formattedPreassure(thermometerData.pressure)}}</p>
+            <p class="value-field">{{formattedPreassure(data)}}</p>
             <fa-icon size="sm" [icon]="faThermometer"></fa-icon>
         </div>
     </div>

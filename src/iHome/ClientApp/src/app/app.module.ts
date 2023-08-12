@@ -57,6 +57,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
 import { DragDevicesListComponent } from './components/drag-devices-list/drag-devices-list.component';
 import { Auth0AccessGuard } from './guards/auth0-access.guard';
+import { DeviceDialogComponent } from './components/device-dialog/device-dialog.component';
+import { NgxMatTimelineModule } from "ngx-mat-timeline";
 
 
 @NgModule({
@@ -84,7 +86,8 @@ import { Auth0AccessGuard } from './guards/auth0-access.guard';
     ConfirmDialogComponent,
     DevicePreviewComponent,
     AddScheduleComponent,
-    DragDevicesListComponent
+    DragDevicesListComponent,
+    DeviceDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -137,7 +140,8 @@ import { Auth0AccessGuard } from './guards/auth0-access.guard';
     MatExpansionModule,
     MatDividerModule,
     NgxMatTimepickerModule,
-    MatStepperModule
+    MatStepperModule,
+    NgxMatTimelineModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

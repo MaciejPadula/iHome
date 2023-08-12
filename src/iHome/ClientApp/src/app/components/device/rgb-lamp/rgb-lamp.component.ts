@@ -1,14 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { filter, map, Observable, Subject } from 'rxjs';
 import { DeviceDataHelper } from 'src/app/helpers/device-data.helper';
-import { Device } from 'src/app/models/device';
 import { DevicesService } from 'src/app/services/devices.service';
-import { RefreshService } from 'src/app/services/refresh.service';
 import { RgbLampData } from './rgb-lamp-data';
-import { RgbLampDialogComponent } from './rgb-lamp-dialog/rgb-lamp-dialog.component';
+import { Color, ColorPickerControl } from '@iplab/ngx-color-picker';
+import { DeviceBaseComponent } from '../device-base.component';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -17,84 +14,56 @@ import { RgbLampDialogComponent } from './rgb-lamp-dialog/rgb-lamp-dialog.compon
   styleUrls: ['./rgb-lamp.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RgbLampComponent implements OnInit {
-  @Input() public device: Device;
+export class RgbLampComponent extends DeviceBaseComponent<RgbLampData> implements OnInit  {
+  public colorPickerControl = new ColorPickerControl()
+    .hidePresets()
+    .hideAlphaChannel();
 
   public stateControl = new FormControl(false);
 
-  private dataSubject$ = new Subject<RgbLampData>();
-  public data$: Observable<RgbLampData>;
-
-  private readonly defaultData: RgbLampData = {
-    red: 0,
-    green: 0,
-    blue: 0,
-    state: false,
-    mode: 0
-  }
-
   constructor(
-    private _deviceService: DevicesService,
-    private _dialog: MatDialog,
-    private _refreshService: RefreshService,
-    private _deviceDataHelper: DeviceDataHelper
-  ) { }
-
-  public ngOnInit(): void {
-    this._refreshService.refreshDevice$
-      .pipe(
-        untilDestroyed(this),
-        filter(data => data == this.device.id)
-      )
-      .subscribe(() => this.getDeviceData());
-
-    this.data$ = this.dataSubject$.asObservable()
-      .pipe(
-        map(data => {
-          this.stateControl.setValue(data.state);
-          return data;
-        })
-      )
-
-    this._refreshService.refreshDevice(this.device.id);
+    private _deviceDataHelper: DeviceDataHelper,
+    deviceService: DevicesService
+  ) {
+    super(deviceService);
   }
 
-  public toggleLamp(currentData: RgbLampData) {
-    this.updateDeviceData({
-      ...currentData,
+  public override ngOnInit(): void {
+    super.ngOnInit();
+
+    this.data$
+      .pipe(untilDestroyed(this))
+      .subscribe(data => this.stateControl.setValue(data.state));
+  }
+
+  public setLampState(data: RgbLampData) {
+    this.setData({
+      ...data,
       state: this.stateControl.value ?? false
     });
   }
 
-  private updateDeviceData(currentData: RgbLampData){
-    const json = JSON.stringify(currentData);
-
-    this._deviceService.setDeviceData(this.device.id, json)
-      .subscribe(() => this._refreshService.refreshDevice(this.device.id));
-  }
-
-  public getColorHex(currentData: RgbLampData): string {
-    return this._deviceDataHelper.getColorHexWithState(currentData);
-  }
-
-  private getDeviceData() {
-    this._deviceService.getDeviceData<RgbLampData>(this.device.id)
-      .subscribe(data => this.dataSubject$.next(data ?? this.defaultData));
-  }
-
-  public composeDialog(data: RgbLampData){
-    this._dialog.open(RgbLampDialogComponent, {
-      width: '350px',
-      data: {
-        name: this.device.name,
-        data
-      }
-    })
-    .afterClosed()
-    .subscribe(result => {
-      if(!result) return;
-
-      this.updateDeviceData(result)
+  public setColor(data: RgbLampData, color: Color) {
+    const rgb = color.getRgba();
+    this.setData({
+      ...data,
+      red: rgb.red,
+      green: rgb.green,
+      blue: rgb.blue
     });
+  }
+
+  public getColor(data: RgbLampData){
+    return this._deviceDataHelper.getColorHexWithState(data);
+  }
+
+  public get defaultData() {
+    return {
+      red: 0,
+      green: 0,
+      blue: 0,
+      state: false,
+      mode: 0
+    };
   }
 }

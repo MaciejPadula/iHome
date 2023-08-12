@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>{{device.name}}</h1>
+
+<div mat-dialog-content>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Schedules
+      </mat-panel-title>
+      <mat-panel-description>
+        List of schedules that affects device
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    
+    <ngx-mat-timeline position="center" orientation="vertical" *ngIf="schedules$ | async as schedules; else loading">
+      <ngx-mat-timeline-item *ngFor="let schedule of schedules" [label]="getScheduleTime(schedule)">
+        <mat-icon *ngIf="!schedule.runned" color="accent" class="rotate">
+          loop
+        </mat-icon>
+
+        <mat-icon *ngIf="schedule.runned" color="primary">
+          check_circle
+        </mat-icon>
+        {{schedule.name}}
+      </ngx-mat-timeline-item>
+    </ngx-mat-timeline>
+  </mat-expansion-panel>  
+</div>
+
+<ng-template #loading>
+  <mat-spinner mode="indeterminate" diameter="50"></mat-spinner>
+</ng-template> 

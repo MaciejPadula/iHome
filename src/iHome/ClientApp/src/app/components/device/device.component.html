@@ -4,6 +4,7 @@
         <!-- <button mat-icon-button (click)="removeFromWidget()">
             <mat-icon>delete</mat-icon>
         </button> -->
+        <button (click)="composeDialog(device)">Test</button>
     </div>
     <app-rgb-lamp *ngIf="device.type === 1" [device]="device"></app-rgb-lamp>
     <app-thermometer *ngIf="device.type === 2" [device]="device"></app-thermometer>
