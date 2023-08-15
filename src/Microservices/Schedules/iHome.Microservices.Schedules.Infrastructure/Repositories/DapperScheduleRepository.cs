@@ -43,6 +43,23 @@ WHERE UserId = @UserId
 ", new { UserId = userId });
     }
 
+    public async Task<IEnumerable<ScheduleModel>> GetByDevicesIds(IEnumerable<Guid> deviceIds)
+    {
+        using var conn = GetDbConnection();
+
+        return await conn.QueryAsync<ScheduleModel>(@$"
+SELECT
+    s.Id as {nameof(ScheduleModel.Id)},
+    s.Name as {nameof(ScheduleModel.Name)},
+    s.Hour as {nameof(ScheduleModel.Hour)},
+    s.Minute as {nameof(ScheduleModel.Minute)},
+    s.UserId as {nameof(ScheduleModel.UserId)}
+FROM [maciejadmin].[SchedulesDevices] sd
+INNER JOIN [maciejadmin].[Schedules] s ON sd.ScheduleId = s.Id
+WHERE sd.DeviceId IN @DeviceIds
+", new { DeviceIds = deviceIds });
+    }
+
     public async Task<ScheduleModel> GetById(Guid scheduleId)
     {
         using var conn = GetDbConnection();

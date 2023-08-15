@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\iHome.Microservices.Schedules.Contract\iHome.Microservices.Schedules.Contract.csproj" />
     <ProjectReference Include="..\iHome.Microservices.Schedules.Infrastructure\iHome.Microservices.Schedules.Infrastructure.csproj" />
+    <ProjectReference Include="..\iHome.Microservices.Schedules.Logic\iHome.Microservices.Schedules.Logic.csproj" />
   </ItemGroup>
 
 </Project>
