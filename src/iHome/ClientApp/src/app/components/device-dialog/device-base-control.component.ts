@@ -1,0 +1,42 @@
+import { Component } from "@angular/core";
+import { ControlValueAccessor } from "@angular/forms";
+
+@Component({template: ''})
+export abstract class DeviceBaseControlComponent<DeviceDataType> implements ControlValueAccessor {
+  public value: string | null | undefined;
+
+  protected get data(): DeviceDataType {
+    if (!this.value)
+      return this.defaultData;
+
+    return JSON.parse(this.value) ?? this.defaultData;
+  }
+
+  protected set data(data: DeviceDataType) {
+    this.setVal(JSON.stringify(data));
+  }
+
+  protected abstract get defaultData(): DeviceDataType;
+
+  private setVal(val: string) {
+    this.value = val;
+    this.onChange(this.value);
+    this.onTouch(this.value);
+  }
+
+  public writeValue(val: string): void {
+    this.setVal(val);
+  }
+
+  public registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  public registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
+
+  public setDisabledState?(isDisabled: boolean): void {}
+  public onChange: any = () => {}
+  public onTouch: any = () => {}
+}

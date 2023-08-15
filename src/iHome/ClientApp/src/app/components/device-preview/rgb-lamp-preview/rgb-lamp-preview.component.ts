@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RgbLampData } from '../../../models/rgb-lamp-data';
 import { DeviceDataHelper } from 'src/app/helpers/device-data.helper';
 import { StaticDevicePreviewComponent } from '../static-device-preview.component';
@@ -6,17 +6,17 @@ import { StaticDevicePreviewComponent } from '../static-device-preview.component
 @Component({
   selector: 'app-rgb-lamp-preview',
   templateUrl: './rgb-lamp-preview.component.html',
-  styleUrls: ['./rgb-lamp-preview.component.scss']
+  styleUrls: ['./rgb-lamp-preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RgbLampPreviewComponent extends StaticDevicePreviewComponent<RgbLampData> {
   constructor(
     private _deviceDataHelper: DeviceDataHelper
-  ) { 
+  ) {
     super();
   }
 
   public colorString(data: RgbLampData): string {
-    console.log(data);
     return this._deviceDataHelper.getColorHexWithState(data);
   }
 

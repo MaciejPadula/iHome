@@ -29,7 +29,7 @@ export class DeviceComponent {
       data: device
     })
       .afterClosed()
-      .subscribe();
+      .subscribe(data => console.log(data));
   }
 
   public removeFromWidget() {
