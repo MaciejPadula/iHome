@@ -6,6 +6,8 @@ using iHome.Microservices.Devices.Handlers;
 using iHome.Microservices.Devices.Infrastructure;
 using iHome.Microservices.Devices.Infrastructure.Models;
 using Web.Infrastructure.Microservices.Server.Builders;
+using iHome.Microservices.Devices.Managers;
+using iHome.Microservices.Devices.Providers;
 
 var builder = new MicroserviceBuilder(args);
 
@@ -25,6 +27,8 @@ builder.Services.AddFirestoreConnectionFactory(opt =>
 builder.Services.Configure<FirebaseSettings>(builder.Configuration.GetSection("Firebase"));
 builder.Services.AddRepositories();
 builder.Services.AddScoped<IDeviceDataHandler, DeviceDataHandler>();
+builder.Services.AddScoped<IDeviceManager, DeviceManager>();
+builder.Services.AddScoped<IDeviceDataSetter, DeviceDataSetter>();
 
 builder.RegisterMicroservice<IDeviceDataService, DeviceDataController>();
 builder.RegisterMicroservice<IDeviceManagementService, DeviceManagementController>();

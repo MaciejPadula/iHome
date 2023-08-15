@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { DeviceType } from 'src/app/models/device-type';
 import { ScheduleDevice } from 'src/app/models/schedule-device';
 import { SchedulesService } from 'src/app/services/schedules.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { MatDialog } from '@angular/material/dialog';
-import { RgbLampDialogComponent } from '../device/rgb-lamp/rgb-lamp-dialog/rgb-lamp-dialog.component';
 import { of } from 'rxjs';
+import { Device } from 'src/app/models/device';
 
 @Component({
   selector: 'app-schedule-device',
@@ -15,8 +14,6 @@ import { of } from 'rxjs';
 export class ScheduleDeviceComponent {
   @Input() public scheduleId: string;
   @Input() public scheduleDevice: ScheduleDevice;
-
-  public deviceType = DeviceType;
 
   constructor(
     private _refreshService: RefreshService,
@@ -41,16 +38,25 @@ export class ScheduleDeviceComponent {
     });
   }
 
-  private getDialogAfterClosed() {
-    if(this.scheduleDevice.type == DeviceType.RGBLamp){
-      return this._dialog.open(RgbLampDialogComponent, {
-        data: {
-          name: this.scheduleDevice.name,
-          data: JSON.parse(this.scheduleDevice.deviceData)
-        }
-      })
-      .afterClosed();
+  public get device(): Device {
+    return {
+      id: this.scheduleDevice.id,
+      name: '',
+      data: this.scheduleDevice.deviceData,
+      type: this.scheduleDevice.type
     }
+  }
+
+  private getDialogAfterClosed() {
+    // if(this.scheduleDevice.type == DeviceType.RGBLamp){
+    //   return this._dialog.open(RgbLampDialogComponent, {
+    //     data: {
+    //       name: this.scheduleDevice.name,
+    //       data: JSON.parse(this.scheduleDevice.deviceData)
+    //     }
+    //   })
+    //   .afterClosed();
+    // }
 
     return of(undefined);
   }

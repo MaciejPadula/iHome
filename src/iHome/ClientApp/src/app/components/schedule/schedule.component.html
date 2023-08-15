@@ -37,9 +37,7 @@
     <ng-container *ngIf="devicesForScheduling as devices; else loading">
       <app-device-preview *ngFor="let device of devices"
         (click)="addDeviceSnapshot(device.id, device.data)"
-        [deviceName]="device.name"
-        [deviceData]="device.data ?? '{}'"
-        [deviceType]="device.type">
+        [device]="device">
       </app-device-preview>
     </ng-container>
   </div>

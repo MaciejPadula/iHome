@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DeviceDataHelper } from 'src/app/helpers/device-data.helper';
 import { DevicesService } from 'src/app/services/devices.service';
-import { RgbLampData } from './rgb-lamp-data';
+import { RgbLampData } from '../../../models/rgb-lamp-data';
 import { Color, ColorPickerControl } from '@iplab/ngx-color-picker';
 import { DeviceBaseComponent } from '../device-base.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';

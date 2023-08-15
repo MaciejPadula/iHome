@@ -45,9 +45,7 @@
       <ng-container *ngIf="devicesForScheduling$ | async as devices">
         <ng-container *ngIf="suggestedDevices$ | async as suggestedDevices">
           <app-device-preview *ngFor="let device of devices"
-            [deviceName]="device.name"
-            [deviceData]="device.data ?? '{}'"
-            [deviceType]="device.type"
+            [device]="device"
             [class.glow]="isSuggested(suggestedDevices, device.id)"
             class="block w-32 rounded-lg m-1"
           >
