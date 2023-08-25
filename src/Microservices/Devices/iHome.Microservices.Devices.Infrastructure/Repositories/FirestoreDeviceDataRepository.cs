@@ -1,4 +1,5 @@
-﻿using iHome.Microservices.Devices.Infrastructure.Logic;
+﻿using iHome.Microservices.Devices.Domain.Repositories;
+using iHome.Microservices.Devices.Infrastructure.Logic;
 
 namespace iHome.Microservices.Devices.Infrastructure.Repositories;
 

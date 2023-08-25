@@ -6,6 +6,7 @@ using iHome.Microservices.Devices.Handlers;
 using iHome.Microservices.Devices.Infrastructure;
 using iHome.Microservices.Devices.Infrastructure.Models;
 using Web.Infrastructure.Microservices.Server.Builders;
+using iHome.Microservices.Devices.Domain.Models;
 
 var builder = new MicroserviceBuilder(args);
 

@@ -1,6 +1,4 @@
-﻿using iHome.Core.Repositories.Devices;
-using iHome.Infrastructure.Firestore.Serializers;
-using iHome.Microservices.Devices.Infrastructure.Models;
+﻿using iHome.Microservices.Devices.Domain.Repositories;
 using iHome.Microservices.Devices.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 

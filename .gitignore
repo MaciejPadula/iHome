@@ -199,3 +199,5 @@ src/Microservices/Schedules/iHome.Microservices.Schedules.Tests/bin
 src/Microservices/Schedules/iHome.Microservices.Schedules.Tests/obj
 src/Microservices/Authorization/iHome.Microservices.Authorization.Domain/obj
 src/Microservices/Authorization/iHome.Microservices.Authorization.Domain/bin
+src/Microservices/Devices/iHome.Microservices.Devices.Domain/obj
+src/Microservices/Devices/iHome.Microservices.Devices.Domain/bin

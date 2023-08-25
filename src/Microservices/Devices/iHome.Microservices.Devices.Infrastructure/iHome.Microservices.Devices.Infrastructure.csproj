@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\iHome.Microservices.Devices.Contract\iHome.Microservices.Devices.Contract.csproj" />
+    <ProjectReference Include="..\iHome.Microservices.Devices.Domain\iHome.Microservices.Devices.Domain.csproj" />
   </ItemGroup>
 
 </Project>

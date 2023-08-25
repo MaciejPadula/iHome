@@ -1,4 +1,4 @@
-﻿namespace iHome.Microservices.Devices.Infrastructure.Repositories;
+﻿namespace iHome.Microservices.Devices.Domain.Repositories;
 
 public interface IDeviceDataRepository
 {

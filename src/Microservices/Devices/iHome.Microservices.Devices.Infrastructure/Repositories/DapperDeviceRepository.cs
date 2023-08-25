@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using iHome.Core.Repositories.Devices;
 using iHome.Infrastructure.Sql.Factories;
 using iHome.Infrastructure.Sql.Repositories;
 using iHome.Microservices.Devices.Contract.Models;
+using iHome.Microservices.Devices.Domain.Repositories;
 
 namespace iHome.Microservices.Devices.Infrastructure.Repositories;
 

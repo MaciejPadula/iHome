@@ -1,6 +1,6 @@
 ﻿using iHome.Microservices.Devices.Contract.Models;
 
-namespace iHome.Core.Repositories.Devices;
+namespace iHome.Microservices.Devices.Domain.Repositories;
 
 public interface IDeviceRepository
 {

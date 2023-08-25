@@ -1,5 +1,6 @@
 ﻿using Firebase.Database;
-using iHome.Microservices.Devices.Infrastructure.Models;
+using iHome.Microservices.Devices.Domain.Models;
+using iHome.Microservices.Devices.Domain.Repositories;
 using Microsoft.Extensions.Options;
 
 namespace iHome.Microservices.Devices.Infrastructure.Repositories;

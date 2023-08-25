@@ -1,8 +1,8 @@
-﻿using iHome.Core.Repositories.Devices;
-using iHome.Microservices.Devices.Contract;
+﻿using iHome.Microservices.Devices.Contract;
 using iHome.Microservices.Devices.Contract.Models;
 using iHome.Microservices.Devices.Contract.Models.Request;
 using iHome.Microservices.Devices.Contract.Models.Response;
+using iHome.Microservices.Devices.Domain.Repositories;
 using iHome.Microservices.Devices.Handlers;
 using iHome.Microservices.Devices.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;

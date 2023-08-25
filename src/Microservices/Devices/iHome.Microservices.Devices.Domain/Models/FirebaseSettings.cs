@@ -1,4 +1,4 @@
-﻿namespace iHome.Microservices.Devices.Infrastructure.Models;
+﻿namespace iHome.Microservices.Devices.Domain.Models;
 
 public class FirebaseSettings
 {

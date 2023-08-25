@@ -1,7 +1,6 @@
-﻿using iHome.Core.Repositories.Devices;
-using iHome.Microservices.Devices.Contract.Models.Request;
+﻿using iHome.Microservices.Devices.Contract.Models.Request;
 using iHome.Microservices.Devices.Contract.Models.Response;
-using iHome.Microservices.Devices.Infrastructure.Repositories;
+using iHome.Microservices.Devices.Domain.Repositories;
 
 namespace iHome.Microservices.Devices.Handlers;
 
