@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using iHome.Infrastructure.Sql.Factories;
 using iHome.Infrastructure.Sql.Repositories;
+using iHome.Microservices.Authorization.Domain.Repositories;
 
 namespace iHome.Microservices.Authorization.Infrastructure.Repositories;
 

@@ -1,4 +1,4 @@
-﻿namespace iHome.Microservices.Authorization.Infrastructure.Repositories;
+﻿namespace iHome.Microservices.Authorization.Domain.Repositories;
 
 public interface IWidgetRepository
 {

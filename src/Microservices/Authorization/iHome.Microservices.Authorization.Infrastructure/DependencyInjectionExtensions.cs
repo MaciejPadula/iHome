@@ -1,4 +1,5 @@
-﻿using iHome.Microservices.Authorization.Infrastructure.Repositories;
+﻿using iHome.Microservices.Authorization.Domain.Repositories;
+using iHome.Microservices.Authorization.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace iHome.Microservices.Authorization.Infrastructure;

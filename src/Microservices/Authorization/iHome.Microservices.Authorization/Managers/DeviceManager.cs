@@ -1,5 +1,5 @@
 ﻿using iHome.Microservices.Authorization.Contract.Models.Request;
-using iHome.Microservices.Authorization.Infrastructure.Repositories;
+using iHome.Microservices.Authorization.Domain.Repositories;
 
 namespace iHome.Microservices.Authorization.Managers;
 
