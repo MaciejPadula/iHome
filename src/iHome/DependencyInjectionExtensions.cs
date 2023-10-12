@@ -5,6 +5,7 @@ using iHome.Microservices.RoomsManagement.Contract;
 using iHome.Microservices.Schedules.Contract;
 using iHome.Microservices.UsersApi.Contract;
 using iHome.Microservices.Widgets.Contract;
+using Web.Infrastructure.Microservices.Client.Builders;
 using Web.Infrastructure.Microservices.Client.Configuration.Extensions;
 using Web.Infrastructure.Microservices.Client.Extensions;
 
@@ -16,27 +17,34 @@ public static class DependencyInjectionExtensions
     {
         services.AddConfigurationServiceLookup("Microservices");
 
-        services.AddMicroserviceClient<IDeviceManagementService>();
-        services.AddMicroserviceClient<IDeviceDataService>();
+        services.AddLongRunningMicroservices<IDeviceManagementService>();
+        services.AddLongRunningMicroservices<IDeviceDataService>();
 
-        services.AddMicroserviceClient<IUserManagementService>();
+        services.AddLongRunningMicroservices<IUserManagementService>();
 
-        services.AddMicroserviceClient<IRoomManagementService>();
-        services.AddMicroserviceClient<IRoomSharingService>();
+        services.AddLongRunningMicroservices<IRoomManagementService>();
+        services.AddLongRunningMicroservices<IRoomSharingService>();
 
-        services.AddMicroserviceClient<ISuggestionsService>();
+        services.AddLongRunningMicroservices<ISuggestionsService>();
 
-        services.AddMicroserviceClient<IWidgetManagementService>();
-        services.AddMicroserviceClient<IWidgetDeviceManagementService>();
+        services.AddLongRunningMicroservices<IWidgetManagementService>();
+        services.AddLongRunningMicroservices<IWidgetDeviceManagementService>();
 
-        services.AddMicroserviceClient<IScheduleDeviceManagementService>();
-        services.AddMicroserviceClient<IScheduleManagementService>();
+        services.AddLongRunningMicroservices<IScheduleDeviceManagementService>();
+        services.AddLongRunningMicroservices<IScheduleManagementService>();
 
-        services.AddMicroserviceClient<IRoomAuthService>();
-        services.AddMicroserviceClient<IDeviceAuthService>();
-        services.AddMicroserviceClient<IWidgetAuthService>();
-        services.AddMicroserviceClient<IScheduleAuthService>();
+        services.AddLongRunningMicroservices<IRoomAuthService>();
+        services.AddLongRunningMicroservices<IDeviceAuthService>();
+        services.AddLongRunningMicroservices<IWidgetAuthService>();
+        services.AddLongRunningMicroservices<IScheduleAuthService>();
 
         return services;
+    }
+
+    private static IServiceCollection AddLongRunningMicroservices<T>(this IServiceCollection services)
+        where T : class
+    {
+        return services.AddMicroserviceClient<T>(_ => { },
+            MicroserviceClientConfigurationBuilder.GetLongRunningConfig());
     }
 }
