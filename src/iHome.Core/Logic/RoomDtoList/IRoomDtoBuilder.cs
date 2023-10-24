@@ -1,4 +1,5 @@
 ﻿using iHome.Core.Models;
+using iHome.Microservices.RoomsManagement.Contract.Models;
 using iHome.Microservices.UsersApi.Contract.Models;
 
 namespace iHome.Core.Logic.RoomDtoList;

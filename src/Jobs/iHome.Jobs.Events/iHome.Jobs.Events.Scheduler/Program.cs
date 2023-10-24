@@ -1,4 +1,5 @@
 using iHome.Infrastructure.Queue.Helpers;
+using iHome.Infrastructure.Queue.Models;
 using iHome.Jobs.Events.Infrastructure.Contexts;
 using iHome.Jobs.Events.Infrastructure.Helpers;
 using iHome.Jobs.Events.Infrastructure.Repositories;
@@ -12,8 +13,11 @@ var host = Host.CreateDefaultBuilder(args)
     {
         var config = context.Configuration;
         services.AddApplicationInsightsTelemetryWorkerService(config);
-
-        services.AddDataQueueWriter(config.GetValue<string>("Azure:StorageConnectionString"));
+        services.AddQueueWriter<DataUpdateModel>(opt =>
+        {
+            opt.QueueName = "device-data-events";
+            opt.ConnectionString = config.GetValue<string>("Azure:StorageConnectionString");
+        });
         services.AddDbContext<SqlDataContext>(o => o.UseSqlServer(config.GetValue<string>("ConnectionStrings:AzureSQL")));
 
         services.AddTransient<IScheduleRunningConditionChecker, ScheduleRunningConditionChecker>();

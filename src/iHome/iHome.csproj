@@ -11,11 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="Web.Infrastructure.Microservices.Client" Version="1.0.8" />
-    <PackageReference Include="Web.Infrastructure.Microservices.Client.Configuration" Version="1.0.8" />
+    <PackageReference Include="Web.Infrastructure.Microservices.Client" Version="1.1.0" />
+    <PackageReference Include="Web.Infrastructure.Microservices.Client.Configuration" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>

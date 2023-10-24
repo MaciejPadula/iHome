@@ -9,7 +9,10 @@ using Web.Infrastructure.Microservices.Server.Builders;
 
 var builder = new MicroserviceBuilder(args);
 
-builder.Services.AddDbConnectionFactory(builder.Configuration["ConnectionStrings:SqlConnectionString"] ?? string.Empty);
+builder.Services.AddDbConnectionFactory(opt =>
+{
+    opt.ConnectionString = builder.Configuration["ConnectionStrings:SqlConnectionString"] ?? string.Empty;
+});
 builder.Services.AddRepositories();
 builder.Services.AddScoped<IDeviceForSchedulingTypesProvider, DeviceForSchedulingTypesProvider>();
 builder.Services.AddScoped<IScheduleManager, ScheduleManager>();

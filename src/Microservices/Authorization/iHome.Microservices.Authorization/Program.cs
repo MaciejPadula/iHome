@@ -7,7 +7,10 @@ using iHome.Microservices.Authorization.Managers;
 
 var builder = new MicroserviceBuilder(args);
 
-builder.Services.AddDbConnectionFactory(builder.Configuration["ConnectionStrings:SqlConnectionString"] ?? string.Empty);
+builder.Services.AddDbConnectionFactory(opt =>
+{
+    opt.ConnectionString = builder.Configuration["ConnectionStrings:SqlConnectionString"] ?? string.Empty;
+});
 builder.Services.AddRepositories();
 builder.Services.AddScoped<IRoomManager, RoomManager>();
 builder.Services.AddScoped<IDeviceManager, DeviceManager>();

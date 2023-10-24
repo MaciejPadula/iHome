@@ -2,7 +2,7 @@
 using iHome.Microservices.OpenAI.Infrastructure.Services;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using OpenAI.GPT3.Extensions;
+using OpenAI.Extensions;
 
 namespace iHome.Microservices.OpenAI.Infrastructure;
 
