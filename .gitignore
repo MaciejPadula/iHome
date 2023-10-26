@@ -197,3 +197,5 @@ src/Microservices/Schedules/iHome.Microservices.Schedules.Logic/bin
 src/Microservices/Schedules/iHome.Microservices.Schedules.Logic/obj
 src/Microservices/Schedules/iHome.Microservices.Schedules.Tests/bin
 src/Microservices/Schedules/iHome.Microservices.Schedules.Tests/obj
+src/Microservices/OpenAI/iHome.Microservices.OpenAI.Model/obj
+src/Microservices/OpenAI/iHome.Microservices.OpenAI.Model/bin

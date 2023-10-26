@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\iHome.Microservices.OpenAI.Contract\iHome.Microservices.OpenAI.Contract.csproj" />
+    <ProjectReference Include="..\iHome.Microservices.OpenAI.Model\iHome.Microservices.OpenAI.Model.csproj" />
   </ItemGroup>
 
 </Project>

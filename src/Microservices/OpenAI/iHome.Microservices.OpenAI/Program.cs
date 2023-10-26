@@ -1,11 +1,13 @@
 using iHome.Microservices.OpenAI.Contract;
 using iHome.Microservices.OpenAI.Controllers;
 using iHome.Microservices.OpenAI.Infrastructure;
+using iHome.Microservices.OpenAI.Services;
 using Web.Infrastructure.Microservices.Server.Builders;
 
 var builder = new MicroserviceBuilder(args);
 
-builder.Services.AddSuggestionService(builder.Configuration["OpenAI:ApiToken"]);
+builder.Services.AddSuggestionsProviders(builder.Configuration["OpenAI:ApiToken"]);
+builder.Services.AddScoped<ISuggestionsManager, SuggestionsManager>();
 
 builder.RegisterMicroservice<ISuggestionsService, SuggestionsController>();
 

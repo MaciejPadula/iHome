@@ -1,15 +1,16 @@
 ﻿using iHome.Microservices.OpenAI.Contract.Models;
 using iHome.Microservices.OpenAI.Infrastructure.Logic;
+using iHome.Microservices.OpenAI.Model;
 using OpenAI.ObjectModels;
 using System.Text.Json;
 
-namespace iHome.Microservices.OpenAI.Infrastructure.Services;
+namespace iHome.Microservices.OpenAI.Infrastructure.Providers;
 
-public class OpenAIScheduleSuggestionsService : IScheduleSuggestionsService
+public class OpenAIScheduleSuggestionsProvider : IScheduleSuggestionsProvider
 {
     private readonly IOpenAICompletions _openAICompletions;
 
-    public OpenAIScheduleSuggestionsService(IOpenAICompletions openAICompletions)
+    public OpenAIScheduleSuggestionsProvider(IOpenAICompletions openAICompletions)
     {
         _openAICompletions = openAICompletions;
     }

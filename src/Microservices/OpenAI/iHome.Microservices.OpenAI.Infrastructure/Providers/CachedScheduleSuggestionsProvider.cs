@@ -1,11 +1,12 @@
 ﻿using iHome.Microservices.OpenAI.Contract.Models;
+using iHome.Microservices.OpenAI.Model;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace iHome.Microservices.OpenAI.Infrastructure.Services
+namespace iHome.Microservices.OpenAI.Infrastructure.Providers
 {
-    public class CachedScheduleSuggestionsService : IScheduleSuggestionsService
+    public class CachedScheduleSuggestionsProvider : IScheduleSuggestionsProvider
     {
-        private readonly IScheduleSuggestionsService _scheduleSuggestionsService;
+        private readonly IScheduleSuggestionsProvider _scheduleSuggestionsService;
         private readonly IMemoryCache _memoryCache;
 
         private readonly TimeSpan _cacheAvailability = TimeSpan.FromHours(10);
@@ -14,7 +15,7 @@ namespace iHome.Microservices.OpenAI.Infrastructure.Services
         private const string GetTimeForScheduleKey = "GetTimeForSchedule";
         private const string DefaultSuggestedTime = "06:00";
 
-        public CachedScheduleSuggestionsService(IScheduleSuggestionsService scheduleSuggestionsService, IMemoryCache memoryCache)
+        public CachedScheduleSuggestionsProvider(IScheduleSuggestionsProvider scheduleSuggestionsService, IMemoryCache memoryCache)
         {
             _scheduleSuggestionsService = scheduleSuggestionsService;
             _memoryCache = memoryCache;
