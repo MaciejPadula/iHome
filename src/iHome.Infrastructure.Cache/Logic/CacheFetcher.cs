@@ -31,6 +31,7 @@ namespace iHome.Infrastructure.Cache.Logic
             }
 
             entity = entityFetcher(key);
+
             if (entity != null)
             {
                 entitiesFromCache.Add(entity);
@@ -69,6 +70,7 @@ namespace iHome.Infrastructure.Cache.Logic
             }
 
             var entities = entityFetcher(keysToFetch);
+
             if (entities.Any())
             {
                 entitiesFromCache.AddRange(entities);
