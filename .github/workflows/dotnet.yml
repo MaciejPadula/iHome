@@ -26,6 +26,8 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
+    - name: Add
+      run: dotnet nuget add source http://172.30.0.1:4999/nuget/Internal/v3/index.json
     - name: Test
       run: dotnet nuget list source
     - name: Restore dependencies
