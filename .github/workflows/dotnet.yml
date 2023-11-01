@@ -42,7 +42,7 @@ jobs:
       run: npm install
       working-directory: ./src/iHome/ClientApp
     - name: Install angular-cli
-      run: npm install -g angular-cli
+      run: npm install -g @angular/cli
       working-directory: ./src/iHome/ClientApp
     - name: Angular Lint
       run: ng lint
