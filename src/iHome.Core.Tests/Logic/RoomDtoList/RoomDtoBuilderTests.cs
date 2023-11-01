@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using iHome.Core.Logic.RoomDtoList;
 using iHome.Core.Models;
+using iHome.Microservices.RoomsManagement.Contract.Models;
 using iHome.Microservices.UsersApi.Contract.Models;
 
 namespace iHome.Core.Tests.Logic.RoomDtoList;

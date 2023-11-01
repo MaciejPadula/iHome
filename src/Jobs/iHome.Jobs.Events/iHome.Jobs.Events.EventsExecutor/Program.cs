@@ -1,7 +1,9 @@
 using iHome.Infrastructure.Queue.Helpers;
+using iHome.Infrastructure.Queue.Models;
 using iHome.Jobs.Events.EventsExecutor;
 using iHome.Jobs.Events.EventsExecutor.Services;
 using iHome.Microservices.Devices.Contract;
+using Web.Infrastructure.Microservices.Client.Builders;
 using Web.Infrastructure.Microservices.Client.Configuration.Extensions;
 using Web.Infrastructure.Microservices.Client.Extensions;
 
@@ -11,9 +13,14 @@ var host = Host.CreateDefaultBuilder(args)
         var config = context.Configuration;
         services.AddApplicationInsightsTelemetryWorkerService(config);
 
-        services.AddDataQueueReader(config.GetValue<string>("Azure:StorageConnectionString"));
+        services.AddQueueReader<DataUpdateModel>(opt =>
+        {
+            opt.QueueName = "device-data-events";
+            opt.ConnectionString = config.GetValue<string>("Azure:StorageConnectionString");
+        });
         services.AddConfigurationServiceLookup("Microservices");
-        services.AddMicroserviceClient<IDeviceDataService>();
+        services.AddMicroserviceClient<IDeviceDataService>(o => { },
+            MicroserviceClientConfigurationBuilder.GetLongRunningConfig());
         services.AddTransient<IScheduleDevicesProcessor, ScheduleDevicesProcessor>();
         services.AddTransient<IScheduleDevicesProvider, ScheduleDevicesProvider>();
 
