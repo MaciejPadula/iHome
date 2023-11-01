@@ -64,11 +64,9 @@ jobs:
       with:
         network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
     - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+    - name: Build and push to local registry
+      uses: docker/build-push-action@v5
       with:
-        dotnet-version: 7.0.x
-    - name: Docker build
-      run: docker build -t 172.30.0.1:5000/ihome-front:latest .
-    - name: Docker push
-      run: docker push 172.30.0.1:5000/ihome-front:latest
+        context: .
+        push: true
+        tags: 172.30.0.1:5000/ihome-front:latest
