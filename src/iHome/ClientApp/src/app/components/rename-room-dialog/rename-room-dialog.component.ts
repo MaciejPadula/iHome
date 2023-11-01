@@ -5,11 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './rename-room-dialog.component.html',
   styleUrls: ['./rename-room-dialog.component.scss']
 })
-export class RenameRoomDialogComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+export class RenameRoomDialogComponent {
 
 }
