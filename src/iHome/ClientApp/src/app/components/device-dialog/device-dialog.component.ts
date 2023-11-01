@@ -61,7 +61,6 @@ export class DeviceDialogComponent implements OnInit {
   public get device() : Device {
     return this.deviceDialogData.device;
   }
-
   
   public get showSchedules() : boolean {
     return this.deviceDialogData.showSchedules;

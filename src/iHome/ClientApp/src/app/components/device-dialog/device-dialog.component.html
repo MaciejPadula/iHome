@@ -1,7 +1,6 @@
 <h1 mat-dialog-title>{{device.name}}</h1>
 
-<div mat-dialog-content>
-  <button (click)="saveChanges()">Save</button>
+<mat-dialog-content>
   <app-rgb-lamp *ngIf="device.type === type.RGBLamp" [formControl]="deviceDataControl" [value]="device.data"></app-rgb-lamp>
 
   <mat-expansion-panel hideToggle *ngIf="showSchedules">
@@ -27,7 +26,12 @@
       </ngx-mat-timeline-item>
     </ngx-mat-timeline>
   </mat-expansion-panel>
-</div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeWithoutSaving()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="saveChanges()">Save</button>
+</mat-dialog-actions>
 
 <ng-template #loading>
   <mat-spinner mode="indeterminate" diameter="50"></mat-spinner>

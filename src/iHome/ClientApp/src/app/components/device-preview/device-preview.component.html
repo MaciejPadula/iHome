@@ -1,5 +1,5 @@
 <button class="device-preview-box">
-  <div class="font-bold">{{device.name}}</div>
+  <h3>{{device.name}}</h3>
 
   <app-rgb-lamp-preview *ngIf="device.type === type.RGBLamp" [device]="device"></app-rgb-lamp-preview>
   <app-thermometer-preview *ngIf="device.type === type.Thermometer" [device]="device"></app-thermometer-preview>

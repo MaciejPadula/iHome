@@ -1,10 +1,5 @@
-<div>
-  <div class="flex flex-row items-center justify-center">
-    <h3>{{ device.name }}</h3>
-  </div>
-  <app-device-preview
-    (click)="composeDialog()"
-    [device]="device">
-  </app-device-preview>
-</div>
+<app-device-preview
+  (click)="composeDialog()"
+  [device]="device">
+</app-device-preview>
 
