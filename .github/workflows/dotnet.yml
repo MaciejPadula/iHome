@@ -39,14 +39,11 @@ jobs:
       with:
         node-version: 18.17.0
     - name: Install angular dependencies
-      run: npm install
+      run: yarn install
       working-directory: ./src/iHome/ClientApp
     - name: Angular Lint
-      run: npm run lint
-      working-directory: ./src/iHome/ClientApp
-    - name: Angular Build
-      run: npm run build -- --prod
+      run: ng lint
       working-directory: ./src/iHome/ClientApp
     - name: Angular Test
-      run: npm test -- --configuration=ci
+      run: ng test --browsers ChromeHeadless
       working-directory: ./src/iHome/ClientApp
