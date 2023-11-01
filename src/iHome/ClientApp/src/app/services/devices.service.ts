@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Device } from '../models/device';
+import { Schedule } from '../models/schedule';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class DevicesService {
     return this._api.post<T>(this._baseApiUrl + 'GetDeviceData', {
       deviceId
     });
+  }
+
+  public getSchedules(deviceId: string) : Observable<Schedule[]> {
+    return this._api.get<Schedule[]>(`${this._baseApiUrl}GetSchedules/${deviceId}`);
   }
 
   public setDeviceData(deviceId: string, data: string): Observable<object> {
