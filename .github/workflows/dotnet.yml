@@ -39,7 +39,7 @@ jobs:
       with:
         node-version: 18.17.0
     - name: Go to ClientApp directory
-      run: cd ./src/ClientApp
+      run: cd ./iHome/ClientApp
     - name: Install angular dependencies
       run: npm install
     - name: Angular Lint
