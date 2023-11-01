@@ -38,13 +38,15 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 18.17.0
-    - name: Go to ClientApp directory
-      run: cd ./iHome/ClientApp
     - name: Install angular dependencies
       run: npm install
+      working-directory: ./iHome/ClientApp
     - name: Angular Lint
       run: npm run lint
+      working-directory: ./iHome/ClientApp
     - name: Angular Build
       run: npm run build -- --prod
+      working-directory: ./iHome/ClientApp
     - name: Angular Test
       run: npm test -- --configuration=ci
+      working-directory: ./iHome/ClientApp
