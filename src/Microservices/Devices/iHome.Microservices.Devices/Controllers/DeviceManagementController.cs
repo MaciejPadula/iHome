@@ -5,6 +5,7 @@ using iHome.Microservices.Devices.Contract.Models.Request;
 using iHome.Microservices.Devices.Contract.Models.Response;
 using iHome.Microservices.Devices.Handlers;
 using iHome.Microservices.Devices.Infrastructure.Repositories;
+using iHome.Microservices.Devices.Managers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.Devices.Controllers
@@ -12,12 +13,12 @@ namespace iHome.Microservices.Devices.Controllers
     public class DeviceManagementController : ControllerBase, IDeviceManagementService
     {
         private readonly IDeviceRepository _deviceRepository;
-        private readonly IDeviceDataHandler _deviceDataHandler;
+        private readonly IDeviceManager _deviceManager;
 
-        public DeviceManagementController(IDeviceRepository deviceRepository, IDeviceDataHandler deviceDataHandler)
+        public DeviceManagementController(IDeviceRepository deviceRepository, IDeviceManager deviceManager)
         {
             _deviceRepository = deviceRepository;
-            _deviceDataHandler = deviceDataHandler;
+            _deviceManager = deviceManager;
         }
 
         [HttpPost]
@@ -36,47 +37,20 @@ namespace iHome.Microservices.Devices.Controllers
         }
 
         [HttpPost]
-        public async Task<GetDeviceResponse> GetDevice([FromBody] GetDeviceRequest request)
+        public Task<GetDeviceResponse> GetDevice([FromBody] GetDeviceRequest request)
         {
-            return new()
-            {
-                Device = await _deviceRepository.GetByDeviceId(request.DeviceId)
-            };
+            return GetDevice(request);
         }
 
         [HttpPost]
-        public async Task<GetDevicesResponse> GetDevices([FromBody] GetDevicesRequest request)
+        public Task<GetDevicesResponse> GetDevices([FromBody] GetDevicesRequest request)
         {
-            List<DeviceModel> devices;
-            if (request.RoomId == default!)
-            {
-                devices = (await _deviceRepository.GetByUserId(request.UserId)).ToList();
-            }
-            else
-            {
-                devices = (await _deviceRepository.GetByRoomId(request.RoomId)).ToList();
-            }
-
-            devices = devices.ToList();
-
-            foreach(var d in devices)
-            {
-                var data = await _deviceDataHandler.GetDeviceData(new() { DeviceId = d.Id });
-                d.Data = data.DeviceData;
-            }
-
-            return new()
-            {
-                Devices = devices
-            };
+            return _deviceManager.GetDevices(request);
         }
 
-        public async Task<GetDevicesResponse> GetDevicesByIds([FromBody] GetDevicesByIdsRequest request)
+        public Task<GetDevicesResponse> GetDevicesByIds([FromBody] GetDevicesByIdsRequest request)
         {
-            return new() 
-            {
-                Devices = await _deviceRepository.GetByUserIdAndDeviceIds(request.UserId, request.DeviceIds)
-            };
+            return _deviceManager.GetDevicesByIds(request);
         }
 
         [HttpPost]

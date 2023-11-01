@@ -1,9 +1,0 @@
-<h1 mat-dialog-title>{{data.name}}</h1>
-<div class="flex flex-col items-center justify-center">
-    <chrome-picker [control]="colorPickerControl"></chrome-picker>
-    <mat-slide-toggle [formControl]="stateControl">{{stateControl.value ? 'Enabled' : 'Disabled'}}</mat-slide-toggle>
-</div>
-<div mat-dialog-actions class="flex !justify-end">
-  <button mat-button (click)="closeDialog()">Close</button>
-  <button mat-button mat-raised-button color="primary" (click)="saveChanges()">Save</button>
-</div>
