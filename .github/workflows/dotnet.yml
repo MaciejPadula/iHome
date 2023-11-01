@@ -48,5 +48,5 @@ jobs:
       run: ng lint
       working-directory: ./src/iHome/ClientApp
     - name: Angular Test
-      run: ng test --browsers ChromeHeadless
+      run: ng test --browsers ChromeHeadless --no-watch --no-progress
       working-directory: ./src/iHome/ClientApp
