@@ -33,7 +33,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ShareRoomDialogComponent } from './components/share-room-dialog/share-room-dialog.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RgbLampComponent } from './components/device-dialog/rgb-lamp/rgb-lamp.component';
@@ -132,7 +131,6 @@ import { ThermometerPreviewComponent } from './components/device-preview/thermom
     DragDropModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    FontAwesomeModule,
     MatAutocompleteModule,
     ColorPickerModule,
     MatSlideToggleModule,
