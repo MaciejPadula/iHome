@@ -1,13 +1,14 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { ControlValueAccessor } from "@angular/forms";
 
 @Component({template: ''})
 export abstract class DeviceBaseControlComponent<DeviceDataType> implements ControlValueAccessor {
-  public value: string | null | undefined;
+  @Input() public value: string | null | undefined;
 
   protected get data(): DeviceDataType {
-    if (!this.value)
+    if (!this.value) {
       return this.defaultData;
+    }
 
     return JSON.parse(this.value) ?? this.defaultData;
   }

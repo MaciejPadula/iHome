@@ -6,6 +6,6 @@
         </button> -->
   </div>
 
-  <app-rgb-lamp-preview *ngIf="device.type === type.RGBLamp" [device]="device" (click)="composeDialog(device)"></app-rgb-lamp-preview>
+  <app-rgb-lamp-preview *ngIf="device.type === type.RGBLamp" [showPointer]="true" [device]="device" (click)="composeDialog(device)"></app-rgb-lamp-preview>
   <app-thermometer-preview *ngIf="device.type === type.Thermometer" [device]="device"></app-thermometer-preview>
 </div>

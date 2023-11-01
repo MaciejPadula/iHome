@@ -2,9 +2,9 @@
 
 <div mat-dialog-content>
   <button (click)="saveChanges()">Save</button>
-  <app-rgb-lamp *ngIf="device.type === type.RGBLamp" [formControl]="deviceDataControl"></app-rgb-lamp>
+  <app-rgb-lamp *ngIf="device.type === type.RGBLamp" [formControl]="deviceDataControl" [value]="device.data"></app-rgb-lamp>
 
-  <mat-expansion-panel hideToggle>
+  <mat-expansion-panel hideToggle *ngIf="showSchedules">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Schedules

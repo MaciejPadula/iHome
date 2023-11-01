@@ -34,8 +34,6 @@ export class RgbLampComponent extends DeviceBaseControlComponent<RgbLampData> im
   }
 
   public ngOnInit(): void {
-    console.log(this.value);
-
     this.stateControl.setValue(this.data.state);
     this.colorPickerControl.setValueFrom(this.color);
 

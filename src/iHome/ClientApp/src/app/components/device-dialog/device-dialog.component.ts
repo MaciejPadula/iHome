@@ -4,10 +4,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subject } from 'rxjs';
 import { TimeHelper } from 'src/app/helpers/time.helper';
-import { Device } from 'src/app/models/device';
 import { DeviceType } from 'src/app/models/device-type';
 import { Schedule } from 'src/app/models/schedule';
 import { DevicesService } from 'src/app/services/devices.service';
+import { DeviceDialogData } from './device-dialog-data';
+import { Device } from 'src/app/models/device';
 
 @UntilDestroy()
 @Component({
@@ -26,7 +27,7 @@ export class DeviceDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DeviceDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public device: Device,
+    @Inject(MAT_DIALOG_DATA) public deviceDialogData: DeviceDialogData,
     private _devicesService: DevicesService,
     private _timeHelper: TimeHelper
   ) { }
@@ -34,16 +35,15 @@ export class DeviceDialogComponent implements OnInit {
   ngOnInit(): void {
     this.deviceDataControl = new FormControl(this.device.data);
 
-    this._devicesService.getSchedules(this.device.id)
-      .subscribe(x => this.schedulesSubject$.next(x));
-
-    // this.deviceDataControl.valueChanges
-    //   .subscribe(d => console.log(d));
-
     this.dialogRef
       .backdropClick()
       .pipe(untilDestroyed(this))
       .subscribe(() => { this.closeWithoutSaving(); });
+
+      if (this.showSchedules){
+        this._devicesService.getSchedules(this.device.id)
+          .subscribe(x => this.schedulesSubject$.next(x));
+      }
   }
 
   public getScheduleTime(schedule: Schedule): string {
@@ -57,4 +57,14 @@ export class DeviceDialogComponent implements OnInit {
   public closeWithoutSaving() {
     this.dialogRef.close(null);
   }
+
+  public get device() : Device {
+    return this.deviceDialogData.device;
+  }
+
+  
+  public get showSchedules() : boolean {
+    return this.deviceDialogData.showSchedules;
+  }
+  
 }

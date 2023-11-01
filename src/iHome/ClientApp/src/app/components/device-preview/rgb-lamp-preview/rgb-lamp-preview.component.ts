@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RgbLampData } from '../../../models/rgb-lamp-data';
 import { DeviceDataHelper } from 'src/app/helpers/device-data.helper';
 import { StaticDevicePreviewComponent } from '../static-device-preview.component';
@@ -10,6 +10,8 @@ import { StaticDevicePreviewComponent } from '../static-device-preview.component
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RgbLampPreviewComponent extends StaticDevicePreviewComponent<RgbLampData> {
+  @Input() public showPointer = false;
+
   constructor(
     private _deviceDataHelper: DeviceDataHelper
   ) {
