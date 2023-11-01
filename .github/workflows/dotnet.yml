@@ -39,7 +39,9 @@ jobs:
       with:
         node-version: 18.17.0
     - name: Install angular dependencies
-      run: yarn install
+      run: npm install
+    - name: Install angular-cli
+      run: npm install -g angular-cli
       working-directory: ./src/iHome/ClientApp
     - name: Angular Lint
       run: ng lint
