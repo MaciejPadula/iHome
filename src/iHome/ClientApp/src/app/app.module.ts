@@ -31,16 +31,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { environment } from 'src/environments/environment';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ThermometerComponent } from './components/device/thermometer/thermometer.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ShareRoomDialogComponent } from './components/share-room-dialog/share-room-dialog.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { RgbLampComponent } from './components/device/rgb-lamp/rgb-lamp.component';
+import { RgbLampComponent } from './components/device-dialog/rgb-lamp/rgb-lamp.component';
 import { ColorPickerModule } from '@iplab/ngx-color-picker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { RgbLampDialogComponent } from './components/device/rgb-lamp/rgb-lamp-dialog/rgb-lamp-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { GlobalErrorHandler } from './errors/global-error-handler';
 import { ErrorDialogComponent } from './errors/error-dialog/error-dialog.component';
@@ -57,6 +55,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
 import { DragDevicesListComponent } from './components/drag-devices-list/drag-devices-list.component';
 import { Auth0AccessGuard } from './guards/auth0-access.guard';
+import { DeviceDialogComponent } from './components/device-dialog/device-dialog.component';
+import { NgxMatTimelineModule } from "ngx-mat-timeline";
+import { RgbLampPreviewComponent } from './components/device-preview/rgb-lamp-preview/rgb-lamp-preview.component';
+import { ThermometerPreviewComponent } from './components/device-preview/thermometer-preview/thermometer-preview.component';
 
 
 @NgModule({
@@ -72,10 +74,8 @@ import { Auth0AccessGuard } from './guards/auth0-access.guard';
     AddRoomDialogComponent,
     AddWidgetDialogComponent,
     RenameRoomDialogComponent,
-    ThermometerComponent,
     ShareRoomDialogComponent,
     RgbLampComponent,
-    RgbLampDialogComponent,
     ErrorDialogComponent,
     SchedulesComponent,
     ScheduleComponent,
@@ -84,7 +84,10 @@ import { Auth0AccessGuard } from './guards/auth0-access.guard';
     ConfirmDialogComponent,
     DevicePreviewComponent,
     AddScheduleComponent,
-    DragDevicesListComponent
+    DragDevicesListComponent,
+    DeviceDialogComponent,
+    RgbLampPreviewComponent,
+    ThermometerPreviewComponent
   ],
   imports: [
     BrowserModule,
@@ -137,7 +140,8 @@ import { Auth0AccessGuard } from './guards/auth0-access.guard';
     MatExpansionModule,
     MatDividerModule,
     NgxMatTimepickerModule,
-    MatStepperModule
+    MatStepperModule,
+    NgxMatTimelineModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

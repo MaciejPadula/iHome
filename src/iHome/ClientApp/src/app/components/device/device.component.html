@@ -1,10 +1,8 @@
-<div class="device">
-    <div class="flex flex-row items-center justify-center">
-        <h3>{{device.name}}</h3>
-        <!-- <button mat-icon-button (click)="removeFromWidget()">
-            <mat-icon>delete</mat-icon>
-        </button> -->
-    </div>
-    <app-rgb-lamp *ngIf="device.type === 1" [device]="device"></app-rgb-lamp>
-    <app-thermometer *ngIf="device.type === 2" [device]="device"></app-thermometer>
-</div>
+<!-- <button mat-icon-button (click)="removeFromWidget()">
+  <mat-icon>delete</mat-icon>
+</button> -->
+<app-device-preview
+  (click)="composeDialog(device)"
+  [device]="device"
+  class="device">
+</app-device-preview>

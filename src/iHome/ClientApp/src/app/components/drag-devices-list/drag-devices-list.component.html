@@ -1,8 +1,6 @@
 <div cdkDropList class="flex flex-row items-center justify-center">
     <app-device-preview *ngFor="let device of devices$ | async" cdkDrag [cdkDragData]="device"
-        [deviceName]="device.name"
-        [deviceType]="device.type"
-        [deviceData]="device.data ?? '{}'"
+        [device]="device"
     >
     </app-device-preview>
 </div>

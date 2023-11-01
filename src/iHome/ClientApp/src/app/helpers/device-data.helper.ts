@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Color } from '@iplab/ngx-color-picker';
-import { RgbLampData } from '../components/device/rgb-lamp/rgb-lamp-data';
+import { RgbLampData } from '../models/rgb-lamp-data';
 
 @Injectable({
   providedIn: 'root'
