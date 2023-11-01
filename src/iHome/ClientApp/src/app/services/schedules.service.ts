@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Schedule } from '../models/schedule';
 import { ScheduleDevice } from '../models/schedule-device';
-import { ScheduleDevicesCountResponse } from '../models/schedule-devices-count-response';
 import { GenericResponse } from '../models/generic-response';
 
 @Injectable({
