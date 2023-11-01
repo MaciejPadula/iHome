@@ -38,6 +38,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 18.17.0
+    - name: Go to ClientApp directory
+      run: cd ClientApp
     - name: Install angular dependencies
       run: npm install
     - name: Angular Lint
