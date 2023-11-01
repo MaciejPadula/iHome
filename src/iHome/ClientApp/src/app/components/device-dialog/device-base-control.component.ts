@@ -37,7 +37,7 @@ export abstract class DeviceBaseControlComponent<DeviceDataType> implements Cont
     this.onTouch = fn;
   }
 
-  public setDisabledState?(isDisabled: boolean): void {}
-  public onChange: any = () => {}
-  public onTouch: any = () => {}
+  public setDisabledState?(isDisabled: boolean): void {}/* eslint-disable-line */
+  public onChange: any = () => {}/* eslint-disable-line */
+  public onTouch: any = () => {}/* eslint-disable-line */
 }
