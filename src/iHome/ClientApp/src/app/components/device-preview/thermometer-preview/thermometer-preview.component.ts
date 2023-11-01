@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { faThermometerFull } from '@fortawesome/free-solid-svg-icons';
 import { DeviceDataHelper } from 'src/app/helpers/device-data.helper';
 import { ThermometerData } from 'src/app/models/thermometer-data';
 import { ListeningDevicePreviewComponent } from '../listening-device-preview.component';
@@ -12,8 +11,6 @@ import { DevicesService } from 'src/app/services/devices.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThermometerPreviewComponent extends ListeningDevicePreviewComponent<ThermometerData> {
-  faThermometer = faThermometerFull;
-
   constructor(
     devicesService: DevicesService,
     private _deviceDataHelper: DeviceDataHelper
