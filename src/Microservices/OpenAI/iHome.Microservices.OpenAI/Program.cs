@@ -1,3 +1,4 @@
+using iHome.Infrastructure.Cache.Extensions;
 using iHome.Microservices.OpenAI.Contract;
 using iHome.Microservices.OpenAI.Controllers;
 using iHome.Microservices.OpenAI.Infrastructure;
@@ -5,6 +6,9 @@ using iHome.Microservices.OpenAI.Services;
 using Web.Infrastructure.Microservices.Server.Builders;
 
 var builder = new MicroserviceBuilder(args);
+
+builder.Services.AddMemoryCache();
+builder.Services.AddCacheByStrategy(CacheStrategy.Memory);
 
 builder.Services.AddSuggestionsProviders(builder.Configuration["OpenAI:ApiToken"]);
 builder.Services.AddScoped<ISuggestionsManager, SuggestionsManager>();

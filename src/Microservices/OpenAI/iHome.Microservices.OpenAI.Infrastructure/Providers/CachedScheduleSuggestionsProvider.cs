@@ -1,13 +1,13 @@
-﻿using iHome.Microservices.OpenAI.Contract.Models;
+﻿using iHome.Infrastructure.Cache;
+using iHome.Microservices.OpenAI.Contract.Models;
 using iHome.Microservices.OpenAI.Model;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace iHome.Microservices.OpenAI.Infrastructure.Providers
 {
     public class CachedScheduleSuggestionsProvider : IScheduleSuggestionsProvider
     {
         private readonly IScheduleSuggestionsProvider _scheduleSuggestionsService;
-        private readonly IMemoryCache _memoryCache;
+        private readonly ICache _cache;
 
         private readonly TimeSpan _cacheAvailability = TimeSpan.FromHours(10);
 
@@ -15,15 +15,15 @@ namespace iHome.Microservices.OpenAI.Infrastructure.Providers
         private const string GetTimeForScheduleKey = "GetTimeForSchedule";
         private const string DefaultSuggestedTime = "06:00";
 
-        public CachedScheduleSuggestionsProvider(IScheduleSuggestionsProvider scheduleSuggestionsService, IMemoryCache memoryCache)
+        public CachedScheduleSuggestionsProvider(IScheduleSuggestionsProvider scheduleSuggestionsService, ICache cache)
         {
             _scheduleSuggestionsService = scheduleSuggestionsService;
-            _memoryCache = memoryCache;
+            _cache = cache;
         }
 
         public async Task<IEnumerable<Guid>> GetDevicesIdsForSchedule(string scheduleName, string scheduleTime, IEnumerable<DeviceDetails> devices)
         {
-            return await _memoryCache.GetOrCreateAsync(
+            return await _cache.GetOrCreateAsync(
                 $"{GetDevicesIdsKey}_{scheduleName}_{scheduleTime}",
                 entry =>
                 {
@@ -34,7 +34,7 @@ namespace iHome.Microservices.OpenAI.Infrastructure.Providers
 
         public async Task<string> GetTimeForSchedule(string scheduleName)
         {
-            return await _memoryCache.GetOrCreateAsync(
+            return await _cache.GetOrCreateAsync(
                 $"{GetTimeForScheduleKey}_{scheduleName}",
                 entry =>
                 {

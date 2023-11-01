@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.OpenAI.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.OpenAI.Infrastructure", "iHome.Microservices.OpenAI.Infrastructure\iHome.Microservices.OpenAI.Infrastructure.csproj", "{D3395E89-8C46-4DD8-B33E-E51D7D8B2152}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Microservices.OpenAI.Model", "iHome.Microservices.OpenAI.Model\iHome.Microservices.OpenAI.Model.csproj", "{209908C6-F43C-4318-82AF-E4DFC131EB10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Microservices.OpenAI.Model", "iHome.Microservices.OpenAI.Model\iHome.Microservices.OpenAI.Model.csproj", "{209908C6-F43C-4318-82AF-E4DFC131EB10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
