@@ -32,4 +32,25 @@ public static class IServiceCollectionExtensions
 
         return services;
     }
+
+    public static IServiceCollection AddCachedRepository<TInterface, TImplementation>(
+        this IServiceCollection services,
+        Func<IServiceProvider, TImplementation> implementationFactory,
+        Func<ICache, TInterface, TInterface> cacheFactory,
+        ServiceLifetime lifetime = ServiceLifetime.Scoped)
+        where TImplementation : TInterface
+        where TInterface : class
+    {
+        services.Add(new ServiceDescriptor(
+            typeof(TInterface),
+            provider =>
+            {
+                var service = implementationFactory(provider);
+                var cache = provider.GetRequiredService<ICache>();
+                return cacheFactory(cache, service);
+            },
+            lifetime));
+
+        return services;
+    }
 }
