@@ -50,23 +50,3 @@ jobs:
     - name: Angular Test
       run: ng test --browsers ChromeHeadless --no-watch --no-progress
       working-directory: ./src/iHome/ClientApp
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-    environment: 'dev'
-    defaults:
-      run:
-        working-directory: ./src
-
-    steps:
-    - name: ZeroTier
-      uses: zerotier/github-action@v1
-      with:
-        network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
-    - uses: actions/checkout@v3
-    - name: Build and push to local registry
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: true
-        tags: 172.30.0.1:5000/ihome-front:latest
