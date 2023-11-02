@@ -26,6 +26,11 @@ jobs:
       - name: Docker build
         run: docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} .
       - name: Docker push
-        run: docker push ${{ env.IMAGE_FULL_NAME }} --insecure-registry=${{ env.REGISTRY }}
+        run: docker --disable-content-trust=true http://${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Kubernetes context
+        uses: Azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
       # - name: Kubernetes restart
       #   run: kubectl rollout restart deploy ${{ MKS_DEPLOY_NAME }}
