@@ -5,17 +5,7 @@
     <mat-expansion-panel *ngFor="let schedule of schedules">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon *ngIf="!schedule.runned" color="accent" class="rotate overflow-visible">
-            loop
-          </mat-icon>
-
-          <mat-icon *ngIf="schedule.runned" color="primary" class="overflow-visible">
-            check_circle
-          </mat-icon>
-
-          <div class="ml-1">
-            {{schedule.name}}
-          </div>
+          <app-schedule-title [schedule]="schedule"></app-schedule-title>
         </mat-panel-title>
         <mat-panel-description class="flex justify-end !flex-grow">
           <div>{{getTimeFormatted(schedule.hour, schedule.minute)}}</div>

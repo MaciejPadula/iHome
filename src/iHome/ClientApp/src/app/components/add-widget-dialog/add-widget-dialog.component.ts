@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { WidgetType } from 'src/app/models/widget-type';
 import { WidgetsService } from 'src/app/services/widgets.service';
+import { WidgetType } from 'src/app/shared/models/widget-type';
 
 @Component({
   selector: 'app-add-widget-dialog',

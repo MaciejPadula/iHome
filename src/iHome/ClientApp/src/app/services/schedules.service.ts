@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Schedule } from '../models/schedule';
-import { ScheduleDevice } from '../models/schedule-device';
-import { GenericResponse } from '../models/generic-response';
+import { GenericResponse } from '../shared/models/generic-response';
+import { Schedule } from '../shared/models/schedule';
+import { ScheduleDevice } from '../shared/models/schedule-device';
 
 @Injectable({
   providedIn: 'root'

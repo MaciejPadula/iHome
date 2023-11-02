@@ -28,7 +28,7 @@ namespace iHome.Microservices.UsersApi.Infrastructure.Helpers
         {
             if (!string.IsNullOrEmpty(email))
             {
-                _queryParameters.Add(new KeyValuePair<string, string>("user_id", email));
+                _queryParameters.Add(new KeyValuePair<string, string>("email", email));
             }
 
             return this;
@@ -38,7 +38,7 @@ namespace iHome.Microservices.UsersApi.Infrastructure.Helpers
         {
             if (!string.IsNullOrEmpty(name))
             {
-                _queryParameters.Add(new KeyValuePair<string, string>("user_id", name));
+                _queryParameters.Add(new KeyValuePair<string, string>("username", name));
             }
 
             return this;

@@ -1,0 +1,30 @@
+<mat-expansion-panel hideToggle>
+  
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Schedules
+    </mat-panel-title>
+    <mat-panel-description class="!hidden sm:!flex">
+      List of schedules that affects device
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <ng-container *ngIf="schedules$ | async as schedules; else loading">
+    
+    <ngx-mat-timeline position="center" orientation="vertical" class="!hidden sm:!flex">
+      <ngx-mat-timeline-item *ngFor="let schedule of schedules" [label]="getScheduleTime(schedule)">
+        <app-schedule-title [schedule]="schedule"></app-schedule-title>
+      </ngx-mat-timeline-item>
+    </ngx-mat-timeline>
+  
+    <ng-container class="flex sm:hidden">
+      <app-schedule-title class="m-1" *ngFor="let schedule of schedules" [schedule]="schedule" [time]="getScheduleTime(schedule)"></app-schedule-title>
+    </ng-container>
+    
+  </ng-container>
+  
+</mat-expansion-panel>
+
+<ng-template #loading>
+  <mat-spinner mode="indeterminate" diameter="50"></mat-spinner>
+</ng-template>

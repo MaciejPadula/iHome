@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Device } from 'src/app/models/device';
 import { DevicesService } from 'src/app/services/devices.service';
+import { Device } from 'src/app/shared/models/device';
 
 @Component({
   selector: 'app-drag-devices-list',

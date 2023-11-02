@@ -1,0 +1,23 @@
+<mat-form-field appearance="fill" class="w-full">
+  <mat-label>Username</mat-label>
+  <mat-chip-grid #chipGrid>
+    <mat-chip-row *ngFor="let user of users" (removed)="removeUserFromSelected(user)">
+      {{user.name}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-row>
+  </mat-chip-grid>
+  <input
+    placeholder="Enter username or email"
+    matInput
+    [formControl]="searchPhrase"
+    [matChipInputFor]="chipGrid"
+    [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectionChange($event.option.value)" [displayWith]="userMapper">
+    <mat-option *ngFor="let user of filteredUsers$ | async" [value]="user">
+      {{user.name}}
+      <small *ngIf="user.name !== user.email">{{user.email}}</small>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

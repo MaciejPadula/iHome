@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Device } from 'src/app/models/device';
-import { Schedule } from 'src/app/models/schedule';
 import { DevicesService } from 'src/app/services/devices.service';
 import { SchedulesService } from 'src/app/services/schedules.service';
+import { Device } from 'src/app/shared/models/device';
+import { Schedule } from 'src/app/shared/models/schedule';
 
 @Injectable({
   providedIn: 'root'

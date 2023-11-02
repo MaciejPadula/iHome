@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit, forwardRef } from '@angular/core';
 import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DeviceDataHelper } from 'src/app/helpers/device-data.helper';
-import { RgbLampData } from '../../../models/rgb-lamp-data';
 import { ColorPickerControl } from '@iplab/ngx-color-picker';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DeviceBaseControlComponent } from '../device-base-control.component';
+import { RgbLampData } from 'src/app/shared/models/rgb-lamp-data';
+import { DeviceDataHelper } from 'src/app/shared/helpers/device-data.helper';
 
 @UntilDestroy()
 @Component({

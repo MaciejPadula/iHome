@@ -2,13 +2,9 @@ import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/cor
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Subject } from 'rxjs';
-import { TimeHelper } from 'src/app/helpers/time.helper';
-import { DeviceType } from 'src/app/models/device-type';
-import { Schedule } from 'src/app/models/schedule';
-import { DevicesService } from 'src/app/services/devices.service';
 import { DeviceDialogData } from './device-dialog-data';
-import { Device } from 'src/app/models/device';
+import { DeviceType } from 'src/app/shared/models/device-type';
+import { Device } from 'src/app/shared/models/device';
 
 @UntilDestroy()
 @Component({
@@ -22,14 +18,9 @@ export class DeviceDialogComponent implements OnInit {
 
   type = DeviceType;
 
-  private schedulesSubject$ = new Subject<Schedule[]>();
-  public schedules$ = this.schedulesSubject$.asObservable();
-
   constructor(
     public dialogRef: MatDialogRef<DeviceDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public deviceDialogData: DeviceDialogData,
-    private _devicesService: DevicesService,
-    private _timeHelper: TimeHelper
+    @Inject(MAT_DIALOG_DATA) public deviceDialogData: DeviceDialogData
   ) { }
 
   ngOnInit(): void {
@@ -39,15 +30,6 @@ export class DeviceDialogComponent implements OnInit {
       .backdropClick()
       .pipe(untilDestroyed(this))
       .subscribe(() => { this.closeWithoutSaving(); });
-
-      if (this.showSchedules){
-        this._devicesService.getSchedules(this.device.id)
-          .subscribe(x => this.schedulesSubject$.next(x));
-      }
-  }
-
-  public getScheduleTime(schedule: Schedule): string {
-    return this._timeHelper.getLocalDateFromUTC(schedule.hour, schedule.minute);
   }
 
   public saveChanges() {

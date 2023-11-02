@@ -2,11 +2,11 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subject, Subscription } from 'rxjs';
-import { Device } from 'src/app/models/device';
-import { Widget } from 'src/app/models/widget';
-import { WidgetType } from 'src/app/models/widget-type';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { WidgetsService } from 'src/app/services/widgets.service';
+import { Device } from 'src/app/shared/models/device';
+import { Widget } from 'src/app/shared/models/widget';
+import { WidgetType } from 'src/app/shared/models/widget-type';
 
 @UntilDestroy()
 @Component({

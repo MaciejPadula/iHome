@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Device } from 'src/app/models/device';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { WidgetsService } from 'src/app/services/widgets.service';
-import { DeviceDialogComponent } from '../device-dialog/device-dialog.component';
-import { DeviceType } from 'src/app/models/device-type';
 import { DevicesService } from 'src/app/services/devices.service';
+import { DeviceDialogComponent } from '../device-dialog/device-dialog.component';
 import { DeviceDialogData } from '../device-dialog/device-dialog-data';
+import { DeviceType } from 'src/app/shared/models/device-type';
+import { Device } from 'src/app/shared/models/device';
 
 @Component({
   selector: 'app-device',

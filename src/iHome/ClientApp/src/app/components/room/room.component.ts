@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subject } from 'rxjs';
-import { Widget } from 'src/app/models/widget';
-import { WidgetType } from 'src/app/models/widget-type';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { WidgetsService } from 'src/app/services/widgets.service';
 import { AddWidgetDialogComponent } from '../add-widget-dialog/add-widget-dialog.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Widget } from 'src/app/shared/models/widget';
+import { WidgetType } from 'src/app/shared/models/widget-type';
 
 @UntilDestroy()
 @Component({
