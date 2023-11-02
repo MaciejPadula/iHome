@@ -5,6 +5,7 @@ on:
 
 env:
   IMAGE_FULL_NAME: 172.30.0.1:5000/ihome-front:latest
+  MKS_DEPLOY_NAME: ihome-front-deploy
 
 
 jobs:
@@ -21,9 +22,9 @@ jobs:
         with:
           network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
       - uses: actions/checkout@v3
-      - name: Build and push to local registry
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{env.IMAGE_FULL_NAME}}
+      - name: Docker build
+        run: docker build -t ${{ env.IMAGE_FULL_NAME }} .
+      - name: Docker push
+        run: docker push ${{ env.IMAGE_FULL_NAME }}
+      # - name: Kubernetes restart
+      #   run: kubectl rollout restart deploy ${{ MKS_DEPLOY_NAME }}
