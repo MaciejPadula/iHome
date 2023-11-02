@@ -1,4 +1,4 @@
-name: Docker
+name: Release iHome main application
 
 on:
   workflow_dispatch:
@@ -27,4 +27,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ REGISTRY }}/${{ IMAGE_NAME }}:latest
+          tags: $REGISTRY/$IMAGE_NAME:latest
