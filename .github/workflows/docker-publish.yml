@@ -4,12 +4,11 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY: 172.30.0.1:5000
-  IMAGE_NAME: ihome-front
+  IMAGE_FULL_NAME: 172.30.0.1:5000/ihome-front:latest
 
 
 jobs:
-    release-dev:
+    dev:
       runs-on: ubuntu-latest
       environment: 'dev'
       defaults:
@@ -27,4 +26,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: $REGISTRY/$IMAGE_NAME:latest
+          tags: ${{env.IMAGE_FULL_NAME}}
