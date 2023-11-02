@@ -10,7 +10,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>ad5a2e3b-7c66-4a86-9907-e03305d75195</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-	  <DockerfileTag>ihome-front</DockerfileTag>
+	<DockerfileTag>ihome-front</DockerfileTag>
   </PropertyGroup>
 
   <ItemGroup>
