@@ -26,7 +26,7 @@ jobs:
       - name: Docker build
         run: docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} .
       - name: Add insecure registry
-        run: dockerd --insecure-registry http://${{ env.REGISTRY }}
+        run: sudo dockerd --insecure-registry http://${{ env.REGISTRY }}
       - name: Docker push
         run: docker push --disable-content-trust=true http://${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       # - name: Kubernetes context
