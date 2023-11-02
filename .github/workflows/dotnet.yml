@@ -50,23 +50,3 @@ jobs:
     - name: Angular Test
       run: ng test --browsers ChromeHeadless --no-watch --no-progress
       working-directory: ./src/iHome/ClientApp
-  release:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
-
-    steps:
-    - name: ZeroTier
-      uses: zerotier/github-action@v1
-      with:
-        network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 7.0.x
-    - name: Docker build
-      run: docker build -t 172.30.0.1:5000/ihome-front:latest .
-    - name: Docker push
-      run: docker push 172.30.0.1:5000/ihome-front:latest
