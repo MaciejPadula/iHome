@@ -17,9 +17,9 @@
       </ngx-mat-timeline-item>
     </ngx-mat-timeline>
   
-    <ng-container class="flex sm:hidden">
+    <div class="flex sm:hidden">
       <app-schedule-title class="m-1" *ngFor="let schedule of schedules" [schedule]="schedule" [time]="getScheduleTime(schedule)"></app-schedule-title>
-    </ng-container>
+    </div>
     
   </ng-container>
   
