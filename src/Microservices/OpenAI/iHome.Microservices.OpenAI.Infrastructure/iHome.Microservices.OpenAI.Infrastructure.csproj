@@ -7,13 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Betalgo.OpenAI" Version="7.1.5" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+    <PackageReference Include="Betalgo.OpenAI" Version="7.3.1" />
+    <PackageReference Include="iHome.Infrastructure.Cache" Version="1.0.1" />
+    <PackageReference Include="iHome.Infrastructure.Cache.Extensions" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\iHome.Microservices.OpenAI.Contract\iHome.Microservices.OpenAI.Contract.csproj" />
+    <ProjectReference Include="..\iHome.Microservices.OpenAI.Model\iHome.Microservices.OpenAI.Model.csproj" />
   </ItemGroup>
 
 </Project>

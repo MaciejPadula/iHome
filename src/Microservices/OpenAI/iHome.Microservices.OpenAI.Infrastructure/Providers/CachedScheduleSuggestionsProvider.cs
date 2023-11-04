@@ -1,12 +1,13 @@
-﻿using iHome.Microservices.OpenAI.Contract.Models;
-using Microsoft.Extensions.Caching.Memory;
+﻿using iHome.Infrastructure.Cache;
+using iHome.Microservices.OpenAI.Contract.Models;
+using iHome.Microservices.OpenAI.Model;
 
-namespace iHome.Microservices.OpenAI.Infrastructure.Services
+namespace iHome.Microservices.OpenAI.Infrastructure.Providers
 {
-    public class CachedScheduleSuggestionsService : IScheduleSuggestionsService
+    public class CachedScheduleSuggestionsProvider : IScheduleSuggestionsProvider
     {
-        private readonly IScheduleSuggestionsService _scheduleSuggestionsService;
-        private readonly IMemoryCache _memoryCache;
+        private readonly IScheduleSuggestionsProvider _scheduleSuggestionsService;
+        private readonly ICache _cache;
 
         private readonly TimeSpan _cacheAvailability = TimeSpan.FromHours(10);
 
@@ -14,15 +15,15 @@ namespace iHome.Microservices.OpenAI.Infrastructure.Services
         private const string GetTimeForScheduleKey = "GetTimeForSchedule";
         private const string DefaultSuggestedTime = "06:00";
 
-        public CachedScheduleSuggestionsService(IScheduleSuggestionsService scheduleSuggestionsService, IMemoryCache memoryCache)
+        public CachedScheduleSuggestionsProvider(IScheduleSuggestionsProvider scheduleSuggestionsService, ICache cache)
         {
             _scheduleSuggestionsService = scheduleSuggestionsService;
-            _memoryCache = memoryCache;
+            _cache = cache;
         }
 
         public async Task<IEnumerable<Guid>> GetDevicesIdsForSchedule(string scheduleName, string scheduleTime, IEnumerable<DeviceDetails> devices)
         {
-            return await _memoryCache.GetOrCreateAsync(
+            return await _cache.GetOrCreateAsync(
                 $"{GetDevicesIdsKey}_{scheduleName}_{scheduleTime}",
                 entry =>
                 {
@@ -33,7 +34,7 @@ namespace iHome.Microservices.OpenAI.Infrastructure.Services
 
         public async Task<string> GetTimeForSchedule(string scheduleName)
         {
-            return await _memoryCache.GetOrCreateAsync(
+            return await _cache.GetOrCreateAsync(
                 $"{GetTimeForScheduleKey}_{scheduleName}",
                 entry =>
                 {

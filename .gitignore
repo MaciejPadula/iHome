@@ -202,3 +202,5 @@ src/iHome.Infrastructure.Cache.Extensions/bin
 src/iHome.Infrastructure.Cache.Extensions/obj
 src/iHome.Infrastructure.Cache.Tests/bin
 src/iHome.Infrastructure.Cache.Tests/obj
+src/Microservices/OpenAI/iHome.Microservices.OpenAI.Model/obj
+src/Microservices/OpenAI/iHome.Microservices.OpenAI.Model/bin

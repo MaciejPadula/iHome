@@ -1,36 +1,27 @@
 ﻿using iHome.Microservices.OpenAI.Contract;
 using iHome.Microservices.OpenAI.Contract.Models.Request;
 using iHome.Microservices.OpenAI.Contract.Models.Response;
-using iHome.Microservices.OpenAI.Infrastructure.Services;
+using iHome.Microservices.OpenAI.Model;
+using iHome.Microservices.OpenAI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iHome.Microservices.OpenAI.Controllers
 {
     public class SuggestionsController : ControllerBase, ISuggestionsService
     {
-        private readonly IScheduleSuggestionsService _scheduleSuggestionsService;
+        private readonly ISuggestionsManager _suggestionsManager;
 
-        public SuggestionsController(IScheduleSuggestionsService scheduleSuggestionsService)
+        public SuggestionsController(ISuggestionsManager suggestionsManager)
         {
-            _scheduleSuggestionsService = scheduleSuggestionsService;
+            _suggestionsManager = suggestionsManager;
         }
 
         [HttpPost]
-        public async Task<GetDevicesThatCouldMatchScheduleResponse> GetDevicesThatCouldMatchSchedule([FromBody] GetDevicesThatCouldMatchScheduleRequest request)
-        {
-            return new GetDevicesThatCouldMatchScheduleResponse 
-            {
-                DevicesIds = await _scheduleSuggestionsService.GetDevicesIdsForSchedule(request.ScheduleName, request.ScheduleTime, request.Devices)
-            };
-        }
+        public Task<GetDevicesThatCouldMatchScheduleResponse> GetDevicesThatCouldMatchSchedule([FromBody] GetDevicesThatCouldMatchScheduleRequest request) =>
+            _suggestionsManager.GetDevicesForSchedule(request);
 
         [HttpPost]
-        public async Task<GetSuggestedTimeByScheduleNameResponse> GetSuggestedTimeByScheduleName([FromBody] GetSuggestedTimeByScheduleNameRequest request)
-        {
-            return new GetSuggestedTimeByScheduleNameResponse
-            {
-                Time = await _scheduleSuggestionsService.GetTimeForSchedule(request.ScheduleName)
-            };
-        }
+        public Task<GetSuggestedTimeByScheduleNameResponse> GetSuggestedTimeByScheduleName([FromBody] GetSuggestedTimeByScheduleNameRequest request) =>
+            _suggestionsManager.GetSuggestedTime(request);
     }
 }
