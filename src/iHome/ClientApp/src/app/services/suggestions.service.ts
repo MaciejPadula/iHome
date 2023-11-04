@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { TimeModel } from '../models/time-model';
+import { TimeModel } from '../shared/models/time-model';
 
 @Injectable({
   providedIn: 'root'

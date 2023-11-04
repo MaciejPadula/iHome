@@ -44,7 +44,7 @@ WHERE Id = @Id
         using var conn = GetDbConnection();
 
         return await conn.QuerySingleOrDefaultAsync<DeviceModel>(@$"
-SELECT
+SELECT DISTINCT
     Id as {nameof(DeviceModel.Id)},
     Name as {nameof(DeviceModel.Name)},
     Type as {nameof(DeviceModel.Type)},
@@ -60,7 +60,7 @@ WHERE Id = @Id
         using var conn = GetDbConnection();
 
         return await conn.QueryAsync<DeviceModel>(@$"
-SELECT
+SELECT DISTINCT
     Id as {nameof(DeviceModel.Id)},
     Name as {nameof(DeviceModel.Name)},
     Type as {nameof(DeviceModel.Type)},
@@ -76,7 +76,7 @@ WHERE RoomId = @RoomId
         using var conn = GetDbConnection();
 
         return await conn.QueryAsync<DeviceModel>(@$"
-SELECT
+SELECT DISTINCT
     d.Id as {nameof(DeviceModel.Id)},
     d.Name as {nameof(DeviceModel.Name)},
     d.Type as {nameof(DeviceModel.Type)},
@@ -99,7 +99,7 @@ WHERE r.UserId = @UserId
         }
 
         return await conn.QueryAsync<DeviceModel>(@$"
-SELECT
+SELECT DISTINCT
     d.Id as {nameof(DeviceModel.Id)},
     d.Name as {nameof(DeviceModel.Name)},
     d.Type as {nameof(DeviceModel.Type)},

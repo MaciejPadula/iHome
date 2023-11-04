@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, Subject } from 'rxjs';
-import { TimeHelper } from 'src/app/helpers/time.helper';
-import { Device } from 'src/app/models/device';
-import { Schedule } from 'src/app/models/schedule';
-import { ScheduleDevice } from 'src/app/models/schedule-device';
 import { SchedulesBehaviourService } from 'src/app/pages/schedules/service/schedules-behaviour.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SchedulesService } from 'src/app/services/schedules.service';
+import { TimeHelper } from 'src/app/shared/helpers/time.helper';
+import { Device } from 'src/app/shared/models/device';
+import { Schedule } from 'src/app/shared/models/schedule';
+import { ScheduleDevice } from 'src/app/shared/models/schedule-device';
 
 @UntilDestroy()
 @Component({

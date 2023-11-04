@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
-import { ScheduleDevice } from 'src/app/models/schedule-device';
 import { SchedulesService } from 'src/app/services/schedules.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Device } from 'src/app/models/device';
 import { DeviceDialogComponent } from '../device-dialog/device-dialog.component';
 import { DeviceDialogData } from '../device-dialog/device-dialog-data';
+import { ScheduleDevice } from 'src/app/shared/models/schedule-device';
+import { Device } from 'src/app/shared/models/device';
 
 @Component({
   selector: 'app-schedule-device',

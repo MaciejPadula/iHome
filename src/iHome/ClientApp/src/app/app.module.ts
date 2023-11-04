@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from "@angular/material/button";
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { UserComponent } from './components/navbar/user/user.component';
-import { DeviceComponent } from './components/device/device.component';
+import { DeviceComponent } from './features/devices/device/device.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { IndexComponent } from './pages/index/index.component';
 import { WidgetComponent } from './components/widget/widget.component';
@@ -35,29 +35,33 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ShareRoomDialogComponent } from './components/share-room-dialog/share-room-dialog.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { RgbLampComponent } from './components/device-dialog/rgb-lamp/rgb-lamp.component';
 import { ColorPickerModule } from '@iplab/ngx-color-picker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { GlobalErrorHandler } from './errors/global-error-handler';
-import { ErrorDialogComponent } from './errors/error-dialog/error-dialog.component';
 import { SchedulesComponent } from './pages/schedules/schedules.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
-import { ScheduleDeviceComponent } from './components/schedule-device/schedule-device.component';
 import { InputDialogComponent } from './shared/components/input-dialog/input-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
-import { DevicePreviewComponent } from './components/device-preview/device-preview.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
 import { DragDevicesListComponent } from './components/drag-devices-list/drag-devices-list.component';
-import { Auth0AccessGuard } from './guards/auth0-access.guard';
-import { DeviceDialogComponent } from './components/device-dialog/device-dialog.component';
 import { NgxMatTimelineModule } from "ngx-mat-timeline";
-import { RgbLampPreviewComponent } from './components/device-preview/rgb-lamp-preview/rgb-lamp-preview.component';
-import { ThermometerPreviewComponent } from './components/device-preview/thermometer-preview/thermometer-preview.component';
+import { ScheduleTitleComponent } from './components/schedule-title/schedule-title.component';
+import { RgbLampComponent } from './features/devices/device-dialog/rgb-lamp/rgb-lamp.component';
+import { ScheduleDeviceComponent } from './features/devices/schedule-device/schedule-device.component';
+import { DevicePreviewComponent } from './features/devices/device-preview/device-preview.component';
+import { DeviceDialogComponent } from './features/devices/device-dialog/device-dialog.component';
+import { RgbLampPreviewComponent } from './features/devices/device-preview/rgb-lamp-preview/rgb-lamp-preview.component';
+import { ThermometerPreviewComponent } from './features/devices/device-preview/thermometer-preview/thermometer-preview.component';
+import { SchedulesPresentationComponent } from './features/devices/schedules-presentation/schedules-presentation.component';
+import { ErrorDialogComponent } from './features/errors/error-dialog/error-dialog.component';
+import { GlobalErrorHandler } from './features/errors/global-error-handler';
+import { Auth0AccessGuard } from './features/guards/auth0-access.guard';
+import { UserSearchComponent } from './shared/components/user-search/user-search.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 @NgModule({
@@ -86,7 +90,10 @@ import { ThermometerPreviewComponent } from './components/device-preview/thermom
     DragDevicesListComponent,
     DeviceDialogComponent,
     RgbLampPreviewComponent,
-    ThermometerPreviewComponent
+    ThermometerPreviewComponent,
+    ScheduleTitleComponent,
+    SchedulesPresentationComponent,
+    UserSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -139,7 +146,8 @@ import { ThermometerPreviewComponent } from './components/device-preview/thermom
     MatDividerModule,
     NgxMatTimepickerModule,
     MatStepperModule,
-    NgxMatTimelineModule
+    NgxMatTimelineModule,
+    MatChipsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

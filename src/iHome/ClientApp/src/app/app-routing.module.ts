@@ -5,7 +5,7 @@ import { RoomsComponent } from './pages/rooms/rooms.component';
 import { SchedulesComponent } from './pages/schedules/schedules.component';
 import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
 import { RoomComponent } from './components/room/room.component';
-import { Auth0AccessGuard } from './guards/auth0-access.guard';
+import { Auth0AccessGuard } from './features/guards/auth0-access.guard';
 
 const routes: Routes = [
   {

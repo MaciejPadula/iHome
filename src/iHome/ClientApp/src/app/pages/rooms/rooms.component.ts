@@ -4,10 +4,10 @@ import { AuthService, User } from '@auth0/auth0-angular';
 import { Observable } from 'rxjs';
 import { AddRoomDialogComponent } from 'src/app/components/add-room-dialog/add-room-dialog.component';
 import { ShareRoomDialogComponent } from 'src/app/components/share-room-dialog/share-room-dialog.component';
-import { Room } from 'src/app/models/room';
 import { RoomsBehaviourService } from './service/rooms-behaviour.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogData } from 'src/app/shared/components/confirm-dialog/confirm-dialog-data';
+import { Room } from 'src/app/shared/models/room';
 
 @Component({
   selector: 'app-rooms',
@@ -38,7 +38,8 @@ export class RoomsComponent implements OnInit {
 
   public composeShareRoomDialog(room: Room) {
     this._dialog.open(ShareRoomDialogComponent, {
-      data: room
+      data: room,
+      width: '600px'
     })
       .afterClosed()
       .subscribe();

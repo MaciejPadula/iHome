@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TimeHelper } from 'src/app/helpers/time.helper';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogData } from 'src/app/shared/components/confirm-dialog/confirm-dialog-data';
 import { SchedulesBehaviourService } from './service/schedules-behaviour.service';
+import { TimeHelper } from 'src/app/shared/helpers/time.helper';
 
 @Component({
   selector: 'app-schedules',

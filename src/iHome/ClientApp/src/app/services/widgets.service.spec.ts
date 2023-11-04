@@ -1,9 +1,9 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { Widget } from '../models/widget';
-import { WidgetType } from '../models/widget-type';
 
 import { WidgetsService } from './widgets.service';
+import { Widget } from '../shared/models/widget';
+import { WidgetType } from '../shared/models/widget-type';
 
 describe('WidgetsService', () => {
   let service: WidgetsService;

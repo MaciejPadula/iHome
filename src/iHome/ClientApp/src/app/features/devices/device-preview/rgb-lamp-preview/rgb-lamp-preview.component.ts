@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { RgbLampData } from '../../../models/rgb-lamp-data';
-import { DeviceDataHelper } from 'src/app/helpers/device-data.helper';
 import { StaticDevicePreviewComponent } from '../static-device-preview.component';
+import { RgbLampData } from 'src/app/shared/models/rgb-lamp-data';
+import { DeviceDataHelper } from 'src/app/shared/helpers/device-data.helper';
 
 @Component({
   selector: 'app-rgb-lamp-preview',

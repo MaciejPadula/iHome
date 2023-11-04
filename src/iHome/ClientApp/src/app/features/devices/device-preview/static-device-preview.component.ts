@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Device } from "src/app/models/device";
+import { Device } from "src/app/shared/models/device";
 
 @Component({ template: '' })
 export abstract class StaticDevicePreviewComponent<DeviceDataType> {

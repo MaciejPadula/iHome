@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DeviceType } from 'src/app/models/device-type';
-import { Device } from 'src/app/models/device';
+import { Device } from 'src/app/shared/models/device';
+import { DeviceType } from 'src/app/shared/models/device-type';
 
 @Component({
   selector: 'app-device-preview',

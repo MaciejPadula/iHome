@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Device } from '../models/device';
-import { Widget } from '../models/widget';
-import { WidgetType } from '../models/widget-type';
+import { WidgetType } from '../shared/models/widget-type';
+import { Widget } from '../shared/models/widget';
+import { Device } from '../shared/models/device';
 
 @Injectable({
   providedIn: 'root'

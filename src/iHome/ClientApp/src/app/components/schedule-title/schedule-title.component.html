@@ -1,0 +1,15 @@
+<div class="flex flex-row items-center">
+  <div *ngIf="showTime">
+    {{time}}
+  </div>
+  
+  <mat-icon *ngIf="!schedule.runned" color="accent" class="rotate">
+    loop
+  </mat-icon>
+  
+  <mat-icon *ngIf="schedule.runned" color="primary">
+    check_circle
+  </mat-icon>
+  
+  <div>{{schedule.name}}</div>
+</div>
