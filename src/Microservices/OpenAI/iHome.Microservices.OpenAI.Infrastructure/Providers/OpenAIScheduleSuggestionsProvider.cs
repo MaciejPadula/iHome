@@ -19,7 +19,7 @@ public class OpenAIScheduleSuggestionsProvider : IScheduleSuggestionsProvider
     {
         var options = new JsonSerializerOptions { WriteIndented = true };
 
-        var system =
+        const string system =
 """
 Result should be presented as JSON array of string!!! Do not return any meaningless text!!!
 
@@ -44,7 +44,7 @@ ListOfDevices:
 
     public async Task<string> GetTimeForSchedule(string scheduleName)
     {
-        var system =
+        const string system =
 """
 Provide time in format HH:MM. Any other format is unacceptable!
 Important: do not return anything but time in format HH:MM!!!
