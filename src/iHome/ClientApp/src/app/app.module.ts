@@ -1,5 +1,5 @@
 import { ErrorHandler, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -62,6 +62,9 @@ import { GlobalErrorHandler } from './features/errors/global-error-handler';
 import { Auth0AccessGuard } from './features/guards/auth0-access.guard';
 import { UserSearchComponent } from './shared/components/user-search/user-search.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { SchedulesTimelineComponent } from './shared/components/schedules-timeline/schedules-timeline.component';
+import { DeviceSchedulesTimelineComponent } from './features/devices/schedules-presentation/device-schedules-timeline/device-schedules-timeline.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -93,7 +96,9 @@ import { MatChipsModule } from '@angular/material/chips';
     ThermometerPreviewComponent,
     ScheduleTitleComponent,
     SchedulesPresentationComponent,
-    UserSearchComponent
+    UserSearchComponent,
+    SchedulesTimelineComponent,
+    DeviceSchedulesTimelineComponent
   ],
   imports: [
     BrowserModule,
@@ -147,12 +152,14 @@ import { MatChipsModule } from '@angular/material/chips';
     NgxMatTimepickerModule,
     MatStepperModule,
     NgxMatTimelineModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSelectModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
-    Auth0AccessGuard
+    Auth0AccessGuard,
+    provideClientHydration()
   ],
   bootstrap: [AppComponent]
 })

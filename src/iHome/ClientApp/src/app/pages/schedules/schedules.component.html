@@ -2,7 +2,7 @@
 
 <div *ngIf="schedules$ | async as schedules" class="schedules-container w-full sm:w-4/5 m-auto">
   <mat-accordion class="w-full p-4" multi>
-    <mat-expansion-panel *ngFor="let schedule of schedules">
+    <mat-expansion-panel *ngFor="let schedule of schedules" #lazyLoadScenario>
       <mat-expansion-panel-header>
         <mat-panel-title>
           <app-schedule-title [schedule]="schedule"></app-schedule-title>
@@ -14,8 +14,10 @@
           </button>
         </mat-panel-description>
       </mat-expansion-panel-header>
-
-      <app-schedule class="w-full" [scheduleId]="schedule.id" [devicesForScheduling]="devicesForScheduling$ | async"></app-schedule>
+      
+      @defer (on interaction(lazyLoadScenario)){
+        <app-schedule class="w-full" [scheduleId]="schedule.id" [devicesForScheduling]="devicesForScheduling()"></app-schedule>
+      }
     </mat-expansion-panel>
   </mat-accordion>
 </div>
