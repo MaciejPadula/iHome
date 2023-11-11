@@ -4,9 +4,9 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 import { ConfirmDialogData } from 'src/app/shared/components/confirm-dialog/confirm-dialog-data';
 import { SchedulesBehaviourService } from './service/schedules-behaviour.service';
 import { TimeHelper } from 'src/app/shared/helpers/time.helper';
-import { Subject } from 'rxjs';
 import { Device } from 'src/app/shared/models/device';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Schedule } from 'src/app/shared/models/schedule';
 
 @UntilDestroy()
 @Component({
@@ -23,11 +23,16 @@ export class SchedulesComponent implements OnInit {
   ) { }
 
   public devicesForScheduling = signal<Device[]>([]);
+  public schedules = signal<Schedule[]>([]);
 
   ngOnInit(): void {
     this._schedulesBehaviour.devicesForScheduling$
       .pipe(untilDestroyed(this))
       .subscribe(d => this.devicesForScheduling.set(d));
+    
+    this._schedulesBehaviour.schedules$
+      .pipe(untilDestroyed(this))
+      .subscribe(s => this.schedules.set(s));
 
     this._schedulesBehaviour.getSchedules();
   }
@@ -51,11 +56,7 @@ export class SchedulesComponent implements OnInit {
     return this._timeHelper.getLocalDateFromUTC(hour, minute);
   }
 
-  public get isLoading$() {
-    return this._schedulesBehaviour.isLoading$;
-  }
-
-  public get schedules$() {
-    return this._schedulesBehaviour.schedules$;
+  public get isLoading() {
+    return this._schedulesBehaviour.isLoading;
   }
 }

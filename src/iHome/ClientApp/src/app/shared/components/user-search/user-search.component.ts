@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { FormControl } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subject, debounceTime, map, of, switchMap } from 'rxjs';
-import { UsersService } from 'src/app/services/users.service';
+import { UsersService } from 'src/app/services/data/users.service';
 import { User } from '../../models/user';
 
 @UntilDestroy()

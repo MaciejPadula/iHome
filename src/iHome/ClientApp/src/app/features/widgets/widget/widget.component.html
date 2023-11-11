@@ -1,0 +1,20 @@
+<div [class]="widgetStyle + ' widget'">
+    <button class="!absolute !top-0 !right-0" mat-icon-button [matMenuTriggerFor]="actions">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #actions="matMenu">
+        <button mat-menu-item (click)="removeWidget()">
+            <mat-icon>delete</mat-icon>
+            Remove
+        </button>
+    </mat-menu>
+    @if (isLoading()) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    } @else {
+        <div class="flex flex-row h-full p-4 justify-center" cdkDropList (cdkDropListDropped)="drop($event)">
+            @for (device of devices(); track device.id) {
+                <app-device [widgetId]="widget.id" [device]="device"></app-device>
+            }
+        </div>
+    }
+</div>

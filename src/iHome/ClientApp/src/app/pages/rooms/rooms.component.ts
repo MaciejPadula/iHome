@@ -1,14 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { Observable } from 'rxjs';
-import { AddRoomDialogComponent } from 'src/app/components/add-room-dialog/add-room-dialog.component';
-import { ShareRoomDialogComponent } from 'src/app/components/share-room-dialog/share-room-dialog.component';
+import { AddRoomDialogComponent } from 'src/app/features/rooms/add-room-dialog/add-room-dialog.component';
 import { RoomsBehaviourService } from './service/rooms-behaviour.service';
-import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
-import { ConfirmDialogData } from 'src/app/shared/components/confirm-dialog/confirm-dialog-data';
 import { Room } from 'src/app/shared/models/room';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -22,7 +21,13 @@ export class RoomsComponent implements OnInit {
     private _roomsBehaviour: RoomsBehaviourService
   ) { }
 
+  public rooms = signal<Room[]>([]);
+
   ngOnInit(): void {
+    this._roomsBehaviour.rooms$
+      .pipe(untilDestroyed(this))
+      .subscribe(r => this.rooms.set(r));
+
     this._roomsBehaviour.getRooms();
   }
 
@@ -36,39 +41,11 @@ export class RoomsComponent implements OnInit {
       });
   }
 
-  public composeShareRoomDialog(room: Room) {
-    this._dialog.open(ShareRoomDialogComponent, {
-      data: room,
-      width: '600px'
-    })
-      .afterClosed()
-      .subscribe();
-  }
-
-  public removeRoom(roomId: string, roomName: string) {
-    this._dialog.open(ConfirmDialogComponent, {
-      data: <ConfirmDialogData> {
-        title: 'Warning',
-        additionalText: `You are going to remove room named: ${roomName}. Are you sure?`
-      }
-    })
-    .afterClosed()
-    .subscribe(result => {
-      if(!result) return;
-
-      this._roomsBehaviour.removeRoom(roomId);
-    });
-  }
-
   public get user(): Observable<User | null | undefined> {
     return this._auth.user$;
   }
 
-  public get rooms$() {
-    return this._roomsBehaviour.rooms$;
-  }
-
-  public get isLoading$() {
-    return this._roomsBehaviour.isLoading$;
+  public get isLoading() {
+    return this._roomsBehaviour.isLoading;
   }
 }

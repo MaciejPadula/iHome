@@ -5,5 +5,6 @@ export interface ScheduleDevice {
     name: string;
     deviceId: string;
     deviceData: string;
+    scheduleId: string;
     type: DeviceType
 }

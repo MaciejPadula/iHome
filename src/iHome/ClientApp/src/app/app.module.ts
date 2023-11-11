@@ -8,38 +8,38 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RoomsComponent } from './pages/rooms/rooms.component';
-import { RoomComponent } from './components/room/room.component';
+import { RoomComponent } from './pages/room/room.component';
 
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from "@angular/material/button";
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { UserComponent } from './components/navbar/user/user.component';
+import { NavbarComponent } from './layout/navbar/navbar.component';
+import { UserComponent } from './layout/navbar/user/user.component';
 import { DeviceComponent } from './features/devices/device/device.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { IndexComponent } from './pages/index/index.component';
-import { WidgetComponent } from './components/widget/widget.component';
-import { AddRoomDialogComponent } from './components/add-room-dialog/add-room-dialog.component';
+import { WidgetComponent } from './features/widgets/widget/widget.component';
+import { AddRoomDialogComponent } from './features/rooms/add-room-dialog/add-room-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule }from '@angular/material/input';
-import { AddWidgetDialogComponent } from './components/add-widget-dialog/add-widget-dialog.component';
+import { AddWidgetDialogComponent } from './features/widgets/add-widget-dialog/add-widget-dialog.component';
 import { MatRadioModule } from '@angular/material/radio';
-import { RenameRoomDialogComponent } from './components/rename-room-dialog/rename-room-dialog.component';
+import { RenameRoomDialogComponent } from './features/rooms/rename-room-dialog/rename-room-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { environment } from 'src/environments/environment';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ShareRoomDialogComponent } from './components/share-room-dialog/share-room-dialog.component';
+import { ShareRoomDialogComponent } from './features/rooms/share-room-dialog/share-room-dialog.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ColorPickerModule } from '@iplab/ngx-color-picker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SchedulesComponent } from './pages/schedules/schedules.component';
-import { ScheduleComponent } from './components/schedule/schedule.component';
+import { ScheduleComponent } from './features/schedules/schedule/schedule.component';
 import { InputDialogComponent } from './shared/components/input-dialog/input-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
@@ -47,11 +47,11 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AddScheduleComponent } from './pages/add-schedule/add-schedule.component';
-import { DragDevicesListComponent } from './components/drag-devices-list/drag-devices-list.component';
+import { DragDevicesListComponent } from './features/widgets/drag-devices-list/drag-devices-list.component';
 import { NgxMatTimelineModule } from "ngx-mat-timeline";
-import { ScheduleTitleComponent } from './components/schedule-title/schedule-title.component';
+import { ScheduleTitleComponent } from './shared/components/schedule-title/schedule-title.component';
 import { RgbLampComponent } from './features/devices/device-dialog/rgb-lamp/rgb-lamp.component';
-import { ScheduleDeviceComponent } from './features/devices/schedule-device/schedule-device.component';
+import { ScheduleDeviceComponent } from './features/schedules/schedule-device/schedule-device.component';
 import { DevicePreviewComponent } from './features/devices/device-preview/device-preview.component';
 import { DeviceDialogComponent } from './features/devices/device-dialog/device-dialog.component';
 import { RgbLampPreviewComponent } from './features/devices/device-preview/rgb-lamp-preview/rgb-lamp-preview.component';
@@ -65,6 +65,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { SchedulesTimelineComponent } from './shared/components/schedules-timeline/schedules-timeline.component';
 import { DeviceSchedulesTimelineComponent } from './features/devices/schedules-presentation/device-schedules-timeline/device-schedules-timeline.component';
 import { MatSelectModule } from '@angular/material/select';
+import { RoomRowComponent } from './features/rooms/room-row/room-row.component';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import { MatSelectModule } from '@angular/material/select';
     SchedulesPresentationComponent,
     UserSearchComponent,
     SchedulesTimelineComponent,
-    DeviceSchedulesTimelineComponent
+    DeviceSchedulesTimelineComponent,
+    RoomRowComponent
   ],
   imports: [
     BrowserModule,

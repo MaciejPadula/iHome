@@ -4,7 +4,7 @@ namespace iHome.Microservices.Schedules.Infrastructure.Repositories;
 
 public interface IScheduleDeviceRepository
 {
-    Task Add(Guid scheduleId, Guid deviceId, string deviceData);
+    Task<Guid> Add(Guid scheduleId, Guid deviceId, string deviceData);
 
     Task<IEnumerable<ScheduleDeviceModel>> GetByScheduleId(Guid scheduleId);
     Task<ScheduleDeviceModel?> GetByIdAndScheduleId(Guid deviceId, Guid scheduleId);

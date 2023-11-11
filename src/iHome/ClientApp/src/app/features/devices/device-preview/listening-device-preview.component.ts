@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Observable, Subject } from "rxjs";
-import { DevicesService } from "src/app/services/devices.service";
+import { DevicesService } from "src/app/services/data/devices.service";
 import { Device } from "src/app/shared/models/device";
 
 @Component({ template: '' })

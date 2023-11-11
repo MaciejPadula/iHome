@@ -1,0 +1,46 @@
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
+
+<div class="flex flex-row items-center justify-between">
+  <mat-form-field>
+    <input matInput
+           name="selected_time_B"
+           [format]="24"
+           [(ngModel)]="scheduleHour"
+           [ngxMatTimepicker]="pickerB"
+           readonly />
+    <mat-icon matSuffix
+              (click)="pickerB.open()">
+        watch_later
+    </mat-icon>
+  </mat-form-field>
+  <ngx-mat-timepicker
+    color="accent"
+    (timeSet)="hourChanged($event)"
+    [minutesGap]="5"
+    #pickerB></ngx-mat-timepicker>
+</div>
+
+<div class="flex flex-row">
+  @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  } @else {
+    @for (device of scheduleDevices(); track device.id) {
+      <app-schedule-device [scheduleDevice]="device"></app-schedule-device>
+    }
+  }
+</div>
+
+
+<mat-divider></mat-divider>
+
+<div class="devices-for-scheduling-container">
+  @for (device of devicesForScheduling; track device.id) {
+    <app-device-preview
+      (click)="addDeviceSnapshot(device)"
+      [device]="device">
+    </app-device-preview>
+  }
+  
+</div>
