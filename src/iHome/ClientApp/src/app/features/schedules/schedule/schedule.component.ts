@@ -3,7 +3,6 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { SchedulesService } from 'src/app/services/data/schedules.service';
 import { TimeHelper } from 'src/app/shared/helpers/time.helper';
 import { Device } from 'src/app/shared/models/device';
-import { DeviceType } from 'src/app/shared/models/device-type';
 import { Schedule } from 'src/app/shared/models/schedule';
 import { ScheduleDevice } from 'src/app/shared/models/schedule-device';
 
