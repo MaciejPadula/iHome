@@ -1,7 +1,7 @@
-﻿using iHome.Core.Logic;
-using iHome.Microservices.OpenAI.Contract;
+﻿using iHome.Microservices.OpenAI.Contract;
 using iHome.Microservices.OpenAI.Contract.Models;
 using iHome.Model;
+using iHome.Shared.Logic;
 
 namespace iHome.Core.Services;
 

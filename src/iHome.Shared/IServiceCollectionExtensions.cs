@@ -9,6 +9,7 @@ public static class IServiceCollectionExtensions
     {
         services.AddHttpContextAccessor();
         services.AddScoped<IUserAccessor, HttpContextUserAccessor>();
+        services.AddTransient<ITimeModelParser, TimeModelParser>();
         return services;
     }
 }

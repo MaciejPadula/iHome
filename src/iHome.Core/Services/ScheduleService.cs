@@ -1,10 +1,10 @@
 ﻿using iHome.Core.Helpers;
-using iHome.Core.Logic;
 using iHome.Model;
 using iHome.Core.Services.Validation;
 using iHome.Microservices.Schedules.Contract;
 using iHome.Microservices.Schedules.Contract.Models;
 using iHome.Microservices.Schedules.Contract.Models.Request;
+using iHome.Shared.Logic;
 
 namespace iHome.Core.Services;
 

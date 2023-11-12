@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using iHome.Core.Logic;
+using iHome.Shared.Logic;
 using iHome.Model;
 
 namespace iHome.Core.Tests.Logic;

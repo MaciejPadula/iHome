@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\iHome.Core\iHome.Core.csproj" />
+    <ProjectReference Include="..\iHome.Shared\iHome.Shared.csproj" />
   </ItemGroup>
 
 </Project>

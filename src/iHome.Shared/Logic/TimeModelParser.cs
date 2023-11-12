@@ -1,6 +1,6 @@
 ﻿using iHome.Model;
 
-namespace iHome.Core.Logic;
+namespace iHome.Shared.Logic;
 
 public class TimeModelParser : ITimeModelParser
 {
@@ -8,7 +8,7 @@ public class TimeModelParser : ITimeModelParser
     {
         var segments = input?.Split(":") ?? Array.Empty<string>();
 
-        if (segments.Length != 2 
+        if (segments.Length != 2
             || !int.TryParse(segments[0], out var hour)
             || !int.TryParse(segments[1], out var minute))
         {

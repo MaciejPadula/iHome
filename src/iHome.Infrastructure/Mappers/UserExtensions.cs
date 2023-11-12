@@ -2,6 +2,7 @@
 using iHome.Model;
 
 namespace iHome.Infrastructure.Mappers;
+
 internal static class UserExtensions
 {
     internal static UserDto ToDto(this User user)

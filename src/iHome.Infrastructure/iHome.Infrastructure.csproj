@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="iHome.Microservices.RoomsManagement.Contract" Version="1.0.5" />
+    <PackageReference Include="iHome.Microservices.Schedules.Contract" Version="1.0.5" />
     <PackageReference Include="iHome.Microservices.UsersApi.Contract" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
   </ItemGroup>

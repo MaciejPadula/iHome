@@ -1,5 +1,4 @@
-﻿using iHome.Core.Logic;
-using iHome.Core.Services;
+﻿using iHome.Core.Services;
 using iHome.Core.Services.Validation;
 using iHome.Core.Services.Validation.Validators.SimpleValidators;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,9 +9,6 @@ public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddCoreServices(this IServiceCollection services)
     {
-        // logic
-        services.AddTransient<ITimeModelParser, TimeModelParser>();
-
         // validation
         services.AddScoped<IValidator, RoomReadValidator>();
         services.AddScoped<IValidator, RoomWriteValidator>();

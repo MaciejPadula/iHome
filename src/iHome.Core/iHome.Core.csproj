@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\iHome.Model\iHome.Model.csproj" />
+    <ProjectReference Include="..\iHome.Shared\iHome.Shared.csproj" />
   </ItemGroup>
 
 </Project>

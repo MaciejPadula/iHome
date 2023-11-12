@@ -1,6 +1,6 @@
 ﻿using iHome.Model;
 
-namespace iHome.Core.Logic;
+namespace iHome.Shared.Logic;
 
 public interface ITimeModelParser
 {
