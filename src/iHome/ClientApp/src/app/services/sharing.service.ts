@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { User } from '../shared/models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharingService {
-  private readonly _baseApiUrl = `${environment.authAudience}/Sharing/`;
+  private readonly _baseApiUrl = `${environment.authAudience}/RoomSharing/`;
 
   constructor(private _api: HttpClient) { }
 
@@ -23,5 +24,9 @@ export class SharingService {
       roomId,
       userId
     });
+  }
+
+  public getRoomUsers(roomId: string): Observable<User[]>{
+    return this._api.get<User[]>(this._baseApiUrl + `GetRoomUsers/${roomId}`);
   }
 }

@@ -8,7 +8,7 @@ import { Room } from '../shared/models/room';
 })
 export class RoomsService {
 
-  private readonly _baseApiUrl = `${environment.authAudience}/Room/`;
+  private readonly _baseApiUrl = `${environment.authAudience}/RoomsList/`;
 
   constructor(private _api: HttpClient) { }
 

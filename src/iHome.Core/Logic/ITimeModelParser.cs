@@ -1,4 +1,4 @@
-﻿using iHome.Core.Models;
+﻿using iHome.Model;
 
 namespace iHome.Core.Logic;
 

@@ -19,11 +19,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Infrastructure.Firest
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InfrastructurePackages", "InfrastructurePackages", "{5A425376-077E-46D6-82BE-1DD079769E49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Infrastructure.Cache", "iHome.Infrastructure.Cache\iHome.Infrastructure.Cache.csproj", "{0859F7CD-4E61-4E3D-8A9B-A06515E773DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Infrastructure.Cache", "iHome.Infrastructure.Cache\iHome.Infrastructure.Cache.csproj", "{0859F7CD-4E61-4E3D-8A9B-A06515E773DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Infrastructure.Cache.Tests", "iHome.Infrastructure.Cache.Tests\iHome.Infrastructure.Cache.Tests.csproj", "{4E3C7E2A-5507-439E-96B8-973D48ED6297}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Infrastructure.Cache.Tests", "iHome.Infrastructure.Cache.Tests\iHome.Infrastructure.Cache.Tests.csproj", "{4E3C7E2A-5507-439E-96B8-973D48ED6297}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Infrastructure.Cache.Extensions", "iHome.Infrastructure.Cache.Extensions\iHome.Infrastructure.Cache.Extensions.csproj", "{4F008D80-3061-482E-B4F2-1FA32A7FC791}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Infrastructure.Cache.Extensions", "iHome.Infrastructure.Cache.Extensions\iHome.Infrastructure.Cache.Extensions.csproj", "{4F008D80-3061-482E-B4F2-1FA32A7FC791}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Infrastructure", "iHome.Infrastructure\iHome.Infrastructure.csproj", "{A7DB6FD5-2A83-4E33-A736-D0E8EBE5FEB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Features.RoomsList", "iHome.Features.RoomsList\iHome.Features.RoomsList.csproj", "{1A071689-1553-4178-9B2E-4665F06D92C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Model", "iHome.Model\iHome.Model.csproj", "{95FCD165-CAF4-4358-B568-039DA98EB805}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Repository", "iHome.Repository\iHome.Repository.csproj", "{6934A1C1-42D3-400E-8D32-00B8C3D64020}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Shared", "iHome.Shared\iHome.Shared.csproj", "{9B7A7DAD-5342-44EB-B90E-42438C309845}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Features", "Features", "{AD0C90CD-5C11-4F54-9C13-DF3344C766C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iHome.Features.RoomSharing", "iHome.Features.RoomSharing\iHome.Features.RoomSharing.csproj", "{3532A1A9-4E5D-4096-A242-DF9F66ACCF64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +81,30 @@ Global
 		{4F008D80-3061-482E-B4F2-1FA32A7FC791}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F008D80-3061-482E-B4F2-1FA32A7FC791}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F008D80-3061-482E-B4F2-1FA32A7FC791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7DB6FD5-2A83-4E33-A736-D0E8EBE5FEB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7DB6FD5-2A83-4E33-A736-D0E8EBE5FEB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7DB6FD5-2A83-4E33-A736-D0E8EBE5FEB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7DB6FD5-2A83-4E33-A736-D0E8EBE5FEB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A071689-1553-4178-9B2E-4665F06D92C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A071689-1553-4178-9B2E-4665F06D92C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A071689-1553-4178-9B2E-4665F06D92C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A071689-1553-4178-9B2E-4665F06D92C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95FCD165-CAF4-4358-B568-039DA98EB805}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95FCD165-CAF4-4358-B568-039DA98EB805}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95FCD165-CAF4-4358-B568-039DA98EB805}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95FCD165-CAF4-4358-B568-039DA98EB805}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6934A1C1-42D3-400E-8D32-00B8C3D64020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6934A1C1-42D3-400E-8D32-00B8C3D64020}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6934A1C1-42D3-400E-8D32-00B8C3D64020}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6934A1C1-42D3-400E-8D32-00B8C3D64020}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B7A7DAD-5342-44EB-B90E-42438C309845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B7A7DAD-5342-44EB-B90E-42438C309845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B7A7DAD-5342-44EB-B90E-42438C309845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B7A7DAD-5342-44EB-B90E-42438C309845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3532A1A9-4E5D-4096-A242-DF9F66ACCF64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3532A1A9-4E5D-4096-A242-DF9F66ACCF64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3532A1A9-4E5D-4096-A242-DF9F66ACCF64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3532A1A9-4E5D-4096-A242-DF9F66ACCF64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +117,8 @@ Global
 		{0859F7CD-4E61-4E3D-8A9B-A06515E773DD} = {5A425376-077E-46D6-82BE-1DD079769E49}
 		{4E3C7E2A-5507-439E-96B8-973D48ED6297} = {0B584887-2761-4F20-A2BD-C84302111015}
 		{4F008D80-3061-482E-B4F2-1FA32A7FC791} = {5A425376-077E-46D6-82BE-1DD079769E49}
+		{1A071689-1553-4178-9B2E-4665F06D92C2} = {AD0C90CD-5C11-4F54-9C13-DF3344C766C5}
+		{3532A1A9-4E5D-4096-A242-DF9F66ACCF64} = {AD0C90CD-5C11-4F54-9C13-DF3344C766C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F49848F2-CCB8-493E-A966-BF779E2F2D29}

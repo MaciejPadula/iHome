@@ -1,10 +1,10 @@
 ﻿using iHome.Core.Helpers;
-using iHome.Core.Models;
 using iHome.Core.Services.Validation;
 using iHome.Microservices.RoomsManagement.Contract;
 using iHome.Microservices.RoomsManagement.Contract.Models.Request;
 using iHome.Microservices.UsersApi.Contract;
 using iHome.Microservices.UsersApi.Contract.Models;
+using iHome.Model;
 
 namespace iHome.Core.Services;
 

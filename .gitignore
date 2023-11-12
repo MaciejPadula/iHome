@@ -204,3 +204,12 @@ src/iHome.Infrastructure.Cache.Tests/bin
 src/iHome.Infrastructure.Cache.Tests/obj
 src/Microservices/OpenAI/iHome.Microservices.OpenAI.Model/obj
 src/Microservices/OpenAI/iHome.Microservices.OpenAI.Model/bin
+src/iHome.Features.RoomsList/obj
+src/iHome.Infrastructure/bin
+src/iHome.Model/obj
+src/iHome.Model/bin
+src/iHome.Repository/bin
+src/iHome.Repository/obj
+src/iHome.Features.RoomsList/bin
+src/iHome.Features.RoomSharing/bin
+src/iHome.Features.RoomSharing/obj

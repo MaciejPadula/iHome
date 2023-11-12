@@ -1,6 +1,6 @@
-﻿using iHome.Core.Models;
-using iHome.Microservices.Authorization.Contract;
+﻿using iHome.Microservices.Authorization.Contract;
 using iHome.Microservices.Authorization.Contract.Models.Response;
+using iHome.Model;
 
 namespace iHome.Core.Services.Validation.Validators.SimpleValidators;
 

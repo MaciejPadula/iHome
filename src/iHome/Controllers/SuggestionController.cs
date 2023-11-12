@@ -1,7 +1,8 @@
 ﻿using iHome.Core.Services;
-using iHome.Logic;
 using iHome.Models.Requests.Suggestion;
 using iHome.Models.Responses.Suggestion;
+using iHome.Shared.Controllers;
+using iHome.Shared.Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

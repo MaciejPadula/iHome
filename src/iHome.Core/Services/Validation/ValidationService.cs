@@ -1,4 +1,4 @@
-﻿using iHome.Core.Models;
+﻿using iHome.Model;
 using iHome.Core.Services.Validation.Validators;
 
 namespace iHome.Core.Services.Validation;

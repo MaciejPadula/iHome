@@ -1,4 +1,4 @@
-﻿using iHome.Core.Models;
+﻿using iHome.Model;
 using iHome.Microservices.Authorization.Contract;
 using iHome.Microservices.Authorization.Contract.Models.Response;
 

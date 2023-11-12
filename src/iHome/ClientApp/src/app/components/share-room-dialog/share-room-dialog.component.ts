@@ -21,11 +21,10 @@ export class ShareRoomDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ShareRoomDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public room: Room,
-    private _sharingService: SharingService,
-    private _usersService: UsersService
+    private _sharingService: SharingService
   ) {}
   ngOnInit(): void {
-    this._usersService.getRoomUsers(this.room.id)
+    this._sharingService.getRoomUsers(this.room.id)
       .subscribe(users => this.usersSubject$.next(users));
   }
 

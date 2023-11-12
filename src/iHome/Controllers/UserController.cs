@@ -1,5 +1,6 @@
 ﻿using iHome.Core.Services;
-using iHome.Logic;
+using iHome.Shared.Controllers;
+using iHome.Shared.Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

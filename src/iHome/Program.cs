@@ -1,18 +1,24 @@
 using iHome;
 using iHome.Core.Helpers;
-using iHome.Logic;
+using iHome.Features.RoomsList;
+using iHome.Infrastructure;
 using iHome.Middleware;
+using iHome.Shared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
+using Web.Infrastructure.Cqrs.Mediator.NetCoreExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IUserAccessor, HttpContextUserAccessor>();
+builder.Services.AddShared();
 builder.Services.AddMicroservices();
+builder.Services.AddInfrastructure();
+builder.Services.AddRoomsList();
+builder.Services.AddRoomSharing();
+builder.Services.AddMediator();
 builder.Services.AddCoreServices();
 
 

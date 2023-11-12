@@ -16,8 +16,4 @@ export class UsersService {
   public getUsers(searchPhrase: string): Observable<User[]>{
     return this._api.get<User[]>(this._baseApiUrl + `GetUsers/${searchPhrase}`);
   }
-
-  public getRoomUsers(roomId: string): Observable<User[]>{
-    return this._api.get<User[]>(this._baseApiUrl + `GetRoomUsers/${roomId}`);
-  }
 }

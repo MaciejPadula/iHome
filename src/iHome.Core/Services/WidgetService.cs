@@ -1,5 +1,5 @@
 ﻿using iHome.Core.Helpers;
-using iHome.Core.Models;
+using iHome.Model;
 using iHome.Core.Services.Validation;
 using iHome.Microservices.Devices.Contract;
 using iHome.Microservices.Devices.Contract.Models;

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="iHome.Microservices.RoomsManagement.Contract" Version="1.0.5" />
+    <PackageReference Include="iHome.Microservices.UsersApi.Contract" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iHome.Model\iHome.Model.csproj" />
+    <ProjectReference Include="..\iHome.Repository\iHome.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
