@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ListeningDevicePreviewComponent } from '../listening-device-preview.component';
-import { DevicesService } from 'src/app/services/devices.service';
+import { DevicesService } from 'src/app/services/data/devices.service';
 import { DeviceDataHelper } from 'src/app/shared/helpers/device-data.helper';
 import { ThermometerData } from 'src/app/shared/models/thermometer-data';
 

@@ -1,6 +1,12 @@
 <button class="device-preview-box">
   <h3>{{device.name}}</h3>
 
-  <app-rgb-lamp-preview *ngIf="device.type === type.RGBLamp" [device]="device"></app-rgb-lamp-preview>
-  <app-thermometer-preview *ngIf="device.type === type.Thermometer" [device]="device"></app-thermometer-preview>
+  @switch(device.type) {
+    @case(type.RGBLamp) {
+      <app-rgb-lamp-preview [device]="device"></app-rgb-lamp-preview>
+    }
+    @case(type.Thermometer) {
+      <app-thermometer-preview [device]="device"></app-thermometer-preview>
+    }
+  }
 </button>

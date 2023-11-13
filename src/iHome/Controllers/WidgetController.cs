@@ -1,5 +1,6 @@
 ﻿using iHome.Core.Services;
 using iHome.Models.Requests.Widgets;
+using iHome.Models.Responses.Widget;
 using iHome.Shared.Controllers;
 using iHome.Shared.Logic;
 using Microsoft.AspNetCore.Authorization;
@@ -23,9 +24,12 @@ public class WidgetController : BaseApiController
     [HttpPost("AddWidget")]
     public async Task<IActionResult> AddWidget([FromBody] AddWidgetRequest request)
     {
-        await _widgetService.AddWidget(
+        var widgetId = await _widgetService.AddWidget(
             request.RoomId, request.WidgetType, request.ShowBorder, _userAccessor.UserId);
-        return Ok();
+        return Ok(new AddWidgetResponse
+        {
+            WidgetId = widgetId
+        });
     }
 
     [HttpPost("InsertDevice")]

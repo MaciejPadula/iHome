@@ -16,7 +16,7 @@ public interface IScheduleService
     Task UpdateScheduleTime(Guid scheduleId, int scheduleDay, string scheduleTime, string userId);
     Task RemoveSchedule(Guid scheduleId, string userId);
 
-    Task AddOrUpdateScheduleDevice(Guid scheduleId, Guid deviceId, string deviceData, string userId);
+    Task<Guid> AddOrUpdateScheduleDevice(Guid scheduleId, Guid deviceId, string deviceData, string userId);
     Task<List<ScheduleDeviceModel>> GetScheduleDevices(Guid scheduleId, string userId);
 
 }
@@ -39,7 +39,7 @@ public class ScheduleService : IScheduleService
         _validationService = validationService;
     }
 
-    public async Task AddOrUpdateScheduleDevice(Guid scheduleId, Guid deviceId, string deviceData, string userId)
+    public async Task<Guid> AddOrUpdateScheduleDevice(Guid scheduleId, Guid deviceId, string deviceData, string userId)
     {
         var request = new AddOrUpdateDeviceScheduleRequest
         {
@@ -48,7 +48,8 @@ public class ScheduleService : IScheduleService
             DeviceData = deviceData
         };
 
-        await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, () => _scheduleDeviceManagementService.AddOrUpdateDeviceSchedule(request));
+        var response = await _validationService.Validate(scheduleId, userId, ValidatorType.Schedule, () => _scheduleDeviceManagementService.AddOrUpdateDeviceSchedule(request));
+        return response.ScheduleDeviceId;
     }
 
     public async Task AddSchedule(string scheduleName, int scheduleDay, string scheduleTime, string userId)

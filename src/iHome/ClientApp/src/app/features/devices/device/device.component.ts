@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { RefreshService } from 'src/app/services/refresh.service';
-import { WidgetsService } from 'src/app/services/widgets.service';
-import { DevicesService } from 'src/app/services/devices.service';
+import { DevicesService } from 'src/app/services/data/devices.service';
 import { DeviceDialogComponent } from '../device-dialog/device-dialog.component';
 import { DeviceDialogData } from '../device-dialog/device-dialog-data';
 import { DeviceType } from 'src/app/shared/models/device-type';
@@ -22,8 +20,6 @@ export class DeviceComponent {
 
   constructor(
     private _dialog: MatDialog,
-    private _widgetsService: WidgetsService,
-    private _refreshService: RefreshService,
     private _devicesService: DevicesService,
     private _cdr: ChangeDetectorRef
   ){}
@@ -48,11 +44,6 @@ export class DeviceComponent {
             });
         }
       });
-  }
-
-  public removeFromWidget() {
-    this._widgetsService.removeDevice(this.widgetId, this.device.id)
-      .subscribe(() => this._refreshService.refresh());
   }
 
   public get showDialog() {

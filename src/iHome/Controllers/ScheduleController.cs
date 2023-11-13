@@ -2,6 +2,7 @@
 using iHome.Models.Requests.Schedules;
 using iHome.Shared.Controllers;
 using iHome.Shared.Logic;
+using iHome.Models.Responses.Schedules;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -67,8 +68,11 @@ public class ScheduleController : BaseApiController
     [HttpPost("AddOrUpdateScheduleDevice")]
     public async Task<IActionResult> AddOrUpdateScheduleDevice([FromBody] AddOrUpdateScheduleDeviceRequest request)
     {
-        await _scheduleService.AddOrUpdateScheduleDevice(
+        var id = await _scheduleService.AddOrUpdateScheduleDevice(
             request.ScheduleId, request.DeviceId, request.DeviceData, _userAccessor.UserId);
-        return Ok();
+        return Ok(new AddOrUpdateScheduleDeviceResponse()
+        {
+            ScheduleDeviceId = id
+        });
     }
 }

@@ -1,8 +1,15 @@
 <h1 mat-dialog-title>{{device.name}}</h1>
 
 <mat-dialog-content>
-  <app-rgb-lamp *ngIf="device.type === type.RGBLamp" [formControl]="deviceDataControl" [value]="device.data"></app-rgb-lamp>
-  <app-schedules-presentation *ngIf="showSchedules" [deviceId]="device.id"></app-schedules-presentation>
+  @switch(device.type) {
+    @case(type.RGBLamp) {
+      <app-rgb-lamp [formControl]="deviceDataControl" [value]="device.data"></app-rgb-lamp>
+    }
+  }
+
+  @if (showSchedules) {
+    <app-schedules-presentation [deviceId]="device.id"></app-schedules-presentation>
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

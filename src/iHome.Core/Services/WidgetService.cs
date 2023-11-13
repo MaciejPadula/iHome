@@ -11,7 +11,7 @@ namespace iHome.Core.Services;
 
 public interface IWidgetService
 {
-    Task AddWidget(Guid roomId, WidgetType type, bool showBorders, string userId);
+    Task<Guid> AddWidget(Guid roomId, WidgetType type, bool showBorders, string userId);
     Task InsertDevice(Guid deviceId, Guid widgetId, string userId);
     Task RemoveDevice(Guid deviceId, Guid widgetId, string userId);
     Task<List<WidgetModel>> GetWidgets(Guid roomId, string userId);
@@ -38,7 +38,7 @@ public class WidgetService : IWidgetService
         _validationService = validationService;
     }
 
-    public async Task AddWidget(Guid roomId, WidgetType type, bool showBorders, string userId)
+    public async Task<Guid> AddWidget(Guid roomId, WidgetType type, bool showBorders, string userId)
     {
         var request = new AddWidgetRequest
         {
@@ -48,7 +48,8 @@ public class WidgetService : IWidgetService
             UserId = userId
         };
 
-        await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, () => _widgetManagementService.AddWidget(request));
+        var response = await _validationService.Validate(roomId, userId, ValidatorType.RoomWrite, () => _widgetManagementService.AddWidget(request));
+        return response.WidgetId;
     }
 
     public async Task<List<DeviceModel>> GetWidgetDevices(Guid widgetId, string userId)

@@ -1,22 +1,28 @@
-<mat-progress-bar mode="indeterminate" *ngIf="(isLoading$ | async) || (schedules$ | async) === null"></mat-progress-bar>
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
 
-<div *ngIf="schedules$ | async as schedules" class="schedules-container w-full sm:w-4/5 m-auto">
+<div class="schedules-container w-full sm:w-4/5 m-auto">
   <mat-accordion class="w-full p-4" multi>
-    <mat-expansion-panel *ngFor="let schedule of schedules">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <app-schedule-title [schedule]="schedule"></app-schedule-title>
-        </mat-panel-title>
-        <mat-panel-description class="flex justify-end !flex-grow">
-          <div>{{getTimeFormatted(schedule.hour, schedule.minute)}}</div>
-          <button mat-icon-button (click)="$event.stopPropagation();composeDialogRemoveSchedule(schedule.id, schedule.name)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <app-schedule class="w-full" [scheduleId]="schedule.id" [devicesForScheduling]="devicesForScheduling$ | async"></app-schedule>
-    </mat-expansion-panel>
+    @for (schedule of schedules(); track schedule.id) {
+      <mat-expansion-panel #lazyLoadScenario>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <app-schedule-title [schedule]="schedule"></app-schedule-title>
+          </mat-panel-title>
+          <mat-panel-description class="flex justify-end !flex-grow">
+            <div>{{getTimeFormatted(schedule.hour, schedule.minute)}}</div>
+            <button mat-icon-button (click)="$event.stopPropagation();composeDialogRemoveSchedule(schedule.id, schedule.name)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        
+        @defer (on interaction(lazyLoadScenario)){
+          <app-schedule class="w-full" [schedule]="schedule" [devicesForScheduling]="devicesForScheduling()"></app-schedule>
+        }
+      </mat-expansion-panel>
+    }
   </mat-accordion>
 </div>
 

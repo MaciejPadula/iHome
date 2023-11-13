@@ -6,7 +6,7 @@ namespace iHome.Microservices.Widgets.Contract
 {
     public interface IWidgetManagementService
     {
-        Task AddWidget(AddWidgetRequest request);
+        Task<AddWidgetResponse> AddWidget(AddWidgetRequest request);
         Task<GetWidgetsResponse> GetWidgets(GetWidgetsRequest request);
         Task RemoveWidget(RemoveWidgetRequest request);
     }

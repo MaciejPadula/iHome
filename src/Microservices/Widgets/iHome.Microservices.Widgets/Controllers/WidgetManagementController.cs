@@ -18,18 +18,19 @@ namespace iHome.Microservices.Widgets.Controllers
         }
 
         [HttpPost]
-        public Task AddWidget([FromBody] AddWidgetRequest request)
+        public async Task<AddWidgetResponse> AddWidget([FromBody] AddWidgetRequest request)
         {
-            //validation
+            var widgetId = await _widgetRepository.Add(request.Type, request.RoomId, request.ShowBorder);
 
-            return _widgetRepository.Add(request.Type, request.RoomId, request.ShowBorder);
+            return new()
+            {
+                WidgetId = widgetId
+            };
         }
 
         [HttpPost]
         public async Task<GetWidgetsResponse> GetWidgets([FromBody] GetWidgetsRequest request)
         {
-            //validation
-
             return new()
             {
                 Widgets = await _widgetRepository.GetByRoomId(request.RoomId)
@@ -39,8 +40,6 @@ namespace iHome.Microservices.Widgets.Controllers
         [HttpPost]
         public Task RemoveWidget([FromBody] RemoveWidgetRequest request)
         {
-            // validation
-
             return _widgetRepository.Remove(request.WidgetId);
         }
     }
