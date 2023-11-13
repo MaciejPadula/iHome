@@ -12,8 +12,9 @@ public class DapperScheduleDeviceRepository : RepositoryBase, IScheduleDeviceRep
     {
     }
 
-    public async Task Add(Guid scheduleId, Guid deviceId, string deviceData)
+    public async Task<Guid> Add(Guid scheduleId, Guid deviceId, string deviceData)
     {
+        var id = Guid.NewGuid();
         using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
@@ -23,11 +24,13 @@ VALUES
     (@Id, @DeviceId, @ScheduleId, @DeviceData)
         ", new
         {
-            Id = Guid.NewGuid(),
+            Id = id,
             DeviceId = deviceId,
             ScheduleId = scheduleId,
             DeviceData = deviceData
         });
+
+        return id;
     }
 
     public async Task<int> CountByScheduleId(Guid scheduleId)

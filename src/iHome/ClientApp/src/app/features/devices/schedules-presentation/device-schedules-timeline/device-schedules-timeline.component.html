@@ -1,0 +1,5 @@
+@if (isLoading()) {
+  <mat-spinner mode="indeterminate" diameter="50"></mat-spinner>
+} @else {
+  <app-schedules-timeline [schedules]="schedules()"></app-schedules-timeline>
+}

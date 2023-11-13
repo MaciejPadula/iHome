@@ -21,17 +21,25 @@ namespace iHome.Microservices.Schedules.Controllers
         }
 
         [HttpPost]
-        public async Task AddOrUpdateDeviceSchedule([FromBody] AddOrUpdateDeviceScheduleRequest request)
+        public async Task<AddOrUpdateDeviceScheduleResponse> AddOrUpdateDeviceSchedule([FromBody] AddOrUpdateDeviceScheduleRequest request)
         {
             var existingDevice = await _repository.GetByIdAndScheduleId(request.DeviceId, request.ScheduleId);
+            Guid? id;
 
             if (existingDevice == null)
             {
-                await _repository.Add(request.ScheduleId, request.DeviceId, request.DeviceData);
-                return;
+                id = await _repository.Add(request.ScheduleId, request.DeviceId, request.DeviceData);
+            }
+            else
+            {
+                await _repository.Update(request.ScheduleId, request.DeviceId, request.DeviceData);
+                id = existingDevice.Id;
             }
 
-            await _repository.Update(request.ScheduleId, request.DeviceId, request.DeviceData);
+            return new()
+            {
+                ScheduleDeviceId = id.Value
+            };
         }
 
         public async Task<GetDevicesForSchedulingResponse> GetDevicesForScheduling([FromBody] GetDevicesForSchedulingRequest request)

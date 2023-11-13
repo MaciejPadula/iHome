@@ -13,8 +13,9 @@ public class DapperWidgetRepository : RepositoryBase, IWidgetRepository
     {
     }
 
-    public async Task Add(WidgetType type, Guid roomId, bool showBorder)
+    public async Task<Guid> Add(WidgetType type, Guid roomId, bool showBorder)
     {
+        var id = Guid.NewGuid();
         using var conn = GetDbConnection();
 
         await conn.ExecuteAsync(@"
@@ -22,7 +23,8 @@ INSERT INTO [maciejadmin].[Widgets]
     (Id, WidgetType, RoomId, ShowBorder)
 VALUES
     (@Id, @Type, @RoomId, @ShowBorder)
-", new { Id = Guid.NewGuid(), Type = type, RoomId = roomId, ShowBorder = showBorder });
+", new { Id = id, Type = type, RoomId = roomId, ShowBorder = showBorder });
+        return id;
     }
 
     public async Task<IEnumerable<WidgetModel>> GetByRoomId(Guid roomId)

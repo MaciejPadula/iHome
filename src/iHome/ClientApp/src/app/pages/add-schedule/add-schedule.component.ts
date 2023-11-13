@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { DevicesService } from 'src/app/services/devices.service';
-import { SchedulesService } from 'src/app/services/schedules.service';
-import { SuggestionsService } from 'src/app/services/suggestions.service';
+import { DevicesService } from 'src/app/services/data/devices.service';
+import { SchedulesService } from 'src/app/services/data/schedules.service';
+import { SuggestionsService } from 'src/app/services/data/suggestions.service';
 import { TimeHelper } from 'src/app/shared/helpers/time.helper';
 import { Device } from 'src/app/shared/models/device';
 
