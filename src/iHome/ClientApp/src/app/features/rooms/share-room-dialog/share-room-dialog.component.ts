@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subject } from 'rxjs';
 import { SharingService } from 'src/app/services/data/sharing.service';
-import { UsersService } from 'src/app/services/data/users.service';
 import { Room } from 'src/app/shared/models/room';
 import { User } from 'src/app/shared/models/user';
 
