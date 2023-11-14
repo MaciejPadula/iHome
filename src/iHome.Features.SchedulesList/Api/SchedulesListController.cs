@@ -9,11 +9,11 @@ namespace iHome.Features.SchedulesList.Api;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class ScheduleController : BaseApiController
+public class SchedulesListController : BaseApiController
 {
     private readonly ISchedulesListService _schedulesListService;
 
-    public ScheduleController(ISchedulesListService schedulesListService, IUserAccessor userAccessor)
+    public SchedulesListController(ISchedulesListService schedulesListService, IUserAccessor userAccessor)
         : base(userAccessor)
     {
         _schedulesListService = schedulesListService;

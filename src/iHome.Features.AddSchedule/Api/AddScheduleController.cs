@@ -39,4 +39,13 @@ public class AddScheduleController : BaseApiController
             Minute = time.Minute
         });
     }
+
+    [HttpPost("GetSuggestedDevices")]
+    public async Task<IActionResult> GetSuggestedDevices(GetSuggestedDevicesRequest request)
+    {
+        var devices = await _addScheduleService.GetSuggestedDevices(
+            request.ScheduleName, request.ScheduleTime, _userAccessor.UserId);
+
+        return Ok(devices);
+    }
 }
