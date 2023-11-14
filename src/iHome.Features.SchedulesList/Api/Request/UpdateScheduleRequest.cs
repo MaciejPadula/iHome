@@ -1,4 +1,4 @@
-﻿namespace iHome.Models.Requests.Schedules;
+﻿namespace iHome.Features.SchedulesList.Api.Request;
 
 public class UpdateScheduleRequest
 {

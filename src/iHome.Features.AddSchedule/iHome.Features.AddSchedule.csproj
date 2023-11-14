@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Web.Infrastructure.Cqrs.Mediator" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iHome.Model\iHome.Model.csproj" />
+    <ProjectReference Include="..\iHome.Repository\iHome.Repository.csproj" />
+    <ProjectReference Include="..\iHome.Shared\iHome.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

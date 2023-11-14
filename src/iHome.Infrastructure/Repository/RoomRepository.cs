@@ -13,12 +13,12 @@ internal class RoomRepository : IRoomRepository
         _roomManagementService = roomManagementService;
     }
 
-    public Task Add(string roomName, string userId)
+    public Task Add(RoomDto room)
     {
         return _roomManagementService.AddRoom(new()
         {
-            RoomName = roomName,
-            UserId = userId
+            RoomName = room.Name,
+            UserId = room.UserId
         });
     }
 

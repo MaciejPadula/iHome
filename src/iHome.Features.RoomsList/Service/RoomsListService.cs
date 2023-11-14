@@ -24,7 +24,7 @@ internal class RoomsListService : IRoomsListService
         });
     }
 
-    public async Task<IEnumerable<RoomDto>> GetUserRooms(string userId)
+    public async Task<List<RoomDto>> GetUserRooms(string userId)
     {
         var query = await _mediator.HandleQueryAsync(new GetUserRoomsQuery
         {

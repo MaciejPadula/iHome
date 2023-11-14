@@ -213,3 +213,7 @@ src/iHome.Repository/obj
 src/iHome.Features.RoomsList/bin
 src/iHome.Features.RoomSharing/bin
 src/iHome.Features.RoomSharing/obj
+src/iHome.Features.AddSchedule/obj
+src/iHome.Features.SchedulesList/bin
+src/iHome.Features.SchedulesList/obj
+src/iHome.Features.AddSchedule/bin

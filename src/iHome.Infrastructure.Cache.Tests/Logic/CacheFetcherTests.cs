@@ -72,7 +72,7 @@ public class CacheFetcherTests
         var result = _sut.FetchCachedByKey(
             3,
             key => database.FirstOrDefault(e => e.Id == key),
-            e => e.Id,
+            e => e?.Id ?? 0,
             methodName);
         var cache = _cache.Get<List<TestEntity>>(methodName);
 

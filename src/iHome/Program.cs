@@ -1,6 +1,7 @@
-using iHome;
 using iHome.Core.Helpers;
 using iHome.Features.RoomsList;
+using iHome.Features.SchedulesList;
+using iHome.Features.AddSchedule;
 using iHome.Infrastructure;
 using iHome.Middleware;
 using iHome.Shared;
@@ -17,6 +18,8 @@ builder.Services.AddShared();
 builder.Services.AddMicroservices();
 builder.Services.AddInfrastructure();
 builder.Services.AddRoomsList();
+builder.Services.AddSchedulesList();
+builder.Services.AddScheduleConfiguration();
 builder.Services.AddRoomSharing();
 builder.Services.AddMediator();
 builder.Services.AddCoreServices();

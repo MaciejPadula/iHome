@@ -1,4 +1,5 @@
-﻿using iHome.Repository;
+﻿using iHome.Model;
+using iHome.Repository;
 using Web.Infrastructure.Cqrs.Mediator.Command;
 
 namespace iHome.Features.RoomsList.Service.AddRoom;
@@ -14,6 +15,10 @@ internal class AddRoomCommandHandler : IAsyncCommandHandler<AddRoomCommand>
 
     public async Task HandleAsync(AddRoomCommand command)
     {
-        await _roomRepository.Add(command.RoomName, command.UserId);
+        await _roomRepository.Add(new RoomDto
+        {
+            Name = command.RoomName,
+            UserId = command.UserId
+        });
     }
 }

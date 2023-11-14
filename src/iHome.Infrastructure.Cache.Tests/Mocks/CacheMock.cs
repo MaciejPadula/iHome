@@ -36,7 +36,7 @@ internal class CacheMock : ICache
             _cache.Remove(key);
         }
 
-        _cache.Add(key, value);
+        _cache.Add(key, value!);
 
         return value;
     }

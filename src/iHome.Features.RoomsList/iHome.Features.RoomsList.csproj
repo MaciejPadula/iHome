@@ -21,8 +21,4 @@
     <ProjectReference Include="..\iHome.Shared\iHome.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Api\Response\" />
-  </ItemGroup>
-
 </Project>

@@ -1,8 +1,8 @@
 ﻿using iHome.Core.Services;
 using iHome.Models.Requests.Schedules;
+using iHome.Models.Responses.Schedules;
 using iHome.Shared.Controllers;
 using iHome.Shared.Logic;
-using iHome.Models.Responses.Schedules;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,48 +21,11 @@ public class ScheduleController : BaseApiController
         _scheduleService = scheduleService;
     }
 
-    [HttpPost("AddSchedule")]
-    public async Task<IActionResult> AddSchedule([FromBody] AddScheduleRequest request)
-    {
-        await _scheduleService.AddSchedule(
-            request.ScheduleName, request.Day, request.ScheduleTime, _userAccessor.UserId);
-        return Ok();
-    }
-
-    [HttpGet("GetSchedules")]
-    public async Task<IActionResult> GetSchedules()
-    {
-        var schedules = await _scheduleService.GetSchedulesOrdered(_userAccessor.UserId);
-        return Ok(schedules);
-    }
-
-    [HttpGet("GetSchedule/{id}")]
-    public async Task<IActionResult> GetSchedule(Guid id)
-    {
-        var schedule = await _scheduleService.GetSchedule(id, _userAccessor.UserId);
-        return Ok(schedule);
-    }
-
-    [HttpPost("UpdateSchedule")]
-    public async Task<IActionResult> UpdateSchedule([FromBody] UpdateScheduleRequest request)
-    {
-        await _scheduleService.UpdateScheduleTime(
-            request.ScheduleId, request.Day, request.ScheduleTime, _userAccessor.UserId);
-        return Ok();
-    }
-
     [HttpGet("GetScheduleDevices/{id}")]
     public async Task<IActionResult> GetScheduleDevices(Guid id)
     {
         var devices = await _scheduleService.GetScheduleDevices(id, _userAccessor.UserId);
         return Ok(devices);
-    }
-
-    [HttpDelete("RemoveSchedule/{id}")]
-    public async Task<IActionResult> RemoveSchedule(Guid id)
-    {
-        await _scheduleService.RemoveSchedule(id, _userAccessor.UserId);
-        return Ok();
     }
 
     [HttpPost("AddOrUpdateScheduleDevice")]

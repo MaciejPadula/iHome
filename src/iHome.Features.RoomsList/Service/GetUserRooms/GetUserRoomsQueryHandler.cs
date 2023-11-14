@@ -15,12 +15,13 @@ internal class GetUserRoomsQueryHandler : IAsyncQueryHandler<GetUserRoomsQuery>
 
     public async Task HandleAsync(GetUserRoomsQuery query)
     {
-        var rooms = await _roomRepository.GetUserRooms(query.UserId);
-        var userIds = await _userRepository.GetUsers(rooms.Select(r => r.UserId).Distinct());
+        var rooms = (await _roomRepository.GetUserRooms(query.UserId))
+            .ToList();
+        var users = await _userRepository.GetUsers(rooms.Select(r => r.UserId).Distinct());
 
         foreach (var room in rooms)
         {
-            room.User = userIds.GetValueOrDefault(room.UserId);
+            room.User = users.GetValueOrDefault(room.UserId);
         }
 
         query.Result = rooms;

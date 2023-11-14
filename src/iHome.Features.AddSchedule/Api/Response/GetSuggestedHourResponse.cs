@@ -1,4 +1,4 @@
-﻿namespace iHome.Models.Responses.Suggestion;
+﻿namespace iHome.Features.AddSchedule.Api.Response;
 
 public class GetSuggestedHourResponse
 {
