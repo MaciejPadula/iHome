@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "iHome": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:32678;http://localhost:32679"
+    }
+  }
+}
