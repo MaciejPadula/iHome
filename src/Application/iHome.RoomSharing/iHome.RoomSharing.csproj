@@ -17,6 +17,7 @@
     <ProjectReference Include="..\iHome.Core\iHome.Core.csproj" />
     <ProjectReference Include="..\iHome.Model\iHome.Model.csproj" />
     <ProjectReference Include="..\iHome.Shared\iHome.Shared.csproj" />
+    <ProjectReference Include="..\iHome.Users\iHome.Users.csproj" />
   </ItemGroup>
 
 </Project>

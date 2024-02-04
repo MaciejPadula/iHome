@@ -2,7 +2,7 @@
 
 namespace iHome.RoomSharing.Features.UnshareRoom;
 
-internal class UnshareRoomCommand : ICommand
+public class UnshareRoomCommand : ICommand
 {
     public Guid RoomId { get; set; }
     public string UserId { get; set; } = default!;

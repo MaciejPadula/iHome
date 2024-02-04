@@ -2,7 +2,7 @@
 
 namespace iHome.RoomSharing.Features.ShareRoom;
 
-internal class ShareRoomCommand : ICommand
+public class ShareRoomCommand : ICommand
 {
     public Guid RoomId { get; set; }
     public string UserId { get; set; } = default!;

@@ -4,44 +4,42 @@ using iHome.Model;
 using iHome.Shared.Logic;
 using Web.Infrastructure.Cqrs.Mediator.Query;
 
-namespace iHome.Suggestions.Features.GetSuggestedDevices
+namespace iHome.Suggestions.Features.GetSuggestedDevices;
+
+public class GetSuggestedDevicesQueryHandler : IAsyncQueryHandler<GetSuggestedDevicesQuery>
 {
-    internal class GetSuggestedDevicesQueryHandler : IAsyncQueryHandler<GetSuggestedDevicesQuery>
+    private readonly ISuggestionsService _suggestionsService;
+    private readonly ITimeModelParser _timeModelParser;
+
+    public GetSuggestedDevicesQueryHandler(ITimeModelParser timeModelParser, ISuggestionsService suggestionsService)
     {
-        private readonly ISuggestionsService _suggestionsService;
-        private readonly ITimeModelParser _timeModelParser;
+        _timeModelParser = timeModelParser;
+        _suggestionsService = suggestionsService;
+    }
 
-        public GetSuggestedDevicesQueryHandler(ITimeModelParser timeModelParser, ISuggestionsService suggestionsService)
+    public async Task HandleAsync(GetSuggestedDevicesQuery query)
+    {
+        var suggested = await _suggestionsService.GetDevicesThatCouldMatchSchedule(new()
         {
-            _timeModelParser = timeModelParser;
-            _suggestionsService = suggestionsService;
-        }
+            ScheduleName = query.Name,
+            ScheduleTime = query.Time.ToString(),
+            Devices = GetDeviceDetails(query.Devices)
+        });
 
-        public async Task HandleAsync(GetSuggestedDevicesQuery query)
-        {
-            var suggested = await _suggestionsService.GetDevicesThatCouldMatchSchedule(new()
+        query.Result = suggested?
+            .DevicesIds?
+            .ToList() ?? [];
+    }
+
+    private List<DeviceDetails> GetDeviceDetails(IEnumerable<DeviceDto> devices)
+    {
+        return devices
+            .Select(d => new DeviceDetails
             {
-                ScheduleName = query.Name,
-                ScheduleTime = query.Time.ToString(),
-                Devices = await GetDeviceDetails(query.UserId)
-            });
-
-            query.Result = suggested?
-                .DevicesIds?
-                .ToList() ?? [];
-        }
-
-        private async Task<List<DeviceDetails>> GetDeviceDetails(string userId)
-        {
-            var devices = new List<DeviceDto>()//(await _deviceService.GetDevicesForScheduling(userId))
-                .Select(d => new DeviceDetails
-                {
-                    Id = d.Id,
-                    Name = d.Name,
-                    Type = d.Type.ToString()
-                });
-
-            return devices.ToList();
-        }
+                Id = d.Id,
+                Name = d.Name,
+                Type = d.Type.ToString()
+            })
+            .ToList();
     }
 }

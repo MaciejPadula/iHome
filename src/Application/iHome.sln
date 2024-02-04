@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Core.Tests", "iHome.C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0B584887-2761-4F20-A2BD-C84302111015}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InfrastructurePackages", "InfrastructurePackages", "{5A425376-077E-46D6-82BE-1DD079769E49}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Model", "iHome.Model\iHome.Model.csproj", "{95FCD165-CAF4-4358-B568-039DA98EB805}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iHome.Shared", "iHome.Shared\iHome.Shared.csproj", "{9B7A7DAD-5342-44EB-B90E-42438C309845}"

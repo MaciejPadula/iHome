@@ -249,3 +249,4 @@ src/Application/*/obj
 src/InfrastructurePackages/.vs
 src/InfrastructurePackages/*/obj
 src/InfrastructurePackages/*/bin
+src/*/.vs

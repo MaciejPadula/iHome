@@ -2,7 +2,7 @@
 
 namespace iHome.DevicesScheduling.Features.ScheduleOrUpdateDevice;
 
-internal class ScheduleOrUpdateDeviceQuery : IQuery<Guid>
+public class ScheduleOrUpdateDeviceQuery : IQuery<Guid>
 {
     public required Guid ScheduleId { get; set; }
     public required Guid DeviceId { get; set; }

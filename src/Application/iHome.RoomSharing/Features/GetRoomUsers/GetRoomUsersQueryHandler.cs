@@ -11,13 +11,11 @@ internal class GetRoomUsersQueryHandler : IAsyncQueryHandler<GetRoomUsersQuery>
 {
     private readonly IValidationService _validationService;
     private readonly IRoomSharingService _roomSharingService;
-    private readonly IUserManagementService _userManagementService;
 
-    public GetRoomUsersQueryHandler(IValidationService validationService, IRoomSharingService roomSharingService, IUserManagementService userManagementService)
+    public GetRoomUsersQueryHandler(IValidationService validationService, IRoomSharingService roomSharingService)
     {
         _validationService = validationService;
         _roomSharingService = roomSharingService;
-        _userManagementService = userManagementService;
     }
 
     public async Task HandleAsync(GetRoomUsersQuery query)
@@ -33,21 +31,9 @@ internal class GetRoomUsersQueryHandler : IAsyncQueryHandler<GetRoomUsersQuery>
                     RoomId = query.RoomId,
                     UserId = query.UserId
                 });
-                var users = await GetUsers(result.UsersIds);
-                query.Result = users.Values;
+                query.Result = result.UsersIds.ToList();
             });
     }
 
-    private async Task<Dictionary<string, UserDto>> GetUsers(IEnumerable<string> userIds)
-    {
-        var response = await _userManagementService.GetUsersByIds(new()
-        {
-            Ids = userIds
-        });
-
-        return response?
-            .Users?
-            .Select(u => new KeyValuePair<string, UserDto>(u.Key, u.Value.ToDto()))?
-            .ToDictionary(u => u.Key, u => u.Value) ?? [];
-    }
+    
 }

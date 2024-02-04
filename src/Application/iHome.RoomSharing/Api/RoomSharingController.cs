@@ -1,9 +1,11 @@
 ﻿using iHome.RoomSharing.Api.Request;
+using iHome.RoomSharing.Api.Response;
 using iHome.RoomSharing.Features.GetRoomUsers;
 using iHome.RoomSharing.Features.ShareRoom;
 using iHome.RoomSharing.Features.UnshareRoom;
 using iHome.Shared.Controllers;
 using iHome.Shared.Logic;
+using iHome.Users.Features.GetUsersByIds;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Infrastructure.Cqrs.Mediator;
@@ -54,6 +56,11 @@ public class RoomSharingController : BaseApiController
             UserId = _userAccessor.UserId
         });
 
-        return Ok(query.Result);
+        var queryByIds = await _mediator.HandleQueryAsync(new GetUsersByIdsQuery
+        {
+            Ids = query.Result
+        });
+
+        return Ok(new GetRoomUsersResponse { Users = queryByIds.Result });
     }
 }

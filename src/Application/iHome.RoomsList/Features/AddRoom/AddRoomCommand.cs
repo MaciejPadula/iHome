@@ -2,7 +2,7 @@
 
 namespace iHome.RoomsList.Features.AddRoom;
 
-internal class AddRoomCommand : ICommand
+public class AddRoomCommand : ICommand
 {
     public required string RoomName { get; set; }
     public required string UserId { get; set; }

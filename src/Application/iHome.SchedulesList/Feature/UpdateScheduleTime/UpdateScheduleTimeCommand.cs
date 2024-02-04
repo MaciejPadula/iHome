@@ -2,7 +2,7 @@
 
 namespace iHome.SchedulesList.Feature.UpdateScheduleTime;
 
-internal class UpdateScheduleTimeCommand : ICommand
+public class UpdateScheduleTimeCommand : ICommand
 {
     public required Guid Id { get; set; }
     public required int Day { get; set; }

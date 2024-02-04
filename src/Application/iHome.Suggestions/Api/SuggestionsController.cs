@@ -1,4 +1,5 @@
-﻿using iHome.Shared.Controllers;
+﻿using iHome.DevicesScheduling.Features.GetDevicesForScheduling;
+using iHome.Shared.Controllers;
 using iHome.Shared.Logic;
 using iHome.Suggestions.Api.Request;
 using iHome.Suggestions.Api.Response;
@@ -41,11 +42,16 @@ public class SuggestionsController : BaseApiController
     [HttpPost("GetSuggestedDevices")]
     public async Task<IActionResult> GetSuggestedDevices(GetSuggestedDevicesRequest request)
     {
+        var devicesQuery = await _mediator.HandleQueryAsync(new GetDevicesForSchedulingQuery
+        {
+            UserId = _userAccessor.UserId
+        });
+
         var query = await _mediator.HandleQueryAsync(new GetSuggestedDevicesQuery
         {
             Name = request.ScheduleName,
             Time = request.ScheduleTime,
-            UserId = _userAccessor.UserId
+            Devices = devicesQuery.Result
         });
 
         return Ok(query.Result);
