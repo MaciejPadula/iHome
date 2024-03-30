@@ -1,15 +1,16 @@
-name: Docker
+name: Release iHome main application
 
 on:
   workflow_dispatch:
 
 env:
   REGISTRY: 172.30.0.1:5000
-  IMAGE_NAME: ihome-front
+  IMAGE_NAME: ihome-front:latest
+  MKS_DEPLOY_NAME: ihome-front-deploy
 
 
 jobs:
-    release-dev:
+    dev:
       runs-on: ubuntu-latest
       environment: 'dev'
       defaults:
@@ -22,9 +23,20 @@ jobs:
         with:
           network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
       - uses: actions/checkout@v3
-      - name: Build and push to local registry
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ REGISTRY }}/${{ IMAGE_NAME }}:latest
+      - name: Docker build
+        run: docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} .
+      - name: Add insecure registry
+        run: 
+          sudo systemctl stop docker
+          sudo rm /var/run/docker.pid
+          sudo systemctl start docker
+          sudo dockerd --insecure-registry http://${{ env.REGISTRY }}
+      - name: Docker push
+        run: docker push --disable-content-trust=true http://${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      # - name: Kubernetes context
+      #   uses: Azure/k8s-set-context@v1
+      #   with:
+      #     method: kubeconfig
+      #     kubeconfig: ${{ secrets.KUBE_CONFIG }}
+      # - name: Kubernetes restart
+      #   run: kubectl rollout restart deploy ${{ MKS_DEPLOY_NAME }}
